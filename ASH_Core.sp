@@ -3469,6 +3469,8 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
             hData.WriteFloat(1.0);
             CreateTimer(1.0, OnTimerRemoveCloakFeature, hData);
         }
+    } else if (TF2_GetPlayerClass(client) == TFClass_Medic && condition == TFCond_Ubercharged && Special == ASHSpecial_Agent) {
+        TF2_AddCondition(client, TFCond_BlastImmune, 6.0);
     }
 }
 

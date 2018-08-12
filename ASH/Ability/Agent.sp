@@ -48,8 +48,8 @@ void AbilityAgent_DoWait() {
         float MVMLevelUP_Pos[3] = {0.0, 0.0, 80.0};
         float MedicResistFire[3] = {0.0, 0.0, 10.0};
 
-        AttachParticle(Hale, "mvm_levelup1", 10.5, MVMLevelUP_Pos, true);
-        AttachParticle(Hale, "medic_resist_fire", 10.5, MedicResistFire, true);
+        AttachParticle(Hale, "mvm_levelup1", 15.0, MVMLevelUP_Pos, true);
+        AttachParticle(Hale, "medic_resist_fire", 15.0, MedicResistFire, true);
         EmitSoundToAll("mvm/mvm_revive.wav", _);
 
         return;
@@ -74,7 +74,7 @@ void AbilityAgent_DoSelect() {
     float flDistance;
     int iClient = UTIL_FindNearestPlayer(Hale, flDistance);
 
-    CreateTimer(7.5, AbilityAgent_ResetAction);
+    CreateTimer(12.0, AbilityAgent_ResetAction);
     if (!iClient) {
         SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
         ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombplayers", flDistance);
@@ -94,7 +94,7 @@ void AbilityAgent_DoSelect() {
         return;
     }
     
-    if (!TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged)) {
+    if (!TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged) && !TF2_IsPlayerInCondition(iClient, TFCond_BlastImmune)) {
         g_iCurrentAbilityMode = AGENT_SAPPED;
         g_iCurrentPlayer = iClient;
         CreateTimer(1.0, AbilityAgent_PlaySound, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
