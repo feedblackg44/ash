@@ -21,7 +21,7 @@
 
 // ASH Version controller
 #define ASH_BUILD                     "8306"
-#define ASH_PLUGIN_VERSION            "1.1.5"
+#define ASH_PLUGIN_VERSION            "1.15"
 #define ASH_PLUGIN_RELDATE            "27 July 2018"
 
 // ASH Settings
@@ -7899,7 +7899,7 @@ public Action OnSay(int client, int args) {
 
     } else if ((ULLAPOOLWAR < 2 && ULLAPOOLWAR >= 0)) {
         isCheat = true;
-        if (!ullapoolWarMap || ullapoolWarEnabled || !IsPlayerAlive(client)) {
+        if (!ullapoolWarMap || ullapoolWarEnabled || !IsPlayerAlive(client) /*&& !BushmanRulesEnabled*/) {
             dsSound = true;
             dsNotify = true;
         } else if (IsPlayerAlive(client)) {
@@ -7907,7 +7907,7 @@ public Action OnSay(int client, int args) {
 		}
     } else if ((BUSHMANRULES < 2 && BUSHMANRULES >= 0)) {
         isCheat = true;
-        if (!BushmanRulesMap || BushmanRulesEnabled || !IsPlayerAlive(client)) {
+        if (!BushmanRulesMap || BushmanRulesEnabled || !IsPlayerAlive(client) /*&& !ullapoolWarEnabled*/) {
             dsSound = true;
             dsNotify = true;
         } else if (IsPlayerAlive(client))
