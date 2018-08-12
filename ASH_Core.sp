@@ -13,7 +13,8 @@
     Authors:
 
         CrazyHackGUT - Creating this [s]shitty[/s] awesome code.
-        NITROUIH - something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
+        NITROUIH - Something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
+        FeedBlack - Continued development of this plugin after CrazyHackGUT has leaved Dev Team.
 
     Special for G44: http://steamcommunity.com/groups/garage44tf2
 */
@@ -7899,18 +7900,18 @@ public Action OnSay(int client, int args) {
 
     } else if ((ULLAPOOLWAR < 2 && ULLAPOOLWAR >= 0)) {
         isCheat = true;
-        if (!ullapoolWarMap || ullapoolWarEnabled || !IsPlayerAlive(client) /*&& !BushmanRulesEnabled*/) {
+        if (!ullapoolWarMap || ullapoolWarEnabled || !IsPlayerAlive(client)) {
             dsSound = true;
             dsNotify = true;
-        } else if (IsPlayerAlive(client)) {
+        } else if (IsPlayerAlive(client) && !BushmanRulesEnabled) {
             ullapoolWarEnabled = true;
 		}
     } else if ((BUSHMANRULES < 2 && BUSHMANRULES >= 0)) {
         isCheat = true;
-        if (!BushmanRulesMap || BushmanRulesEnabled || !IsPlayerAlive(client) /*&& !ullapoolWarEnabled*/) {
+        if (!BushmanRulesMap || BushmanRulesEnabled || !IsPlayerAlive(client)) {
             dsSound = true;
             dsNotify = true;
-        } else if (IsPlayerAlive(client))
+        } else if (IsPlayerAlive(client) && !ullapoolWarEnabled)
             BushmanRulesEnabled = true;
 			
     } /* else if ((AQUACURE < 2 && AQUACURE >= 0)) {
