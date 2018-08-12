@@ -7635,8 +7635,8 @@ stock float GetStunTime(int client) {
 
 void ManmelterHUD_Render(int client) {
     if (!ManmelterBan[client]) {
-        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, 0.83, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
-        else SetHudTextParams(-1.0, 0.83, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
+        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, 0.78, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
+        else SetHudTextParams(-1.0, 0.78, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
                     
         char s[128];
         if (plManmelterUsed[client] == 100) Format(s, 128, "%t: %t", "ash_pyro_secondchance_infometer", "ash_pyro_secondchance_ready");
