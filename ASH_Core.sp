@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8306"
+#define ASH_BUILD                     "8308"
 #define ASH_PLUGIN_VERSION            "1.15"
 #define ASH_PLUGIN_RELDATE            "27 July 2018"
 
@@ -2159,7 +2159,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 40, 1146: // Backburner
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 2.5 ; 28 ; 0 ; 255 ; 1.2 ; 257 ; 1.3 ; 112 ; 0.100 ; 783 ; 20");
+            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 5 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1");
         }
         case 648: // Wrap assassin
         {
@@ -2308,7 +2308,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
 //        }
         case 813, 834: // Neon Annihilator
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "138 ; 0.80 ; 436 ; 1 ; 438 ; 1 ; 26 ; 30 ; 109 ; 0.34 ; 69 ; 0.34", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "138 ; 0.80 ; 436 ; 1 ; 438 ; 1 ; 26 ; 30 ; 109 ; 0.34 ; 69 ; 0.34 ; 275 ; 1", true);
         }
         case 312: // Bet
         {
@@ -2316,7 +2316,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 527: // Widowmaker
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "298 ; 15 ; 301 ; 1 ; 307 ; 1 ; 303 ; -1 ; 299 ; 100 ; 6 ; 0.75", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "298 ; 15 ; 301 ; 1 ; 307 ; 1 ; 303 ; -1 ; 299 ; 100", true);
         }
         case 349: // Sun
         {
@@ -2520,7 +2520,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 329: // Jag
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3", true);
         }
 	    case 7: // Wrench
         {
