@@ -1998,7 +1998,7 @@ void EquipSaxton(int client)
     {
         case ASHSpecial_Bunny:
         {
-            SaxtonWeapon = SpawnWeapon(client, "tf_weapon_bottle", 1, 100, TFQual_Unusual, "68 ; 2.0 ; 2 ; 3.0 ; 259 ; 1.0 ; 326 ; 1.3");
+            SaxtonWeapon = SpawnWeapon(client, "tf_weapon_bottle", 1, 100, TFQual_Unusual, "68 ; 2.0 ; 2 ; 3.1 ; 259 ; 1.0 ; 326 ; 1.3");
         }
         case ASHSpecial_Vagineer:
         {
