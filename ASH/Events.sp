@@ -1082,6 +1082,8 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
     if (TF2_GetPlayerClass(attacker) == TFClass_Heavy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 331 && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28))) PushClient(Hale);
     
     if (TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28))) PushClient(Hale);
+    
+    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 61 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && g_iTauntedSpys[attacker] == 1) TeleportToMultiMapSpawn(Hale);
 
     if (TF2_GetPlayerClass(attacker) == TFClass_Pyro && (damage == 146 || damage == 1316) && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 153 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 466) && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee))
     {
@@ -2270,7 +2272,8 @@ public Action OnEurekaUse(int iClient, const char[] szCommand, int iArgC) {
     return Plugin_Continue;
 }
 
-public Action OnStartTouch(int client, int other) {
+public Action OnStartTouch(int client, int other) 
+{
     if (!IsValidClient(other))
         return Plugin_Continue;
     if (client != Hale)
@@ -2287,11 +2290,21 @@ public Action OnStartTouch(int client, int other) {
     if (HeightDiff > VictimHeight) {
         float vec[3];
         GetEntPropVector(client, Prop_Data, "m_vecAbsVelocity", vec);
+        float vPos[3];
+        GetEntPropVector(client, Prop_Send, "m_vecOrigin", vPos);
         
         if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, view_as<TFCond>(64))) {
-            FakeKill_Goomba = 1;
-            SDKHooks_TakeDamage(other, client, client, 202.0, DMG_PREVENT_PHYSICS_FORCE | DMG_CRUSH | DMG_ALWAYSGIB);
-            FakeKill_Goomba = 0;
+            if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
+                EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
+                TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
+                return Plugin_Continue;
+            } else {
+                FakeKill_Goomba = 1;
+                SDKHooks_TakeDamage(other, client, client, 202.0, DMG_PREVENT_PHYSICS_FORCE | DMG_CRUSH | DMG_ALWAYSGIB);
+                FakeKill_Goomba = 0;
+            }
         }
     }
     return Plugin_Continue;

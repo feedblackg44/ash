@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8308"
+#define ASH_BUILD                     "8309"
 #define ASH_PLUGIN_VERSION            "1.15"
 #define ASH_PLUGIN_RELDATE            "27 July 2018"
 
@@ -611,6 +611,7 @@ int g_iOffsetModelScale;
 bool BlockDamage[MAXPLAYERS+1];
 int AQUACURE_EntShield[MAXPLAYERS+1];
 int g_iFidovskiyFix[MAXPLAYERS+1];
+int g_iTauntedSpys[MAXPLAYERS+1];
 Handle g_iTimerList[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
@@ -3599,7 +3600,7 @@ public Action UseSpyRage(Handle hTimer, int client)
         return Plugin_Continue;
     if (!GetEntProp(client, Prop_Send, "m_bIsReadyToHighFive") && !IsValidEntity(GetEntPropEnt(client, Prop_Send, "m_hHighFivePartner")))
     {
-        UTIL_SwitchAIM(client, true);
+        //UTIL_SwitchAIM(client, true);
         TF2_RemoveCondition(client, TFCond_Taunting);
         MakeModelTimer(null);
         float pPos[3] = {0.0, 0.0, 10.0};
@@ -3654,6 +3655,7 @@ public Action DoTauntSpy(int client, char[] command, int argc)
         pos[2] += 20.0;
         {
             {
+                g_iTauntedSpys[client] = 1;
                 Format(s, PLATFORM_MAX_PATH, "saxton_hale/spy_special_auto_used.wav");
                 CreateTimer(0.1, UseSpyRage, client);
                 CreateTimer(0.3, SpyCineFX, client);
@@ -3778,6 +3780,7 @@ public Action SpySoundRageEnd(Handle hTimer, int client)
     char s[PLATFORM_MAX_PATH];
     Format(s, PLATFORM_MAX_PATH, "weapons/weapon_crit_charged_off.wav");
     EmitSoundToAll(s, client, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, client, NULL_VECTOR, NULL_VECTOR, false, 0.0);
+    g_iTauntedSpys[client] = 0;
     UTIL_SwitchAIM(client, false);
     return Plugin_Continue;
 }
@@ -7745,7 +7748,7 @@ void ASH_ExecuteRages(int attacker, int damage, int custom, int weapon) {
     }
 
     WeaponID = GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary);
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && !UTIL_IsAIMEnabled(attacker) && headmeter[attacker] < 6)
+    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && headmeter[attacker] < 6 && g_iTauntedSpys[attacker] == 0)
     {
         ++headmeter[attacker];
     }
