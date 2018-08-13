@@ -1776,7 +1776,13 @@
 		"en"		"The nearest player have the UBER-CHARGE active"
 	}
     
-	"ash_agent_bombfailed"
+    "ash_agent_bombimmune"
+	{
+		"ru"		"Ближайший игрок потерял Убер-Заряд несколько секунд назад"
+		"en"		"The nearest player has lost the UBER-CHARGE a few seconds ago"
+	}
+    
+    "ash_agent_bombfailed"
 	{
 		"ru"		"Игрок с бомбой погиб!"
 		"en"		"Player with bomb has been dead!"

@@ -610,6 +610,8 @@ int TEMP_SpySaPTimer[MAXPLAYERS+1];
 int g_iOffsetModelScale;
 bool BlockDamage[MAXPLAYERS+1];
 int AQUACURE_EntShield[MAXPLAYERS+1];
+int g_iFidovskiyFix[MAXPLAYERS+1];
+Handle g_iTimerList[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
 // int ClientsHealth[MAXPLAYERS+1];
@@ -3470,7 +3472,12 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
             CreateTimer(1.0, OnTimerRemoveCloakFeature, hData);
         }
     } else if (TF2_GetPlayerClass(client) == TFClass_Medic && condition == TFCond_Ubercharged && Special == ASHSpecial_Agent) {
-        TF2_AddCondition(client, TFCond_BlastImmune, 6.0);
+        g_iFidovskiyFix[client] = 1;
+        if (g_iTimerList[client] != null) {
+            KillTimer(g_iTimerList[client]);
+            g_iTimerList[client] = null;
+        }
+        g_iTimerList[client] = CreateTimer(6.0, CanBeTarget, client);
     }
 }
 
@@ -8683,6 +8690,12 @@ public Action OnBelatedChangeAttribute(Handle hTimer, DataPack hPack) {
     if (iEntity > 0) {
         TF2Attrib_SetByDefIndex(iEntity, iAttribute, flValue);
     }
+}
+
+public Action CanBeTarget(Handle hTimer, any client)
+{
+    g_iFidovskiyFix[client] = 0;
+    g_iTimerList[client] = null;
 }
 
 #include "ASH/API.sp"

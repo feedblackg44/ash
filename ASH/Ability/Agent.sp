@@ -94,7 +94,13 @@ void AbilityAgent_DoSelect() {
         return;
     }
     
-    if (!TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged) && !TF2_IsPlayerInCondition(iClient, TFCond_BlastImmune)) {
+    if (g_iFidovskiyFix[iClient] == 1) {
+        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombimmune");
+        return;
+    }
+    
+    if (!TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged) && g_iFidovskiyFix[iClient] == 0) {
         g_iCurrentAbilityMode = AGENT_SAPPED;
         g_iCurrentPlayer = iClient;
         CreateTimer(1.0, AbilityAgent_PlaySound, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
