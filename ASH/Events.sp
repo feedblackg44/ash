@@ -1080,6 +1080,8 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
 //    }
     
     if (TF2_GetPlayerClass(attacker) == TFClass_Heavy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 331 && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28))) PushClient(Hale);
+    
+    if (TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28))) PushClient(Hale);
 
     if (TF2_GetPlayerClass(attacker) == TFClass_Pyro && (damage == 146 || damage == 1316) && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 153 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 466) && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee))
     {
