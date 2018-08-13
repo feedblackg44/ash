@@ -1232,8 +1232,8 @@
 	
 	"ash_spy_autoaim_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить АВТОПРИЦЕЛ"
-		"en"		"Taunt to activate AUTO-AIM"
+		"ru"		"Сделайте насмешку, чтобы активировать Обратный Телепортер"
+		"en"		"Taunt to activate Reverse Teleporter"
 	}
 
 	"ash_spy_autoaim_limit"
