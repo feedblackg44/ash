@@ -621,9 +621,9 @@ public Action ClientTimer(Handle hTimer)
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 128)
                 {
                     float flHaleDamageNeed = (float(HaleHealthMax) / 2.5);
-                    if (flHaleDamageNeed >= 5000)
+                    if (flHaleDamageNeed >= 2500)
                     {
-                      flHaleDamageNeed = 5000.0;
+                      flHaleDamageNeed = 2500.0;
 	                }
                     int iHaleDamageNeed = RoundToCeil(flHaleDamageNeed);
 					
