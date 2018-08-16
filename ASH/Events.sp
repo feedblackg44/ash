@@ -1394,7 +1394,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
                 }
             } 
         }
-    } else if (g_bEnabled) {
+    } else if (g_bEnabled && IsClientSourceTV(client)) {
         TFClassType iClass = TF2_GetPlayerClass(client);
         char sWeapon[64];
         GetClientWeapon(client, sWeapon, sizeof(sWeapon));
