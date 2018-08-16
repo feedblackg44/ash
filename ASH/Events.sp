@@ -1394,19 +1394,21 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
                 }
             } 
         }
-    } else if (g_bEnabled && IsClientSourceTV(client) && IsClientConnected(client)) {
-        TFClassType iClass = TF2_GetPlayerClass(client);
-        char sWeapon[64];
-        GetClientWeapon(client, sWeapon, sizeof(sWeapon));
+    } else if (g_bEnabled && IsClientConnected(client)) {
+        if (IsClientSourceTV(client)){
+            TFClassType iClass = TF2_GetPlayerClass(client);
+            char sWeapon[64];
+            GetClientWeapon(client, sWeapon, sizeof(sWeapon));
 
-        // Check for, and disable aiming for sapper's, medigun's, and wrench's
-        if(StrEqual(sWeapon, "tf_weapon_sapper", false) || StrEqual(sWeapon, "tf_weapon_builder", false) || StrEqual(sWeapon, "tf_weapon_medigun", false) || StrEqual(sWeapon, "tf_weapon_wrench", false))
-            return Plugin_Continue;
+            // Check for, and disable aiming for sapper's, medigun's, and wrench's
+            if(StrEqual(sWeapon, "tf_weapon_sapper", false) || StrEqual(sWeapon, "tf_weapon_builder", false) || StrEqual(sWeapon, "tf_weapon_medigun", false) || StrEqual(sWeapon, "tf_weapon_wrench", false))
+                return Plugin_Continue;
 
-        g_bToHead[client] = UTIL_ShouldAimToHead(iClass, sWeapon, g_iActiveWeapon[client]);
-        AimTick(client, buttons, angles, vel);
-
-        return Plugin_Changed;
+            g_bToHead[client] = UTIL_ShouldAimToHead(iClass, sWeapon, g_iActiveWeapon[client]);
+            AimTick(client, buttons, angles, vel);
+            
+            return Plugin_Changed;
+        }
     }
     return Plugin_Continue;
 }
