@@ -12,13 +12,13 @@ void UTIL_MakeCommands() {
     RegConsoleCmd("sm_halehp", Command_GetHPCmd);
     RegConsoleCmd("sm_hale_next", QueuePanelCmd);
     RegConsoleCmd("sm_halenext", QueuePanelCmd);
-    RegConsoleCmd("sm_hale_help", HelpPanelCmd);
-    RegConsoleCmd("sm_halehelp", HelpPanelCmd);
-    RegConsoleCmd("sm_hale_class", HelpPanel2Cmd);
-    RegConsoleCmd("sm_haleclass", HelpPanel2Cmd);
-    RegConsoleCmd("sm_hale_classinfotoggle", ClasshelpinfoCmd);
-    RegConsoleCmd("sm_haleclassinfotoggle", ClasshelpinfoCmd);
-    RegConsoleCmd("sm_infotoggle", ClasshelpinfoCmd);
+//    RegConsoleCmd("sm_hale_help", HelpPanelCmd);
+//    RegConsoleCmd("sm_halehelp", HelpPanelCmd);
+//    RegConsoleCmd("sm_hale_class", HelpPanel2Cmd);
+//    RegConsoleCmd("sm_haleclass", HelpPanel2Cmd);
+//    RegConsoleCmd("sm_hale_classinfotoggle", ClasshelpinfoCmd);
+//    RegConsoleCmd("sm_haleclassinfotoggle", ClasshelpinfoCmd);
+//    RegConsoleCmd("sm_infotoggle", ClasshelpinfoCmd);
     RegConsoleCmd("sm_hale_new", NewPanelCmd);
     RegConsoleCmd("sm_halenew", NewPanelCmd);
     
@@ -143,7 +143,7 @@ void UTIL_RegCookies() {
     PointCookie         = RegClientCookie("hale_queuepoints", "Amount of ASH Queue points player has", CookieAccess_Protected);
     MusicCookie         = RegClientCookie("hale_music_setting", "HaleMusic setting", CookieAccess_Public);
     VoiceCookie         = RegClientCookie("hale_voice_setting", "HaleVoice setting", CookieAccess_Public);
-    ClasshelpinfoCookie = RegClientCookie("hale_classinfo", "HaleClassinfo setting", CookieAccess_Public);
+//    ClasshelpinfoCookie = RegClientCookie("hale_classinfo", "HaleClassinfo setting", CookieAccess_Public);
 }
 
 void UTIL_MakeHUDs() {
