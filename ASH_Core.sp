@@ -3649,7 +3649,7 @@ public Action DoTauntSpy(int client, char[] command, int argc)
     if (!g_bEnabled)
         return Plugin_Continue;
     char s[PLATFORM_MAX_PATH];
-    if (headmeter[client] >= 6 && IsPlayerAlive(client))
+    if (headmeter[client] >= 4 && IsPlayerAlive(client))
     {
         float pos[3];
         pos[2] += 20.0;

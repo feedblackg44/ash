@@ -690,7 +690,7 @@ public Action ClientTimer(Handle hTimer)
             if (class == TFClass_Spy)
             {
                 int autoaim = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
-                if (headmeter[client] >= 6)
+                if (headmeter[client] >= 4)
                 {
                     if (!(GetClientButtons(client) & IN_SCORE))
                     {
