@@ -22,7 +22,7 @@
 
 // ASH Version controller
 #define ASH_BUILD                     "8310"
-#define ASH_PLUGIN_VERSION            "1.15"
+#define ASH_PLUGIN_VERSION            "1.16"
 #define ASH_PLUGIN_RELDATE            "27 July 2018"
 
 // ASH Settings
