@@ -23,7 +23,7 @@
 // ASH Version controller
 #define ASH_BUILD                     "8310"
 #define ASH_PLUGIN_VERSION            "1.16"
-#define ASH_PLUGIN_RELDATE            "27 July 2018"
+#define ASH_PLUGIN_RELDATE            "16 August 2018"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
