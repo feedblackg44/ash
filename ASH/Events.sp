@@ -615,6 +615,11 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
     int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
     
+    if(g_iTauntedSpys[client] == 1)
+    {
+        g_iTauntedSpys[client] = 0;
+    }
+    
     if (FakeKill_Goomba) {
         int damageBits = GetEventInt(event, "damagebits");
         

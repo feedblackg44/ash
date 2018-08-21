@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8310"
+#define ASH_BUILD                     "8311"
 #define ASH_PLUGIN_VERSION            "1.16"
 #define ASH_PLUGIN_RELDATE            "16 August 2018"
 
@@ -1518,6 +1518,10 @@ public Action StartHaleTimer(Handle hTimer)
         }
         if (BushmanRulesRound && IsPlayerAlive(iClient)) {
             TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Primary);
+        }
+        if(IsPlayerAlive(iClient))
+        {
+            g_iTauntedSpys[iClient] = 0;
         }
     }
     CreateTimer(0.1, GottamTimer);
