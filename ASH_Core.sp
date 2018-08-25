@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8311"
+#define ASH_BUILD                     "8312"
 #define ASH_PLUGIN_VERSION            "1.16"
 #define ASH_PLUGIN_RELDATE            "16 August 2018"
 
@@ -995,7 +995,7 @@ float m_fAgent_InvisibleNext[MAXPLAYERS+1];
 //bool ACH_Enabled;
 public Plugin myinfo = {
     name           = "Advanced Saxton Hale",
-    author         = "Rainbolt Dash, FlaminSarge, Chdata, nergal, fiagram, NITROYUASH, CrazyHackGUT, G44 Group",
+    author         = "Rainbolt Dash, FlaminSarge, Chdata, nergal, fiagram, NITROYUASH, FeedBlack, CrazyHackGUT, G44 Group",
     description    = "RUUUUNN!! COWAAAARRDSS!",
     version        = PLUGINVERSION,
     url            = "https://forums.alliedmods.net/showthread.php?p=2167912",
