@@ -1458,13 +1458,9 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     char sAttackerObject[128];
     GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
 
-    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) {
-        PushClient(Hale);
-//        char sDamageType[64] = damagetype;
-//        PrintToChatAll("%s", sDamageType);
-    }
+//    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
     
-    //if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagetype == DMG_SHOCK) PushClient(Hale);
+    if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagecustom == TF_CUSTOM_PLASMA && damagetype != DMG_SHOCK) PushClient(Hale);
 
     if (client > 0) {
         if (!ManmelterBan[client] && TF2_GetPlayerClass(client) == TFClass_Pyro && plManmelterUsed[client] == 100 && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 595 && IntToFloat(GetEntProp(client, Prop_Send, "m_iHealth")) <= damage) {
