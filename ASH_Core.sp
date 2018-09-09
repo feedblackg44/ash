@@ -21,8 +21,8 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8315"
-#define ASH_PLUGIN_VERSION            "1.16"
+#define ASH_BUILD                     "8318"
+#define ASH_PLUGIN_VERSION            "1.17"
 #define ASH_PLUGIN_RELDATE            "16 August 2018"
 
 // ASH Settings
@@ -2527,7 +2527,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 329: // Jag
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1", true);
         }
 	    case 7: // Wrench
         {
@@ -7752,7 +7752,7 @@ void ASH_ExecuteRages(int attacker, int damage, int custom, int weapon) {
     }
 
     WeaponID = GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary);
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && headmeter[attacker] < 6 && g_iTauntedSpys[attacker] == 0)
+    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && headmeter[attacker] < 6 && g_iTauntedSpys[attacker] == 0 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)))
     {
         ++headmeter[attacker];
     }

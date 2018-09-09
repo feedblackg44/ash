@@ -1153,7 +1153,7 @@ public Action HaleTimer(Handle hTimer)
         if (TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) TF2_RemoveCondition(Hale, TFCond_BlastJumping);
         for (int client = 1; client <= MaxClients; client++) {
             if (!IsValidClient(client) || client == Hale) continue;
-            if (TF2_GetPlayerClass(client) == TFClass_Soldier) SpecialSoldier_Airshot[client] = false;
+            if (TF2_GetPlayerClass(client) == TFClass_Soldier || TF2_GetPlayerClass(client) == TFClass_DemoMan) SpecialSoldier_Airshot[client] = false;
         }
     }
 

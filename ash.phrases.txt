@@ -1129,6 +1129,18 @@
 		"en"		"Soldier stunned you in air!"
 	}
 
+    "ash_demo_directhit_tryhard_player"
+	{
+		"ru"		"Вы оглушили Хейла в воздухе!"
+		"en"		"You stunned Hale in air!"
+	}
+
+	"ash_demo_directhit_tryhard_victim"
+	{
+		"ru"		"Подрывник оглушил вас в воздухе!"
+		"en"		"Demo stunned you in air!"
+	}
+    
 	"ash_soldier_EscapePlan_HelpTint"
 	{
 		"ru"		"План эвакуации: Лечение"
