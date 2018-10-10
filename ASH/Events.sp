@@ -355,7 +355,7 @@ public Action event_round_end(Handle event, const char[] name, bool dontBroadcas
         dispenserEnabled[i] = false;
     }
     
-    if (IsClientInGame(Hale))
+    if (IsClientInGame(Hale) && Hale > 0)
     {
         char translation[32];
     
