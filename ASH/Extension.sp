@@ -1,5 +1,5 @@
 public void Ext_CheckAlivePlayers(any data) {
-  if (UTIL_GetAlivePlayers(OtherTeam) == 1 && IsPlayerAlive(Hale)) {
+  if (UTIL_GetAlivePlayers(OtherTeam) == 1 && Hale > 0 && IsPlayerAlive(Hale)) {
     int iPlayer = UTIL_LookupClient(OtherTeam, TFClass_Soldier, true);
     // PrintToChatAll("UTIL_LookupClient(): Result %d", iPlayer);
     if (iPlayer > 0 && GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Melee) == 128) {
