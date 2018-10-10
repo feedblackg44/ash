@@ -1425,7 +1425,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
             } 
         }
     } else if (g_bEnabled && IsClientConnected(client)) {
-        if (IsClientSourceTV(client)){
+        if (IsClientSourceTV(client)) {
             TFClassType iClass = TF2_GetPlayerClass(client);
             char sWeapon[64];
             GetClientWeapon(client, sWeapon, sizeof(sWeapon));
@@ -1438,6 +1438,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
             AimTick(client, buttons, angles, vel);
             
             return Plugin_Changed;
+        
         }
     }
     return Plugin_Continue;
@@ -1485,7 +1486,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         if (damagetype != DMG_SHOCK && inflictor != attacker) {
             PushClient(Hale);
         } else {
-            TF2_StunPlayer(Hale, 4.00, 0.4, TF_STUNFLAG_SLOWDOWN);
+            TF2_StunPlayer(Hale, 4.00, 0.5, TF_STUNFLAG_SLOWDOWN);
         }
     }
     
@@ -1496,19 +1497,20 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         TF2_AddCondition(Hale, TFCond_MarkedForDeath, 4.0);
     }
     
-    //TODO Sandman stun ball
+    //Sandman stun ball
+    if (attacker > 0 && attacker <= MaxClients && attacker != client) {
+        float ScoutPos[3];
+        float HalePos[3];
 
-    float ScoutPos[3];
-    float HalePos[3];
-
-    GetClientEyePosition(attacker, ScoutPos);
-    GetClientEyePosition(client, HalePos);
-    
-    if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Scout && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 44 && inflictor != attacker && damagecustom != TF_CUSTOM_CLEAVER /*&& StrEqual(sAttackerObject, "tf_projectile_stun_ball")*/) {
-        if (GetVectorDistance(ScoutPos, HalePos) > 1500.0) {
-            TF2_StunPlayer(client, 6.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
-        } else if (GetVectorDistance(ScoutPos, HalePos) > 400.0) {
-            TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
+        GetClientEyePosition(attacker, ScoutPos);
+        GetClientEyePosition(client, HalePos);
+        
+        if (TF2_GetPlayerClass(attacker) == TFClass_Scout && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 44 && inflictor != attacker && damagecustom != TF_CUSTOM_CLEAVER /*&& StrEqual(sAttackerObject, "tf_projectile_stun_ball")*/) {
+            if (GetVectorDistance(ScoutPos, HalePos) > 1500.0) {
+                TF2_StunPlayer(client, 6.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
+            } else if (GetVectorDistance(ScoutPos, HalePos) > 400.0) {
+                TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
+            }
         }
     }
     
@@ -2375,7 +2377,6 @@ public Action OnStartTouch(int client, int other)
     }
     return Plugin_Continue;
 }
-
 
 public void OnConfigsExecuted()
 {

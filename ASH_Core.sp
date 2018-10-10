@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8318"
+#define ASH_BUILD                     "8321"
 #define ASH_PLUGIN_VERSION            "1.17"
 #define ASH_PLUGIN_RELDATE            "09 September 2018"
 
@@ -2532,6 +2532,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
 	    case 7: // Wrench
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "80 ; 2 ; 2 ; 1.20", true);
+        }
+        case 588: // Pomson
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.3 ; 869 ; 1", true);
         }
     }
 
