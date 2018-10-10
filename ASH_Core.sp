@@ -2527,7 +2527,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 329: // Jag
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1 ; 344 ; 3.0", true);
         }
 	    case 7: // Wrench
         {
