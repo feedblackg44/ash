@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8321"
+#define ASH_BUILD                     "8322"
 #define ASH_PLUGIN_VERSION            "1.17"
 #define ASH_PLUGIN_RELDATE            "09 September 2018"
 
@@ -2247,7 +2247,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 308: // Loch-n-Load
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "3 ; 0.75 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.9 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
         }
         case 357: //Half-Zatoichi
         {
