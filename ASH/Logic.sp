@@ -1110,7 +1110,7 @@ public Action HaleTimer(Handle hTimer)
 
             GetClientEyePosition(Player, PlayerPos);
 
-            if (GetVectorDistance(AgentPos, PlayerPos) < 1800.0) {
+            if (GetVectorDistance(AgentPos, PlayerPos) < 500.0) {
                 if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) TF2_RemoveCondition(Hale, view_as<TFCond>(64));
                 break;
             } else if (!TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) TF2_AddCondition(Hale, view_as<TFCond>(64));
