@@ -21,8 +21,8 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8322"
-#define ASH_PLUGIN_VERSION            "1.17"
+#define ASH_BUILD                     "8323"
+#define ASH_PLUGIN_VERSION            "1.18"
 #define ASH_PLUGIN_RELDATE            "09 September 2018"
 
 // ASH Settings
@@ -4469,7 +4469,10 @@ public Action UseRage(Handle hTimer, any dist)
                         float ppos[3] = {0.0, 0.0, 75.0};
                         AttachParticle(i, "yikes_fx", 5.0, ppos, true);
                     }
-                    if (ASHRoundState != ASHRState_Waiting) TF2_StunPlayer(i, GetStunTime(i), _, flags, (Special == ASHSpecial_HHH ? 0 : Hale));
+                    if (ASHRoundState != ASHRState_Waiting) {
+                        TF2_StunPlayer(i, GetStunTime(i), _, flags, (Special == ASHSpecial_HHH ? 0 : Hale));
+                        TF2_AddCondition(i, view_as<TFCond>(65), GetStunTime(i));
+                    }
                     if (GetIndexOfWeaponSlot(i, TFWeaponSlot_Melee) == 331)			// Heavy Nerf: 18.11.2016
                     {
                         SetNextAttack(GetPlayerWeaponSlot(i, TFWeaponSlot_Melee), 5.0);
