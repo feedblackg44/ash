@@ -1555,6 +1555,12 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             
             return Plugin_Changed;
         }
+        
+        if (client != attacker && TF2_IsPlayerInCondition(client, view_as<TFCond>(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale)
+        {
+            damage = 33.5;
+            damagetype = 0;
+        }
     }
     
     if (g_bEnabled) {
