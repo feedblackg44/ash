@@ -1,6 +1,7 @@
 static bool   g_bWaitUnpress;
 static int    g_iCurrentAbilityMode;
 static int    g_iCurrentPlayer;
+Handle hBombTimer = null;
 
 #define AGENT_WAIT          0
 #define AGENT_BOMBWAIT		1
@@ -62,10 +63,12 @@ void AbilityAgent_DoWait() {
 public Action ChangeAbilityMode(Handle hTimer)
 {
     g_iCurrentAbilityMode = AGENT_SELECTING;
+    delete hBombTimer;
 }
 
 void AbilityAgent_DoBombWait() {
-    CreateTimer(3.0, ChangeAbilityMode);
+    if (!hBombTimer)
+        hBombTimer = CreateTimer(3.0, ChangeAbilityMode);
     SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
     ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombwait");
 }
