@@ -23,7 +23,7 @@
 // ASH Version controller
 #define ASH_BUILD                     "8323"
 #define ASH_PLUGIN_VERSION            "1.18"
-#define ASH_PLUGIN_RELDATE            "09 September 2018"
+#define ASH_PLUGIN_RELDATE            "01 December 2018"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -1524,6 +1524,7 @@ public Action StartHaleTimer(Handle hTimer)
             g_iTauntedSpys[iClient] = 0;
         }
     }
+    
     CreateTimer(0.1, GottamTimer);
     if (!IsClientInGame(Hale))
     {

@@ -2700,3 +2700,12 @@ public Action Timer_Announce(Handle hTimer)
     }
     return Plugin_Continue;
 }
+
+/*public void OnGameFrame()
+{
+    if (Special == ASHSpecial_Agent) 
+    {
+        SetEntPropFloat(Hale, Prop_Send, "m_flHeadScale", 0.1);
+        SetEntPropFloat(Hale, Prop_Send, "m_flTorsoScale", 0.1); 
+    }
+}*/
