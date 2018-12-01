@@ -37,7 +37,7 @@ void UTIL_MakeCommands() {
     AddCommandListener(DoSuicide, "explode");
     AddCommandListener(DoSuicide, "kill");
     AddCommandListener(DoSuicide2, "jointeam");
-    AddCommandListener(Destroy, "destroy");
+    //AddCommandListener(Destroy, "destroy");
     AddCommandListener(OnEurekaUse, "eureka_teleport");
     RegAdminCmd("sm_hale_select", Command_HaleSelect, ADMFLAG_CHEATS, "hale_select <target> - Select a player to be next boss");
     RegAdminCmd("sm_hale_setdmg", Command_HaleSetDamage, ADMFLAG_CHEATS, "hale_setdmg <target> <damage> - Set a player damage");
@@ -82,7 +82,7 @@ void UTIL_MakeConVars() {
     cvarDisplayHaleHP = CreateConVar("hale_hp_display", "1", "Display Hale Health at all times.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarRageSentry = CreateConVar("hale_ragesentrydamagemode", "1", "If 0, to repair a sentry that has been damaged by rage, the Engineer must pick it up and put it back down.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarFirstRound = CreateConVar("hale_first_round", "0", "Disable(0) or Enable(1) ASH in 1st round.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarEnableEurekaEffect = CreateConVar("hale_enable_eureka", "0", "1- allow Eureka Effect, else disallow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableEurekaEffect = CreateConVar("hale_enable_eureka", "1", "1- allow Eureka Effect, else disallow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarForceHaleTeam = CreateConVar("hale_force_team", "0", "0- Use plugin logic, 1- random team, 2- red, 3- blue", FCVAR_NOTIFY, true, 0.0, true, 3.0);
     
     HookConVarChange(FindConVar("tf_bot_count"), HideCvarNotify);

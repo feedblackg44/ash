@@ -63,7 +63,7 @@ void AbilityAgent_DoWait() {
 public Action ChangeAbilityMode(Handle hTimer)
 {
     g_iCurrentAbilityMode = AGENT_SELECTING;
-    delete hBombTimer;
+    hBombTimer = null;
 }
 
 void AbilityAgent_DoBombWait() {
@@ -162,6 +162,8 @@ void AgentAbility_Explode() {
     float BigBoom[3] = {0.0, 0.0, 0.0};
     AttachParticle(g_iCurrentPlayer, "hightower_explosion", 1.0, BigBoom, true);
     EmitSoundToAll("misc/rd_robot_explosion01.wav", _);
+    
+    ASHStats[SpecialAbilities]++;
 
     for (int iClient = MaxClients; iClient != 0; --iClient) {
         if (!IsClientInGame(iClient) || !IsPlayerAlive(iClient) || GetClientTeam(iClient) != OtherTeam)

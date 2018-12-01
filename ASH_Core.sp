@@ -2527,7 +2527,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 329: // Jag
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1 ; 344 ; 3.0", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1 ; 344 ; 3.0 ; 148 ; 0.77 ; 790 ; 1.3", true);
         }
 	    case 7: // Wrench
         {
@@ -2537,6 +2537,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.3 ; 869 ; 1", true);
         }
+        case 589: // Eureka Effect
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "790 ; 0.5 ; 92 ; 0.5 ; 732 ; 0.8 ; 276 ; 1", true);
+        }
     }
 
     if (hItemOverride != null) // This has to be here, else stuff below can overwrite what's above
@@ -2544,7 +2548,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         hItem = hItemOverride;
 
         return Plugin_Changed;
-    }
+    } 
 
     switch (iClass)
     {
@@ -2762,8 +2766,8 @@ public Action MakeNoHale(Handle hTimer, any clientid)
             {
                 if (!GetConVarBool(cvarEnableEurekaEffect))
                 {
-                    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Melee);
-                    SpawnWeapon(client, "tf_weapon_wrench", 7, 1, 0, "2 ; 1.20");
+                    //TF2_RemoveWeaponSlot(client, TFWeaponSlot_Melee);
+                    //SpawnWeapon(client, "tf_weapon_wrench", 7, 1, 0, "2 ; 1.20");
                 }
             }
         }
@@ -3343,14 +3347,14 @@ public Action Timer_GravityCat(Handle timer, any userid)
     int client = GetClientOfUserId(userid);
     if (client && IsClientInGame(client)) SetEntityGravity(client, 1.0);
 }
-public Action Destroy(int client, char[] command, int argc)
+/*public Action Destroy(int client, char[] command, int argc)
 {
     if (!g_bEnabled || client == Hale)
         return Plugin_Continue;
     if (IsValidClient(client) && TF2_GetPlayerClass(client) == TFClass_Engineer && TF2_IsPlayerInCondition(client, TFCond_Taunting) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589)
         return Plugin_Handled;
     return Plugin_Continue;
-}
+}*/
 
 static bool s_bPreventDeadringEffects[TF_MAX_PLAYERS] = {false, ...};
 
