@@ -2507,6 +2507,11 @@ public void OnMapEnd()
             SteamWorks_SetGameDescription("Adv. Saxton Hale");
         }
 #endif
+
+        if (GetConVarBool(cvarFirstRound)) {
+            g_bEnabled = false;
+            ASHRoundState = ASHRState_Disabled;
+        }
     }
 
     ClearTimer(MusicTimer);
