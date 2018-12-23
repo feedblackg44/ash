@@ -15,6 +15,24 @@ public void Ext_CheckAlivePlayers(any data) {
   }
 }
 
+void Ext_BlockSpectatingOnAnotherTeam(int iClient) {
+  if (IsClientObserver(iClient)) return;
+  int iViewing = GetEntPropEnt(iClient, Prop_Send, "m_hObserverTarget");
+
+  if (iViewing > 0 && iViewing <= MaxClients && ASHRoundState != ASHRState_Active) {
+    int iClientTeam = GetClientTeam(iClient);
+    int iTargetTeam = GetClientTeam(iViewing);
+
+    if (iClientTeam != iTargetTeam) {
+      do {
+        iViewing = UTIL_GetRandomClientFromTeam(iClientTeam, true);
+      } while (iViewing != iClient);
+
+      SetEntPropEnt(iClient, Prop_Send, "m_hObserverTarget", iViewing);
+    }
+  }
+}
+
 public void Ext_EqualizerSpecialEnd(DataPack hPack) {
   int iClient = GetClientOfUserId(hPack.ReadCell());
   if (iClient == 0)

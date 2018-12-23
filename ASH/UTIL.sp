@@ -1035,3 +1035,23 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
     }
     return 0;
 }
+
+int UTIL_GetRandomClientFromTeam(int iTeam, bool bIsAlive = false) {
+    ArrayList hList = new ArrayList(4);
+
+    for (int iClient = MaxClients; iClient != 0; iClient--) {
+        if (IsClientInGame(iClient) && GetClientTeam(iClient) == iTeam) {
+            if (bIsAlive && !IsPlayerAlive(iClient))
+                continue;
+
+            hList.Push(iClient);
+        }
+    }
+
+    int iResult = 0;
+    if (hList.Length > 0)
+        iResult = GetRandomInt(0, hList.Length-1);
+    CloseHandle(hList);
+
+    return iResult;
+}
