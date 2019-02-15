@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8327"
+#define ASH_BUILD                     "8328"
 #define ASH_PLUGIN_VERSION            "1.18"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
@@ -8717,6 +8717,10 @@ public Action CanBeTarget(Handle hTimer, any client)
 {
     g_iFidovskiyFix[client] = 0;
     g_iTimerList[client] = null;
+}
+
+stock int TF2_GetPlayerMaxHealth(int client) {
+	return GetEntProp(GetPlayerResourceEntity(), Prop_Send, "m_iMaxHealth", _, client);
 }
 
 #include "ASH/API.sp"

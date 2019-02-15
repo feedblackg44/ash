@@ -1175,29 +1175,6 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
         }
     }
     
-    // Airshots for Demo's Loch'n'Load
-    if (attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_DemoMan && IsPlayerInAir(Hale) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 308 && SpecialPlayers_LastActiveWeapons[attacker] == GetPlayerWeaponSlot(attacker, TFWeaponSlot_Primary)) {
-        if (SpecialSoldier_Airshot[attacker] && TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) {
-            TF2_StunPlayer(Hale, 4.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
-            SpecialSoldier_Airshot[attacker] = false;
-            if (TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) TF2_RemoveCondition(Hale, TFCond_BlastJumping);
-            
-            char s[PLATFORM_MAX_PATH];
-            Format(s, PLATFORM_MAX_PATH, "misc/sniper_railgun_double_kill.wav");
-            EmitSoundToAll(s, _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
-
-            SetGlobalTransTarget(attacker);
-            PriorityCenterText(attacker, true, "%t", "ash_demo_directhit_tryhard_player");
-            SetGlobalTransTarget(Hale);
-            PriorityCenterText(Hale, true, "%t", "ash_demo_directhit_tryhard_victim");
-        } else if (TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) {
-            SpecialSoldier_Airshot[attacker] = true;
-        } else 
-        {
-            if (!TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) TF2_AddCondition(Hale, TFCond_BlastJumping);
-        }
-    }
-    
     // Cow Mangler 5000
     if (attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_Soldier && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 441 && SpecialPlayers_LastActiveWeapons[attacker] == GetPlayerWeaponSlot(attacker, TFWeaponSlot_Primary) && custom == 3 && !isStunnedBlock[attacker]) {
         // Stun. 3 sec
@@ -1483,6 +1460,33 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     
 //    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
     
+    // Airshots for Demo's Loch'n'Load
+    
+    char sAttackerObject[128];
+    GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
+    
+    if (attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_DemoMan && IsPlayerInAir(Hale) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 308 && SpecialPlayers_LastActiveWeapons[attacker] == GetPlayerWeaponSlot(attacker, TFWeaponSlot_Primary) && StrEqual(sAttackerObject, "tf_projectile_pipe")) {
+        if (SpecialSoldier_Airshot[attacker] && TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) {
+            TF2_StunPlayer(Hale, 4.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
+            SpecialSoldier_Airshot[attacker] = false;
+            if (TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) TF2_RemoveCondition(Hale, TFCond_BlastJumping);
+            
+            char s[PLATFORM_MAX_PATH];
+            Format(s, PLATFORM_MAX_PATH, "misc/sniper_railgun_double_kill.wav");
+            EmitSoundToAll(s, _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
+
+            SetGlobalTransTarget(attacker);
+            PriorityCenterText(attacker, true, "%t", "ash_demo_directhit_tryhard_player");
+            SetGlobalTransTarget(Hale);
+            PriorityCenterText(Hale, true, "%t", "ash_demo_directhit_tryhard_victim");
+        } else if (TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) {
+            SpecialSoldier_Airshot[attacker] = true;
+        } else 
+        {
+            if (!TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) TF2_AddCondition(Hale, TFCond_BlastJumping);
+        }
+    }
+    
     if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagecustom == TF_CUSTOM_PLASMA)
     {
         if (damagetype != DMG_SHOCK && inflictor != attacker) {
@@ -1491,9 +1495,6 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             TF2_StunPlayer(Hale, 4.00, 0.5, TF_STUNFLAG_SLOWDOWN);
         }
     }
-    
-    char sAttackerObject[128];
-    GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
     
     if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 329 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && StrEqual(sAttackerObject, "obj_sentrygun")) {
         TF2_AddCondition(Hale, TFCond_MarkedForDeath, 4.0);
@@ -1508,9 +1509,9 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         GetClientEyePosition(client, HalePos);
         
         if (TF2_GetPlayerClass(attacker) == TFClass_Scout && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 44 && inflictor != attacker && damagecustom != TF_CUSTOM_CLEAVER /*&& StrEqual(sAttackerObject, "tf_projectile_stun_ball")*/) {
-            if (GetVectorDistance(ScoutPos, HalePos) > 1500.0) {
+            if (GetVectorDistance(ScoutPos, HalePos) > 1450.0) {
                 TF2_StunPlayer(client, 6.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
-            } else if (GetVectorDistance(ScoutPos, HalePos) > 400.0) {
+            } else if (GetVectorDistance(ScoutPos, HalePos) > 350.0) {
                 TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
             }
         }
@@ -1558,9 +1559,16 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             return Plugin_Changed;
         }
         
-        if (client != attacker && TF2_IsPlayerInCondition(client, view_as<TFCond>(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale)
+        if (client != attacker && TF2_IsPlayerInCondition(client, view_as<TFCond>(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, view_as<TFCond>(13)))
         {
-            damage = 33.5;
+            float client_hp = float(TF2_GetPlayerMaxHealth(client));
+            if (TF2_GetPlayerClass(client) != TFClass_Heavy) {
+                float damage_client = client_hp * 0.75 / 3;
+                damage = damage_client;
+            } else {
+                float damage_client = client_hp * 0.45 / 3;
+                damage = damage_client;
+            }
             damagetype = 0;
         }
     }
