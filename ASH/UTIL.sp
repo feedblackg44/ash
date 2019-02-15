@@ -1036,7 +1036,7 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
     return 0;
 }
 
-int UTIL_GetRandomClientFromTeam(int iTeam, bool bIsAlive = false) {
+/*int UTIL_GetRandomClientFromTeam(int iTeam, bool bIsAlive = false) {
     ArrayList hList = new ArrayList(4);
 
     for (int iClient = MaxClients; iClient != 0; iClient--) {
@@ -1054,4 +1054,4 @@ int UTIL_GetRandomClientFromTeam(int iTeam, bool bIsAlive = false) {
     CloseHandle(hList);
 
     return iResult;
-}
+}*/
