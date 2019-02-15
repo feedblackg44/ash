@@ -266,7 +266,7 @@ public Action ClientTimer(Handle hTimer)
             // Cloak and dagger
             // Player health
             int spyTemp = 0;
-            if (iPlayerClass == TFClass_Spy) 
+            /*if (iPlayerClass == TFClass_Spy) 
             {
                 spyTemp = GetPlayerWeaponSlot(client, 4);
                 if (IsPlayerAlive(client) && spyTemp > MaxClients && IsValidEdict(spyTemp) && GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex") == 60)
@@ -292,7 +292,7 @@ public Action ClientTimer(Handle hTimer)
                     if (GetEntProp(client, Prop_Send, "m_iHealth") < 0) ForcePlayerSuicide(client);
                 }
                 else { TEMP_SpyCaDTimer[client] = 0; spyTimeInvis[client] = 0; }
-            }
+            }*/
             
             // Sapper 1
             spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
@@ -351,14 +351,14 @@ public Action ClientTimer(Handle hTimer)
                 }
             }
             
-            if (GetClientCloakIndex(client) == 60) {
+            /*if (GetClientCloakIndex(client) == 60) {
                 int r = 255;
                 int g = spyTimeInvis[client] == 0 ? 255 : 64;
                 int b = spyTimeInvis[client] == 0 ? 255 : 64;
                 bHudAdjust = true;
                 SetHudTextParams(-1.0, 0.78, 0.35, r, g, b, 255, 0, 0.0, 0.0, 0.0);
                 ShowSyncHudText(client, jumpHUD, "%t", "ash_CAD_damage", 8-spyTimeInvis[client]);
-            }
+            }*/
             
             SetHudTextParams(-1.0, 0.83, 0.35, 90, 255, 90, 255, 0, 0.35, 0.0, 0.1);
             if (!IsPlayerAlive(client))

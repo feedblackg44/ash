@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8326"
+#define ASH_BUILD                     "8327"
 #define ASH_PLUGIN_VERSION            "1.18"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
@@ -605,7 +605,7 @@ int RedAlivePlayers;
 int RoundCount;
 int Special;
 int Incoming;
-int TEMP_SpyCaDTimer[MAXPLAYERS+1];
+//int TEMP_SpyCaDTimer[MAXPLAYERS+1];
 int TEMP_SpySaPTimer[MAXPLAYERS+1];
 int g_iOffsetModelScale;
 bool BlockDamage[MAXPLAYERS+1];
@@ -649,7 +649,7 @@ float DeadRinger_ManualActivation[MAXPLAYERS+1] = 0.0;
 // UPD: 01.04.2016
 bool InfectPlayers[MAXPLAYERS+1] = false;
 bool ImmunityClient[MAXPLAYERS+1] = false;
-int spyTimeInvis[MAXPLAYERS+1] = 0;
+//int spyTimeInvis[MAXPLAYERS+1] = 0;
 int SniperActivity[MAXPLAYERS+1] = 0;
 int SniperNoMimoShoots[MAXPLAYERS+1] = 0;
 int SpecialWeapon = -1;
@@ -2776,8 +2776,10 @@ public Action MakeNoHale(Handle hTimer, any clientid)
     weapon = GetPlayerWeaponSlot(client, 4);
     if (weapon > MaxClients && IsValidEdict(weapon) && GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 60)
     {
+        /*TF2_RemoveWeaponSlot(client, 4);
+        SpawnWeapon(client, "tf_weapon_invis", 60, 1, 0, "292 ; 58 ; 728 ; 1 ; 83 ; -9999.0 ; 109 ; 0.70 ; 253 ; 1.0");*/
         TF2_RemoveWeaponSlot(client, 4);
-        SpawnWeapon(client, "tf_weapon_invis", 60, 1, 0, "292 ; 58 ; 728 ; 1 ; 83 ; -9999.0 ; 109 ; 0.70 ; 253 ; 1.0");
+        SpawnWeapon(client, "tf_weapon_invis", 30, 1, 6, "");
     }
     if (TF2_GetPlayerClass(client) == TFClass_Medic)
     {
@@ -3377,8 +3379,8 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                         s_bPreventDeadringEffects[client] = true;
                         RequestFrame(Frame_AllowDeadringEffects, client);
                     }
-                    case 60: // Dagger
-                        TF2Attrib_SetByDefIndex(client, 109, 0.1);
+                    /*case 60: // Dagger
+                        TF2Attrib_SetByDefIndex(client, 109, 0.1);*/
                 }	
             }
             case TFCond_DeadRingered, TFCond_SpeedBuffAlly: //, TFCond:102
