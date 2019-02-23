@@ -1,6 +1,7 @@
 # Запрещаем все инклуды и батник
 include/*
 *.bat
+AIM.sp
 
 # Разрешаем инклуду режима
 !include/advancedsaxtonhale.inc
