@@ -1288,9 +1288,24 @@ public Action event_sapped(Handle event, const char[] name, bool dontBroadcast) 
     return Plugin_Continue;
 }
 
+// Update Fov
+stock void UpdateFOV(int iClient) {
+    g_iPlayerDesiredFOV[iClient] = 90;
+    
+    if (!IsFakeClient(iClient))
+        QueryClientConVar(iClient, "fov_desired", OnClientGetDesiredFOV);
+}
+
+public void OnClientGetDesiredFOV(QueryCookie cookie, int iClient, ConVarQueryResult result, const char[] cvarName, const char[] cvarValue)
+{
+    if (!IsValidClient(iClient)) return;
+    
+    g_iPlayerDesiredFOV[iClient] = StringToInt(cvarValue);
+}
+
 // SourceMod events
 public void OnClientPostAdminCheck(int client) {
-    AIM_UpdateFOV(client);
+    UpdateFOV(client);
     UTIL_Cleanup(client);
     UTIL_Hook(client);
 }
@@ -1298,7 +1313,6 @@ public void OnClientPostAdminCheck(int client) {
 public void OnClientDisconnect(int client) {
     UTIL_Cleanup(client);
     UTIL_UnHook(client);
-    AIM_Unhook(client);
     if (g_bEnabled)
     {
         if (client == Hale)
@@ -1402,22 +1416,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
                     LastSound = 0.0;
                 }
             } 
-        }
-    } else if (g_bEnabled && IsClientConnected(client)) {
-        if (IsClientSourceTV(client)) {
-            TFClassType iClass = TF2_GetPlayerClass(client);
-            char sWeapon[64];
-            GetClientWeapon(client, sWeapon, sizeof(sWeapon));
-
-            // Check for, and disable aiming for sapper's, medigun's, and wrench's
-            if(StrEqual(sWeapon, "tf_weapon_sapper", false) || StrEqual(sWeapon, "tf_weapon_builder", false) || StrEqual(sWeapon, "tf_weapon_medigun", false) || StrEqual(sWeapon, "tf_weapon_wrench", false))
-                return Plugin_Continue;
-
-            g_bToHead[client] = UTIL_ShouldAimToHead(iClass, sWeapon, g_iActiveWeapon[client]);
-            AimTick(client, buttons, angles, vel);
-            
-            return Plugin_Changed;
-        
         }
     }
     return Plugin_Continue;
@@ -2553,7 +2551,6 @@ public void OnPluginStart() {
     UTIL_LoadTranslations();
     UTIL_MakeMultiTarget();
     UTIL_LookupOffsets();
-    UTIL_PrepareCalls();
     UTIL_MakeCommands();
     UTIL_MakeConVars();
     UTIL_LoadConfig();
@@ -2704,7 +2701,7 @@ public Action Timer_Announce(Handle hTimer)
         switch (announcecount)
         {
             case 1:        CPrintToChatAll("{ash}[ASH] {default}VS Saxton Hale group: {ash}http://steamcommunity.com/groups/vssaxtonhale");
-            case 3:        CPrintToChatAll(" \n{ash}ASH v%s {default}by {olive}NITROYUASH {default}, {selfmade}CrazyHackGUT, {selfmade}FeedBlack {default}& {lightsteelblue}G44 Group\n{default}Based on {ash}VSH v%s {default}by {olive}Rainbolt Dash{default}, {olive}FlaminSarge {default}& {lightsteelblue}Chdata{default}.\n ", ASH_PLUGIN_VERSION, VSH_PLUGIN_VERSION);
+            case 3:        CPrintToChatAll(" \n{ash}ASH v%s {default}by {olive}NITROYUASH {default}, {selfmade}CrazyHackGUT , {selfmade}FeedBlack {default}& {lightsteelblue}G44 Group\n{default}Based on {ash}VSH v%s {default}by {olive}Rainbolt Dash{default}, {olive}FlaminSarge {default}& {lightsteelblue}Chdata{default}.\n ", ASH_PLUGIN_VERSION, VSH_PLUGIN_VERSION);
             case 5:
             {
                 announcecount = 0;

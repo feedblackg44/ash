@@ -955,7 +955,7 @@ public Action ClientTimer(Handle hTimer)
                     break;
                 }
             }
-            bool addthecrit = UTIL_IsAIMEnabled(client);
+            bool addthecrit = false;
             if (validwep && weapon == GetPlayerWeaponSlot(client, TFWeaponSlot_Melee))  //&& index != 4 && index != 194 && index != 225 && index != 356 && index != 461 && index != 574) addthecrit = true; //class != TFClass_Spy
             {
                 //slightly longer check but makes sure that any weapon that can backstab will not crit (e.g. Saxxy)

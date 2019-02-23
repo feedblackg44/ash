@@ -13,7 +13,7 @@
     Authors:
 
         CrazyHackGUT - Creating this [s]shitty[/s] awesome code.
-        NITROUIH - Something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
+        NITROYUASH - Something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
         FeedBlack - Continued development of this plugin after CrazyHackGUT has leaved Dev Team.
 
     Special for G44: http://steamcommunity.com/groups/garage44tf2
@@ -612,6 +612,7 @@ bool BlockDamage[MAXPLAYERS+1];
 int AQUACURE_EntShield[MAXPLAYERS+1];
 int g_iFidovskiyFix[MAXPLAYERS+1];
 int g_iTauntedSpys[MAXPLAYERS+1];
+int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
@@ -3615,7 +3616,6 @@ public Action UseSpyRage(Handle hTimer, int client)
         return Plugin_Continue;
     if (!GetEntProp(client, Prop_Send, "m_bIsReadyToHighFive") && !IsValidEntity(GetEntPropEnt(client, Prop_Send, "m_hHighFivePartner")))
     {
-        //UTIL_SwitchAIM(client, true);
         TF2_RemoveCondition(client, TFCond_Taunting);
         MakeModelTimer(null);
         float pPos[3] = {0.0, 0.0, 10.0};
@@ -3796,7 +3796,6 @@ public Action SpySoundRageEnd(Handle hTimer, int client)
     Format(s, PLATFORM_MAX_PATH, "weapons/weapon_crit_charged_off.wav");
     EmitSoundToAll(s, client, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, client, NULL_VECTOR, NULL_VECTOR, false, 0.0);
     g_iTauntedSpys[client] = 0;
-    UTIL_SwitchAIM(client, false);
     return Plugin_Continue;
 }
 
@@ -8724,7 +8723,6 @@ stock int TF2_GetPlayerMaxHealth(int client) {
 }
 
 #include "ASH/API.sp"
-#include "ASH/AIM.sp"
 #include "ASH/UTIL.sp"
 #include "ASH/Logic.sp"
 #include "ASH/Events.sp"

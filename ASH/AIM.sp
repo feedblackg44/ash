@@ -12,7 +12,7 @@ stock void AIM_Unhook(int iClient) {
     SDKUnhook(iClient, SDKHook_WeaponSwitchPost, OnWeaponSwitch);
 }
 
-stock void AIM_UpdateFOV(int iClient) {
+stock void UpdateFOV(int iClient) {
     g_iPlayerDesiredFOV[iClient] = 90;
     
     if (!IsFakeClient(iClient))
