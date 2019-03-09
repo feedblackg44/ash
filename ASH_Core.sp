@@ -21,8 +21,8 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8328"
-#define ASH_PLUGIN_VERSION            "1.18"
+#define ASH_BUILD                     "8330"
+#define ASH_PLUGIN_VERSION            "1.19"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
 // ASH Settings
@@ -2461,11 +2461,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.15 ; 6 ; 0.80", true);
         }
-        case 5, 195, 1013, 1028,                                    	// DEFAULT MELEE WEAPONS BUFF (HEAVY)
-             197, 662, 795, 804, 884, 893, 902, 911, 960, 969,        	// DEFAULT MELEE WEAPONS BUFF (ENGINEER)
+        case 5, 195, 1013, 1027,                                    		// DEFAULT MELEE WEAPONS BUFF (HEAVY)
              6, 196,                                                    	// DEFAULT MELEE WEAPONS BUFF (SOLDIER)
              2, 192,                                                    	// DEFAULT MELEE WEAPONS BUFF (PYRO)
-             0, 190, 660, 30667:                                         	// DEFAULT MELEE WEAPONS BUFF (SCOUT)
+             0, 190, 660, 30667:                                         			// DEFAULT MELEE WEAPONS BUFF (SCOUT)
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20", true);
         }
@@ -2481,11 +2480,11 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20 ; 150 ; 1", true);
         }
-        case 264, 474, 880, 939, 954, 1123, 1127: 								// DEFAULT MELEE WEAPONS BUFF (MULTI-CLASS)
+        case 264, 474, 880, 939, 954, 1123, 1127, 30758: 								// DEFAULT MELEE WEAPONS BUFF (MULTI-CLASS)
         {
             if (iClass == TFClass_Spy)
             {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.80", true);
+                hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.8", true);
             }
             if (iClass == TFClass_Medic)
             {
@@ -2499,7 +2498,11 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "236 ; 1 ; 2 ; 1.15 ; 6 ; 0.80", true);
             }
-            else
+            if (iClass == TFClass_Engineer)
+			{
+                hItemOverride = PrepareItemHandle(hItem, _, _, "80 ; 2 ; 2 ; 1.20", true);
+            }
+			else
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20", true);
             }
@@ -2531,7 +2534,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1 ; 344 ; 3.0 ; 148 ; 0.77 ; 790 ; 1.3", true);
         }
-	    case 7: // Wrench
+	    case 7, 197, 662, 795, 804, 884, 893, 902, 911, 960, 969: // Wrench
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "80 ; 2 ; 2 ; 1.20", true);
         }
