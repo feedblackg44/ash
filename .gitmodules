@@ -1,0 +1,3 @@
+[submodule "game_content"]
+	path = game_content
+	url = git@bitbucket.org:Kruzefag/ash_content.git
