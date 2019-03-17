@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8330"
+#define ASH_BUILD                     "8331"
 #define ASH_PLUGIN_VERSION            "1.19"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
@@ -58,7 +58,9 @@
 // New syntax
 #pragma newdecls required
 
+#if defined _SteamWorks_Included
 bool g_bSteamWorksIsRunning = false;
+#endif
 
 #define CBS_MAX_ARROWS 4
 
@@ -1003,10 +1005,12 @@ public Plugin myinfo = {
 };
 
 // Check for whether or not optional plugins are running and relay that info to ASH.
+#if defined _SteamWorks_Included
 public void OnAllPluginsLoaded()
 {
     g_bSteamWorksIsRunning    = LibraryExists("SteamWorks");
 }
+#endif
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
