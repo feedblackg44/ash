@@ -1378,7 +1378,7 @@ public void OnClientDisconnect(int client) {
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon)
 {
-    //Ext_BlockSpectatingOnAnotherTeam(client);
+    Ext_BlockSpectatingOnAnotherTeam(client);
 
     if (g_bEnabled && client == Hale)
     {
