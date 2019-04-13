@@ -311,14 +311,31 @@ public Action ClientTimer(Handle hTimer)
             {
                 if (IsPlayerAlive(client) && !TF2_IsPlayerInCondition(client, TFCond_Cloaked))
                 { 
+                    int iHealth;
+                    if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) 
+                    {
+                        iHealth = 2;
+                    }
+                    else if(GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 461)
+                    {
+                        iHealth = 3;
+                    }
+                    else 
+                    {
+                        iHealth = 4;
+                    }
                     if (TEMP_SpySaPTimer[client] == 10)
                     {
                         int MaxHP = 125; 
-                        if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) MaxHP = 65; 
+                        if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) MaxHP = 70; 
                         else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 461) MaxHP = 100;
                         if (GetEntProp(client, Prop_Send, "m_iHealth") < MaxHP)
                         {
-                            SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth")+1);
+                            if (MaxHP - GetEntProp(client, Prop_Send, "m_iHealth") < iHealth)
+                            {   
+                                iHealth = MaxHP - GetEntProp(client, Prop_Send, "m_iHealth");
+                            }
+                            SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth")+iHealth);
                             if (GetEntProp(client, Prop_Send, "m_iHealth") > MaxHP) SetEntProp(client, Prop_Send, "m_iHealth", MaxHP);
                         }
                         TEMP_SpySaPTimer[client] = 0;
