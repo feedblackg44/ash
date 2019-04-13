@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8333"
+#define ASH_BUILD                     "8334"
 #define ASH_PLUGIN_VERSION            "1.19"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
@@ -2047,6 +2047,12 @@ void EquipSaxton(int client)
             if (IsHologram(client))
                 CreateTimer(0.3, SpawnObossador, client);
         }
+        case ASHSpecial_MiniHale:
+        {
+            char attribs[64];
+            FormatEx(attribs, sizeof(attribs), "68 ; 2.0 ; 2 ; 3.1 ; 259 ; 1.0 ; 551 ; %i ; 214 ; %d", !IsDate(Month_Oct, 15), GetRandomInt(9999, 99999));
+            SaxtonWeapon = SpawnWeapon(client, "tf_weapon_shovel", 5, 100, TFQual_Strange, attribs);
+        }
         default:
         {
             char attribs[64];
@@ -2249,7 +2255,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 1151: // Iron Bomber
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.50 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
         }
         case 308: // Loch-n-Load
         {
@@ -2323,9 +2329,9 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "138 ; 0.80 ; 436 ; 1 ; 438 ; 1 ; 26 ; 30 ; 109 ; 0.34 ; 69 ; 0.34 ; 275 ; 1", true);
         }
-        case 312: // Bet
+        case 312: // Brass Beast
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.85 ; 86 ; 1.5 ; 183 ; 0.4 ; 738 ; 0.80 ; 293 ; 0 ; 551 ; 1 ; 26 ; 100 ; 15 ; 0 ; 288 ; 1 ; 37 ; 1.5", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.65 ; 86 ; 1.5 ; 183 ; 0.4 ; 738 ; 0.80 ; 293 ; 0 ; 551 ; 1 ; 26 ; 100 ; 15 ; 0 ; 288 ; 1 ; 37 ; 1.5", true);
         }
         case 527: // Widowmaker
         {
@@ -2536,7 +2542,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 329: // Jag
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.1 ; 344 ; 3.0 ; 148 ; 0.77 ; 790 ; 1.3", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.2 ; 344 ; 3.0 ; 148 ; 0.77 ; 790 ; 1.3", true);
         }
 	    case 7, 197, 662, 795, 804, 884, 893, 902, 911, 960, 969: // Wrench
         {
@@ -2549,6 +2555,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         case 589: // Eureka Effect
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "790 ; 0.5 ; 92 ; 0.5 ; 732 ; 0.8 ; 276 ; 1", true);
+        }
+        case 996: // Loose Cannon
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "4 ; 1.2 ; 103 ; 1.2 ; 466 ; 1 ; 467 ; 1", true);
         }
     }
 

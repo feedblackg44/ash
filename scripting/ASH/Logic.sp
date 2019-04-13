@@ -1188,8 +1188,8 @@ public Action HaleTimer(Handle hTimer)
         TF2_StunPlayer(Hale, 1.00, 0.08, TF_STUNFLAG_SLOWDOWN);
     if (TF2_IsPlayerInCondition(Hale, TFCond_Bleeding))
         TF2_RemoveCondition(Hale, TFCond_Bleeding);
-    if (TF2_IsPlayerInCondition(Hale, TFCond_Jarated) && Special != ASHSpecial_Agent)
-        TF2_RemoveCondition(Hale, TFCond_Jarated);
+    /*if (TF2_IsPlayerInCondition(Hale, TFCond_Jarated) && Special != ASHSpecial_Agent)
+        TF2_RemoveCondition(Hale, TFCond_Jarated);*/
     if (TF2_IsPlayerInCondition(Hale, TFCond_Disguised) && Special != ASHSpecial_Agent)
         TF2_RemoveCondition(Hale, TFCond_Disguised);
     if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(15)) && isHaleStunBanned)
