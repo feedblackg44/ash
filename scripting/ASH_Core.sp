@@ -48,7 +48,7 @@
 #include <nextmap>
 #include <advancedsaxtonhale>
 #include <tf2attributes>
-//#include <tf2wearables>
+#include <tf2wearables>
 //#include <collisionhook>
 
 #undef REQUIRE_EXTENSIONS
