@@ -2065,7 +2065,7 @@ void EquipSaxton(int client)
 }
 
 public Action SpawnObossador(Handle hTimer, any client) {
-    SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", SpawnWeapon(client, "tf_weapon_revolver", 61, 100, TFQual_Strange, "51 ; 1 ; 1 ; 0.85 ; 5 ; 1.2 ; 15 ; 0"));
+    SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", SpawnWeapon(client, "tf_weapon_revolver", 61, 100, TFQual_Strange, "51 ; 1 ; 1 ; 0.85 ; 5 ; 1.2 ; 15 ; 0 ; 275 ; 1"));
     CreateTimer(0.1, ReturnKnife, client);
 }
 
@@ -2494,7 +2494,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             if (iClass == TFClass_Spy)
             {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.8", true);
+                hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.80", true);
             }
             if (iClass == TFClass_Medic)
             {

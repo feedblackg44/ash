@@ -54,7 +54,7 @@ public Action ClientTimer(Handle hTimer)
                     if (BushmanRules > MaxClients)
                         AcceptEntityInput(BushmanRules, "Kill");
                     
-                    BushmanRules = SpawnWeapon(client, "tf_weapon_club", 232, 100, TFQual_Unusual, "236 ; 1 ; 1 ; 0");
+                    BushmanRules = SpawnWeapon(client, "tf_weapon_club", 232, 100, TFQual_Unusual, "236 ; 1 ; 1 ; 0 ; 75 ; 1.35");
                     SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", BushmanRules);
                 }
                 
@@ -1127,7 +1127,7 @@ public Action HaleTimer(Handle hTimer)
 
             GetClientEyePosition(Player, PlayerPos);
 
-            if (GetVectorDistance(AgentPos, PlayerPos) < 500.0) {
+            if (GetVectorDistance(AgentPos, PlayerPos) < 1800.0) {
                 if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) TF2_RemoveCondition(Hale, view_as<TFCond>(64));
                 break;
             } else if (!TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) TF2_AddCondition(Hale, view_as<TFCond>(64));

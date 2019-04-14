@@ -1041,10 +1041,10 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
         CreateTimer(2.0, RemoveBurn, Hale);
     }
 
-    if (client != Hale && IsHologram(attacker) && client != attacker && attacker != 0) {
+    /*if (client != Hale && IsHologram(attacker) && client != attacker && attacker != 0) {
         if (GetRandomInt(0, 100) <= 25)
             TF2_StunPlayer(client, 1.3, 0.0, TF_STUNFLAG_BONKSTUCK|TF_STUNFLAG_NOSOUNDOREFFECT, attacker);
-    }
+    }*/
 
     if (client != Hale && !IsHologram(client)) return Plugin_Continue;
     
@@ -1459,7 +1459,6 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
 //    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
     
     // Airshots for Demo's Loch'n'Load
-    
     char sAttackerObject[128];
     GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
     
@@ -1497,6 +1496,8 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 329 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && StrEqual(sAttackerObject, "obj_sentrygun")) {
         TF2_AddCondition(Hale, TFCond_MarkedForDeath, 4.0);
     }
+    
+    if (attacker > 0 && attacker <= MaxClients && Special == ASHSpecial_Agent && TF2_IsPlayerInCondition(client, TFCond_Cloaked)) damage = damage * 1.4;
     
     //Sandman stun ball
     if (attacker > 0 && attacker <= MaxClients && attacker != client) {
@@ -1616,7 +1617,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     float vPos[3];
     GetEntPropVector(attacker, Prop_Send, "m_vecOrigin", vPos);
     
-    if ((attacker == Hale) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
+    if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
         char InflictorName[64];
         GetEntityClassname(inflictor, InflictorName, 64);
         if (!StrEqual(InflictorName, "tf_projectile_pipe")) {

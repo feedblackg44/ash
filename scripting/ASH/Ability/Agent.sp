@@ -69,7 +69,7 @@ public Action ChangeAbilityMode(Handle hTimer)
 
 void AbilityAgent_DoBombWait() {
     if (!hBombTimer)
-        hBombTimer = CreateTimer(3.0, ChangeAbilityMode);
+        hBombTimer = CreateTimer(4.0, ChangeAbilityMode);
     SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
     ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombwait");
 }
@@ -113,7 +113,7 @@ void AbilityAgent_DoSelect() {
 }
 
 void AbilityAgent_DoSap() {
-    if (TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Ubercharged)) AbilityAgent_Reset();
+    if (TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Ubercharged) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_UberchargedHidden) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Bonked) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_DefenseBuffed)) AbilityAgent_Reset();
     
     if (!IsClientInGame(g_iCurrentPlayer) || !IsPlayerAlive(g_iCurrentPlayer) || GetClientTeam(g_iCurrentPlayer) != OtherTeam) {
         AgentAbility_Explode();
@@ -156,7 +156,8 @@ void AgentAbility_Explode() {
     int iMaxHealth = UTIL_GetMaxHealthByClass(TF2_GetPlayerClass(g_iCurrentPlayer));
     GetEntPropVector(g_iCurrentPlayer, Prop_Send, "m_vecOrigin", vecBombPosition);
 
-    FakeClientCommand(g_iCurrentPlayer, "explode");
+    //FakeClientCommand(g_iCurrentPlayer, "explode");
+    SDKHooks_TakeDamage(g_iCurrentPlayer, 0, Hale, 39000, DMG_BLAST);
 
     int iDistance;
     float flDamage;
