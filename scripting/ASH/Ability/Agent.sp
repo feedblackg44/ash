@@ -125,7 +125,8 @@ void AbilityAgent_DoSap() {
         return;
     }
 
-    if (GetClientButtons(Hale) & IN_RELOAD) {
+    if (GetClientButtons(Hale) & IN_RELOAD) 
+    {
         AgentAbility_Explode();
 
         g_iCurrentAbilityMode = AGENT_WAIT;
@@ -157,25 +158,26 @@ void AgentAbility_Explode() {
     GetEntPropVector(g_iCurrentPlayer, Prop_Send, "m_vecOrigin", vecBombPosition);
 
     //FakeClientCommand(g_iCurrentPlayer, "explode");
-    if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
-        EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-        EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-        TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
-        TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
-        return Plugin_Continue;
+    if (RemoveDemoShield(g_iCurrentPlayer) || RemoveRazorback(g_iCurrentPlayer)) { // If the demo had a shield to break
+        EmitSoundToClient(g_iCurrentPlayer, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vecBombPosition, _, false);
+        EmitSoundToClient(Hale, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vecBombPosition, _, false);
+        TF2_AddCondition(g_iCurrentPlayer, TFCond_UberchargedHidden, 0.1);
+        TF2_AddCondition(g_iCurrentPlayer, TFCond_SpeedBuffAlly, 2.0);
     } 
     else 
     {
-        SDKHooks_TakeDamage(g_iCurrentPlayer, Hale, Hale, 39000, DMG_BLAST);
+        SDKHooks_TakeDamage(g_iCurrentPlayer, 0, 0, 39000.0, DMG_BLAST);
     }
+    
     int iDistance;
     float flDamage;
-
+   
     float BigBoom[3] = {0.0, 0.0, 0.0};
     AttachParticle(g_iCurrentPlayer, "hightower_explosion", 1.0, BigBoom, true);
     EmitSoundToAll("misc/rd_robot_explosion01.wav", _);
-
-    for (int iClient = MaxClients; iClient != 0; --iClient) {
+    
+    for (int iClient = MaxClients; iClient != 0; --iClient) 
+    {
         if (!IsClientInGame(iClient) || !IsPlayerAlive(iClient) || GetClientTeam(iClient) != OtherTeam)
             continue;
 

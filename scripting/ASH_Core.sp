@@ -1524,9 +1524,31 @@ public Action StartHaleTimer(Handle hTimer)
         if (BushmanRulesRound && IsPlayerAlive(iClient)) {
             TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Primary);
         }
-        if(IsPlayerAlive(iClient))
+        if (IsPlayerAlive(iClient))
         {
             g_iTauntedSpys[iClient] = 0;
+        }
+        if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
+        {
+            int iSlot = GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee);
+            switch(iSlot)
+            {
+                case 4, 194, 638, 665, 727, 794, 803, 883, 892, 901, 910, 959, 968, 15080, 15094, 15095, 15096, 15118, 15119, 15143, 15144:
+                {
+                    SetEntProp(iClient, Prop_Send, "m_CollisionGroup", 2);
+                }
+                default:
+                {
+                    if (GetEntProp(iClient, Prop_Send, "m_CollisionGroup") != 5)
+                    {
+                        CreateTimer(0.1, DisableCollision, iClient);
+                    }
+                }
+            }
+        }
+        else
+        {
+            CreateTimer(0.1, DisableCollision, iClient);
         }
     }
     
