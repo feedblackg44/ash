@@ -296,7 +296,7 @@ public Action ClientTimer(Handle hTimer)
             
             // Sapper 1
             spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
-            if (spyTemp > MaxClients && IsValidEdict(spyTemp)) 
+            if (spyTemp > MaxClients && IsValidEdict(spyTemp))
             {
                 spyTemp = GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex");
                 if (spyTemp == 735 || spyTemp == 736 || spyTemp == 933 || spyTemp == 1080 || spyTemp == 1102)
@@ -1015,7 +1015,7 @@ public Action ClientTimer(Handle hTimer)
             {
                 addthecrit = false;
             }
-            if (class == TFClass_DemoMan && !IsValidEntity(GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary)))
+            if (class == TFClass_DemoMan && /*!IsValidEntity(GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))*/)
             {
                 addthecrit = true;
 
