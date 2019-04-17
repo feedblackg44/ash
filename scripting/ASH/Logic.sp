@@ -1015,7 +1015,7 @@ public Action ClientTimer(Handle hTimer)
             {
                 addthecrit = false;
             }
-            if (class == TFClass_DemoMan && /*!IsValidEntity(GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))*/)
+            if (class == TFClass_DemoMan /*&& !IsValidEntity(GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))*/)
             {
                 addthecrit = true;
 
