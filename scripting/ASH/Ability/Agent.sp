@@ -157,8 +157,17 @@ void AgentAbility_Explode() {
     GetEntPropVector(g_iCurrentPlayer, Prop_Send, "m_vecOrigin", vecBombPosition);
 
     //FakeClientCommand(g_iCurrentPlayer, "explode");
-    SDKHooks_TakeDamage(g_iCurrentPlayer, 0, Hale, 39000, DMG_BLAST);
-
+    if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
+        EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+        EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+        TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
+        TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
+        return Plugin_Continue;
+    } 
+    else 
+    {
+        SDKHooks_TakeDamage(g_iCurrentPlayer, Hale, Hale, 39000, DMG_BLAST);
+    }
     int iDistance;
     float flDamage;
 
