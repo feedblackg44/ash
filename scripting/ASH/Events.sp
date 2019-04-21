@@ -1378,7 +1378,7 @@ public void OnClientDisconnect(int client) {
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon)
 {
-    Ext_BlockSpectatingOnAnotherTeam(client);
+    /*Ext_BlockSpectatingOnAnotherTeam(client);*/
 
     if (g_bEnabled && client == Hale)
     {
@@ -1558,7 +1558,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             return Plugin_Changed;
         }
         
-        if (client != attacker && TF2_IsPlayerInCondition(client, view_as<TFCond>(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, view_as<TFCond>(13)))
+        if (client != attacker && TF2_IsPlayerInCondition(client, view_as<TFCond>(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, view_as<TFCond>(13)) && GetEntProp(client, Prop_Send, "m_bFeignDeathReady") != 1)
         {
             float client_hp = float(TF2_GetPlayerMaxHealth(client));
             if (TF2_GetPlayerClass(client) != TFClass_Heavy) {
@@ -1662,6 +1662,12 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         {
             case TFClass_Spy:
             {
+                int j = GetEntProp(client, Prop_Send, "m_bFeignDeathReady");
+                if (j == 1)
+                {
+                    TF2_AddCondition(client, TFCond_SpeedBuffAlly, 4.0);
+                }
+                
                 if (damagecustom != TF_CUSTOM_BOOTS_STOMP)
                 {
                     if (GetEntProp(client, Prop_Send, "m_bFeignDeathReady") || TF2_IsPlayerInCondition(client, TFCond_Cloaked))

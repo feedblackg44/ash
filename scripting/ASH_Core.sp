@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8335"
+#define ASH_BUILD                     "8346"
 #define ASH_PLUGIN_VERSION            "1.19"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
@@ -48,7 +48,7 @@
 #include <nextmap>
 #include <advancedsaxtonhale>
 #include <tf2attributes>
-#include <tf2wearables>
+//#include <tf2wearables>
 //#include <collisionhook>
 
 #undef REQUIRE_EXTENSIONS
@@ -1528,14 +1528,14 @@ public Action StartHaleTimer(Handle hTimer)
         {
             g_iTauntedSpys[iClient] = 0;
         }
-        if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
+        /*if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
             int iSlot = GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee);
             switch(iSlot)
             {
                 case 4, 194, 638, 665, 727, 794, 803, 883, 892, 901, 910, 959, 968, 15080, 15094, 15095, 15096, 15118, 15119, 15143, 15144:
                 {
-                    SetEntProp(iClient, Prop_Send, "m_CollisionGroup", 2);
+                    SetEntProp(iClient, Prop_Send, "m_CollisionGroup", 1);
                 }
                 default:
                 {
@@ -1549,7 +1549,7 @@ public Action StartHaleTimer(Handle hTimer)
         else
         {
             CreateTimer(0.1, DisableCollision, iClient);
-        }
+        }*/
     }
     
     CreateTimer(0.1, GottamTimer);
@@ -2072,7 +2072,7 @@ void EquipSaxton(int client)
         case ASHSpecial_MiniHale:
         {
             char attribs[64];
-            FormatEx(attribs, sizeof(attribs), "68 ; 2.0 ; 2 ; 3.1 ; 259 ; 1.0 ; 551 ; %i ; 214 ; %d", !IsDate(Month_Oct, 15), GetRandomInt(9999, 99999));
+            FormatEx(attribs, sizeof(attribs), "536 ; 0.25 ; 68 ; 2.0 ; 2 ; 3.1 ; 259 ; 1.0 ; 551 ; %i ; 214 ; %d", !IsDate(Month_Oct, 15), GetRandomInt(9999, 99999));
             SaxtonWeapon = SpawnWeapon(client, "tf_weapon_shovel", 5, 100, TFQual_Strange, attribs);
         }
         default:
@@ -2512,54 +2512,54 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20 ; 150 ; 1", true);
         }
-        case 264, 474, 880, 939, 954, 1123, 1127, 30758: 								// DEFAULT MELEE WEAPONS BUFF (MULTI-CLASS)
-        {
-            if (iClass == TFClass_Spy)
-            {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.80", true);
-            }
-            if (iClass == TFClass_Medic)
-            {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.15 ; 6 ; 0.80", true);
-            }
-            if (iClass == TFClass_DemoMan)
-            {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "", true);
-            }
-            if (iClass == TFClass_Sniper)
-            {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "236 ; 1 ; 2 ; 1.15 ; 6 ; 0.80", true);
-            }
-            if (iClass == TFClass_Engineer)
-			{
-                hItemOverride = PrepareItemHandle(hItem, _, _, "80 ; 2 ; 2 ; 1.20", true);
-            }
-			else
-            {
-                hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20", true);
-            }
-        }
         case 1071: // Golden Frying Pan
         {
             if (iClass == TFClass_Spy)
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.80 ; 150 ; 1", true);
             }
-            if (iClass == TFClass_Medic)
+            else if (iClass == TFClass_Medic)
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.15 ; 6 ; 0.80 ; 150 ; 1", true);
             }
-            if (iClass == TFClass_DemoMan)
+            else if (iClass == TFClass_DemoMan)
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "150 ; 1", true);
             }
-            if (iClass == TFClass_Sniper)
+            else if (iClass == TFClass_Sniper)
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "236 ; 1 ; 2 ; 1.15 ; 6 ; 0.80", true);
             }
             else
             {
                 hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20 ; 150 ; 1", true);
+            }
+        }
+        case 264, 474, 880, 939, 954, 1123, 1127, 30758: 								// DEFAULT MELEE WEAPONS BUFF (MULTI-CLASS)
+        {
+            if (iClass == TFClass_Spy)
+            {
+                hItemOverride = PrepareItemHandle(hItem, _, _, "6 ; 0.80", true);
+            }
+            else if (iClass == TFClass_Medic)
+            {
+                hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.15 ; 6 ; 0.80", true);
+            }
+            else if (iClass == TFClass_DemoMan)
+            {
+                hItemOverride = PrepareItemHandle(hItem, _, _, "", true);
+            }
+            else if (iClass == TFClass_Sniper)
+            {
+                hItemOverride = PrepareItemHandle(hItem, _, _, "236 ; 1 ; 2 ; 1.15 ; 6 ; 0.80", true);
+            }
+            else if (iClass == TFClass_Engineer)
+			{
+                hItemOverride = PrepareItemHandle(hItem, _, _, "80 ; 2 ; 2 ; 1.20", true);
+            }
+			else
+            {
+                hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20", true);
             }
         }
         case 329: // Jag
@@ -3423,13 +3423,13 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                         TF2Attrib_SetByDefIndex(client, 109, 0.1);*/
                 }	
             }
-            case TFCond_DeadRingered, TFCond_SpeedBuffAlly: //, TFCond:102
+            /*case TFCond_DeadRingered, TFCond_SpeedBuffAlly: //, TFCond:102
             {
                 if (s_bPreventDeadringEffects[client])
                 {
                     TF2_RemoveCondition(client, cond);
                 }
-            }
+            }*/
             case TFCond_Ubercharged:
             {
                 if (TF2_GetPlayerClass(client) != TFClass_Medic) return;
