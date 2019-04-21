@@ -1462,7 +1462,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     char sAttackerObject[128];
     GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
     
-    if (attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_DemoMan && IsPlayerInAir(Hale) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 308 && SpecialPlayers_LastActiveWeapons[attacker] == GetPlayerWeaponSlot(attacker, TFWeaponSlot_Primary) && StrEqual(sAttackerObject, "tf_projectile_pipe")) {
+    if (attacker > 0 && attacker <= MaxClients && attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_DemoMan && IsPlayerInAir(Hale) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 308 && SpecialPlayers_LastActiveWeapons[attacker] == GetPlayerWeaponSlot(attacker, TFWeaponSlot_Primary) && StrEqual(sAttackerObject, "tf_projectile_pipe")) {
         if (SpecialSoldier_Airshot[attacker] && TF2_IsPlayerInCondition(Hale, TFCond_BlastJumping)) {
             TF2_StunPlayer(Hale, 4.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
             SpecialSoldier_Airshot[attacker] = false;
@@ -2416,7 +2416,7 @@ public void OnConfigsExecuted()
     if (PointDelay < 0) PointDelay *= -1;
     AliveToEnable = GetConVarInt(cvarAliveToEnable);
     haleCrits = GetConVarBool(cvarCrits);
-    bDemoShieldCrits = GetConVarBool(cvarDemoShieldCrits);
+    //bDemoShieldCrits = GetConVarBool(cvarDemoShieldCrits);
     bAlwaysShowHealth = GetConVarBool(cvarDisplayHaleHP);
     newRageSentry = GetConVarBool(cvarRageSentry);
     if (IsSaxtonHaleMap() && GetConVarBool(cvarEnabled))
@@ -2674,8 +2674,8 @@ public void CvarChange(Handle convar, char[] oldValue, char[] newValue)
         AliveToEnable = GetConVarInt(convar);
     else if (convar == cvarCrits)
         haleCrits = GetConVarBool(convar);
-    else if (convar == cvarDemoShieldCrits)
-        bDemoShieldCrits = GetConVarBool(cvarDemoShieldCrits);
+    /*else if (convar == cvarDemoShieldCrits)
+        bDemoShieldCrits = GetConVarBool(cvarDemoShieldCrits);*/
     else if (convar == cvarDisplayHaleHP)
         bAlwaysShowHealth = GetConVarBool(cvarDisplayHaleHP);
     else if (convar == cvarRageSentry)

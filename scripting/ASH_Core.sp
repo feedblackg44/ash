@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8346"
+#define ASH_BUILD                     "8359"
 #define ASH_PLUGIN_VERSION            "1.19"
 #define ASH_PLUGIN_RELDATE            "01 December 2018"
 
@@ -887,7 +887,7 @@ Handle cvarPointType;
 Handle cvarCrits;
 Handle cvarRageSentry;
 Handle cvarFirstRound;
-Handle cvarDemoShieldCrits;
+//Handle cvarDemoShieldCrits;
 Handle cvarDisplayHaleHP;
 
 Handle cvarEnableEurekaEffect;
@@ -927,7 +927,7 @@ bool bSpecials = true;
 int AliveToEnable = 5;
 int PointType = 0;
 bool haleCrits = false;
-bool bDemoShieldCrits = false;
+/*bool bDemoShieldCrits = false;*/
 bool bAlwaysShowHealth = true;
 bool newRageSentry = true;
 //Float:circuitStun = 0.0;
@@ -3287,7 +3287,15 @@ public Action InfectiionDamage(Handle hTimer, any InfectedClient) {
     if (!InfectPlayers[InfectedClient]) return Plugin_Stop;
     float INFECT_POS[3] = {0.0, 0.0, 92.0};
     AttachParticle(InfectedClient, "powerup_icon_plague", 1.0, INFECT_POS, true);
-    SDKHooks_TakeDamage(InfectedClient, InfectedClient, InfectedClient, 7.5, DMG_CLUB, 0);
+    if(!ManmelterBan[InfectedClient] && TF2_GetPlayerClass(InfectedClient) == TFClass_Pyro && plManmelterUsed[InfectedClient] == 100 && GetIndexOfWeaponSlot(InfectedClient, TFWeaponSlot_Secondary) == 595 && IntToFloat(GetEntProp(InfectedClient, Prop_Send, "m_iHealth")) <= 8.0)
+    {
+        TF2_OnPyroSecondChance(InfectedClient);
+        CreateTimer(0.1, DisableInfection, InfectedClient);
+    }  
+    else
+    {
+        SDKHooks_TakeDamage(InfectedClient, Hale, Hale, 8.0, DMG_CLUB, 0);
+    }
     return Plugin_Continue;
 }
 

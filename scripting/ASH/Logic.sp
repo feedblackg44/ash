@@ -54,7 +54,7 @@ public Action ClientTimer(Handle hTimer)
                     if (BushmanRules > MaxClients)
                         AcceptEntityInput(BushmanRules, "Kill");
                     
-                    BushmanRules = SpawnWeapon(client, "tf_weapon_club", 232, 100, TFQual_Unusual, "236 ; 1 ; 1 ; 0 ; 75 ; 1.35");
+                    BushmanRules = SpawnWeapon(client, "tf_weapon_club", 232, 100, TFQual_Unusual, "236 ; 1 ; 1 ; 0 ; 107 ; 1.35");
                     SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", BushmanRules);
                 }
                 
@@ -1019,9 +1019,13 @@ public Action ClientTimer(Handle hTimer)
             {
                 addthecrit = true;
 
-                if (!bDemoShieldCrits && GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") != GetPlayerWeaponSlot(client, TFWeaponSlot_Melee))
+                if (/*!bDemoShieldCrits &&*/ GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") != GetPlayerWeaponSlot(client, TFWeaponSlot_Melee) && GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") != GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))
                 {
                     cond = TFCond_Buffed;
+                }
+                else if (GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") == GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))
+                {
+                    cond = TFCond_Jarated;
                 }
             }
 
@@ -1030,7 +1034,8 @@ public Action ClientTimer(Handle hTimer)
             if (iPlayerClass == TFClass_Heavy && IsWeaponSlotActive(client, TFWeaponSlot_Secondary)) { addthecrit = true; cond = TFCond_HalloweenCritCandy; }
             if (IsWeaponSlotActive(client, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 152) { addthecrit = false; cond = TFCond_BlastJumping; }
             
-            if (addthecrit) {
+            if (addthecrit && cond != TFCond_Jarated) 
+            {
                 TF2_AddCondition(client, cond, 0.3);
                 if (addmini && cond != TFCond_Buffed) TF2_AddCondition(client, TFCond_Buffed, 0.3);
             }

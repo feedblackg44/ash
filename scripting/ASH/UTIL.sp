@@ -78,7 +78,7 @@ void UTIL_MakeConVars() {
     cvarSpecials = CreateConVar("hale_specials", "1", "Enable Special Rounds (Vagineer, HHH, CBS)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnabled = CreateConVar("hale_enabled", "1", "Do you really want set it to 0?", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarCrits = CreateConVar("hale_crits", "0", "Can Hale get crits?", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarDemoShieldCrits = CreateConVar("hale_shield_crits", "0", "Does Demoman's shield grant crits (1) or minicrits (0)?", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    //cvarDemoShieldCrits = CreateConVar("hale_shield_crits", "0", "Does Demoman's shield grant crits (1) or minicrits (0)?", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarDisplayHaleHP = CreateConVar("hale_hp_display", "1", "Display Hale Health at all times.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarRageSentry = CreateConVar("hale_ragesentrydamagemode", "1", "If 0, to repair a sentry that has been damaged by rage, the Engineer must pick it up and put it back down.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarFirstRound = CreateConVar("hale_first_round", "0", "Disable(0) or Enable(1) ASH in 1st round.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
@@ -106,7 +106,7 @@ void UTIL_MakeConVars() {
     HookConVarChange(cvarPointDelay, CvarChange);
     HookConVarChange(cvarAliveToEnable, CvarChange);
     HookConVarChange(cvarCrits, CvarChange);
-    HookConVarChange(cvarDemoShieldCrits, CvarChange);
+    //HookConVarChange(cvarDemoShieldCrits, CvarChange);
     HookConVarChange(cvarDisplayHaleHP, CvarChange);
     HookConVarChange(cvarRageSentry, CvarChange);
     //HookConVarChange(cvarCircuitStun, CvarChange);

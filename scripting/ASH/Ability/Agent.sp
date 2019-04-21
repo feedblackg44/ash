@@ -1,6 +1,8 @@
 static bool   g_bWaitUnpress;
 static int    g_iCurrentAbilityMode;
 static int    g_iCurrentPlayer;
+static bool   g_bCanExplode;
+int iSeconds;
 Handle hBombTimer = null;
 
 #define AGENT_WAIT          0
@@ -12,6 +14,7 @@ public Action AbilityAgent_ResetAction(Handle hTimer) {
     if (g_iCurrentAbilityMode == AGENT_SELECTING) {
     g_iCurrentAbilityMode = AGENT_WAIT;
     g_bWaitUnpress = true;
+    g_bCanExplode = false;
     iHaleSpecialPower = 0;
     g_iCurrentPlayer = 0;
     ASHStats[SpecialAbilities]++;
@@ -22,9 +25,21 @@ public Action AbilityAgent_ResetAction(Handle hTimer) {
 void AbilityAgent_Reset() {
     g_iCurrentAbilityMode = AGENT_WAIT;
     g_bWaitUnpress = true;
+    g_bCanExplode = false;
     iHaleSpecialPower = 0;
     g_iCurrentPlayer = 0;
     return;
+}
+
+public Action AbilityAgent_CanExplode(Handle hTimer)
+{
+    g_bCanExplode = true;
+    hBombTimer = null;
+}
+
+public Action iSecondsMinus(Handle hTimer)
+{
+    iSeconds--;
 }
 
 void AbilityAgent_RunLogic() {
@@ -69,9 +84,14 @@ public Action ChangeAbilityMode(Handle hTimer)
 
 void AbilityAgent_DoBombWait() {
     if (!hBombTimer)
-        hBombTimer = CreateTimer(4.0, ChangeAbilityMode);
+    {
+        iSeconds = 3;
+        hBombTimer = CreateTimer(3.0, ChangeAbilityMode);
+        CreateTimer(1.0, iSecondsMinus);
+        CreateTimer(2.0, iSecondsMinus);
+    }
     SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombwait");
+    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombwait", iSeconds);
 }
 
 void AbilityAgent_DoSelect() {
@@ -91,12 +111,6 @@ void AbilityAgent_DoSelect() {
         ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bomblocate", flDistance);
         return;
     }
-
-    if (TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged)) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
-        return;
-    }
     
     if (g_iFidovskiyFix[iClient] == 1) {
         SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
@@ -104,8 +118,34 @@ void AbilityAgent_DoSelect() {
         return;
     }
     
-    if (!TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged) && g_iFidovskiyFix[iClient] == 0) {
+    if (TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged)) {
+        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
+        return;
+    }
+    
+    if (TF2_IsPlayerInCondition(iClient, TFCond_UberchargedHidden)) {
+        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
+        return;
+    }
+    
+    if (TF2_IsPlayerInCondition(iClient, TFCond_Bonked)) {
+        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
+        return;
+    }
+    
+    if (TF2_IsPlayerInCondition(iClient, TFCond_DefenseBuffed)) {
+        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
+        return;
+    }
+    
+    if (g_iFidovskiyFix[iClient] == 0) 
+    {
         g_iCurrentAbilityMode = AGENT_SAPPED;
+        g_bCanExplode = false;
         g_iCurrentPlayer = iClient;
         CreateTimer(1.0, AbilityAgent_PlaySound, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
         ASHStats[SpecialAbilities]++;
@@ -115,29 +155,48 @@ void AbilityAgent_DoSelect() {
 void AbilityAgent_DoSap() {
     if (TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Ubercharged) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_UberchargedHidden) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Bonked) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_DefenseBuffed)) AbilityAgent_Reset();
     
+    if(!hBombTimer && !g_bCanExplode)
+    {
+        iSeconds = 4;
+        hBombTimer = CreateTimer(4.0, AbilityAgent_CanExplode);
+        CreateTimer(1.0, iSecondsMinus);
+        CreateTimer(2.0, iSecondsMinus);
+        CreateTimer(3.0, iSecondsMinus);
+    }
+    
+    float PlayerSapped[3] = {0.0, 0.0, 92.0};
+    AttachParticle(g_iCurrentPlayer, "powerup_icon_supernova", 1.0, PlayerSapped, true);
+
+    
     if (!IsClientInGame(g_iCurrentPlayer) || !IsPlayerAlive(g_iCurrentPlayer) || GetClientTeam(g_iCurrentPlayer) != OtherTeam) {
         AgentAbility_Explode();
         CPrintToChat(Hale, "{ash}[ASH] {default}%t", "ash_agent_bombfailed");
 
+        g_bCanExplode = false;
         g_iCurrentPlayer = 0;
         g_iCurrentAbilityMode = AGENT_WAIT;
         iHaleSpecialPower = 0;
         return;
     }
 
-    if (GetClientButtons(Hale) & IN_RELOAD) 
+    if (!g_bCanExplode)
+    {
+        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_waitexplode", iSeconds);
+        return;
+    }
+    
+    if ((GetClientButtons(Hale) & IN_RELOAD) && g_bCanExplode) 
     {
         AgentAbility_Explode();
 
         g_iCurrentAbilityMode = AGENT_WAIT;
         g_bWaitUnpress = true;
+        g_bCanExplode = false;
         iHaleSpecialPower = 0;
         g_iCurrentPlayer = 0;
         return;
     }
-    
-    float PlayerSapped[3] = {0.0, 0.0, 92.0};
-    AttachParticle(g_iCurrentPlayer, "powerup_icon_supernova", 1.0, PlayerSapped, true);
 
     SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
     SetGlobalTransTarget(Hale);
@@ -164,9 +223,13 @@ void AgentAbility_Explode() {
         TF2_AddCondition(g_iCurrentPlayer, TFCond_UberchargedHidden, 0.1);
         TF2_AddCondition(g_iCurrentPlayer, TFCond_SpeedBuffAlly, 2.0);
     } 
-    else 
+    else if(!ManmelterBan[g_iCurrentPlayer] && TF2_GetPlayerClass(g_iCurrentPlayer) == TFClass_Pyro && plManmelterUsed[g_iCurrentPlayer] == 100 && GetIndexOfWeaponSlot(g_iCurrentPlayer, TFWeaponSlot_Secondary) == 595)
     {
-        SDKHooks_TakeDamage(g_iCurrentPlayer, 0, 0, 39000.0, DMG_BLAST);
+        TF2_OnPyroSecondChance(g_iCurrentPlayer);
+    }    
+    else
+    {
+        SDKHooks_TakeDamage(g_iCurrentPlayer, Hale, Hale, 39000.0, DMG_BLAST);
     }
     
     int iDistance;
