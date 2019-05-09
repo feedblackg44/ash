@@ -890,6 +890,50 @@ Handle cvarFirstRound;
 //Handle cvarDemoShieldCrits;
 Handle cvarDisplayHaleHP;
 
+/*Handle cvarEnableJumper;
+Handle cvarEnableCloak;
+Handle cvarEnableSapper;
+
+Handle cvarEnableCBS;
+Handle cvarEnableHHH;
+Handle cvarEnableBunny;
+Handle cvarEnableVagineer;
+Handle cvarEnableAgent;
+Handle cvarEnableSecret1;
+
+Handle cvarEnableSecretCheats;
+
+Handle cvarTryhardDirecthit;
+Handle cvarTryhardMachina;
+Handle cvarTryhardLochnload;
+
+Handle cvarSpecial;
+Handle cvarSpecialRestrict;
+Handle cvarSpecialBoston;
+Handle cvarSpecialSoda;
+Handle cvarSpecialBabyFace;
+Handle cvarSpecialManmelter;
+Handle cvarSpecialNatascha;
+Handle cvarSpecialTomislav;
+Handle cvarSpecialHuo;
+Handle cvarSpecialBrassBeast;
+Handle cvarSpecialBuffalo;
+Handle cvarSpecialPistol;
+Handle cvarSpecialVita;
+Handle cvarSpecialAmputator;
+Handle cvarSpecialVow;
+Handle cvarSpecialSniperShield;
+Handle cvarSpecialBazaar;
+Handle cvarSpecialShiv;
+
+Handle cvarSpecialBoss;
+Handle cvarSpecialSaxton;
+Handle cvarSpecialCBS;
+Handle cvarSpecialHHH;
+Handle cvarSpecialVagineer;
+Handle cvarSpecialBunny;
+Handle cvarSpecialAgent;
+*/
 Handle cvarEnableEurekaEffect;
 Handle cvarForceHaleTeam;
 Handle PointCookie;
@@ -2425,7 +2469,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 230: // Sleeper
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.61 ; 42 ; 1 ; 15 ; 0 ; 41 ; 1.25", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.28 ; 42 ; 1 ; 15 ; 0 ; 41 ; 1.25 ; 175 ; 1", true);
         }
         case 526, 30665: // Machina
         {
@@ -4134,8 +4178,8 @@ public Action UseHeavyRageFour(Handle hTimer, int client)
             }*/
         
             float MedicResistFire[3] = {0.0, 0.0, 10.0};
-//            BlockDamage[client] = true;
-            TF2_AddCondition(client, TFCond_UberchargedHidden, 12.0);
+            BlockDamage[client] = true;
+            TF2_AddCondition(client, view_as<TFCond>(58), 12.0);
             AttachParticle(client, "medic_resist_fire", 12.0, MedicResistFire, true);            
             SetEntityGravity(client, 0.10);
             int iEntWeapon;
@@ -8059,7 +8103,7 @@ public Action AQUACURE_Disable(Handle hTimer, Handle hDP) {
     int iClient = ReadPackCell(hDP);
     //int iEntShield = ReadPackCell(hDP);
     delete hDP;
-//    BlockDamage[iClient] = false;
+    BlockDamage[iClient] = false;
 //    if (AQUACURE_EntShield[iClient] <= 0)
 //        return Plugin_Stop;
     if (IsValidClient(iClient)) {

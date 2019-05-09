@@ -1446,7 +1446,7 @@ public void OnPreThinkPost(int client)
 }
 
 public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom) {
-    if (BlockDamage[client] && AQUACURE_EntShield[client] > 0 && AQUACURE_EntShield[client] == client) {
+    if (BlockDamage[client]) {
         damage = 0.0;
         damagetype = 0;
         damagecustom = 0;

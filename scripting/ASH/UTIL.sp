@@ -68,12 +68,12 @@ void UTIL_MakeHooks() {
 void UTIL_MakeConVars() {
     cvarVersion = CreateConVar("hale_version", ASH_PLUGIN_VERSION, "VS Saxton Hale Version", FCVAR_VERSION);
     cvarBuild = CreateConVar("hale_build", ASH_BUILD, "Advanced Saxton Hale Build", FCVAR_VERSION);
-    cvarHaleSpeed = CreateConVar("hale_speed", "340.0", "Speed of Saxton Hale", FCVAR_NOTIFY);
+    cvarHaleSpeed = CreateConVar("hale_speed", "352.0", "Speed of Saxton Hale", FCVAR_NOTIFY);
     cvarPointType = CreateConVar("hale_point_type", "0", "Select condition to enable point (0 - alive players, 1 - time)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarPointDelay = CreateConVar("hale_point_delay", "6", "Addition (for each player) delay before point's activation.", FCVAR_NOTIFY);
-    cvarAliveToEnable = CreateConVar("hale_point_alive", "5", "Enable control points when there are X people left alive.", FCVAR_NOTIFY);
-    cvarRageDMG = CreateConVar("hale_rage_damage", "3500", "Damage required for Hale to gain rage", FCVAR_NOTIFY, true, 0.0);
-    cvarRageDist    = CreateConVar("hale_rage_dist", "800.0", "Distance to stun in Hale's rage. Vagineer and CBS are /3 (/2 for sentries)", FCVAR_NOTIFY, true, 0.0);
+    cvarAliveToEnable = CreateConVar("hale_point_alive", "0", "Enable control points when there are X people left alive.", FCVAR_NOTIFY);
+    cvarRageDMG = CreateConVar("hale_rage_damage", "2650", "Damage required for Hale to gain rage", FCVAR_NOTIFY, true, 0.0);
+    cvarRageDist    = CreateConVar("hale_rage_dist", "625.0", "Distance to stun in Hale's rage. Vagineer and CBS are /3 (/2 for sentries)", FCVAR_NOTIFY, true, 0.0);
     cvarAnnounce = CreateConVar("hale_announce", "120.0", "Info about mode will show every X seconds. Must be greater than 1.0 to show.", FCVAR_NOTIFY, true, 0.0);
     cvarSpecials = CreateConVar("hale_specials", "1", "Enable Special Rounds (Vagineer, HHH, CBS)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnabled = CreateConVar("hale_enabled", "1", "Do you really want set it to 0?", FCVAR_NOTIFY, true, 0.0, true, 1.0);
@@ -85,6 +85,50 @@ void UTIL_MakeConVars() {
     cvarEnableEurekaEffect = CreateConVar("hale_enable_eureka", "1", "1- allow Eureka Effect, else disallow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarForceHaleTeam = CreateConVar("hale_force_team", "0", "0- Use plugin logic, 1- random team, 2- red, 3- blue", FCVAR_NOTIFY, true, 0.0, true, 3.0);
     
+    /*cvarEnableJumper = CreateConVar("hale_enable_jumper", "0", "Enable rocket jumper and sticky jumper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableCloak = CreateConVar("hale_enable_cloak", "0", "Enable Cloak and Dagger", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableSapper = CreateConVar("hale_enable_sapper", "1", "Enable passive attributes of spy's sappers", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    
+    cvarEnableCBS = CreateConVar("hale_boss_cbs", "1", "Enable Christian Brutal Sniper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableHHH = CreateConVar("hale_boss_hhh", "1", "Enable Horseless Headless Horsemann", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableBunny = CreateConVar("hale_boss_bunny", "1", "Enable Easter Bunny", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableVagineer = CreateConVar("hale_boss_vagineer", "1", "Enable Vagineer", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableSapper = CreateConVar("hale_boss_agent", "1", "Enable Agent", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableSecret1 = CreateConVar("hale_boss_secret_1", "1", "Enable First Secret Boss", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    
+    cvarEnableSecretCheats = CreateConVar("hale_enable_secret_cheats", "1", "Enable secret cheats", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    
+    cvarTryhardDirecthit = CreateConVar("hale_tryhard_directhit", "1", "Enable Direct Hit stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarTryhardMachina = CreateConVar("hale_tryhard_lochnload", "1", "Enable Machina stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarTryhardLochnload = CreateConVar("hale_tryhard_machina", "1", "Enable Loch-n-Load stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    
+    cvarSpecial = CreateConVar("hale_spec", "1", "Allow weapons' special abilities", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialRestrict = CreateConVar("hale_spec_restrict", "1", "Replace disallowed weapons with the stock one (1) or leave it without its abilities (0)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialBoston = CreateConVar("hale_spec_boston", "1", "Allow special ability of Boston Basher", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialSoda = CreateConVar("hale_spec_soda", "1", "Allow special ability of Soda Popper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialBabyFace = CreateConVar("hale_spec_babyface", "1", "Allow special ability of Baby Face's Blaster", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialManmelter = CreateConVar("hale_spec_manmelter", "1", "Allow special ability of Manmelter", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialNatascha = CreateConVar("hale_spec_natascha", "1", "Allow special ability of Natascha", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialTomislav = CreateConVar("hale_spec_tomislav", "1", "Allow special ability of Tomislav", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialHuo = CreateConVar("hale_spec_huo", "1", "Allow special ability of Huo-Long Heater", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialBrassBeast = CreateConVar("hale_spec_brassbeast", "1", "Allow special ability of Brass Beast", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialBuffalo = CreateConVar("hale_spec_buffalo", "1", "Allow special ability of Buffalo Steak Sandvich", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialPistol = CreateConVar("hale_spec_pistol", "1", "Allow special ability of Pistol", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialVita = CreateConVar("hale_spec_vita", "1", "Allow special ability of Vita-saw", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialAmputator = CreateConVar("hale_spec_amputator", "1", "Allow special ability of Amputator", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialVow = CreateConVar("hale_spec_vow", "1", "Allow special ability of Solemn Vow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialSniperShield = CreateConVar("hale_spec_snipershield", "1", "Allow sniper special ability (shield)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialBazaar = CreateConVar("hale_spec_bazaar", "1", "Allow special ability of Bazaar Bargain", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialShiv = CreateConVar("hale_spec_shiv", "1", "Allow special ability of Tribalman's Shiv", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    
+    cvarSpecialBoss = CreateConVar("hale_special_boss", "1", "Allow bosses' special abilities", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialSaxton = CreateConVar("hale_special_saxton", "1", "Allow Saxton Hale's special ability (Shield)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialCBS = CreateConVar("hale_special_cbs", "1", "Allow Christian Brutal Sniper's special ability (Infection)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialHHH = CreateConVar("hale_special_hhh", "1", "Allow Horseless Headless Horsemann's spells", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialVagineer = CreateConVar("hale_special_vagineer", "1", "Allow Vagineer's special ability (Hook)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialBunny = CreateConVar("hale_special_bunny", "1", "Allow Easter Bunny's special ability (Flash Grenade)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarSpecialAgent = CreateConVar("hale_special_agent", "1", "Allow Agent's special ability (Bomb)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    */
     HookConVarChange(FindConVar("tf_bot_count"), HideCvarNotify);
     HookConVarChange(FindConVar("tf_arena_use_queue"), HideCvarNotify);
     HookConVarChange(FindConVar("tf_arena_first_blood"), HideCvarNotify);
@@ -110,10 +154,49 @@ void UTIL_MakeConVars() {
     HookConVarChange(cvarDisplayHaleHP, CvarChange);
     HookConVarChange(cvarRageSentry, CvarChange);
     //HookConVarChange(cvarCircuitStun, CvarChange);
+    
+    /*HookConVarChange(cvarEnableJumper, CvarChange);
+    HookConVarChange(cvarEnableCloak, CvarChange);
+    HookConVarChange(cvarEnableSapper, CvarChange);
+    HookConVarChange(cvarEnableCBS, CvarChange);
+    HookConVarChange(cvarEnableHHH, CvarChange);
+    HookConVarChange(cvarEnableBunny, CvarChange);
+    HookConVarChange(cvarEnableVagineer, CvarChange);
+    HookConVarChange(cvarEnableAgent, CvarChange);
+    HookConVarChange(cvarEnableSecret1, CvarChange);
+    HookConVarChange(cvarEnableSecretCheats, CvarChange);
+    HookConVarChange(cvarTryhardDirecthit, CvarChange);
+    HookConVarChange(cvarTryhardMachina, CvarChange);
+    HookConVarChange(cvarTryhardLochnload, CvarChange);
+    HookConVarChange(cvarSpecial, CvarChange);
+    HookConVarChange(cvarSpecialRestrict, CvarChange);
+    HookConVarChange(cvarSpecialBoston, CvarChange);
+    HookConVarChange(cvarSpecialSoda, CvarChange);
+    HookConVarChange(cvarSpecialBabyFace, CvarChange);
+    HookConVarChange(cvarSpecialManmelter, CvarChange);
+    HookConVarChange(cvarSpecialNatascha, CvarChange);
+    HookConVarChange(cvarSpecialTomislav, CvarChange);
+    HookConVarChange(cvarSpecialHuo, CvarChange);
+    HookConVarChange(cvarSpecialBrassBeast, CvarChange);
+    HookConVarChange(cvarSpecialBuffalo, CvarChange);
+    HookConVarChange(cvarSpecialPistol, CvarChange);
+    HookConVarChange(cvarSpecialVita, CvarChange);
+    HookConVarChange(cvarSpecialAmputator, CvarChange);
+    HookConVarChange(cvarSpecialVow, CvarChange);
+    HookConVarChange(cvarSpecialSniperShield, CvarChange);
+    HookConVarChange(cvarSpecialBazaar, CvarChange);
+    HookConVarChange(cvarSpecialShiv, CvarChange);
+    HookConVarChange(cvarSpecialBoss, CvarChange);
+    HookConVarChange(cvarSpecialSaxton, CvarChange);
+    HookConVarChange(cvarSpecialCBS, CvarChange);
+    HookConVarChange(cvarSpecialHHH, CvarChange);
+    HookConVarChange(cvarSpecialVagineer, CvarChange);
+    HookConVarChange(cvarSpecialBunny, CvarChange);
+    HookConVarChange(cvarSpecialAgent, CvarChange);*/
 }
 
 void UTIL_LoadConfig() {
-    AutoExecConfig(true, "SaxtonHale");
+    AutoExecConfig(true, "AdvancedSaxtonHale");
 }
 
 void UTIL_InitMsg() {
