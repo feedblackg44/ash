@@ -596,7 +596,7 @@ public Action event_player_spawn(Handle event, const char[] name, bool dontBroad
     } 
     if (!(ASHFlags[client] & ASHFLAG_HELPED))
     {
-//        HelpPanel(client);
+        HelpPanel(client);
         ASHFlags[client] |= ASHFLAG_HELPED;
     }
     ASHFlags[client] &= ~ASHFLAG_UBERREADY;

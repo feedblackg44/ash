@@ -939,7 +939,7 @@ Handle cvarForceHaleTeam;
 Handle PointCookie;
 Handle MusicCookie;
 Handle VoiceCookie;
-//Handle ClasshelpinfoCookie;
+Handle ClasshelpinfoCookie;
 Handle doorchecktimer;
 
 Handle jumpHUD;
@@ -2221,10 +2221,10 @@ public Action MakeHale(Handle hTimer)
     
     EquipSaxton(Hale);
 
-//    if (ASHRoundState >= ASHRState_Waiting && GetClientClasshelpinfoCookie(Hale))
-//    {
-//        HintPanel(Hale);
-//    }
+    if (ASHRoundState >= ASHRState_Waiting && GetClientClasshelpinfoCookie(Hale))
+    {
+        HintPanel(Hale);
+    }
 
     return Plugin_Continue;
 }
@@ -2766,8 +2766,8 @@ public Action MakeNoHale(Handle hTimer, any clientid)
 
     ChangeTeam(client, OtherTeam);
 
-//    if (!ASHRoundState && GetClientClasshelpinfoCookie(client) && !(ASHFlags[client] & ASHFLAG_CLASSHELPED))
-//        HelpPanel2(client);
+    if (!ASHRoundState && GetClientClasshelpinfoCookie(client) && !(ASHFlags[client] & ASHFLAG_CLASSHELPED))
+        HelpPanel2(client);
 
     if (IsValidEntity(FindPlayerBack(client, { 444 }, 1))) {
         TF2Attrib_SetByDefIndex(client, 58, 1.0);
@@ -5178,7 +5178,7 @@ void ForceTeamWin(int team)
     AcceptEntityInput(ent, "SetWinner");
 }
 
-/*public int HintPanelH(Handle menu, MenuAction action, int param1, int param2)
+public int HintPanelH(Handle menu, MenuAction action, int param1, int param2)
 {
     if (!IsValidClient(param1)) return;
     if (action == MenuAction_Select || (action == MenuAction_Cancel && param2 == MenuCancel_Exit)) ASHFlags[param1] |= ASHFLAG_CLASSHELPED;
@@ -5214,7 +5214,7 @@ public Action HintPanel(int client)
     SendPanelToClient(panel, client, HintPanelH, 9001);
     CloseHandle(panel);
     return Plugin_Continue;
-}*/
+}
 
 public int QueuePanelH(Handle menu, MenuAction action, int param1, int param2)
 {
@@ -5335,7 +5335,7 @@ public Action TurnToZeroPanel(int client)
     return Plugin_Continue;
 }
 
-/*bool GetClientClasshelpinfoCookie(int client)
+bool GetClientClasshelpinfoCookie(int client)
 {
     if (!IsValidClient(client)) return false;
     if (IsFakeClient(client)) return false;
@@ -5344,7 +5344,7 @@ public Action TurnToZeroPanel(int client)
     GetClientCookie(client, ClasshelpinfoCookie, strCookie, sizeof(strCookie));
     if (strCookie[0] == 0) return true;
     else return view_as<bool>(StringToInt(strCookie));
-}*/
+}
 
 int GetClientQueuePoints(int client)
 {
@@ -5385,19 +5385,19 @@ public int HalePanelH(Handle menu, MenuAction action, int param1, int param2)
             case 1:
                 Command_GetHP(param1);
             case 2:
-                NewPanel(param1);
+                HelpPanel(param1);
             case 3:
-                QueuePanel(param1);
+                HelpPanel2(param1);
             case 4:
-                MusicTogglePanel(param1);
+                NewPanel(param1);
             case 5:
+                QueuePanel(param1);
+            case 6:
+                MusicTogglePanel(param1);
+            case 7:
                 VoiceTogglePanel(param1);
-//            case 6:
-//                HelpPanel2(param1);
-//            case 7:
-//                HelpPanel(param1);
-//            case 8:
-//                ClasshelpinfoSetting(param1);
+            case 8:
+                ClasshelpinfoSetting(param1);
             default: return;
         }
     }
@@ -5415,10 +5415,10 @@ public Action HalePanel(int client, int args)
     SetPanelTitle(panel, s);
     Format(s, size, "%t", "vsh_menu_2");
     DrawPanelItem(panel, s);
-//    Format(s, size, "%t", "vsh_menu_3");
-//    DrawPanelItem(panel, s);
-//    Format(s, size, "%t", "vsh_menu_7");
-//    DrawPanelItem(panel, s);
+    Format(s, size, "%t", "vsh_menu_3");
+    DrawPanelItem(panel, s);
+    Format(s, size, "%t", "vsh_menu_7");
+    DrawPanelItem(panel, s);
     Format(s, size, "%t", "vsh_menu_4");
     DrawPanelItem(panel, s);
     Format(s, size, "%t", "vsh_menu_5");
@@ -5427,8 +5427,8 @@ public Action HalePanel(int client, int args)
     DrawPanelItem(panel, s);
     Format(s, size, "%t", "vsh_menu_9");
     DrawPanelItem(panel, s);
-//    Format(s, size, "%t", "vsh_menu_9a");
-//    DrawPanelItem(panel, s);
+    Format(s, size, "%t", "vsh_menu_9a");
+    DrawPanelItem(panel, s);
 
     Format(s, size, "%t", "vsh_menu_exit");
     DrawPanelItem(panel, s);
@@ -5468,7 +5468,7 @@ public Action NewPanel(int client)
     return Plugin_Continue;
 }
 
-/*public int HelpPanelH(Handle menu, MenuAction action, int param1, int param2)
+public int HelpPanelH(Handle menu, MenuAction action, int param1, int param2)
 {
     if (action == MenuAction_Select)
     {
@@ -5643,8 +5643,8 @@ public Action HelpPanel2(int client)
         }
     }
     
-    SetMenuExitButton(menuHndl, true);
-    SetMenuExitBackButton(menuHndl, true);
+    //SetMenuExitButton(menuHndl, true);
+    //SetMenuExitBackButton(menuHndl, true);
     menuHndl.ExitButton = true;
     
     menuHndl.Display(client, MENU_TIME_FOREVER);
@@ -5684,7 +5684,7 @@ public int ClasshelpinfoTogglePanelH(Handle menu, MenuAction action, int param1,
             CPrintToChat(param1, "{ash}[ASH]{default} %t", "vsh_classinfo", param2 == 2 ? "off" : "on");
         }
     }
-}*/
+}
 
 public Action MusicTogglePanelCmd(int client, int args)
 {
@@ -6946,7 +6946,7 @@ void LookupOffset(int &iOffset, const char[] strClass, const char[] strProp)
     }
 }
 
-/*public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, int item)
+public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, int item)
 {
     switch(action)
     {
@@ -7676,7 +7676,7 @@ void LookupOffset(int &iOffset, const char[] strClass, const char[] strProp)
             MenuHndl.Display(client, MENU_TIME_FOREVER);
         }
     }
-}*/
+}
 
 bool FindWearableOnPlayer(int client, int wearIndex, bool IsShield = false, int entIndex = -1)
 {
