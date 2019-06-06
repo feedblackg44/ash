@@ -3,865 +3,722 @@
 	// Technical phrases
 	"ash_help_title_info"
 	{
-		"ru"		"Справка"
 		"en"		"Help"
 	}
 	
 	"ash_scout_ragebasher_meleeweaponname"
 	{
-		"ru"		"Бостонского раздолбая"
 		"en"		"Boston Basher"
 	}
 	
 	"ash_scout_rageblade_meleeweaponname"
 	{
-		"ru"		"Трёхрунного меча"
 		"en"		"Three-Rune Blade"
 	}
 	
 	"ash_scout_madmilk_secondaryweaponname"
 	{
-		"ru"		"Зломолоко"
 		"en"		"Mad Milk"
 	}
 	
 	"ash_scout_mutatedmilk_secondaryweaponname"
 	{
-		"ru"		"Мутировавшее молоко"
 		"en"		"Mutated Milk"
 	}
 	
 	"ash_scout_bostonbasher_name"
 	{
-		"ru"		"Бостонский раздолбай"
 		"en"		"Boston Basher"
 	}
 	
 	"ash_scout_threeruneblade_name"
 	{
-		"ru"		"Трёхрунный меч"
 		"en"		"Three-Rune Blade"
 	}
 	
 	"ash_sd_paintrain_meleeweaponname"
 	{
-		"ru"		"Костыль"
 		"en"		"Pain Train"
 	}
 
 	"ash_sniper_bazaar_name"
 	{
-		"ru"		"Базарная безделушка"
 		"en"		"Bazaar Bargain"
 	}
 	
 	"ash_sd_paintrain_damage"
 	{
-		"ru"		"Урон +166#PERCENTAGE#. Оружие ломается после 4 ударов."
 		"en"		"Damage +166#PERCENTAGE#. Weapon breaks after 4 hits."
 	}
 	
 	"ash_sp_reservershooter_name"
 	{
-		"ru"		"Офицер запаса"
 		"en"		"Reserve Shooter"
 	}
 	
 	"ash_pyro_flaregun_name"
 	{
-		"ru"		"Ракетница"
 		"en"		"Flare gun"
 	}
 	
 	"ash_pyro_detonator_name"
 	{
-		"ru"		"Детонатор"
 		"en"		"Detonator"
 	}
 	
 	"ash_soldier_marketgardener_name"
 	{
-		"ru"		"Землекоп"
 		"en"		"Market Gardener"
 	}
 	
 	"ash_pyro_axtinguisher_name"
 	{
-		"ru"		"Огнетопор"
 		"en"		"Axtinguisher"
 	}
 	
 	"ash_demoman_eyelander_name"
 	{
-		"ru"		"Одноглазый горец"
 		"en"		"Eyelander"
 	}
 	
 	"ash_demoman_horselessheadlesshorsemannheadtaker_name"
 	{
-		"ru"		"Секира Пешего Всадника без головы"
 		"en"		"Horseless Headless Horsemann's Headtaker"
 	}
 	
 	"ash_demoman_nessiesnineiron_name"
 	{
-		"ru"		"Железная девятка Несси"
 		"en"		"Nessie's Nine Iron"
 	}
 	
 	"ash_sniper_huntsman_name"
 	{
-		"ru"		"Охотник"
 		"en"		"Huntsman"
 	}
 	
 	"ash_sniper_fortifiedcompound_name"
 	{
-		"ru"		"Укреплённый составной лук"
 		"en"		"Fortified Compound"
 	}
 
 	"ash_sniper_classic_name"
 	{
-		"ru"		"Классика"
 		"en"		"Classic"
 	}
 	
 	"ash_heavy_natascha_name"
 	{
-		"ru"		"Наташа"
 		"en"		"Natascha"
 	}
 	
 	"ash_heavy_ironcurtain_name"
 	{
-		"ru"		"Железный занавес"
 		"en"		"Iron Curtain"
 	}
 	
 	// Multiclass
 	"ash_help_se_pistol"
 	{
-		"ru"		"Все пистолеты: Атаки усилены мини-критами."
 		"en"		"All pistols: Attacks reinforced mini-crits."
 	}
 	"ash_help_engie_pistol"
 	{
-		"ru"		"Все пистолеты: Возможность перемещаться в период подготовки."
 		"en"		"All pistols: Allows to move in setup time."
 	}
 	
 	"ash_sd_halfzatoichi"
 	{
-		"ru"		"Полудзатоити: Удар восстанавливает 100 единиц здоровья. Успешная атака позволяет сменить оружие."
 		"en"		"Half-Zatoichi: On hit recovers 100HP. Success hit allows to change weapon."
 	}
 	
 	"ash_pe_panicattack"
 	{
-		"ru"		"Паническая атака: Урон +40#PERCENTAGE#."
 		"en"		"Panic Attack: Damage +40#PERCENTAGE#."
 	}
 	
 	"ash_sp_flyattack"
 	{
-		"ru"		"Наносит многократный урон при успешном ударе противника в прыжке на снарядах."
 		"en"		"Deals multiple damage if successful hit enemy in jump on the projectile."
 	}
 	
 	"ash_help_shhh_climbwalls"
 	{
-		"ru"		"Прыжки по стенам: Ударьте стену рукопашным оружием."
 		"en"		"Hit wall to jump upward."
 	}
 	
 	// Scout
 	"ash_help_scout_bfb"
 	{
-		"ru"		"Обрез малыша: Атаки заряжают спец-умение. Активация ускоряет на 5 сек."
 		"en"		"Baby Face's Blaster: Attacks charges special ability. Activation gives speed boost for 5 seconds."
 	}
 	
 	"ash_help_scout_sodapopper"
 	{
-		"ru"		"Газировщик: Атаки заряжают спец-умение. Активация телепортирует вас возле босса при получении урона и возвращает на точку возрождения. Действует 7 сек."
 		"en"		"Soda popper: Attacks charges special ability. Activation randomly teleports you near boss after taking hit and returns you to respawn zone after 7 sec."
 	}
 	
 	"ash_help_scout_backscatter"
 	{
-		"ru"		"Спинобрез: Мини-криты заменены на полноценные криты. Шанс 25#PERCENTAGE# замедлить противника при атаке."
 		"en"		"Back Scatter: Mini-crits replaced to full crits. 25#PERCENTAGE# chance to slow down enemy after hit."
 	}
 	
 	"ash_help_scout_bonkatomicpunch"
 	{
-		"ru"		"Бонк! Атомный залп: Предмет заменяется на Критоколу."
 		"en"		"Bonk! Atomic Punch: Item replaces to Crit-A-Cola."
 	}
 	
 	"ash_help_scout_winger"
 	{
-		"ru"		"Окрылённый: Атаки усилены критами."
 		"en"		"Winger: Attacks reinforced crits."
 	}
 	
 	"ash_help_scout_guillotine"
 	{
-		"ru"		"Летающая гильотина: Оглушает противника с любого расстояния на 2 сек."
 		"en"		"Flying Guillotine: Stuns enemy at any distance for 2 seconds."
 	}
 	
 	"ash_help_scout_guillotine_ragebasher"
 	{
 		"#format"	"{1:s}"
-		"ru"		"Заполняет спец-умение {1} при попадании."
 		"en"		"Fills special ability {1} on hit."
 	}
 	
 	"ash_help_scout_critacola"
 	{
-		"ru"		"Критокола: Мини-криты заменены на полноценные криты."
 		"en"		"Crit-A-Cola: Mini-crits replaced to full crits."
 	}
 	
 	"ash_help_scout_milk"
 	{
-		"ru"		"Немного замедляет противника при попадании."
 		"en"		"Slightly slows enemy on hit."
 	}
 	
 	"ash_help_scout_candycane"
 	{
-		"ru"		"Карамельная трость: Появляется маленькая аптечка при успешной атаке."
 		"en"		"Candy Cane: Creates a small medkit with a successful attack."
 	}
 	
 	"ash_help_scout_ragebasher_help"
 	{
-		"ru"		"Атаки заряжают спец-умение. Активация накладывает убер на 6 сек."
 		"en"		"Attacks charges special ability. Activation gives uber-charge and crits for 6 seconds."
 	}
 	
 	"ash_help_scout_sunonastick"
 	{
-		"ru"		"Солнце на палочке: Поджигает противника при успешной атаке."
 		"en"		"Sun-on-a-Stick: Burns enemy  successful attack."
 	}
 	
 	"ash_help_scout_fanowar"
 	{
-		"ru"		"Веер войны: Накладывает на противника метку смерти в течении 8 сек. при успешной атаке."
 		"en"		"Fan O'War: Places mark of death on enemy for 8 seconds after hit."
 	}
 	
 	"ash_help_scout_wrapassassin"
 	{
-		"ru"		"Обёрточный убийца: Позволяет запустить 12 шаров подряд."
 		"en"		"Wrap Assassin: Available 12 balls."
 	}
 
 	"ash_help_scout_bat"
 	{
-		"ru"		"Бита: Урон +20%"
 		"en"		"Bat: +20% damage."
 	}
 	
 	// Soldier
 	"ash_help_soldier_rocketlaunchers"
 	{
-		"ru"		"Все ракетомёты: Гарантированный мини-крит при попадании по противнику в воздухе."
 		"en"		"All Rocket-Launchers: Guaranteed mini-crit with hit on enemy in air"
 	}
 	
 	"ash_help_soldier_directhit"
 	{
-		"ru"		"Прямое попадание: Мини-криты заменены на полноценные криты. Тройное попадание в воздухе гарантирует супер-оглушение на 4 сек."
 		"en"		"Direct Hit: Mini-crits replaced to full crits. Triple hitting enemy in air guaranteed super-stun for 4 seconds."
 	}
 	
 	"ash_help_soldier_blackbox"
 	{
-		"ru"		"Черный ящик: Восстанавливает 30 очков здоровья при успешном попадании по противнику с любого расстояния."
 		"en"		"Black Box: Restores 30HP on with succesful hit on enemy any distance."
 	}
 	
 	"ash_help_soldier_beggarsbazooka"
 	{
-		"ru"		"Базука бродяги: Отсутствует предел перезарядки, позволяя разрядить всю обойму разом. Размер обоймы +150%."
 		"en"		"Beggar's Bazooka: Overload is disabled. +150% clip size bonus."
 	}
 
 	"ash_help_soldier_beggarsbazooka"
 	{
-		"ru"		"Базука бродяги: Можно зарядить до 20-ти ракет. Убран штраф переполнения и блокирование регенерации патронов из раздатчиков."
 		"en"		"Beggar's Bazooka: Can be loaded up to 20 rockets. Disabled overloading and blocking regen ammo from dispensers."
 	}
 	
 	"ash_help_soldier_airstrike"
 	{
-		"ru"		"Авиаудар: Каждые 200 единиц урона добавляет доступное кол-во патронов на 1. Добавлена регенерация патронов. Размер обоймы +50%."
 		"en"		"Air Strike: Every 200 points of damage adds the number of available ammo per round 1. Added ammo regeneration. +50% clip size bonus."
 	}
 
 	"ash_help_soldier_cow"
 	{
-		"ru"		"Линчеватель скота 5000: Полный заряд оглушает противника на любой дистанции на 3 секунды и активирует щит на игроке."
 		"en"		"Cow Mangler 5000: Full charge stuns enemy at any distance for 3 seconds and activates shield on player. "
 	}
 	
 	"ash_help_soldier_rocketjumper"
 	{
-		"ru"		"Тренировочный ракетомет: Предмет заменяется на Ракетомет."
 		"en"		"Rocket Jumper: Item replaces to Rocket Launcher."
 	}
 	
 	"ash_help_soldier_shotguns"
 	{
-		"ru"		"Все дробовики: Урон от прыжков на ракете уменьшен на 40#PERCENTAGE#. Атаки усилены мини-критами."
 		"en"		"All shotguns: Damage by rocket jumping reduced for 40#PERCENTAGE#. Attacks reinforced mini-crits."
 	}
 	
 	"ash_help_soldier_reserveshooter"
 	{
-		"ru"		"Атаки усилены критами."
 		"en"		"Attacks reinforced crits."
 	}
 	
 	"ash_help_soldier_gunboats"
 	{
-		"ru"		"Штурмовые ботинки: Урон от прыжков на ракете уменьшен на 50#PERCENTAGE#."
 		"en"		"Gunboats: Damage by rocket jumping reduced for 50#PERCENTAGE#."
 	}
 	
 	"ash_help_soldier_mantreads"
 	{
-		"ru"		"Людодавы: Наносит многократный урон при приземлении противнику на голову."
 		"en"		"Mantreads: Deals multiple damage after landing on enemy."
 	}
 	
 	"ash_help_solder_battalionsbackup"
 	{
-		"ru"		"Поддержка батальона: Значительное сопротивление от урона, при активации."
 		"en"		"Battalion's Backup: Considerable resistance from damage when activated."
 	}
 	
 	"ash_help_soldier_righteousbison"
 	{
-		"ru"		"Благочестивый бизон: Атаки усилены критами."
 		"en"		"Righteous Bison: Attacks reinforced crits."
 	}
 	
 	"ash_help_soldier_disciplinaryaction"
 	{
-		"ru"		"Дисциплинарное взыскание: Успешная атака гарантирует ускорение на 3 сек."
 		"en"		"Disciplinary Action: Success attack guaranteed speed boost for 3 seconds."
 	}
 	
 	"ash_help_soldier_equalizer"
 	{
-		"ru"		"Уравнитель: Предмет заменяется на План эвакуации."
 		"en"		"Equalizer: Item replaces to Escape Plan."
 	}
 	"ash_help_soldier_escapeplan"
 	{
-		"ru"		"План эвакуации: Зажмите ПКМ и активируйте режим \"без лечения\"."
 		"en"		"Escape Plan: Hold RMB and activate \"No healing\" mode."
 	}
 	"ash_help_soldier_default"
 	{
-		"ru"		"Лопата: Урон +20%."
 		"en"		"Shovel: +20% damage."
 	}
 	
 	// Pyroman
 	"ash_help_pyro_flamethrower"
 	{
-		"ru"		"Огнемет: Урон +15%."
 		"en"		"Flamethrower: +15% damage."
 	}
     
 	"ash_help_pyro_fireaxe"
 	{
-		"ru"		"Пожарный топор: Урон +20%."
 		"en"		"Fire Axe: +20% damage."
 	}
 
 	"ash_help_pyro_backburner"
 	{
-		"ru"		"Дожигатель: Сила отталкивания сжатого воздуха увеличена в несколько раз. Добавлена регенерация патронов."
 		"en"		"Backburner: Airblast force is increased. Added ammo regeneration."
 	}
 	
 	"ash_help_pyro_phlogistinator"
 	{
-		"ru"		"Флогистонатор: Значительное сопротивление от урона, при активации."
 		"en"		"Phlogistinator: Considerable resistance from damage when activated."
 	}
 
 	"ash_help_pyro_degreaser"
 	{
-		"ru"		"Чистильщик: Стоимость сжатого воздуха сокращена до 20 топлива."
 		"en"		"Degreaser: Airblast cost reduced to 20 ammo."
 	}
 	
 	"ash_help_pyro_reserveshooter"
 	{
-		"ru"		"+50#PERCENTAGE# к скорости перезарядки и +30#PERCENTAGE# к скорострельности."
 		"en"		"+50#PERCENTAGE# reload speed and +30#PERCENTAGE# fire rate bonus."
 	}
 	
 	"ash_help_pyro_flaregun_detonator"
 	{
-		"ru"		"Предмет заменяется на супер-детонатор. Урон увеличен на 25#PERCENTAGE#. Повышена сила прыжка на снаряде."
 		"en"		"Item replaces to super-detonator. Damage increased for 25#PERCENTAGE#. Increased jump's force on projectile."
 	}
 	
 	"ash_help_pyro_manmelter"
 	{
-		"ru"		"Людоплав: Альтернативная атака сбивает оглушение с союзников. Спасение союзников заряжает спец-умение и даёт +50 ед. топлива. Спец-умение позволяет пережить смертельный удар."
 		"en"		"Manmelter: Alternative fire removes stun from teammates. Saving teammates charges special ability and restores +50 ammo. Special ability allows to survive death hit.
 	}
 	
 	"ash_help_pyro_homewrecker"
 	{
-		"ru"		"Крушитель: Удар оглушает босса на 0.7 сек. и отталкивает вас в случайное направление."
 		"en"		"Homewrecker: On hit: stuns boss for 0.7 seconds and pushes you to random direction."
 	}
 	
 	"ash_help_pyro_powerjack"
 	{
-		"ru"		"Разъединитель: Удар восстанавливает 25HP."
 		"en"		"Powerjack: Hit recovers 25HP."
 	}
 	
 	"ash_help_pyro_thirddegree"
 	{
-		"ru"		"Третья степень: Передаёт лечащим медикам бонус к уберу при успешной атаке противника."
 		"en"		"Third degree: Gives healing medics bonus to uber with successful attack on enemy."
 	}
 	
 	"ash_help_pyro_neonannihilator"
 	{
-		"ru"		"Неоновый аннигилятор: +30 к максимальному HP."
 		"en"		"Neon annihilator: +30 maximum HP."
 	}
 	
 	// Demoman
 	"ash_help_demoman_shields"
 	{
-		"ru"		"Все щиты: Поглощают один удар противника, после чего ломаются. Атаки основного оружия усилены мини-критами."
 		"en"		"All shields: Absorbs one hit enemy, afterwards breaks. Attacks of primary weapons reinforced mini-crits."
 	}
 	
 	"ash_help_demoman_lochnload"
 	{
-		"ru"		"Подкидыш: Кол-во снарядов увеличено до 3-х. Урон +25#PERCENTAGE#."
 		"en"		"Loch-n-Load: Number of rounds increased to 3. Damage +25#PERCENTAGE#."
 	}
 	
 	"ash_help_demoman_alibababooties"
 	{
-		"ru"		"Ботиночки Али-Бабы: Наносит многократный урон при приземлении противнику на голову. Урон от прыжков на липучках уменьшен на 50#PERCENTAGE#."
 		"en"		"Ali Baba's Wee Booties: Deals multiple damage on landing enemy on head. Damage for jumping on stickies reduced for 50#PERCENTAGE#."
 	}
 	
 	"ash_help_demoman_ironbomber"
 	{
-		"ru"		"Железный бомбардир: Возможность переключаться между тремя режимами стрельбы при помощи средней кнопки мыши. Размер обоймы +100#PERCENTAGE#."
 		"en"		"Iron Bomber: Allows to switch between 3 fire modes by using middle mouse button. Clip size +100#PERCENTAGE#."
 	}
 	
 	"ash_help_demoman_quickiebomblauncher"
 	{
-		"ru"		"Быстромет: +25#PERCENTAGE# к скорости перезарядки и +50#PERCENTAGE# к скорострельности."
 		"en"		"Quickiebomb Launcher: +25#PERCENTAGE# reload speed and +50#PERCENTAGE# fire rate bonus."
 	}
 	
 	"ash_help_demoman_ehhhhnni"
 	{
-		"ru"		"Шкала голов заполняется от кол-ва успешных ударов."
 		"en"		"Heads scale filled on the number of successful hits."
 	}
 	
 	"ash_help_demoman_nessienineiron"
 	{
-		"ru"		"Урон +151#PERCENTAGE#. Оружие ломается после 4 ударов."
 		"en"		"Damage +151#PERCENTAGE#. Weapon's breaks after 4 hits."
 	}
 	
 	"ash_help_demoman_scotsmanskullcutter"
 	{
-		"ru"		"Шотландский головорез: +80 к максимальному HP."
 		"en"		"Scotsman's Skullcutter: +80 maximum HP."
 	}
 	
 	"ash_help_demoman_ullapoolcaber"
 	{
-		"ru"		"Аллапульское бревно: Наносит многократный урон при атаке по противнику. Мгновенно убивает носителя."
 		"en"		"Ullapool Caber: Deals multiple damage on attack to the enemy. Instantly kills player."
 	}
 	
 	"ash_help_demoman_claidhearmhmor"
 	{
-		"ru"		"Клеймор: +5 к максимальному HP. Скорость передвижения +25#PERCENTAGE#. Невосприимчивость к оглушению."
 		"en"		"laidheamh Mòr: +5 to the maximum HP. Move speed +25#PERCENTAGE#. Immunity to stun."
 	}
 	
 	"ash_help_demoman_persianpersuader"
 	{
-		"ru"		"Персидский заклинатель: +5 к максимальному HP. Скорость передвижения +25#PERCENTAGE#. Атаки заряжают спец-умение. Активация уменьшает на 5 сек."
 		"en"		"Persian Persuader: +5 to the maximum HP. Move speed +25#PERCENTAGE#. Attacks charges specialability. Activation makes player smaller for 5 seconds."
 	}
 	
 	"ash_help_demoman_stickyjumper"
 	{
-		"ru"		"Тренировочный липучкомет: Предмет заменяется на Липучкомет."
 		"en"		"Sticky Jumper: Item replaces to Stickybomb Launcher."
 	}
 	
 	// Heavy
 	"ash_help_heavy_shotguns"
 	{
-		"ru"		"Все дробовики: Атаки усилены критами."
 		"en"		"All shotguns: Attacks reinforced crits."
 	}
 	
 	"ash_help_heavy_natascha"
 	{
-		"ru"		"Добавлена регенерация патронов. Восстанавливает 5HP при атаке. Атаки заряжают спец-умение. Активация эвакуирует на точку возрождения."
 		"en"		"Added ammo regeneration. Restores 5HP on attack. Attacks charges special ability. Activation evacuates player to spawn point."
 	}
 	
 	"ash_help_heavy_brassbeast"
 	{
-		"ru"		"Латунный монстр: +100 к максимальному HP. Атаки заряжают спец-умение. Значительное сопротивление от урона при активации на 8 сек."
 		"en"		"Brass Beast: +100 on maximum HP. Attacks charges special ability. Considerable resistance from damage when activated special ability for 8 seconds."
 	}
 	
 	"ash_help_heavy_tomislav"
 	{
-		"ru"		"Томислав: Носитель передвигается с нормальной скоростью при раскрутке. Атаки заряжают спец-умение. Активация ускоряет на 7 сек."
 		"en"		"Tomislav: Player moves at normal speed while spun up. Attacks charges special ability. Activation gives speed boost for 7 seconds."
 	}
 	
 	"ash_help_heavy_huolongheater"
 	{
-		"ru"		"Огненный дракон: Невосприимчивость к оглушению. Атаки заряжают спец-умение. Активация заряжает вооружение критами на 12 сек."
 		"en"		"Huo-Long Heater: Immunity to stun. Attacks charges special ability. Activation gives crits to all weapons for 12 seconds."
 	}
 	
 	"ash_help_heavy_glovesofrunning"
 	{
-		"ru"		"Горящие рукавицы ускорения: Значительно ускоряет носителя при выборе предмета."
 		"en"		"Gloves of Running: Greatly faster move speed player if item selected."
 	}
 	
 	"ash_help_heavy_fistsofsteel"
 	{
-		"ru"		"Стальные кулаки: Увеличена скорость передвижения. Удары отталкивают босса."
 		"en"		"Fists of Steel: Move speed increased. Boss is being pushed on hit"
 	}
 	
 	"ash_help_heavy_evictionnotice"
 	{
-		"ru"		"Уведомление о выселении: Успешная атака гарантирует ускорение на 2 сек."
 		"en"		"Eviction Notice: Successful attack guaranteed speed boost for 2 seconds."
 	}
 	
 	"ash_help_heavy_holidaypunch"
 	{
-		"ru"		"Праздничный удар: Криты кратковременно оглушают противника. Удар с правой перчатки снимает с носителя эффект оглушения."
 		"en"		"Holiday Punch: Crits briefly stuns enemy. Hitting with right hand removes stun effect on player."
 	}
 	
 	"ash_help_killingglovesofboxing"
 	{
-		"ru"		"Кулаки грозного боксера: Предмет заменяется на Горящие рукавицы ускорения."
 		"en"		"Killing Gloves of Boxing: Item replaces to Gloves of Running."
 	}
 
 	"ash_help_heavy_fists"
 	{
-		"ru"		"Кулаки: Урон +20%."
 		"en"		"Fists: +20% damage."
 	}
 	
 	// Engineer
 	"ash_help_engineer_frontierjustice"
 	{
-		"ru"		"Самосуд: Атаки усилены критами, если турель обнаружила противника."
 		"en"		"Frontier Justice: Attacks reinforced crits when sentry detected enemy."
 	}
 	
 	"ash_help_engineer_widowmaker"
 	{
-		"ru"		"Овдовитель: Требуемое кол-во металла снижено до 15 ед. за выстрел и +50#PERCENTAGE# к скорострельности."
 		"en"		"Widowmaker: The required number of metal increased to 15 points for shot and +50#PERCENTAGE# fire rate bonus."
 	}
 	
 	"ash_help_engineer_shortcircuit"
 	{
-		"ru"		"Короткое замыкание: Альтернативный огонь: снимает оглушение с турели. Сокращает время оглушения насмешкой. Замедляет противника с шансом в 50#PERCENTAGE#."
 		"en"		"Short Circuit: Alternative fire: removes stun from sentry. 50% chance to stun enemies."
 	}
 	
 	"ash_help_engineer_gunslinger"
 	{
-		"ru"		"Оружейник: Восстанавливает +5 металла каждые 5 сек. +350#PERCENTAGE# к скорости возведения турели."
 		"en"		"Gunslinger: Restores +5 metal points every 5 seconds. +350#PERCENTAGE# sentry build speed."
 	}
 	
 	"ash_help_engineer_southernhospitality"
 	{
-		"ru"		"Южное гостеприимство: Позволяет взбираться по стенам."
 		"en"		"Southern Hospitality: Allows climbs on walls."
 	}
 	
 	"ash_help_engineer_eurekaeffect"
 	{
-		"ru"		"Озарение: Предмет заменяется на Гаечный ключ."
 		"en"		"Eureka Effect: Item replaces to Wrench."
 	}
 	
 	// Medic
 	"ash_help_medic_allsyringegun"
 	{
-		"ru"		"Шприцемет: +5#PERCENTAGE# убера за каждое успешное попадание."
 		"en"		"Syringe gun: +5#PERCENTAGE# ubercharge for each successful hit."
 	}
 	
 	"ash_help_medic_crusadercrossbow"
 	{
-		"ru"		"Арбалет крестоносца: +15#PERCENTAGE# убера за каждое успешное попадание."
 		"en"		"Crusader Crossbow: +15#PERCENTAGE# ubercharge for each successful hit."
 	}
 	
 	"ash_help_medic_allmediguns"
 	{
-		"ru"		"Все лечебные пушки: Предмет заменяется на Супер лечебную пушку. +45#PERCENTAGE# убера в начале раунда и +35#PERCENTAGE# убера после использования."
 		"en"		"All medi guns: Item replaces to super medi gun. +45#PERCENTAGE# ubercharge while in setup time and +35#PERCENTAGE# ubercharge after use."
 	}
 	
 	"ash_help_medic_uberinfo"
 	{
-		"ru"		"Убер представляет из себя совмещение убера крицкрига и убера стандартной лечебной пушки."
 		"en"		"Ubercharge is a combination of ubercharge from Kritzkrieg and standard medi gun charge."
 	}
 	
 	"ash_help_medic_saw"
 	{
-		"ru"		"Пила: Урон +15%. Скорострельность +20%."
 		"en"		"Bonesaw: +15% damage. +20% fire rate bonus."
 	}
 	"ash_help_medic_ubersaw"
 	{
-		"ru"		"Убер-пила: +25#PERCENTAGE# убера за каждое успешное попадание. Урон +10%. Увеличена дальность атаки."
 		"en"		"Uber Saw: +25#PERCENTAGE# ubercharge for each successful hit. +10% damage. Increased range attack."
 	}
 	
 	"ash_help_medic_vitasaw"
 	{
-		"ru"		"Вита-пила: +99#PERCENTAGE# убера в начале раунда. Добавлена регенерация убера."
 		"en"		"Vita Saw: +99#PERCENTAGE# ubercharge in round start. Added uber-charge regen."
 	}
 	
 	"ash_help_medic_amputator"
 	{
-		"ru"		"Ампутатор: Накапливает спец-умение. Активация добавляет защиту от атак носителю и всем окружающим на 10 сек."
 		"en"		"Amputator: Builds up special ability. Activation gives shield from damage to player and all nearby players for 10 seconds."
 	}
 	
 	"ash_help_medic_solemnvow"
 	{
-		"ru"		"Священная клятва: Позволяет видеть уровень ярости, кол-во стрел и душ боссов. Невосприимчивость к оглушению."
 		"en"		"Solemn Vow: Allows to see precentage of boss's rage, number arrows and souls. Immunity to stun."
 	}
 	
 	// Sniper
 	"ash_help_sniper_bazaar_text"
 	{
-		"ru"		"Активация невидимости на 12 секунд при атаке. Позволяет слиться с темнотой."
 		"en"		"Activates invisibility for 12 seconds on headshot. Allow to merge with the darkness."
 	}
 
 	"ash_help_sniper_allsniperrifles"
 	{
-		"ru"		"Все снайперские винтовки: Атаки усилены критами. Помечает противника при успешном попадании."
 		"en"		"All sniper rifles: Attacks reinforced crits. Marks enemy on success hit."
 	}
 	
 	"ash_help_sniper_allmeleeweapons"
 	{
-		"ru"		"Всё оружие ближнего боя: Позволяет взбираться по стенам."
 		"en"		"All melee weapon: Allows climb to walls."
 	}
 	
 	"ash_help_sniper_huntsmanfortifiedcompound"
 	{
-		"ru"		"Повышенный урон за попадание в голову. Кол-во стрел повышено до 25-и."
 		"en"		"Increased damage on headshot. Number of arrows increased to 25."
 	}
 	
 	"ash_help_sniper_hitmansheatmaker"
 	{
-		"ru"		"Разжигатель разбойника: Повышенный урон за попадание в голову."
 		"en"		"Hitman's Heatmaker: Increased damage on headshot."
 	}
 	
 	"ash_help_sniper_machina"
 	{
-		"ru"		"Махина: Выстрел в голову с полностью накопленным зарядом в момент полёта противника, гарантирует супер-оглушение на 4 сек."
 		"en"		"Machina: Fully charge headshot to flying enemy guaranteed super-stun for 4 seconds."
 	}
 	
 	"ash_help_sniper_allsmgs"
 	{
-		"ru"		"ППМ: Атаки усилены критами."
 		"en"		"SMG: Attacks reinforced crits."
 	}
 	
 	"ash_help_sniper_cleanerscarabine"
 	{
-		"ru"		"Карабин чистильщика: Шанс 35#PERCENTAGE# замедлить противника при атаке. Точность +100%"
 		"en"		"Cleaner's Carabine: 35#PERCENTAGE# chance to slow enemy on attack. +100% accuracy."
 	}
 	
 	"ash_help_sniper_razorback"
 	{
-		"ru"		"Бронепанцирь: Поглощает один удар противника, после чего ломается."
 		"en"		"Razorback: Absorb one hit from enemy, afterwards breaks."
 	}
 	
 	"ash_help_sniper_darwinsdangershield"
 	{
-		"ru"		"Дарвинистский щит: Восстанавливает патроны основного оружия. Открывает доступ к SMG, поджигающий противника при успешной атаке."
 		"en"		"Darwin's Danger Shield: Restores primary weapon's ammo. Allows to use SMG that ignites enemy on hit."
 	}
 	
 	"ash_help_sniper_jarate"
 	{
-		"ru"		"Банкате: -50#PERCENTAGE# ярости противника, при попадании."
 		"en"		"Jarate: -50#PERCENTAGE# enemy rage on hit"
 	}
 	
 	"ash_help_sniper_cozycamper"
 	{
-		"ru"		"Набор для кемпинга: Восстанавливает HP. Открывает доступ к SMG, замедляющий противника с шансом в 25#PERCENTAGE# при успешной атаке."
 		"en"		"Cozy Camper: Restores HP. Allows to use SMG that slows enemy with 25#PERCENTAGE# chance on hit."
 	}
 	
 	"ash_help_sniper_tribalmansshiv"
 	{
-		"ru"		"Заточка дикаря: Активация невидимости на 6 секунд при атаке."
 		"en"		"Tribalman's Shiv: Activates invisibility for 6 seconds on hit."
 	}
 	
 	"ash_help_sniper_bushwacka"
 	{
-		"ru"		"Кустолом: Отсутствует штраф к урону при прыжке по стенам."
 		"en"		"Bushwacka: No self-damage while climbing to walls."
 	}
 	
 	"ash_help_sniper_shahanshah"
 	{
-		"ru"		"Шаханшах: Урон повышается, если здоровье носителя <50%."
 		"en"		"Shahanshah: Damage increasing, if player health <50%."
 	}
 
 	"ash_help_sniper_default"
 	{
-		"ru"		"Кукри: Урон +15%."
 		"en"		"Kukri: +15% damage."
 	}
 	
 	// Spy
 	"ash_help_spy_allrevolvers"
 	{
-		"ru"		"Все револьверы: Атаки усилены мини-критами."
 		"en"		"All revolvers: Attacks reinforced mini-crits."
 	}
 	
 	"ash_help_spy_allknives"
 	{
-		"ru"		"Все ножи: Наносит многократный урон при успешном ударе противника в спину."
 		"en"		"All Knives: Deals multiple damage if successful backstab attack."
 	}
 	
 	"ash_help_spy_allinviswatches"
 	{
-		"ru"		"Все часы невидимости: Увеличивают защиту носителя при активации в несколько раз, позволяя пережить удар противника."
 		"en"		"All Invisible Watches: On activation increases defense, that allows to survive one hit."
 	}
 	
 	"ash_help_spy_ambassador"
 	{
-		"ru"		"Амбассадор: Повышенный урон за попадание в голову."
 		"en"		"Ambassador: Increased damage on headshots."
 	}
 	
 	"ash_help_spy_enforcer"
 	{
-		"ru"		"Принудитель: +20#PERCENTAGE# урона. +100#PERCENTAGE# урона к основному оружию в маскировке."
 		"en"		"Enforcer: +20#PERCENTAGE# damage bonus, +100#PERCENTAGE# damage bonus while disguised."
 	}
 	
 	"ash_help_spy_diamondback"
 	{
-		"ru"		"Алмазный змей: Каждый удар в спину пополняет кол-во усиленных критов для данного оружия."
 		"en"		"Diamondback: Every Backstab adds the number reinforced crits for this weapon."
 	}
 	
 	"ash_help_spy_youreternalreward"
 	{
-		"ru"		"Вечный покой: Бесшумный выход из режима невидимости."
 		"en"		"Your Eternal Reward: Silent exit from invisible."
 	}
 	
 	"ash_help_spy_conniverskunai"
 	{
-		"ru"		"Кунай: Удар в спину оглушает противника."
 		"en"		"Conniver's Kunai: Backstab stuns enemy."
 	}
 	
 	"ash_help_spy_bigearner"
 	{
-		"ru"		"Главный делец: Удар в спину ускоряет носителя на несколько секунд."
 		"en"		"Big Earner: Backstab adds speed boost to player for a few seconds."
 	}
 	
 	"ash_help_spy_spycicle"
 	{
-		"ru"		"Сосулька: Удар в спину не сопровождается текстовым оповещением. Звуковое оповещение тише обычного."
 		"en"		"Spy-Cicle: Backstab doesnt shows as a text alert. Notification sound quieter than usual."
 	}
 	
 	"ash_help_spy_cloakanddagger"
 	{
-		"ru"		"Плащ и кинжал: Вместо шкалы невидимости, расходует HP носителя."
 		"en"		"Cloak and Dagger: Instead of clock drain, drains player's HP."
 	}
 	
 	"ash_help_spy_deadringer"
 	{
-		"ru"		"Звон смерти: Поглощает больше урона, нежели обычные часы невидимости. Невосприимчивость к оглушению, если предмет активирован. Может быть активировано вручную."
 		"en"		"Dead Ringer: Absorbs more damage than standart watch. Can be manually activated."
 	}
 	
 	"ash_help_spy_sappers"
 	{
-		"ru"		"Жучок: Медленно восстанавливает патроны основного оружия, если носитель не в режиме невидимости."
 		"en"		"Sapper: Slowly regenerates ammo for primary weapon, doesn't work while invisible."
 	}
 	
 	"ash_help_spy_redtaperecorder"
 	{
-		"ru"		"Откатофон: Медленно восстанавливает HP, если носитель не в режиме невидимости."
 		"en"		"Red-Tape Recorder: Slowly regenerates HP, doesn't work while invisible."
 	}
 	"ash_help_spy_knife"
 	{
-		"ru"		"Нож: Скорость атаки +15%."
 		"en"		"Knife: Fire rate +15%."
 	}
 
@@ -869,37 +726,31 @@
 	// NEW ITEMS
 	"ash_help_sniper_classic"
 	{
-		"ru"		"Увеличена скорострельность и скорость передвижения."
 		"en"		"Move speed and fire rate bonus."
 	}
 
 	"ash_help_medic_blutsauger"
 	{
-		"ru"		"Кровопийца: Увеличено кол-во патронов и размер обоймы. Урон переходит в лечение."
 		"en"		"Blutsauger: Increased clip size and ammo. On hit: Gains health."
 	}
 
 	"ash_help_medic_overdose"
 	{
-		"ru"		"Передоз: Увеличена скорострельность. +6 убер-заряда при попадании."
 		"en"		"Overdose: Fire rate increased. +6 uber-charge on hit."
 	}
 
 	"ash_help_heavy_buffalo"
 	{
-		"ru"		"Бутерброд из мяса буйвола: Отталкивание босса при использовании предмета."
 		"en"		"Buffalo stake sandwich: Pushes boss upward after using item."
 	}
 
 	"ash_help_heavy_dalokosh"
 	{
-		"ru"		"Плитка Далокош: Шанс 70% усиления убер-зарядом, если здоровье менее 270."
 		"en"		"Dalokosh bar: 70% chance of being uber-charged after use, if health less than 270."
 	}
 
 	"ash_help_engineer_wrench"
 	{
-		"ru"		"Гаечный ключ: Урон +20%."
 		"en"		"Wrench: +20% damage."
 	}
 
@@ -908,106 +759,89 @@
 	// MULTIBOSSES
 	"ash_help_bosses_jump"
 	{
-		"ru"		"Супер Прыжок: Зажмите ПКМ, посмотрите наверх и отпустите ПКМ."
 		"en"		"Super Jump: Hold RMB, Look up and release RMB."
 	}
 	
 	"ash_help_bosses_weighdown"
 	{
-		"ru"		"Супер Падение: При длительном нахождении в воздухе, зажмите CTRL и посмотрите вниз."
 		"en"		"Weight Down: With a long presence in the air, hold CTRL and look down."
 	}
 	
 	"ash_help_bosses_userage"
 	{
-		"ru"		"При заполнении ярости, активируйте насмешку или позовите Медика."
 		"en"		"After filling rage, activate a taunt or call a Medic."
 	}
 	
 	// SAXTON HALE
 	"ash_help_hale_ragetype"
 	{
-		"ru"		"Ярость (дальнее оглушение)"
 		"en"		"Rage (long stun)"
 	}
 	
 	// HURRRRR
 	"ash_help_vagineer_userage"
 	{
-		"ru"		"Ярость (неуязвимость)"
 		"en"		"Rage (invincible)"
 	}
 
 	// Invisible Fagget
 	"ash_help_agent_userage"
 	{
-		"ru"		"Ярость (голограмма)"
 		"en"		"Rage (hologram)"
 	}
 	"ash_help_agent_hologram"
 	{
-		"ru"		"Голограмма: Вы можете призывать на помощь голограммы, управляемые игроками. Активируются вместе с насмешкой."
 		"en"		"Hologram: You can summon holograms to help that being controlled by players. Activates with taunt."
 	}
 	"ash_help_agent_sapper"
 	{
-		"ru"		"Жучок: Используйте жучок, чтобы безопасно уничтожить постройки инженера."
 		"en"		"Sapper: Use the sapper to safely destroy engineer buildings."
 	}
 	"ash_help_agent_sound"
 	{
-		"ru"		"Свисток: Активируйте свисток при нажатии СКМ (средняя кнопка мыши)."
 		"en"		"Whistle: Activate the whistle by pressing MMB (middle mouse button)."
 	}
 
 	// CBS
 	"ash_help_cbr_userage"
 	{
-		"ru"		"Ярость (охотник)"
 		"en"		"Rage (huntsman)"
 	}
 	
 	// HHH
 	"ash_help_hhh_teleport"
 	{
-		"ru"		"Телепортация: Зажмите ПКМ, посмотрите наверх и отпустите ПКМ."
 		"en"		"Teleporation: Hold RMB, Look up and release RMB."
 	}
 	
 	"ash_help_hhh_souls"
 	{
-		"ru"		"Захват душ: Вы можете захватывать души игроков и обменивать их на спец-умения. Активируются клавишей R (перезарядка)."
 		"en"		"Capture Souls: You can capture the souls of players and exchange them for special abilities. Activates after pressing R (reload)."
 	}
 	
 	"ash_help_hhh_4souls"
 	{
-		"ru"		"Спец-умение (3 убийства): Телепортация."
 		"en"		"Special ability (3 kills): Teleporation."
 	}
 	
 	"ash_help_hhh_6souls"
 	{
-		"ru"		"Спец-умение (6 убийств): Электро-Орб."
 		"en"		"Special ability (6 kills): Lightning Orb."
 	}
 	
 	"ash_help_hhh_10souls"
 	{
-		"ru"		"Спец-умение (5 убийств): Метеоритный дождь."
 		"en"		"Special ability (5 kills): Meteor shower."
 	}
 	
 	"ash_help_hhh_userage"
 	{
-		"ru"		"Ярость (оглушение)"
 		"en"		"Rage (stun)"
 	}
 	
 	// EASTER BUNNY
 	"ash_help_easterbunny_userage"
 	{
-		"ru"		"Ярость (гранатомет)"
 		"en"		"Rage (Grenade Launcher)"
 	}
 	
@@ -1015,78 +849,66 @@
 	// Multiclass
 	"ash_sh_speedboost"
 	{
-		"ru"		"Шкала ускорения"
 		"en"		"Speed Boost Meter"
 	}
 	
 	// Scout
 	"ash_scout_bostonbasher_ragemeter"
 	{
-		"ru"		"Шкала ЯРОСТИ Бостонского раздолбая"
 		"en"		"Boston Basher RAGE Meter"
 	}
 
 	"ash_scout_soda_meter"
 	{
-		"ru"		"Шкала неуловимости"
 		"en"		"Dodge Meter"
 	}
 	
 	// Soldier
 	"ash_soldier_airstrike_meter"
 	{
-		"ru"		"Урон Авиаудара"
 		"en"		"Air Strike Damage"
 	}
 	
 	// Demoman
 	"ash_demoman_smallsize_meter"
 	{
-		"ru"		"Шкала уменьшения размера"
 		"en"		"Size Decrease Meter"
 	}
 	
 	// Heavy
 	"ash_heavy_evacuate_meter"
 	{
-		"ru"		"Шкала эвакуации"
 		"en"		"Evacuation Meter"
 	}
 	
 	"ash_heavy_crits_meter"
 	{
-		"ru"		"Шкала критов"
 		"en"		"Crits Meter"
 	}
 	
 	"ash_heavy_vitality_meter"
 	{
-		"ru"		"Шкала антигравитации"
 		"en"		"Anti-Gravity Meter"
 	}
 	
 	// Medic
 	"ash_medic_shield_meter"
 	{
-		"ru"		"Шкала щита"
 		"en"		"Shield Meter"
 	}
 	
 	"ash_medic_halerage_meter"
 	{
-		"ru"		"ЯРОСТЬ Хейла"
 		"en"		"Hale RAGE Meter"
 	}
 	
 	"ash_medic_halearrows"
 	{
-		"ru"		"Кол-во стрел Снайпера"
 		"en"		"Sniper Arrows"
 	}
 	
 	"ash_medic_halesouls"
 	{
-		"ru"		"Кол-во душ Всадника"
 		"en"		"Horsemann's Souls"
 	}
 	
@@ -1094,143 +916,120 @@
 	"ash_sniper_bushwacka_meter"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Прыжки Кустолома: {1}/5"
 		"en"		"Bushwacka Jumps: {1}/5"
 	}
 
 	"ash_sniper_bazaar_meter"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Счетчик попаданий: {1}/5"
 		"en"		"Hit Meter: {1}/5"
 	}
 
 	"ash_sniper_machina_tryhard_player"
 	{
-		"ru"		"Вы оглушили Хейла в воздухе!"
 		"en"		"You stunned Hale in air!"
 	}
 
 	"ash_sniper_machina_tryhard_victim"
 	{
-		"ru"		"Снайпер оглушил вас в воздухе!"
 		"en"		"Sniper stunned you in air!"
 	}
 
 	"ash_soldier_directhit_tryhard_player"
 	{
-		"ru"		"Вы оглушили Хейла в воздухе!"
 		"en"		"You stunned Hale in air!"
 	}
 
 	"ash_soldier_directhit_tryhard_victim"
 	{
-		"ru"		"Солдат оглушил вас в воздухе!"
 		"en"		"Soldier stunned you in air!"
 	}
 
     "ash_demo_directhit_tryhard_player"
 	{
-		"ru"		"Вы оглушили Хейла в воздухе!"
 		"en"		"You stunned Hale in air!"
 	}
 
 	"ash_demo_directhit_tryhard_victim"
 	{
-		"ru"		"Подрывник оглушил вас в воздухе!"
 		"en"		"Demo stunned you in air!"
 	}
     
 	"ash_soldier_EscapePlan_HelpTint"
 	{
-		"ru"		"План эвакуации: Лечение"
 		"en"		"Escape Plan: Healing"
 	}
 
 	"ash_common_enabled"
 	{
-		"ru"		"ВКЛЮЧЕНО"
 		"en"		"ENABLED"
 	}
 
 	"ash_common_disabled"
 	{
-		"ru"		"ВЫКЛЮЧЕНО"
 		"en"		"DISABLED"
 	}
 	
 	// CHARGED RAGE Meters
 	"ash_medic_shield_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы активировать ЩИТ"
 		"en"		"Taunt to activate SHIELD"
 	}
 	
 	"ash_demoman_smallsize_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы активировать УМЕНЬШЕНИЕ"
 		"en"		"Taunt to activate DECREASING"
 	}
 	
 	"ash_heavy_vitality_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить ЖИВУЧЕСТЬ"
 		"en"		"Taunt to activate VITALITY"
 	}
 	
 	"ash_scout_bostonbasher_rageready"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить УБЕР-ЗАРЯД"
 		"en"		"Taunt to activate UBERCHARGE"
 	}
 	
 	"ash_heavy_evacuate_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы ЭВАКУИРОВАТЬСЯ"
 		"en"		"Taunt to EVACUATE"
 	}
 	
 	"ash_heavy_crits_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить КРИТЫ"
 		"en"		"Taunt to get CRITS"
 	}
 	
 	"ash_mc_speedboost_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить УСКОРЕНИЕ"
 		"en"		"Taunt to get SPEED BOOST"
 	}
 
 	"ash_scout_soda_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить НЕУЛОВИМОСТЬ"
 		"en"		"Taunt to DODGE"
 	}
 	
 	"ash_sniper_bushwacka_holdon"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Подождите немного. Кустолом охладится через {1} секунд"
 		"en"		"Hold on. Bushwacka reloads in {1} seconds"
 	}
 	
 	// Spy, Dead Ringer
 	"ash_spy_deadringer_ready"
 	{
-		"ru"		"Статус: Ложная смерть готова"
 		"en"		"Status: Feign Death Ready"
 	}
 	
 	"ash_spy_deadringer_dead"
 	{
-		"ru"		"Статус: Звон смерти активен"
 		"en"		"Status: Active"
 	}
 	
 	"ash_spy_deadringer_inactive"
 	{
-		"ru"		"Статус: Звон смерти неактивен"
 		"en"		"Status: Inactive"
 	}
 
@@ -1238,20 +1037,17 @@
 	"ash_spy_autoaim_meter"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Выстрелы в голову: {1}/4"
 		"en"		"Headshots: {1}/4"
 	}
 	
 	"ash_spy_autoaim_ready"
 	{
-		"ru"		"Сделайте насмешку, чтобы активировать Обратный Телепортер"
 		"en"		"Taunt to activate Reverse Teleporter"
 	}
 
 	"ash_spy_autoaim_limit"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Доступно: {1} выстрел(ов)"
 		"en"		"{1} shot(s) available"
 	}
 	
@@ -1259,338 +1055,283 @@
 	"ash_hhh_souls_meter"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Души: {1}/5"
 		"en"		"Souls: {1}/5"
 	}
 
 	"ash_special_loading"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Спец умение: {1}%"
 		"en"		"Special Ability: {1}%"
 	}
 	
 	"ash_hhh_souls_teleportready"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ ШАР ТЕЛЕПОРТА"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE TELEPORT BALL"
 	}
 	
 	"ash_hhh_souls_lightningorbready"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ ЭНЕРГОШАР"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE ENERGETIC BALL"
 	}
 	
 	"ash_hhh_souls_meteorready"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ МЕТЕОРИТНЫЙ ДОЖДЬ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE METEOR RAIN"
 	}
 	
 	"ash_hhh_teleportused"
 	{
-		"ru"		"Вы успешно использовали шар телепорта"
 		"en"		"You successfully used teleport ball"
 	}
 	
 	"ash_hhh_lightningorbused"
 	{
-		"ru"		"Вы успешно использовали энергошар"
 		"en"		"You successfully used lightning orb"
 	}
 	
 	"ash_hhh_meteorused"
 	{
-		"ru"		"Вы успешно использовали метеоритный дождь"
 		"en"		"You successfully used meteor rain"
 	}
 	
 	// Help techinal phrases
 	"ash_help_title"
 	{
-		"ru"		"Справка"
 		"en"		"Help Guide"
 	}
 	
 	"ash_help_selectweapon"
 	{
-		"ru"		"Выберите оружие, по которому хотите получить справку"
 		"en"		"Select weapon"
 	}
 	
 	"ash_help_scout_primary"
 	{
-		"ru"		"Обрез"
 		"en"		"Scattergun"
 	}
 	
 	"ash_help_scout_secondary"
 	{
-		"ru"		"Пистолет/Закуска/Гильотина"
 		"en"		"Pistol/Snack/Guillotine"
 	}
 	
 	"ash_help_multiclass_melee"
 	{
-		"ru"		"Рукопашное оружие"
 		"en"		"Melee weapon"
 	}
 	
 	"ash_help_soldier_primary"
 	{
-		"ru"		"Ракетомёт"
 		"en"		"Rocketlauncer"
 	}
 	
 	"ash_help_soldier_secondary"
 	{
-		"ru"		"Дробовики/Ботинки/Знамя"
 		"en"		"Shotguns/Boots/Bunners"
 	}
 	
 	"ash_help_pyro_primary"
 	{
-		"ru"		"Огнемёты"
 		"en"		"Flame Throwers"
 	}
 	
 	"ash_help_pyro_secondary"
 	{
-		"ru"		"Дробовики/Ракетницы"
 		"en"		"Shotguns/Flare Guns"
 	}
 	
 	"ash_help_demoman_primary"
 	{
-		"ru"		"Гранатомёты"
 		"en"		"Grenade Launchers"
 	}
 	
 	"ash_help_demoman_secondary"
 	{
-		"ru"		"Щиты/Липучкомёты"
 		"en"		"Shields/Sticky Launchers"
 	}
 	
 	"ash_help_heavy_primary"
 	{
-		"ru"		"Пулемёты"
 		"en"		"Miniguns"
 	}
 	
 	"ash_help_heavy_secondary"
 	{
-		"ru"		"Дробовики/Бутерброды"
 		"en"		"Shotguns/Sandviches"
 	}
 	
 	"ash_help_engineer_primary"
 	{
-		"ru"		"Дробовики"
 		"en"		"Shotguns"
 	}
 	
 	"ash_help_engineer_secondary"
 	{
-		"ru"		"Пистолеты/Поводыри"
 		"en"		"Pistols/Wranglers"
 	}
 	
 	"ash_help_medic_primary"
 	{
-		"ru"		"Шприцемёты"
 		"en"		"Syringe Guns"
 	}
 	
 	"ash_help_medic_secondary"
 	{
-		"ru"		"Лечебные пушки"
 		"en"		"Mediguns"
 	}
 	
 	"ash_help_sniper_primary"
 	{
-		"ru"		"Снайперские винтовки/Луки"
 		"en"		"Sniper Rifles/Crossbows"
 	}
 	
 	"ash_help_sniper_secondary"
 	{
-		"ru"		"ППМ/Банкате/Щиты"
 		"en"		"SMG/Jarate/Shields"
 	}
 	
 	"ash_help_spy_primary"
 	{
-		"ru"		"Револьверы"
 		"en"		"Revolvers"
 	}
 	
 	"ash_help_spy_secondary"
 	{
-		"ru"		"Жучки"
 		"en"		"Sappers"
 	}
 	
 	"ash_help_spy_inviswatches"
 	{
-		"ru"		"Часы невидимости"
 		"en"		"Invisible Watches"
 	}
 	
 	"ash_help_no_specials"
 	{
-		"ru"		"Для вашего оружия нет специальных улучшений"
 		"en"		"Your weapon dont have special upgrades"
 	}
 	
 	//What's new, Mate?
 	"ash_whatsup_title"
 	{
-		"ru"		"==> Список обновлений ASH <=="
 		"en"		"==> ASH Change List <=="
 	}
 	
 	"ash_whatsup_message1"
 	{
-		"ru"		"Мы держим списки изменений плагина в теме"
 		"en"		"We keep a list of changes to the plug-in"
 	}
 	
 	"ash_whatsup_message2"
 	{
-		"ru"		"на форуме в Steam. Перейти на страницу темы?"
 		"en"		"forum thread on Steam. Go to page topic?"
 	}
 	
 	"ash_whatsup_button1"
 	{
-		"ru"		"Да"
 		"en"		"Yes"
 	}
 	
 	"ash_whatsup_button2"
 	{
-		"ru"		"Нет"
 		"en"		"No"
 	}
 
 	"ash_RPS_boss_3times"
 	{
-		"ru"		"Вас обыграли в \"Камень Ножницы Бумага\" 3 раза подряд. Игра окончена!"
 		"en"		"You lose in \"Rock Papper Scissors\" 3 times. Game Over!"
 	}
 
 	"ash_RPS_player_3times"
 	{
-		"ru"		"Вы обыграли босса в \"Камень Ножницы Бумага\" 3 раза подряд. Победа!"
 		"en"		"You win in \"Rock Papper Scissors\" 3 times. Victory!"
 	}
 
 	"ash_CAD_damage"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Получение урона через {1} секунд"
 		"en"		"Health drain in {1} seconds"
 	}
 	
 	// UPD: 28.01.2016
 	"ash_demoman_ironbomber_modeselector_info"
 	{
-		"ru"		"Режим стрельбы"
 		"en"		"Fire Mode"
 	}
 	
 	"ash_demoman_ironbomber_modeselector_spray"
 	{
-		"ru"		"Спрей"
 		"en"		"Spray"
 	}
 	
 	"ash_demoman_ironbomber_modeselector_charge"
 	{
-		"ru"		"Заряд"
 		"en"		"Charge"
 	}
 	
 	"ash_demoman_ironbomber_modeselector_round"
 	{
-		"ru"		"Очередь"
 		"en"		"Round"
 	}
 	
 	"ash_pyro_secondchance_infometer"
 	{
-		"ru"		"Второй Шанс"
 		"en"		"Second Chance"
 	}
 	
 	"ash_pyro_secondchance_ready"
 	{
-		"ru"		"Ожидание смерти носителя..."
 		"en"		"Waiting for player to die..."
 	}
 	
 	"ash_cbs_strafeHint"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ПРИМЕНИТЬ УКЛОНЕНИЕ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE STRAFE"
 	}
 	
 	"ash_hale_shieldHint"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ ЩИТ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE SHIELD"
 	}
 	
 	"ash_Vagineer_specialHint"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ КРЮК"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE HOOK"
 	}
 
 	"ash_Vagineer_hook_action"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Крюк исчезнет через {1} секунд"
 		"en"		"Hook disables after {1} seconds"
 	}
 	
 	// UPD: 01.04.2016
 	"ash_spy_deadringer_forcedeath"
 	{
-		"ru"		"Ручная активация часов"
 		"en"		"Manual cloak activation"
 	}
 	
 	"ash_cbs_specialPowerHint"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ ЗАРАЖЕНИЕ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE INFECTION"
 	}
 	
 	"ash_sniper_ActivityMeter"
 	{
-		"ru"		"Счётчик Эффективности"
 		"en"		"Efficiency Meter"
 	}
 	
 	"ash_sniper_ActivityMeter_DONE"
 	{
-		"ru"		"Сделайте насмешку, чтобы получить ЭНЕРГО-ЩИТ"
 		"en"		"Taunt to activate ENERGY-SHIELD"
 	}
 	
 	"ash_EasterBunny_specialHint"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ ОСЛЕПЛЯЮЩИЙ ГРАНАТОМЁТ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE BLIND GRENADE LAUNCHER"
 	}
 
 	"ash_cbs_specialPower_YouBeenInfected"
 	{
-		"ru"		"ВЫ ЗАРАЖЕНЫ!"
 		"en"		"YOU ARE INFECTED!"
 	}
 	
@@ -1599,34 +1340,29 @@
 	{
 		"#format"	"{1:N},{2:i}"
 		"en"		"SPECIAL ROUND!\n{1} became Miniature Saxton Hale with {2} HP!"
-		"ru"		"ОСОБЫЙ РАУНД!\n{1} становится\nМиниатюрным Сакстоном Хейлом\nс {2} здоровья!"
 	}
 	
 	"ash_secretHale_is_alive"
 	{
 		"#format"	"{1:N},{2:i},{3:i}"
 		"en"		"Miniature Saxton Hale ({1}) had {2} (of {3}) health left"
-		"ru"		"У Миниатюрного Сакстона Хейла ({1})\nосталось {2} (из {3}) здоровья"
 	}
 	
 	"ash_secretHale_hp"
 	{
 		"#format"	"{1:i},{2:i}"
 		"en"		"Minuature Saxton Hale's current health is: {1} of {2}"
-		"ru"		"У Миниатюрного Сакстона Хейла {1} здоровья из {2}"
 	}
 	
 	"ash_secretHale_show_hp"
 	{
 		"#format"	"{1:i},{2:i}"
 		"en"		"Miniature Saxton Hale showed his current HP: {1} of {2}"
-		"ru"		"У Миниатюрного Сакстона Хейла осталось здоровья: {1} из {2}"
 	}
 	
 	"ash_secretHale_summoned"
 	{
 		"en"		"Secret boss\nMiniature Saxton Hale\nSummoned!"
-		"ru"		"Секретный Босс\nМиниатюрный Сакстон Хейл\nпризван!"
 	}
 	// Secret Saxton Hale | End section
 	
@@ -1634,37 +1370,31 @@
 	// Boss names
 	"ash_stats_SaxtonHale"
 	{
-		"ru"		"Сакстон Хейл"
 		"en"		"Saxton Hale"
 	}
 	
 	"ash_stats_Horsemann"
 	{
-		"ru"		"Пеший Всадник без Головы Младший"
 		"en"		"the Horseless Headless Horsemann Jr"
 	}
 	
 	"ash_stats_ChristianSniper"
 	{
-		"ru"		"Христианский Брутальный Снайпер"
 		"en"		"Christian Brutal Sniper"
 	}
 	
 	"ash_stats_Vagineer"
 	{
-		"ru"		"Вагинер"
 		"en"		"Vagineer"
 	}
 	
 	"ash_stats_Bunny"
 	{
-		"ru"		"Пасхальный Заяц"
 		"en"		"Easter Bunny"
 	}
 	
 	"ash_stats_Boss"
 	{
-		"ru"		"Босс"
 		"en"		"Boss"
 	}
 	
@@ -1672,59 +1402,50 @@
 	"ash_stats_Used"
 	{
 		"#format"	"{1:i},{2:i}"
-		"ru"		"активировал\n{1} насмешек и {2} спец-умений"
 		"en"		"activated\n{1} taunt rages and {2} special abilities"
 	}
 	
 	"ash_stats_Stunned"
 	{
 		"#format"	"{1:i}"
-		"ru"		"получил оглушение и отталкивание {1} раз"
 		"en"		"has been stunned and pushed {1} times"
 	}
 	
 	"ash_stats_HeadShots"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Кол-во попаданий в голову: {1}"
 		"en"		"Number of Headshots: {1}"
 	}
 	
 	"ash_stats_BackStabs"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Кол-во ударов в спину: {1}"
 		"en"		"Number of Backstabs: {1}"
 	}
 	
 	"ash_stats_UberCharges"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Кол-во убер-зарядов: {1}"
 		"en"		"Number of ÜberCharges: {1}"
 	}
 
 	"ash_stats_LastHit"
 	{
-		"ru"		"Решающий удар"
 		"en"		"The Final Blow"
 	}
 
 	"ash_stats_SUICIDE"
 	{
-		"ru"		"Никто не нанёс решающий удар!"
 		"en"		"No one made the final blow!"
 	}
 	
 	"ash_cheats_yourMemory"
 	{
-		"ru"		"Твоя память тебя не подводит!"
 		"en"		"Your memory serves you well!"
 	}
 
 	"ash_cheats_printToConsole"
 	{
-		"ru"		"Ты уверен что это надо писать в чат?"
 		"en"		"Are you sure that it should be written in the chat?"
 	}
 	
@@ -1733,144 +1454,129 @@
 	{
 		"#format" "{1:N},{2:i}"
 		"en"	"{1} became the Agent with {2} HP!"
-		"ru"  "{1} становится\nАгентом\nс {2} здоровья."
 	}
 	
 	"ash_agent_is_alive"
 	{
 		"#format"	"{1:N},{2:i},{3:i}"
-		"ru"		"У Агента ({1})\nосталось {2} (из {3}) здоровья."
 		"en"		"The Agent ({1}) had {2} (of {3}) health left."
 	}
 	
 	"ash_Agent_show_hp"
 	{
 		"#format"	"{1:i},{2:i}"
-		"ru"		"У Агента осталось здоровья: {1} из {2}"
 		"en"		"The Agent showed his current HP: {1} of {2}"
 	}
 	
 	"ash_agent_hp"
 	{
 		"#format"	"{1:i},{2:i}"
-		"ru"		"У Агента {1} здоровья из {2}"
 		"en"		"The Agent's current health is: {1} of {2}"
 	}
 	
 	"ash_Agent_SpecialAbility"
 	{
-		"ru"		"НАЖМИТЕ НА КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ НАПРЯЖЕНИЕ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE HIGH VOLTAGE"
 	}
 
 	"ash_agent_bombready"
 	{
-		"ru"		"НАЖМИТЕ КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ИСПОЛЬЗОВАТЬ БОМБУ"
 		"en"		"PRESS RELOAD (R) BUTTON TO USE BOMB"
 	}
 
 	"ash_agent_bombwait"
 	{
-		"ru"		"Подождите 3 сек. перед тем как установить бомбу!"
-		"en"		"Wait 3 sec. before installing the bomb!"
+		"#format"   "{1:i}"
+        "en"		"Wait {1} sec. before installing the bomb!"
 	}
 	
 	"ash_agent_bomblocate"
 	{
 		"#format"	"{1:f}"
-		"ru"		"Бомба не готова к установке. Игроки слишком далеко. Дистанция до ближайшего: {1}"
 		"en"		"Bomb still not ready to use. Players too far. Distance to the nearest player: {1}"
 	}
 
 	"ash_agent_bombubercharge"
 	{
-		"ru"		"У ближайшего к вам игрока активирован Убер-Заряд"
-		"en"		"The nearest player have the UBER-CHARGE active"
+		"en"		"The nearest player have the bomb resistance"
 	}
+    
+    "ash_agent_waitexplode"
+    {
+        "#format"   "{1:i}"
+        "en"		"Wait {1} sec. before exploding the bomb!"
+    }
     
     "ash_agent_bombimmune"
 	{
-		"ru"		"Ближайший игрок потерял Убер-Заряд несколько секунд назад"
 		"en"		"The nearest player has lost the UBER-CHARGE a few seconds ago"
 	}
     
     "ash_agent_bombfailed"
 	{
-		"ru"		"Игрок с бомбой погиб!"
 		"en"		"Player with bomb has been dead!"
 	}
 
 	"ash_agent_deploybomb"
 	{
-		"ru"		"НАЖМИТЕ КНОПКУ ПЕРЕЗАРЯДКИ (R), ЧТОБЫ ВЗОРВАТЬ БОМБУ"
 		"en"		"PRESS RELOAD (R) BUTTON TO EXPLODE A BOMB"
 	}
 
 	"ash_agent_yousapped"
 	{
-		"ru"		"ВЫ ЗАМИНИРОВАНЫ"
 		"en"		"YOU ARE MINED"
 	}
 
 	"ash_agent_bombplayers"
 	{
-		"ru"		"Нет доступных игроков для установки бомбы"
 		"en"		"No available players for this ability"
 	}
 
 	"ash_engineer_eurekacooldown"
 	{
 		"#format"	"{1:d}"
-		"ru"		"Телепорт станет доступен через {1} сек."
 		"en"		"Tepelort will be available after {1} sec."
 	}
 
 	"ash_Agent_Rage"
 	{
 		"en"		"Taunt or call medic (E) to summon hologram"
-		"ru"		"Сделайте насмешку или позовите медика (E) чтобы призвать голограмму"
 	}
 
     // DEMOWAR
 	"ash_secretMode_enabled"
 	{
 		"en"		"Секретный режим 'Битва подрывников' активирован!"
-		"ru"		"Secret Mode 'Demoman War' enabled!"
 	}
     
 	// PayLoad
 	"ash_payload_hale_youdied"
 	{
 		"#format"	"{1:i}"
-		"ru"		"Восстановление жизненных сил через {1} секунд"
 		"en"		"Restoring vitality by {1} seconds"
 	}
 
 	"ash_payload_halenext_block"
 	{
-		"ru"		"В режиме Payload очки ожидания недоступны"
 		"en"		"Hale queue points unavailable in Payload mode"
 	}
 	
 	"ash_payload_halehp_block"
 	{
-		"ru"		"В режиме Payload нельзя подсматривать здоровье босса"
 		"en"		"Hale health unavailable in Payload mode"
 	}
 
     "ash_equalizer_special"
     {
-        "ru"        "Ваше здоровье сбалансировано со здоровьем босса"
+
         "en"        "Your health has been rebalanced with boss's health"
     }
 	"ash_soldier_equalizer_meter"
 	{
-		"ru"		"Уравнитель здоровья"
 		"en"		"Health Equalizer"
 	}
 	"ash_secretMode2_enabled"
 	{
-		"ru"		"Секретный режим 'Битва снайперов' активирован!"
 		"en"		"Secret Mode 'Sniper War' enabled!"
 	}
 }
