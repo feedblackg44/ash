@@ -1101,7 +1101,7 @@ public Action ClientTimer(Handle hTimer)
     return Plugin_Continue;
 }
 
-public Action HaleTimer(Handle hTimer)
+public Action HaleTimer(Handle hTimer)  
 {
     if (ASHRoundState == ASHRState_End)
     {

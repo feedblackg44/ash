@@ -1011,7 +1011,10 @@ public Action event_jarate(UserMsg msg_id, Handle bf, const int[] players, int p
         float rage = 0.50*RageDMG;
         HaleRage -= RoundToFloor(rage);
         if (HaleRage < 0)
+        {
+            //g_iJarateRageMinus[client] = HaleRage;
             HaleRage = 0;
+        }
         if (Special == ASHSpecial_Vagineer && TF2_IsPlayerInCondition(victim, TFCond_Ubercharged) && UberRageCount < 99)
         {
             UberRageCount += 7.0;
@@ -1445,6 +1448,17 @@ public void OnPreThinkPost(int client)
     }
 }
 
+/*public Action HaleRageFix(Handle hTimer, any attacker)
+{
+    if (g_bScoped[attacker])
+    {
+        float rage = 0.50*RageDMG;
+        HaleRage = HaleRage + RoundToFloor(rage) + g_iJarateRageMinus[Hale];
+        g_iJarateRageMinus[Hale] = 0;
+        g_bScoped[attacker] = false;
+    }
+}*/
+
 public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom) {
     if (BlockDamage[client]) {
         damage = 0.0;
@@ -1484,6 +1498,15 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         }
     }
     
+    /*if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Sniper && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 230 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary))
+    {
+        CreateTimer(0.3, HaleRageFix, attacker);
+        if (TF2_IsPlayerInCondition(attacker, view_as<TFCond>(1)))
+        {
+            g_bScoped[attacker] = true;
+        }
+    }*/
+    
     if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagecustom == TF_CUSTOM_PLASMA)
     {
         if (damagetype != DMG_SHOCK && inflictor != attacker) {
@@ -1497,7 +1520,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         TF2_AddCondition(Hale, TFCond_MarkedForDeath, 4.0);
     }
     
-    if (attacker > 0 && attacker <= MaxClients && Special == ASHSpecial_Agent && TF2_IsPlayerInCondition(client, TFCond_Cloaked)) damage = damage * 1.4;
+    //if (attacker > 0 && attacker <= MaxClients && Special == ASHSpecial_Agent && TF2_IsPlayerInCondition(client, TFCond_Cloaked)) damage = 60.0;
     
     //Sandman stun ball
     if (attacker > 0 && attacker <= MaxClients && attacker != client) {
@@ -1508,9 +1531,9 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         GetClientEyePosition(client, HalePos);
         
         if (TF2_GetPlayerClass(attacker) == TFClass_Scout && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 44 && inflictor != attacker && damagecustom != TF_CUSTOM_CLEAVER /*&& StrEqual(sAttackerObject, "tf_projectile_stun_ball")*/) {
-            if (GetVectorDistance(ScoutPos, HalePos) > 1450.0) {
+            if (GetVectorDistance(ScoutPos, HalePos) > 1500.0) {
                 TF2_StunPlayer(client, 6.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
-            } else if (GetVectorDistance(ScoutPos, HalePos) > 350.0) {
+            } else if (GetVectorDistance(ScoutPos, HalePos) > 330.0) {
                 TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
             }
         }
@@ -1674,9 +1697,13 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     {
                         damagetype &= ~DMG_CRIT;
 
-                        if ((damagetype & DMG_CLUB) && !bDontDeadRingDamage) // Check melee damage so eggs from bunny don't get processed here.
+                        if ((damagetype & DMG_CLUB) && !bDontDeadRingDamage && Special != ASHSpecial_Agent) // Check melee damage so eggs from bunny don't get processed here.
                         {
                             damage = (GetClientCloakIndex(client) == 59) ? 620.0 : 850.0;
+                        }
+                        else if (Special == ASHSpecial_Agent)
+                        {
+                            damage = 600.0;
                         }
                         else if (bDontDeadRingDamage) // This is in preparation for for future stuff.
                         {

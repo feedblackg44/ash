@@ -162,14 +162,14 @@
 		"en"		"Back Scatter: Mini-crits replaced to full crits. 25#PERCENTAGE# chance to slow down enemy after hit."
 	}
 	
-	"ash_help_scout_bonkatomicpunch"
-	{
-		"en"		"Bonk! Atomic Punch: Item replaces to Crit-A-Cola."
-	}
+	//"ash_help_scout_bonkatomicpunch"
+	//{
+	//	"en"		"Bonk! Atomic Punch: Item replaces to Crit-A-Cola."
+	//}
 	
 	"ash_help_scout_winger"
 	{
-		"en"		"Winger: Attacks reinforced crits."
+		"en"		"Winger: Attacks reinforced mini-crits, damage +35#PERCENTAGE#."
 	}
 	
 	"ash_help_scout_guillotine"
@@ -205,7 +205,7 @@
 	
 	"ash_help_scout_sunonastick"
 	{
-		"en"		"Sun-on-a-Stick: Burns enemy  successful attack."
+		"en"		"Sun-on-a-Stick: Burns enemy on successful attack."
 	}
 	
 	"ash_help_scout_fanowar"
@@ -220,7 +220,7 @@
 
 	"ash_help_scout_bat"
 	{
-		"en"		"Bat: +20% damage."
+		"en"		"Bat: +20#PERCENTAGE# damage."
 	}
 	
 	// Soldier
@@ -241,7 +241,7 @@
 	
 	"ash_help_soldier_beggarsbazooka"
 	{
-		"en"		"Beggar's Bazooka: Overload is disabled. +150% clip size bonus."
+		"en"		"Beggar's Bazooka: Overload is disabled. +150#PERCENTAGE# clip size bonus."
 	}
 
 	"ash_help_soldier_beggarsbazooka"
@@ -251,12 +251,12 @@
 	
 	"ash_help_soldier_airstrike"
 	{
-		"en"		"Air Strike: Every 200 points of damage adds the number of available ammo per round 1. Added ammo regeneration. +50% clip size bonus."
+		"en"		"Air Strike: Every 200 points of damage adds the number of available ammo per round 1. Added ammo regeneration. +50#PERCENTAGE# clip size bonus."
 	}
 
 	"ash_help_soldier_cow"
 	{
-		"en"		"Cow Mangler 5000: Full charge stuns enemy at any distance for 3 seconds and activates shield on player. "
+		"en"		"Cow Mangler 5000: Full charge stuns enemy at any distance for 3 seconds."
 	}
 	
 	"ash_help_soldier_rocketjumper"
@@ -296,12 +296,12 @@
 	
 	"ash_help_soldier_disciplinaryaction"
 	{
-		"en"		"Disciplinary Action: Success attack guaranteed speed boost for 3 seconds."
+		"en"		"Disciplinary Action: Success attack guaranteed speed boost for 23 seconds."
 	}
 	
 	"ash_help_soldier_equalizer"
 	{
-		"en"		"Equalizer: Item replaces to Escape Plan."
+		"en"		"Equalizer: Instantly restoring HP and raising max HP to 425 HP when Soldier and boss remain alone and he scored the required number of damage."
 	}
 	"ash_help_soldier_escapeplan"
 	{
@@ -309,18 +309,18 @@
 	}
 	"ash_help_soldier_default"
 	{
-		"en"		"Shovel: +20% damage."
+		"en"		"Shovel: +20#PERCENTAGE# damage."
 	}
 	
 	// Pyroman
 	"ash_help_pyro_flamethrower"
 	{
-		"en"		"Flamethrower: +15% damage."
+		"en"		"Flamethrower: +15#PERCENTAGE# damage."
 	}
     
 	"ash_help_pyro_fireaxe"
 	{
-		"en"		"Fire Axe: +20% damage."
+		"en"		"Fire Axe: +20#PERCENTAGE# damage."
 	}
 
 	"ash_help_pyro_backburner"
@@ -340,7 +340,7 @@
 	
 	"ash_help_pyro_reserveshooter"
 	{
-		"en"		"+50#PERCENTAGE# reload speed and +30#PERCENTAGE# fire rate bonus."
+		"en"		"+50#PERCENTAGE# reload speed and +30#PERCENTAGE# fire rate bonus. 30#PERCENTAGE# chance to slow down enemy after hit."
 	}
 	
 	"ash_help_pyro_flaregun_detonator"
@@ -350,7 +350,7 @@
 	
 	"ash_help_pyro_manmelter"
 	{
-		"en"		"Manmelter: Alternative fire removes stun from teammates. Saving teammates charges special ability and restores +50 ammo. Special ability allows to survive death hit.
+		"en"		"Manmelter: Alternative fire removes stun from teammates. Saving teammates charges special ability and restores +50 ammo. Special ability allows to survive death hit."
 	}
 	
 	"ash_help_pyro_homewrecker"
@@ -365,7 +365,7 @@
 	
 	"ash_help_pyro_thirddegree"
 	{
-		"en"		"Third degree: Gives healing medics bonus to uber with successful attack on enemy."
+		"en"		"Third degree: Attack speed +30#PERCENTAGE#. Gives healing medics bonus to uber with successful attack on enemy. if boss rage meter is full, the rage is force activated."
 	}
 	
 	"ash_help_pyro_neonannihilator"
@@ -376,12 +376,12 @@
 	// Demoman
 	"ash_help_demoman_shields"
 	{
-		"en"		"All shields: Absorbs one hit enemy, afterwards breaks. Attacks of primary weapons reinforced mini-crits."
+		"en"		"All shields: Absorbs one hit enemy, afterwards breaks."
 	}
 	
 	"ash_help_demoman_lochnload"
 	{
-		"en"		"Loch-n-Load: Number of rounds increased to 3. Damage +25#PERCENTAGE#."
+		"en"		"Loch-n-Load: Number of rounds increased to 3. Triple hitting enemy in air guaranteed super-stun for 4 seconds."
 	}
 	
 	"ash_help_demoman_alibababooties"
@@ -406,7 +406,8 @@
 	
 	"ash_help_demoman_nessienineiron"
 	{
-		"en"		"Damage +151#PERCENTAGE#. Weapon's breaks after 4 hits."
+	//	"en"		"Damage +151#PERCENTAGE#. Weapon's breaks after 4 hits."
+		"en"		"Heads scale filled on the number of successful hits."
 	}
 	
 	"ash_help_demoman_scotsmanskullcutter"
@@ -447,7 +448,7 @@
 	
 	"ash_help_heavy_brassbeast"
 	{
-		"en"		"Brass Beast: +100 on maximum HP. Attacks charges special ability. Considerable resistance from damage when activated special ability for 8 seconds."
+		"en"		"Brass Beast: +100 on maximum HP. +100 bullets. Attacks charges special ability. Activation gives invulnerable, anti-knockback and reduced gravity for 12 sec."
 	}
 	
 	"ash_help_heavy_tomislav"
@@ -457,7 +458,7 @@
 	
 	"ash_help_heavy_huolongheater"
 	{
-		"en"		"Huo-Long Heater: Immunity to stun. Attacks charges special ability. Activation gives crits to all weapons for 12 seconds."
+		"en"		"Huo-Long Heater: Immunity to stun. Ignites the boss. Attacks charges special ability. Activation gives crits to all weapons for 12 seconds."
 	}
 	
 	"ash_help_heavy_glovesofrunning"
@@ -487,7 +488,7 @@
 
 	"ash_help_heavy_fists"
 	{
-		"en"		"Fists: +20% damage."
+		"en"		"Fists: +20#PERCENTAGE# damage."
 	}
 	
 	// Engineer
@@ -503,12 +504,12 @@
 	
 	"ash_help_engineer_shortcircuit"
 	{
-		"en"		"Short Circuit: Alternative fire: removes stun from sentry. 50% chance to stun enemies."
+		"en"		"Short Circuit: Alternative fire: removes stun from sentry. 50#PERCENTAGE# chance to stun enemies."
 	}
 	
 	"ash_help_engineer_gunslinger"
 	{
-		"en"		"Gunslinger: Restores +5 metal points every 5 seconds. +350#PERCENTAGE# sentry build speed."
+		"en"		"Gunslinger: Restores +5 metal points every 5 seconds. +350#PERCENTAGE# sentry build speed. +20#PERCENTAGE# move speed."
 	}
 	
 	"ash_help_engineer_southernhospitality"
@@ -518,14 +519,14 @@
 	
 	"ash_help_engineer_eurekaeffect"
 	{
-		"en"		"Eureka Effect: Item replaces to Wrench."
+		"en"		"Eureka Effect: Teleport upgrade: it is now a two-way teleport."
 	}
 	
 	// Medic
-	"ash_help_medic_allsyringegun"
-	{
-		"en"		"Syringe gun: +5#PERCENTAGE# ubercharge for each successful hit."
-	}
+	//"ash_help_medic_allsyringegun"
+	//{
+	//	"en"		"Syringe gun: +5#PERCENTAGE# ubercharge for each successful hit. +80#PERCENTAGE# damage."
+	//}
 	
 	"ash_help_medic_crusadercrossbow"
 	{
@@ -544,11 +545,11 @@
 	
 	"ash_help_medic_saw"
 	{
-		"en"		"Bonesaw: +15% damage. +20% fire rate bonus."
+		"en"		"Bonesaw: +15#PERCENTAGE# damage. +20#PERCENTAGE# fire rate bonus."
 	}
 	"ash_help_medic_ubersaw"
 	{
-		"en"		"Uber Saw: +25#PERCENTAGE# ubercharge for each successful hit. +10% damage. Increased range attack."
+		"en"		"Uber Saw: +25#PERCENTAGE# ubercharge for each successful hit. +10#PERCENTAGE# damage. Increased range attack."
 	}
 	
 	"ash_help_medic_vitasaw"
@@ -604,7 +605,7 @@
 	
 	"ash_help_sniper_cleanerscarabine"
 	{
-		"en"		"Cleaner's Carabine: 35#PERCENTAGE# chance to slow enemy on attack. +100% accuracy."
+		"en"		"Cleaner's Carabine: 35#PERCENTAGE# chance to slow enemy on attack. +100#PERCENTAGE# accuracy."
 	}
 	
 	"ash_help_sniper_razorback"
@@ -614,7 +615,7 @@
 	
 	"ash_help_sniper_darwinsdangershield"
 	{
-		"en"		"Darwin's Danger Shield: Restores primary weapon's ammo. Allows to use SMG that ignites enemy on hit."
+		"en"		"Darwin's Danger Shield: Restores primary weapon's ammo."
 	}
 	
 	"ash_help_sniper_jarate"
@@ -622,29 +623,29 @@
 		"en"		"Jarate: -50#PERCENTAGE# enemy rage on hit"
 	}
 	
-	"ash_help_sniper_cozycamper"
-	{
-		"en"		"Cozy Camper: Restores HP. Allows to use SMG that slows enemy with 25#PERCENTAGE# chance on hit."
-	}
+	//"ash_help_sniper_cozycamper"
+	//{
+	//	"en"		"Cozy Camper: Restores HP. Allows to use SMG that slows enemy with 25#PERCENTAGE# chance on hit."
+	//}
 	
 	"ash_help_sniper_tribalmansshiv"
 	{
-		"en"		"Tribalman's Shiv: Activates invisibility for 6 seconds on hit."
+		"en"		"Tribalman's Shiv: Activates invisibility for 6 seconds on hit. No falling damage."
 	}
 	
 	"ash_help_sniper_bushwacka"
 	{
-		"en"		"Bushwacka: No self-damage while climbing to walls."
+		"en"		"Bushwacka: No self-damage while climbing to walls. 1% chance of dealing 39000 damage on the boss."
 	}
 	
 	"ash_help_sniper_shahanshah"
 	{
-		"en"		"Shahanshah: Damage increasing, if player health <50%."
+		"en"		"Shahanshah: Damage increasing, if player health <50#PERCENTAGE#."
 	}
 
 	"ash_help_sniper_default"
 	{
-		"en"		"Kukri: +15% damage."
+		"en"		"Kukri: +15#PERCENTAGE# damage. +20#PERCENTAGE# fire rate bonus."
 	}
 	
 	// Spy
@@ -665,7 +666,7 @@
 	
 	"ash_help_spy_ambassador"
 	{
-		"en"		"Ambassador: Increased damage on headshots."
+		"en"		"Ambassador: Increased damage on headshots. Adds the “Accuracy” meter. Every successful shot sends the boss back to the spawn point for 8 sec."
 	}
 	
 	"ash_help_spy_enforcer"
@@ -685,12 +686,12 @@
 	
 	"ash_help_spy_conniverskunai"
 	{
-		"en"		"Conniver's Kunai: Backstab stuns enemy."
+		"en"		"Conniver's Kunai: Backstab stuns enemy. No falling damage."
 	}
 	
 	"ash_help_spy_bigearner"
 	{
-		"en"		"Big Earner: Backstab adds speed boost to player for a few seconds."
+		"en"		"Big Earner: Backstab adds speed boost to player for a few seconds. Rage stun immunity while acceleration is active."
 	}
 	
 	"ash_help_spy_spycicle"
@@ -719,7 +720,7 @@
 	}
 	"ash_help_spy_knife"
 	{
-		"en"		"Knife: Fire rate +15%."
+		"en"		"Knife: Fire rate +20#PERCENTAGE#."
 	}
 
 	// 1.04-1.05
@@ -729,14 +730,19 @@
 		"en"		"Move speed and fire rate bonus."
 	}
 
+	"ash_help_medic_syringe"
+	{
+		"en"		"Syringe gun: +5#PERCENTAGE# ubercharge for each successful hit. +80#PERCENTAGE# damage."
+	}
+
 	"ash_help_medic_blutsauger"
 	{
-		"en"		"Blutsauger: Increased clip size and ammo. On hit: Gains health."
+		"en"		"Blutsauger: Increased clip size and ammo. On hit: Gains health. +65#PERCENTAGE# damage."
 	}
 
 	"ash_help_medic_overdose"
 	{
-		"en"		"Overdose: Fire rate increased. +6 uber-charge on hit."
+		"en"		"Overdose: Fire rate increased. +6 uber-charge on hit. +50#PERCENTAGE# damage"
 	}
 
 	"ash_help_heavy_buffalo"
@@ -746,20 +752,46 @@
 
 	"ash_help_heavy_dalokosh"
 	{
-		"en"		"Dalokosh bar: 70% chance of being uber-charged after use, if health less than 270."
+		"en"		"Dalokosh bar: 70#PERCENTAGE# chance of being uber-charged after use, if health less than 270."
 	}
 
 	"ash_help_engineer_wrench"
 	{
-		"en"		"Wrench: +20% damage."
+		"en"		"Wrench: +20#PERCENTAGE# damage, +200 max metal."
 	}
-
+	
+	// 1.06-1.19
+	// NEW STUFF
+	"ash_help_engineer_pomson"
+	{
+		"en"		"Pomson 6000: Only mini-crits. On Hit: the boss is sent in a random direction."
+	}
+	"ash_help_engineer_jag"
+	{
+		"en"		"Jag: -100#PERCENTAGE# damage on the owner, +300#PERCENTAGE# sentry’s range, death mark on every sentry hit, 30#PERCENTAGE# less metal is spent on building dispensers and sentries."
+	}
+	"ash_help_demoman_cannon"
+	{
+		"en"		"Loose Cannon: +20#PERCENTAGE# clip size bonus"
+	}
+	"ash_help_pyro_hothand"
+	{
+		"en"		"Hot Hand: Success attack guaranteed speed boost for 12 seconds."
+	}
+	"ash_help_demoman_targe"
+	{
+		"en"		"Chargin' Targe: Absorbs one hit enemy, afterwards breaks. After break the shield explodes, dealing 455 damage (boss only)."
+	}
+	"ash_help_scout_sandman"
+	{
+		"en"		"Sandman: Ye old good sandman! Ball stun is fully restored."
+	}
 	
 	// BOSSES
 	// MULTIBOSSES
 	"ash_help_bosses_jump"
 	{
-		"en"		"Super Jump: Hold RMB, Look up and release RMB."
+		"en"		"Super Jump: Hold RMB or CTRL, Look up and release RMB or CTRL."
 	}
 	
 	"ash_help_bosses_weighdown"
@@ -1546,7 +1578,7 @@
     // DEMOWAR
 	"ash_secretMode_enabled"
 	{
-		"en"		"Секретный режим 'Битва подрывников' активирован!"
+		"en"		"Secret mode 'Demoman War' activated!"
 	}
     
 	// PayLoad
@@ -1566,9 +1598,9 @@
 		"en"		"Hale health unavailable in Payload mode"
 	}
 
+
     "ash_equalizer_special"
     {
-
         "en"        "Your health has been rebalanced with boss's health"
     }
 	"ash_soldier_equalizer_meter"

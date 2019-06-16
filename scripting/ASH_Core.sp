@@ -21,9 +21,9 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8359"
+#define ASH_BUILD                     "8367"
 #define ASH_PLUGIN_VERSION            "1.19"
-#define ASH_PLUGIN_RELDATE            "01 December 2018"
+#define ASH_PLUGIN_RELDATE            "16 June 2019"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -610,12 +610,14 @@ int Incoming;
 //int TEMP_SpyCaDTimer[MAXPLAYERS+1];
 int TEMP_SpySaPTimer[MAXPLAYERS+1];
 int g_iOffsetModelScale;
+//bool g_bScoped[MAXPLAYERS+1];
 bool BlockDamage[MAXPLAYERS+1];
 int AQUACURE_EntShield[MAXPLAYERS+1];
 int g_iFidovskiyFix[MAXPLAYERS+1];
 int g_iTauntedSpys[MAXPLAYERS+1];
 int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
+//int g_iJarateRageMinus[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
 // int ClientsHealth[MAXPLAYERS+1];
@@ -2540,7 +2542,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         case 5, 195, 1013, 1027,                                    		// DEFAULT MELEE WEAPONS BUFF (HEAVY)
              6, 196,                                                    	// DEFAULT MELEE WEAPONS BUFF (SOLDIER)
              2, 192,                                                    	// DEFAULT MELEE WEAPONS BUFF (PYRO)
-             0, 190, 660, 30667:                                         			// DEFAULT MELEE WEAPONS BUFF (SCOUT)
+             0, 190, 660, 30667:                                         	// DEFAULT MELEE WEAPONS BUFF (SCOUT)
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.20", true);
         }
@@ -3516,23 +3518,51 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 }
             }
         }
-    } else if (cond == view_as<TFCond>(15) && client == Hale) ASHStats[StunsNum]++;
-    else if (Special == ASHSpecial_Agent) {
-            if (cond == TFCond_Jarated || cond == TFCond_Milked) {
+    } 
+    else
+    {
+        /*if(cond == TFCond_Jarated)
+        {
+            float rage = 0.50*RageDMG;
+            HaleRage -= RoundToFloor(rage);
+            if (HaleRage < 0)
+            {
+                HaleRage = 0;
+            }
+            if (Special == ASHSpecial_Vagineer && TF2_IsPlayerInCondition(Hale, TFCond_Ubercharged) && UberRageCount < 99)
+            {   
+                UberRageCount += 7.0;
+                if (UberRageCount > 99) UberRageCount = 99.0;
+            }
+            int ammo = GetAmmo(Hale, 0);
+            if (Special == ASHSpecial_CBS && ammo > 0) 
+            {
+                SetAmmo(Hale, 0, ammo - 1);
+            }
+        }*/
+        if (cond == view_as<TFCond>(15))
+        {
+            ASHStats[StunsNum]++;
+        } 
+        else if (Special == ASHSpecial_Agent) 
+        {
+            if (cond == TFCond_Jarated || cond == TFCond_Milked) 
+            {
                 // Sound
                 char s[PLATFORM_MAX_PATH];
                 strcopy(s, PLATFORM_MAX_PATH, Agent_Circumfused[GetRandomInt(0,4)]);
                 
                 float vecPos[3];
                 GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", vecPos);
-                
+             
                 EmitAmbientSound(s, vecPos, Hale, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL);
                 EmitAmbientSound(s, vecPos, Hale, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL);
-                
+            
                 // Remove condition
                 CreateTimer(4.0, TF2_OnHaleCondRemove, cond);
             }
         }
+    }
 }
 
 public Action BuffaloSteakActivation(Handle hTimer, any client) {
@@ -7036,8 +7066,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_pyro_backburner");
                             case 594:
                                 Format(s, 1024, "%t\n", "ash_help_pyro_phlogistinator");
-                            case 215:
-                                Format(s, 1024, "%t\n", "ash_help_pyro_degreaser");
+                            //case 215:
+                            //    Format(s, 1024, "%t\n", "ash_help_pyro_degreaser");
                             default:
                             {
                                 Format(s, 1024, "%t\n", "ash_help_pyro_flamethrower");
@@ -7055,6 +7085,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_demoman_alibababooties");
                             case 1151:
                                 Format(s, 1024, "%t\n", "ash_help_demoman_ironbomber");
+                            case 996:
+                                Format(s, 1024, "%t\n", "ash_help_demoman_cannon");
                             default:
                             {
                                 bool SpecialEntity = false;
@@ -7106,6 +7138,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                         {
                             case 141:
                                 Format(s, 1024, "%t\n", "ash_help_engineer_frontierjustice");
+                            case 588:
+                                Format(s, 1024, "%t\n", "ash_help_engineer_pomson");
                             case 527:
                                 Format(s, 1024, "%t\n", "ash_help_engineer_widowmaker");
                             case 1153:
@@ -7128,7 +7162,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                         switch (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary))
                         {
                             case 17, 204:
-                                Format(s, 1024, "%t\n", "ash_help_medic_allsyringegun");
+                                Format(s, 1024, "%t\n", "ash_help_medic_syringe");
                             case 36:
                                 Format(s, 1024, "%t\n", "ash_help_medic_blutsauger");
                             case 412:
@@ -7212,10 +7246,10 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                     {
                         switch (GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary))
                         {
-                            case 46, 1145:
-                                Format(s, 1024, "%t\n%t\n", "ash_help_scout_bonkatomicpunch", "ash_help_scout_critacola");
-                            case 163:
-                                Format(s, 1024, "%t\n", "ash_help_scout_critacola");
+                            //case 46, 1145:
+                            //    Format(s, 1024, "%t\n%t\n", "ash_help_scout_bonkatomicpunch", "ash_help_scout_critacola");
+                            //case 163:
+                            //    Format(s, 1024, "%t\n", "ash_help_scout_critacola");
                             case 222:
                                 Format(s, 1024, "%t: %t\n", "ash_scout_madmilk_secondaryweaponname", "ash_help_scout_milk");
                             case 1121:
@@ -7329,10 +7363,12 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_demoman_quickiebomblauncher");
                             case 265:
                                 Format(s, 1024, "%t\n", "ash_help_demoman_stickyjumper");
+                            case 131:
+                                Format(s, 1024, "%t\n", "ash_help_demoman_targe");
                             default:
                             {
                                 bool SpecialEntity = false;
-                                if (FindWearableOnPlayer(client, 131, true) || FindWearableOnPlayer(client, 406, true) || FindWearableOnPlayer(client, 1099, true) || FindWearableOnPlayer(client, 1144, true)) {
+                                if (FindWearableOnPlayer(client, 406, true) || FindWearableOnPlayer(client, 1099, true) || FindWearableOnPlayer(client, 1144, true)) {
                                     Format(s, 1024, "%t\n", "ash_help_demoman_shields");
                                     SpecialEntity = true;
                                 }
@@ -7415,9 +7451,9 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 } else if (FindWearableOnPlayer(client, 231)) {
                                     SpecialEntity = true;
                                     Format(s, 1024, "%t\n", "ash_help_sniper_darwinsdangershield");
-                                } else if (FindWearableOnPlayer(client, 642)) {
-                                    SpecialEntity = true;
-                                    Format(s, 1024, "%t\n", "ash_help_sniper_cozycamper");
+                                //} else if (FindWearableOnPlayer(client, 642)) {
+                                //    SpecialEntity = true;
+                                //    Format(s, 1024, "%t\n", "ash_help_sniper_cozycamper");
                                 }
                                 
                                 if (!SpecialEntity) {
@@ -7473,6 +7509,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t", "ash_help_scout_sunonastick");
                             case 317:
                                 Format(s, 1024, "%t", "ash_help_scout_candycane");
+                            case 44:
+                                Format(s, 1024, "%t", "ash_help_scout_sandman");
                             default:
                                 Format(s, 1024, "%t", "ash_help_scout_bat");
                         }
@@ -7490,6 +7528,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t", "ash_help_soldier_disciplinaryaction");
                             case 416:
                                 Format(s, 1024, "%t: %t", "ash_soldier_marketgardener_name", "ash_sp_flyattack");
+                            case 775:
+                                Format(s, 1024, "%t", "ash_help_soldier_escapeplan");
                             case 128:
                                 Format(s, 1024, "%t", "ash_help_soldier_equalizer");
                             default:
@@ -7511,6 +7551,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t", "ash_help_pyro_thirddegree");
                             case 813, 834:
                                 Format(s, 1024, "%t", "ash_help_pyro_neonannihilator");
+                            case 1181:
+                                Format(s, 1024, "%t", "ash_help_pyro_hothand");
                             default:
                                 Format(s, 1024, "%t", "ash_help_pyro_fireaxe");
                         }
@@ -7579,6 +7621,10 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t", "ash_help_engineer_gunslinger");
                             case 155:
                                 Format(s, 1024, "%t\n%t", "ash_help_engineer_southernhospitality", "ash_help_shhh_climbwalls");
+                            case 329:
+                                Format(s, 1024, "%t", "ash_help_engineer_jag");
+                            case 589:
+                                Format(s, 1024, "%t", "ash_help_engineer_eurekaeffect");
                             default:
                             {
                                 CloseHandle(MenuHndl);
@@ -8812,6 +8858,8 @@ public Action CanBeTarget(Handle hTimer, any client)
 stock int TF2_GetPlayerMaxHealth(int client) {
 	return GetEntProp(GetPlayerResourceEntity(), Prop_Send, "m_iMaxHealth", _, client);
 }
+
+//public Action EquipDefault(int client, )
 
 #include "ASH/API.sp"
 #include "ASH/UTIL.sp"
