@@ -296,7 +296,7 @@ public Action ClientTimer(Handle hTimer)
             
             // Sapper 1
             spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
-            if (spyTemp > MaxClients && IsValidEdict(spyTemp))
+            if (spyTemp > MaxClients && IsValidEdict(spyTemp) && GetConVarBool(cvarEnableSapper))
             {
                 spyTemp = GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex");
                 if (spyTemp == 735 || spyTemp == 736 || spyTemp == 933 || spyTemp == 1080 || spyTemp == 1102)
@@ -307,7 +307,7 @@ public Action ClientTimer(Handle hTimer)
                 else TF2Attrib_SetByDefIndex(client, 112, 0.0);
             }
             // Sapper 2
-            if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 810 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 831)
+            if ((GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 810 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 831) && GetConVarBool(cvarEnableSapper))
             {
                 if (IsPlayerAlive(client) && !TF2_IsPlayerInCondition(client, TFCond_Cloaked))
                 { 

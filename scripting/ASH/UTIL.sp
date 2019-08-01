@@ -74,7 +74,7 @@ void UTIL_MakeConVars() {
     cvarAliveToEnable = CreateConVar("hale_point_alive", "0", "Enable control points when there are X people left alive.", FCVAR_NOTIFY);
     cvarRageDMG = CreateConVar("hale_rage_damage", "2650", "Damage required for Hale to gain rage", FCVAR_NOTIFY, true, 0.0);
     cvarRageDist    = CreateConVar("hale_rage_dist", "625.0", "Distance to stun in Hale's rage. Vagineer and CBS are /3 (/2 for sentries)", FCVAR_NOTIFY, true, 0.0);
-    cvarAnnounce = CreateConVar("hale_announce", "120.0", "Info about mode will show every X seconds. Must be greater than 1.0 to show.", FCVAR_NOTIFY, true, 0.0);
+    cvarAnnounce = CreateConVar("hale_announce", "300.0", "Info about mode will show every X seconds. Must be greater than 1.0 to show.", FCVAR_NOTIFY, true, 0.0);
     cvarSpecials = CreateConVar("hale_specials", "1", "Enable Special Rounds (Vagineer, HHH, CBS)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnabled = CreateConVar("hale_enabled", "1", "Do you really want set it to 0?", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarCrits = CreateConVar("hale_crits", "0", "Can Hale get crits?", FCVAR_NOTIFY, true, 0.0, true, 1.0);

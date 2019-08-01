@@ -2664,10 +2664,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
                 {
                     hItemOverride = PrepareItemHandle(hItem, _, _, "179 ; 1"); //    ; 215 ; 300.0
                 }
-                else
+                /*else
                 {
                     hItemOverride = PrepareItemHandle(hItem, _, _, "488 ; 1", (iItemDefinitionIndex == 237)); // Rocket jumper
-                }
+                }*/
             }
         }
 #if defined OVERRIDE_MEDIGUNS_ON
@@ -2786,9 +2786,12 @@ public Action MakeNoHale(Handle hTimer, any clientid)
         {
             case 237:
             {
-                TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
-                SpawnWeapon(client, "tf_weapon_rocketlauncher", 18, 1, 0, "");
-                SetAmmo(client, 0, 20);
+                if(!GetConVarBool(cvarEnableJumper))
+                {
+                    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
+                    SpawnWeapon(client, "tf_weapon_rocketlauncher", 18, 1, 0, "");
+                    SetAmmo(client, 0, 20);
+                }
             }
         }
     }
@@ -2805,9 +2808,12 @@ public Action MakeNoHale(Handle hTimer, any clientid)
             }*/
             case 265:
             {
-                TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
-                SpawnWeapon(client, "tf_weapon_pipebomblauncher", 20, 1, 0, "");
-                SetAmmo(client, 1, 24);
+                if(!GetConVarBool(cvarEnableJumper))
+                {
+                    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
+                    SpawnWeapon(client, "tf_weapon_pipebomblauncher", 20, 1, 0, "");
+                    SetAmmo(client, 1, 24);
+                }
             }
             case 159:
             {
@@ -2862,10 +2868,16 @@ public Action MakeNoHale(Handle hTimer, any clientid)
     weapon = GetPlayerWeaponSlot(client, 4);
     if (weapon > MaxClients && IsValidEdict(weapon) && GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 60)
     {
-        /*TF2_RemoveWeaponSlot(client, 4);
-        SpawnWeapon(client, "tf_weapon_invis", 60, 1, 0, "292 ; 58 ; 728 ; 1 ; 83 ; -9999.0 ; 109 ; 0.70 ; 253 ; 1.0");*/
-        TF2_RemoveWeaponSlot(client, 4);
-        SpawnWeapon(client, "tf_weapon_invis", 30, 1, 6, "");
+        if(GetConVarBool(cvarEnableCloak))
+        {
+            TF2_RemoveWeaponSlot(client, 4);
+            SpawnWeapon(client, "tf_weapon_invis", 60, 1, 0, "292 ; 58 ; 728 ; 1 ; 83 ; -9999.0 ; 109 ; 0.70 ; 253 ; 1.0");
+        }
+        else
+        {
+            TF2_RemoveWeaponSlot(client, 4);
+            SpawnWeapon(client, "tf_weapon_invis", 30, 1, 6, "");
+        }
     }
     if (TF2_GetPlayerClass(client) == TFClass_Medic)
     {
