@@ -2585,6 +2585,7 @@ public void OnPluginStart() {
     UTIL_LoadTranslations();
     UTIL_MakeMultiTarget();
     UTIL_LookupOffsets();
+    UTIL_InitGamedata();
     UTIL_MakeCommands();
     UTIL_MakeConVars();
     UTIL_LoadConfig();

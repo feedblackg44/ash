@@ -1,4 +1,5 @@
 bool g_bHooked[MAXPLAYERS + 1];
+static Handle g_ptrGetMaxHealth;
 
 void UTIL_MakeCommands() {
     // CHEATS
@@ -253,6 +254,24 @@ void UTIL_LoadTranslations() {
 #endif
 
     LoadTranslations("common.phrases");
+}
+
+void UTIL_InitGamedata() {
+    Handle hGameConf = LoadGameConfigFile("ash");
+    if (!hGameConf)
+    {
+        SetFailState("Can't load gamedata file.");
+        return; // supress compiler warnings about "null"-used variable.
+    }
+
+    // CTFPlayer::GetMaxHealth()
+    StartPrepSDKCall(SDKCall_Player);
+    if (!PrepSDKCall_SetFromConf(hConf, SDKConf_Virtual, "CTFPlayer::GetMaxHealth")
+     || !PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain)
+     || !(g_ptrGetMaxHealth = EndPrepSDKCall)) {
+        CloseHandle(hConf);
+        SetFailState("Invalid gamedata file for CTFPlayer::GetMaxHealth()");
+    }
 }
 
 void UTIL_LookupOffsets() {
@@ -1138,3 +1157,7 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
 
     return iResult;
 }*/
+
+int UTIL_GetMaxHealth(int iClient) {
+    return SDKCall(g_ptrGetMaxHealth, iClient);
+}

@@ -1,0 +1,14 @@
+"Games"
+{
+  "tf"
+  {
+    "Offsets"
+    {
+      "CTFPlayer::GetMaxHealth"
+      {
+        "windows"   "117"
+        "linux"     "118"
+      }
+    }
+  }
+}
