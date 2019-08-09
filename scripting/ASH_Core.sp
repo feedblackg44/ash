@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8367"
+#define ASH_BUILD                     "8370"
 #define ASH_PLUGIN_VERSION            "1.19"
 #define ASH_PLUGIN_RELDATE            "16 June 2019"
 
@@ -892,11 +892,11 @@ Handle cvarFirstRound;
 //Handle cvarDemoShieldCrits;
 Handle cvarDisplayHaleHP;
 
-/*Handle cvarEnableJumper;
+Handle cvarEnableJumper;
 Handle cvarEnableCloak;
 Handle cvarEnableSapper;
 
-Handle cvarEnableCBS;
+/*Handle cvarEnableCBS;
 Handle cvarEnableHHH;
 Handle cvarEnableBunny;
 Handle cvarEnableVagineer;
@@ -1625,6 +1625,7 @@ public Action StartHaleTimer(Handle hTimer)
         HaleHealthMax = 2048;
     }
 
+    UTIL_SetMaxHealth(Hale, HaleHealthMax);
     SetEntProp(Hale, Prop_Data, "m_iMaxHealth", HaleHealthMax);
     SetEntityHealth(Hale, HaleHealthMax);
     HaleHealth = HaleHealthMax;
