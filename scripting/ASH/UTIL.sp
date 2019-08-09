@@ -1158,6 +1158,28 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
     return iResult;
 }*/
 
-int UTIL_GetMaxHealth(int iClient) {
+stock int UTIL_GetMaxHealth(int iClient) {
     return SDKCall(g_ptrGetMaxHealth, iClient);
+}
+
+stock void UTIL_SetMaxHealth(int iClient, int iHealth = 0) {
+    // First, reset our entity health.
+    UTIL_SetAdditionalHealth(iClient, 0);
+
+    // Second, recalculate required additional health.
+    int iMaxHealth = UTIL_GetMaxHealth(iClient);
+    int iRequiredAdditionalHealth = iHealth - iMaxHealth;
+
+    // Third, set additional health.
+    UTIL_SetAdditionalHealth(iClient, iRequiredAdditionalHealth);
+}
+
+stock void UTIL_SetAdditionalHealth(int iClient, int iHealth = 0) {
+    if (iHealth == 0)
+    {
+        TF2Attrib_RemoveByDefIndex(iClient, 26);
+        return;
+    }
+
+    TF2Attrib_SetByDefIndex(iClient, 26, float(iHealth));
 }
