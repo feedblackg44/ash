@@ -1,4 +1,5 @@
 bool g_bHooked[MAXPLAYERS + 1];
+static Handle g_ptrGetMaxHealth;
 
 void UTIL_MakeCommands() {
     // CHEATS
@@ -85,11 +86,11 @@ void UTIL_MakeConVars() {
     cvarEnableEurekaEffect = CreateConVar("hale_enable_eureka", "1", "1- allow Eureka Effect, else disallow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarForceHaleTeam = CreateConVar("hale_force_team", "0", "0- Use plugin logic, 1- random team, 2- red, 3- blue", FCVAR_NOTIFY, true, 0.0, true, 3.0);
     
-    /*cvarEnableJumper = CreateConVar("hale_enable_jumper", "0", "Enable rocket jumper and sticky jumper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableJumper = CreateConVar("hale_enable_jumper", "0", "Enable rocket jumper and sticky jumper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableCloak = CreateConVar("hale_enable_cloak", "0", "Enable Cloak and Dagger", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableSapper = CreateConVar("hale_enable_sapper", "1", "Enable passive attributes of spy's sappers", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     
-    cvarEnableCBS = CreateConVar("hale_boss_cbs", "1", "Enable Christian Brutal Sniper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    /*cvarEnableCBS = CreateConVar("hale_boss_cbs", "1", "Enable Christian Brutal Sniper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableHHH = CreateConVar("hale_boss_hhh", "1", "Enable Horseless Headless Horsemann", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableBunny = CreateConVar("hale_boss_bunny", "1", "Enable Easter Bunny", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableVagineer = CreateConVar("hale_boss_vagineer", "1", "Enable Vagineer", FCVAR_NOTIFY, true, 0.0, true, 1.0);
@@ -253,6 +254,26 @@ void UTIL_LoadTranslations() {
 #endif
 
     LoadTranslations("common.phrases");
+}
+
+void UTIL_InitGamedata() {
+    Handle hGameConf = LoadGameConfigFile("ash");
+    if (!hGameConf)
+    {
+        SetFailState("Can't load gamedata file.");
+        return; // supress compiler warnings about "null"-used variable.
+    }
+
+    // CTFPlayer::GetMaxHealth()
+    StartPrepSDKCall(SDKCall_Player);
+    if (!PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "CTFPlayer::GetMaxHealth")
+     || !PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain)
+     || !(g_ptrGetMaxHealth = EndPrepSDKCall())) {
+        CloseHandle(hGameConf);
+        SetFailState("Invalid gamedata file for CTFPlayer::GetMaxHealth()");
+    }
+
+    CloseHandle(hGameConf);
 }
 
 void UTIL_LookupOffsets() {
@@ -1138,3 +1159,29 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
 
     return iResult;
 }*/
+
+stock int UTIL_GetMaxHealth(int iClient) {
+    return SDKCall(g_ptrGetMaxHealth, iClient);
+}
+
+stock void UTIL_SetMaxHealth(int iClient, int iHealth = 0) {
+    // First, reset our entity health.
+    UTIL_SetAdditionalHealth(iClient, 0);
+
+    // Second, recalculate required additional health.
+    int iMaxHealth = UTIL_GetMaxHealth(iClient);
+    int iRequiredAdditionalHealth = iHealth - iMaxHealth;
+
+    // Third, set additional health.
+    UTIL_SetAdditionalHealth(iClient, iRequiredAdditionalHealth);
+}
+
+stock void UTIL_SetAdditionalHealth(int iClient, int iHealth = 0) {
+    if (iHealth == 0)
+    {
+        TF2Attrib_RemoveByDefIndex(iClient, 26);
+        return;
+    }
+
+    TF2Attrib_SetByDefIndex(iClient, 26, float(iHealth));
+}

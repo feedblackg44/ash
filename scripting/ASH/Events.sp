@@ -283,6 +283,11 @@ public Action event_round_end(Handle event, const char[] name, bool dontBroadcas
     if (hotnightEnabled)
         ServerCommand("mp_friendlyfire 1");
     
+    if (Hale && IsClientInGame(Hale))
+    {
+        UTIL_SetAdditionalHealth(Hale, 0);
+    }
+
     ASHRoundState = ASHRState_End;
     TeamRoundCounter++;
     if (GetEventInt(event, "team") == HaleTeam)
@@ -2585,6 +2590,7 @@ public void OnPluginStart() {
     UTIL_LoadTranslations();
     UTIL_MakeMultiTarget();
     UTIL_LookupOffsets();
+    UTIL_InitGamedata();
     UTIL_MakeCommands();
     UTIL_MakeConVars();
     UTIL_LoadConfig();
