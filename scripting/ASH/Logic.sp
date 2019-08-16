@@ -1204,7 +1204,6 @@ public Action HaleTimer(Handle hTimer)
     float speed = HaleSpeed + 0.7 * (100 - HaleHealth * 100 / HaleHealthMax);
     SetEntPropFloat(Hale, Prop_Send, "m_flMaxspeed", speed*((Special==ASHSpecial_MiniHale)?1.02:1.0));
     if (HaleHealth <= 0 && IsPlayerAlive(Hale)) HaleHealth = 1;
-    SetEntityHealth(Hale, HaleHealth);
     SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
     SetGlobalTransTarget(Hale);
     if ((GetClientButtons(Hale) & IN_RELOAD)) DoAction();

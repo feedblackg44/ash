@@ -5149,7 +5149,7 @@ void SickleClimbWalls(int client, int weapon)     //Credit to Mecha the Slag
     TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, fVelocity);
     float DamageLevel;
 
-    if (GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 232) DamageLevel = 0.0;
+    if (GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 232 || client == Hale) DamageLevel = 0.0;
     else DamageLevel = 15.0;
     
     SDKHooks_TakeDamage(client, client, client, DamageLevel, DMG_CLUB, GetPlayerWeaponSlot(client, TFWeaponSlot_Melee));
