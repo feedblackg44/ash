@@ -1,3 +1,11 @@
+/**
+ * Gamedata source:
+ * https://asherkin.github.io/vtable/
+ *
+ * NOTE: Chrome can't handle server binaries.
+ * This site should be opened in Firefox.
+ */
+
 "Games"
 {
   "tf"
