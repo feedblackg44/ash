@@ -132,6 +132,10 @@ public Action ClientTimer(Handle hTimer)
                 }
             }
             
+            //if (iPlayerClass == TFClass_Soldier && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 128) {
+            //    SpecialHintEq[client] = 3.0;
+            //}
+            
             // Infection
             if (InfectPlayers[client]) {
                 SetHudTextParams(-1.0, 0.3, 1.0, 0, 255, 0, 255, 0, 0.0, 0.0, 0.0);
@@ -295,52 +299,54 @@ public Action ClientTimer(Handle hTimer)
             }*/
             
             // Sapper 1
-            spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
-            if (spyTemp > MaxClients && IsValidEdict(spyTemp) && GetConVarBool(cvarEnableSapper))
-            {
-                spyTemp = GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex");
-                if (spyTemp == 735 || spyTemp == 736 || spyTemp == 933 || spyTemp == 1080 || spyTemp == 1102)
+            if (GetConVarBool(cvarEnableSapper)) {
+                spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
+                if (spyTemp > MaxClients && IsValidEdict(spyTemp))
                 {
-                    if (TF2_IsPlayerInCondition(client, TFCond_Cloaked)) TF2Attrib_SetByDefIndex(client, 112, 0.0);
-                    else TF2Attrib_SetByDefIndex(client, 112, 0.05);
+                    spyTemp = GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex");
+                    if (spyTemp == 735 || spyTemp == 736 || spyTemp == 933 || spyTemp == 1080 || spyTemp == 1102)
+                    {
+                        if (TF2_IsPlayerInCondition(client, TFCond_Cloaked)) TF2Attrib_SetByDefIndex(client, 112, 0.0);
+                        else TF2Attrib_SetByDefIndex(client, 112, 0.05);
+                    }
+                    else TF2Attrib_SetByDefIndex(client, 112, 0.0);
                 }
-                else TF2Attrib_SetByDefIndex(client, 112, 0.0);
-            }
-            // Sapper 2
-            if ((GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 810 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 831) && GetConVarBool(cvarEnableSapper))
-            {
-                if (IsPlayerAlive(client) && !TF2_IsPlayerInCondition(client, TFCond_Cloaked))
-                { 
-                    int iHealth;
-                    if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) 
-                    {
-                        iHealth = 2;
-                    }
-                    else if(GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 461)
-                    {
-                        iHealth = 3;
-                    }
-                    else 
-                    {
-                        iHealth = 4;
-                    }
-                    if (TEMP_SpySaPTimer[client] == 10)
-                    {
-                        int MaxHP = 125; 
-                        if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) MaxHP = 70; 
-                        else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 461) MaxHP = 100;
-                        if (GetEntProp(client, Prop_Send, "m_iHealth") < MaxHP)
+                // Sapper 2
+                if ((GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 810 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 831))
+                {
+                    if (IsPlayerAlive(client) && !TF2_IsPlayerInCondition(client, TFCond_Cloaked))
+                    { 
+                        int iHealth;
+                        if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) 
                         {
-                            if (MaxHP - GetEntProp(client, Prop_Send, "m_iHealth") < iHealth)
-                            {   
-                                iHealth = MaxHP - GetEntProp(client, Prop_Send, "m_iHealth");
-                            }
-                            SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth")+iHealth);
-                            if (GetEntProp(client, Prop_Send, "m_iHealth") > MaxHP) SetEntProp(client, Prop_Send, "m_iHealth", MaxHP);
+                            iHealth = 2;
                         }
-                        TEMP_SpySaPTimer[client] = 0;
+                        else if(GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 461)
+                        {
+                            iHealth = 3;
+                        }
+                        else 
+                        {
+                            iHealth = 4;
+                        }
+                        if (TEMP_SpySaPTimer[client] == 10)
+                        {
+                            int MaxHP = 125; 
+                            if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 356) MaxHP = 70; 
+                            else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 461) MaxHP = 100;
+                            if (GetEntProp(client, Prop_Send, "m_iHealth") < MaxHP)
+                            {
+                                if (MaxHP - GetEntProp(client, Prop_Send, "m_iHealth") < iHealth)
+                                {   
+                                    iHealth = MaxHP - GetEntProp(client, Prop_Send, "m_iHealth");
+                                }
+                                SetEntProp(client, Prop_Send, "m_iHealth", GetEntProp(client, Prop_Send, "m_iHealth")+iHealth);
+                                if (GetEntProp(client, Prop_Send, "m_iHealth") > MaxHP) SetEntProp(client, Prop_Send, "m_iHealth", MaxHP);
+                            }
+                            TEMP_SpySaPTimer[client] = 0;
+                        }
+                        else TEMP_SpySaPTimer[client]++;
                     }
-                    else TEMP_SpySaPTimer[client]++;
                 }
             }
             
@@ -398,7 +404,6 @@ public Action ClientTimer(Handle hTimer)
             bool validwep = (strncmp(wepclassname, "tf_wea", 6, false) == 0);
             int index = (validwep ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
             
-            // Chdata's Deadringer Notifier
             if (iPlayerClass == TFClass_Spy)
             {
                 if (GetClientCloakIndex(client) == 59)
@@ -435,6 +440,73 @@ public Action ClientTimer(Handle hTimer)
                     }
 
                     bHudAdjust = true;
+                }
+                
+                if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 574)
+                {
+                    // Cloak Drain Penalty
+                    //TF2Attrib_SetByDefIndex(client, 34, 0.90);
+                    //TF2Attrib_SetByDefIndex(client, 129, -2.0);
+                    
+                    if (TF2_IsPlayerInCondition(client, TFCond_Cloaked))
+                        SetEntPropFloat(client, Prop_Send, "m_flCloakMeter", GetEntPropFloat(client, Prop_Send, "m_flCloakMeter")/1.04);
+                    
+                    SetEntityRenderMode(client, RENDER_TRANSCOLOR);
+                    SetPlayerRenderAlpha(client, 30);
+
+                    int edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_wearable")) != -1) // Cosmetics
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, 50);
+                    }
+                    
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_wearable_razorback")) != -1) // Cozy Camper and DDS is tf_wearable, so we need only hide the razorback
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                         
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, 50);
+                    }
+
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_powerup_bottle")) != -1) // Captain canteen!!!
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, 0);
+                    }
+
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "craft_item")) != -1) // Spellbook
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, 0);
+                    }
+
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_wearable_campaign_item")) != -1) // Contracker
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, 0);
+                    }
+                }
+                else
+                {
+                    SetPlayerRenderAlpha(client, 255);
                 }
             }
 
@@ -479,27 +551,75 @@ public Action ClientTimer(Handle hTimer)
                     }
                     
                     SetEntityRenderMode(client, RENDER_TRANSCOLOR);
+                    int alpha_val = 255;
                     
                     switch (BeggarBazaarInt)
                     {
-                        /* 
-                         * 17:06 - CrazyHackGUT: 100% - 255
-                         * 17:07 - CrazyHackGUT: 85% - 216
-                         * 17:07 - CrazyHackGUT: 70% - 157
-                         * 17:07 - CrazyHackGUT: 55% - 140
-                         * 17:07 - CrazyHackGUT: 50% - 127
-                         * 17:07 - NITROUIH: Максимум, какой результат может выжать эта винтовка - 50%.
-                         */
+                        case 0:     alpha_val = 255;
+                        case 1:     alpha_val = 216;
+                        case 2:     alpha_val = 143;
+                        case 3:     alpha_val = 119;
+                        case 4:     alpha_val = 85;
+                        case 5:     alpha_val = 30;
                         
-                        case 0:            SetPlayerRenderAlpha(client, 255);
-                        case 1:            SetPlayerRenderAlpha(client, 216);
-                        case 2:            SetPlayerRenderAlpha(client, 157);
-                        case 3:            SetPlayerRenderAlpha(client, 140);
-                        case 4, 5:        SetPlayerRenderAlpha(client, 127);
-                        default:        GetEntPropFloat(GetPlayerWeaponSlot(client, TFWeaponSlot_Primary), Prop_Send, "m_flChargedDamage");
+                        default:    GetEntPropFloat(GetPlayerWeaponSlot(client, TFWeaponSlot_Primary), Prop_Send, "m_flChargedDamage");
                     }
+                    
+                    SetPlayerRenderAlpha(client, alpha_val);
+                    
+                    int edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_wearable")) != -1) // Cosmetics
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, alpha_val);
+                    }
+                    
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_wearable_razorback")) != -1) // Cozy Camper and DDS is tf_wearable, so we need only hide the razorback
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                         
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, alpha_val);
+                    }
+
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_powerup_bottle")) != -1) // Captain canteen!!!
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, (alpha_val >= 255 ? 255 : 0));
+                    }
+
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "craft_item")) != -1) // Spellbook
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, (alpha_val >= 255 ? 255 : 0));
+                    }
+
+                    edict = MaxClients + 1;
+                    while ((edict = FindEntityByClassname2(edict, "tf_wearable_campaign_item")) != -1) // Contracker
+                    {
+                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                            continue;
+                        
+                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                        SetEntityRenderColor(edict, 255, 255, 255, (alpha_val >= 255 ? 255 : 0));
+                    }
+
+                } else {
+                    SetPlayerRenderAlpha(client, 255);
                 }
-                else SetPlayerRenderAlpha(client, 255);
                 
                 // All shoots
                 if (SniperNoMimoShoots[client] == 3) {
@@ -638,19 +758,37 @@ public Action ClientTimer(Handle hTimer)
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 128)
                 {
                     float flHaleDamageNeed = (float(HaleHealthMax) / 2.5);
-                    if (flHaleDamageNeed >= 2500)
+                    if (flHaleDamageNeed >= 2000)
                     {
-                      flHaleDamageNeed = 2500.0;
+                      flHaleDamageNeed = 2000.0;
 	                }
                     int iHaleDamageNeed = RoundToCeil(flHaleDamageNeed);
+                    int iClientActiveDamage = Damage[client];
 					
                     bHudAdjust = true;
-                    SetHudTextParams(-1.0, 0.73, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-
-                    if (!(GetClientButtons(client) & IN_SCORE))
+                    
+                    if (iClientActiveDamage < flHaleDamageNeed)
                     {
-                        ShowSyncHudText(client, soulsHUD, "%t: %i/%i", "ash_soldier_equalizer_meter", Damage[client], iHaleDamageNeed);
-                    }
+                        SetHudTextParams(-1.0, 0.73, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
+                        
+                        if (!(GetClientButtons(client) & IN_SCORE))
+                        {
+                            ShowSyncHudText(client, soulsHUD, "%t: %i/%i", "ash_soldier_equalizer_meter", iClientActiveDamage, iHaleDamageNeed);
+                        }
+                    } /*else if (SpecialHintEq[client] > 0.0) {
+                        
+                        SetHudTextParams(-1.0, -1.0, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1);
+                        
+                        if (!(GetClientButtons(client) & IN_SCORE))
+                        {
+                            ShowSyncHudText(client, soulsHUD, "%t", "ash_soldier_equalizer_meter_full");
+                        }
+
+                        SpecialHintEq[client] -= 0.2;
+                        if (SpecialHintEq[client] <= 0.0) {
+                            SpecialHintEq[client] = 0.0;
+                        }
+                    }*/
                 }
 				
                 // Soldier and Escape Plan
@@ -838,9 +976,9 @@ public Action ClientTimer(Handle hTimer)
                     SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
                     char IronBomberString[256];
                     switch (IronBomberMode[client]) {
-                        case 0:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_spray"); // Спрей
-                        case 1:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_charge"); // Заряд
-                        case 2:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_round"); // Очередь
+                        case 0:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_spray"); // SPR
+                        case 1:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_charge"); // CHRG
+                        case 2:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_round"); // RND
                     }
                     ShowSyncHudText(client, bushwackaHUD, "%t: %t", "ash_demoman_ironbomber_modeselector_info", IronBomberString);
                 }
@@ -1034,6 +1172,10 @@ public Action ClientTimer(Handle hTimer)
             if (iPlayerClass == TFClass_Heavy && IsWeaponSlotActive(client, TFWeaponSlot_Secondary)) { addthecrit = true; cond = TFCond_HalloweenCritCandy; }
             if (IsWeaponSlotActive(client, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 152) { addthecrit = false; cond = TFCond_BlastJumping; }
             
+            // Mini-crits for Reserved Shooter to pyro
+            if (iPlayerClass == TFClass_Pyro && IsWeaponSlotActive(client,TFWeaponSlot_Secondary) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 415 && !addthecrit)
+                TF2_AddCondition(client, TFCond_Buffed, 0.3);
+            
             if (addthecrit && cond != TFCond_Jarated) 
             {
                 TF2_AddCondition(client, cond, 0.3);
@@ -1190,7 +1332,7 @@ public Action HaleTimer(Handle hTimer)
     
     
     if (TF2_IsPlayerInCondition(Hale, TFCond_Milked) && Special != ASHSpecial_Agent)
-        TF2_StunPlayer(Hale, 1.00, 0.08, TF_STUNFLAG_SLOWDOWN);
+        TF2_StunPlayer(Hale, 1.00, 0.2, TF_STUNFLAG_SLOWDOWN);
     if (TF2_IsPlayerInCondition(Hale, TFCond_Bleeding))
         TF2_RemoveCondition(Hale, TFCond_Bleeding);
     /*if (TF2_IsPlayerInCondition(Hale, TFCond_Jarated) && Special != ASHSpecial_Agent)
@@ -1203,7 +1345,10 @@ public Action HaleTimer(Handle hTimer)
         TF2_RemoveCondition(Hale, view_as<TFCond>(30));
     float speed = HaleSpeed + 0.7 * (100 - HaleHealth * 100 / HaleHealthMax);
     SetEntPropFloat(Hale, Prop_Send, "m_flMaxspeed", speed*((Special==ASHSpecial_MiniHale)?1.02:1.0));
+    
     if (HaleHealth <= 0 && IsPlayerAlive(Hale)) HaleHealth = 1;
+    SetEntityHealth(Hale, HaleHealth);
+    
     SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
     SetGlobalTransTarget(Hale);
     if ((GetClientButtons(Hale) & IN_RELOAD)) DoAction();
