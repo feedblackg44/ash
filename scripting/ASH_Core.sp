@@ -21,9 +21,9 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8367"
-#define ASH_PLUGIN_VERSION            "1.19"
-#define ASH_PLUGIN_RELDATE            "16 June 2019"
+#define ASH_BUILD                     "8731"
+#define ASH_PLUGIN_VERSION            "1.22"
+#define ASH_PLUGIN_RELDATE            "17 January 2020"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -614,9 +614,16 @@ int g_iOffsetModelScale;
 bool BlockDamage[MAXPLAYERS+1];
 int AQUACURE_EntShield[MAXPLAYERS+1];
 int g_iFidovskiyFix[MAXPLAYERS+1];
+int g_iAlphaSpys[MAXPLAYERS+1];
+bool g_bAlphaSpysAllow[MAXPLAYERS+1][2];
+bool g_bSpySwitchAllow[MAXPLAYERS+1];
+bool g_bAlphaSpyDelay[MAXPLAYERS+1];
 int g_iTauntedSpys[MAXPLAYERS+1];
 int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
+Handle g_iTimerList_Alpha[MAXPLAYERS+1];
+Handle g_iTimerList_Switch[MAXPLAYERS+1];
+Handle g_iTimerList_Repeat[MAXPLAYERS+1][2];
 //int g_iJarateRageMinus[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
@@ -683,6 +690,7 @@ bool Soldier_EscapePlan_ModeNoHeal[MAXPLAYERS+1] = false;
 Handle Soldier_EscapePlan_ModeNoHeal_PARTICLE[MAXPLAYERS+1];
 float RCPressed[MAXPLAYERS+1] = 0.0;
 float SpecialHintsTime[MAXPLAYERS+1] = 0.0;
+//float SpecialHintEq[MAXPLAYERS+1] = 3.0;
 enum SpecialHintsEnum {
     SpecialHint_None = -1,
     TF2Soldier_EscapePlan_NewState = 1
@@ -892,22 +900,22 @@ Handle cvarFirstRound;
 //Handle cvarDemoShieldCrits;
 Handle cvarDisplayHaleHP;
 
-/*Handle cvarEnableJumper;
-Handle cvarEnableCloak;
+Handle cvarEnableJumper;
+//Handle cvarEnableCloak;
 Handle cvarEnableSapper;
 
-Handle cvarEnableCBS;
+/*Handle cvarEnableCBS;
 Handle cvarEnableHHH;
 Handle cvarEnableBunny;
 Handle cvarEnableVagineer;
-Handle cvarEnableAgent;
+Handle cvarEnableAgent;*/
 Handle cvarEnableSecret1;
 
 Handle cvarEnableSecretCheats;
 
 Handle cvarTryhardDirecthit;
 Handle cvarTryhardMachina;
-Handle cvarTryhardLochnload;
+/*Handle cvarTryhardLochnload;
 
 Handle cvarSpecial;
 Handle cvarSpecialRestrict;
@@ -936,7 +944,7 @@ Handle cvarSpecialVagineer;
 Handle cvarSpecialBunny;
 Handle cvarSpecialAgent;
 */
-Handle cvarEnableEurekaEffect;
+//Handle cvarEnableEurekaEffect;
 Handle cvarForceHaleTeam;
 Handle PointCookie;
 Handle MusicCookie;
@@ -1223,7 +1231,7 @@ bool CheckNextSpecial()
         
         if (Incoming == ASHSpecial_Hale) {
             int rndm = GetRandomInt(0, 500);
-            if (rndm < ASH_SECRETBOSS_MINRAND || rndm > ASH_SECRETBOSS_MAXRAND) Special = ASHSpecial_MiniHale;
+            if (rndm < ASH_SECRETBOSS_MINRAND || rndm > ASH_SECRETBOSS_MAXRAND && GetConVarInt(cvarEnableSecret1)) Special = ASHSpecial_MiniHale;
         }
         
         return true;
@@ -1234,7 +1242,7 @@ bool CheckNextSpecial()
         
         if (Incoming == ASHSpecial_Hale) {
             int rndm = GetRandomInt(0, 500);
-            if (rndm < ASH_SECRETBOSS_MINRAND || rndm > ASH_SECRETBOSS_MAXRAND) Special = ASHSpecial_MiniHale;
+            if (rndm < ASH_SECRETBOSS_MINRAND || rndm > ASH_SECRETBOSS_MAXRAND && GetConVarInt(cvarEnableSecret1)) Special = ASHSpecial_MiniHale;
         }
         
         Incoming = ASHSpecial_None;
@@ -1267,7 +1275,7 @@ bool CheckNextSpecial()
     // Secret boss
     if (Incoming == ASHSpecial_Hale) {
         int rndm = GetRandomInt(0, 500);
-        if (rndm < ASH_SECRETBOSS_MINRAND || rndm > ASH_SECRETBOSS_MAXRAND) Special = ASHSpecial_MiniHale;
+        if (rndm < ASH_SECRETBOSS_MINRAND || rndm > ASH_SECRETBOSS_MAXRAND && GetConVarInt(cvarEnableSecret1)) Special = ASHSpecial_MiniHale;
         else Special = ASHSpecial_Hale;
     } else Special = Incoming;
     Incoming = ASHSpecial_None;
@@ -1567,12 +1575,25 @@ public Action StartHaleTimer(Handle hTimer)
         {
             TF2_RegeneratePlayer(iClient);
         }
+        if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
+        {
+            g_iAlphaSpys[iClient] = 30;
+            g_bAlphaSpyDelay[iClient] = true;
+        }
+        else
+        {
+            SetPlayerRenderAlpha(iClient, 255);
+        }
+        
         if (BushmanRulesRound && IsPlayerAlive(iClient)) {
             TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Primary);
         }
         if (IsPlayerAlive(iClient))
         {
             g_iTauntedSpys[iClient] = 0;
+            g_iAlphaSpys[iClient] = 30;
+            //g_bAlphaSpysAllow[iClient][0] = false;
+            //g_bAlphaSpysAllow[iClient][1] = true;
         }
         /*if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
@@ -1625,6 +1646,7 @@ public Action StartHaleTimer(Handle hTimer)
         HaleHealthMax = 2048;
     }
 
+    UTIL_SetMaxHealth(Hale, HaleHealthMax);
     SetEntProp(Hale, Prop_Data, "m_iMaxHealth", HaleHealthMax);
     SetEntityHealth(Hale, HaleHealthMax);
     HaleHealth = HaleHealthMax;
@@ -2104,7 +2126,7 @@ void EquipSaxton(int client)
         
             // Knife
             char attribs[64];
-            FormatEx(attribs, sizeof(attribs), "252 ; 0.75 ; 68 ; 1.0 ; 1 ; 0.5 ; 214 ; %d ; 137 ; 10.0 ; 275 ; 1.0", GetRandomInt(1000000000, 2147483640));
+            FormatEx(attribs, sizeof(attribs), "252 ; 0.75 ; 68 ; 1.0 ; 1 ; 0.8 ; 214 ; %d ; 137 ; 10.0 ; 275 ; 1.0", GetRandomInt(1000000000, 2147483640));
             SaxtonWeapon = SpawnWeapon(client, "tf_weapon_knife", 727, 100, TFQual_Unusual, attribs);
             TF2Attrib_SetByDefIndex(SaxtonWeapon, 26, 275.0);
             
@@ -2234,6 +2256,13 @@ public Action MakeHale(Handle hTimer)
 public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDefinitionIndex, Handle &hItem)
 {
     if (RoundCount <= 0 && !GetConVarBool(cvarFirstRound)) return Plugin_Continue;
+    
+    SetConVarInt(FindConVar("tf_dropped_weapon_lifetime"), 0);
+    SetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"), 0.1);
+    SetConVarFloat(FindConVar("tf_feign_death_damage_scale"), 0.1);
+    SetConVarFloat(FindConVar("tf_stealth_damage_reduction"), 0.1);
+    SetConVarFloat(FindConVar("tf_feign_death_duration"), 7.0);
+    SetConVarFloat(FindConVar("tf_feign_death_speed_duration"), 0.0);
 
     Handle hItemOverride = null;
     TFClassType iClass = TF2_GetPlayerClass(client);
@@ -2246,7 +2275,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 40, 1146: // Backburner
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 5 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1");
+            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1"); // 170 ; ???
         }
         case 648: // Wrap assassin
         {
@@ -2302,10 +2331,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 415: // Reserve Shooter
         {
-            if (iClass == TFClass_Soldier) // Soldier shotguns get 40% rocket jump
-                hItemOverride = PrepareItemHandle(hItem, _, _, "179 ; 0.1 ; 179 ; 1 ; 178 ; 0.6 ; 3 ; 0.67 ; 551 ; 1 ; 5 ; 1.15", true);
-            else
-                hItemOverride = PrepareItemHandle(hItem, _, _, "178 ; 0.6 ; 3 ; 0.6 ; 551 ; 1 ; 97 ; 0.50 ; 6 ; 0.70 ; 15 ; 0 ; 288 ; 0 ; 32 ; 0.30", true);
+            //if (iClass == TFClass_Soldier) // Soldier shotguns get 40% rocket jump
+            //    hItemOverride = PrepareItemHandle(hItem, _, _, "179 ; 0.1 ; 179 ; 1 ; 178 ; 0.6 ; 3 ; 0.67 ; 551 ; 1 ; 5 ; 1.15", true);
+            //else
+             hItemOverride = PrepareItemHandle(hItem, _, _, "178 ; 0.6 ; 3 ; 0.6 ; 551 ; 1 ; 97 ; 0.50 ; 6 ; 0.70 ; 15 ; 0 ; 288 ; 0 ; 32 ; 0.30", true);
         }
         case 1153: // Panic Attack
         {
@@ -2325,10 +2354,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
         }
-        case 308: // Loch-n-Load
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.9 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
-        }
+//        case 308: // Loch-n-Load
+//        {
+//            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.9 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
+//        }
         case 357: //Half-Zatoichi
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "551 ; 1 ; 5 ; 1.25 ; 219 ; 1 ; 226 ; 1", true);
@@ -2363,7 +2392,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 594: // Phlogistinator :C
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "368 ; 1 ; 116 ; 5 ; 350 ; 1 ; 356 ; 1 ; 144 ; 1 ; 15 ; 0 ; 551 ; 1 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "368 ; 1 ; 116 ; 5 ; 350 ; 1 ; 356 ; 1 ; 144 ; 1 ; 15 ; 0 ; 551 ; 1 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1 ; 107 ; 1.20", true);
         }
         case 424: // Tomislav
         {
@@ -2471,7 +2500,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 230: // Sleeper
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.28 ; 42 ; 1 ; 15 ; 0 ; 41 ; 1.25 ; 175 ; 1", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.51 ; 42 ; 1 ; 15 ; 0 ; 41 ; 1.25 ; 175 ; 1", true); // 0.28 = 55%; 0.??? = 30%; (50 = 33, 51 = 32, 52 = 31, 51 = 30)
         }
         case 526, 30665: // Machina
         {
@@ -2509,9 +2538,21 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "128 ; 1 ; 115 ; 1 ; 740 ; 0.1 ; 551 ; 1 ; 1 ; 0.5", true);
         }
+        case 237: // Rocket Jumper
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0 ; 15 ; 0 ; 181 ; 2 ; 76 ; 3.0 ; 400 ; 1 ; 3 ; 0.2", true);
+        }
+        case 265: // Sticky Jumper
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0 ; 15 ; 0 ; 181 ; 2 ; 76 ; 3.0 ; 400 ; 1 ; 89 ; -7 ; 280 ; 14", true);
+        }
         case 311: // Buffalo Steak Sandvich
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "292 ; 50 ; 144 ; 2 ; 551 ; 1 ; 2029 ; 1 ; 278 ; 1.5", true);
+        }
+        case 159, 433: // Dalokohs bar + reskin
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "292 ; 50 ; 551 ; 1 ; 2029 ; 1", true);
         }
         case 21, 208, 659, 798, 807, 887, 896, 905, 914, 963, 972, 15005, 15017, 15030, 15034, 15049, 15054, 15066, 15067, 15068, 15089, 15090, 15115, 15141: // Flamethrower
         {
@@ -2815,11 +2856,11 @@ public Action MakeNoHale(Handle hTimer, any clientid)
                     SetAmmo(client, 1, 24);
                 }
             }
-            case 159:
+            /*case 159,433:
             {
                 TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
-                SpawnWeapon(client, "tf_weapon_lunchbox", 42, 1, 6, "292 ; 50 ; 551 ; 1 ; 2029 ; 1");
-            }
+                SpawnWeapon(client, "tf_weapon_lunchbox", 159, 1, 6, "292 ; 50 ; 551 ; 1 ; 2029 ; 1");
+            }*/
         }
     }
     if (IsValidEntity(FindPlayerBack(client, { 231 }, 1)))
@@ -2855,29 +2896,29 @@ public Action MakeNoHale(Handle hTimer, any clientid)
             {
                 CreateTimer(1.0, Timer_NoHonorBound, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
             }
-            case 589:
+            /*case 589:
             {
                 if (!GetConVarBool(cvarEnableEurekaEffect))
                 {
-                    //TF2_RemoveWeaponSlot(client, TFWeaponSlot_Melee);
-                    //SpawnWeapon(client, "tf_weapon_wrench", 7, 1, 0, "2 ; 1.20");
+                    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Melee);
+                    SpawnWeapon(client, "tf_weapon_wrench", 7, 1, 0, "2 ; 1.20");
                 }
-            }
+            }*/
         }
     }
     weapon = GetPlayerWeaponSlot(client, 4);
     if (weapon > MaxClients && IsValidEdict(weapon) && GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 60)
     {
-        if(GetConVarBool(cvarEnableCloak))
-        {
-            TF2_RemoveWeaponSlot(client, 4);
-            SpawnWeapon(client, "tf_weapon_invis", 60, 1, 0, "292 ; 58 ; 728 ; 1 ; 83 ; -9999.0 ; 109 ; 0.70 ; 253 ; 1.0");
-        }
-        else
-        {
+        //if(GetConVarBool(cvarEnableCloak))
+        //{
+        //    TF2_RemoveWeaponSlot(client, 4);
+        //    SpawnWeapon(client, "tf_weapon_invis", 60, 1, 0, "292 ; 58 ; 728 ; 1 ; 83 ; -9999.0 ; 109 ; 0.70 ; 253 ; 1.0");
+        //}
+        //else
+        //{
             TF2_RemoveWeaponSlot(client, 4);
             SpawnWeapon(client, "tf_weapon_invis", 30, 1, 6, "");
-        }
+        //}
     }
     if (TF2_GetPlayerClass(client) == TFClass_Medic)
     {
@@ -3509,10 +3550,10 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
         
         if (TF2_GetPlayerClass(client) == TFClass_Heavy && IsWeaponSlotActive(client, TFWeaponSlot_Secondary)) {
             switch (GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary)) {
-                case 159, 433:    {
+                /*case 159, 433:    {
                     if (cond == TFCond_Taunting)
                         CreateTimer(0.1, HeavyShokolad_OnUberNeed, client);
-                }
+                }*/
                 
                 case 311:        {
                     if (cond == view_as<TFCond>(41)) {
@@ -3614,13 +3655,13 @@ public void TF2_OnConditionRemoved(int client, TFCond condition)
         if (iWatch == 59) {
             TF2Attrib_SetByDefIndex(client, 728, 0.0); // how, spy allow to pick ammo's
             SetEntProp(client, Prop_Send, "m_bFeignDeathReady", 0);
-        } else if (iWatch == 60) {
+        } /*else if (iWatch == 60) {
             DataPack hData = new DataPack();
             hData.WriteCell(client);
             hData.WriteCell(109);
             hData.WriteFloat(1.0);
             CreateTimer(1.0, OnTimerRemoveCloakFeature, hData);
-        }
+        }*/
     } else if (TF2_GetPlayerClass(client) == TFClass_Medic && condition == TFCond_Ubercharged && Special == ASHSpecial_Agent) {
         g_iFidovskiyFix[client] = 1;
         if (g_iTimerList[client] != null) {
@@ -5148,7 +5189,7 @@ void SickleClimbWalls(int client, int weapon)     //Credit to Mecha the Slag
     TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, fVelocity);
     float DamageLevel;
 
-    if (GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 232) DamageLevel = 0.0;
+    if (GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") == 232 || client == Hale) DamageLevel = 0.0;
     else DamageLevel = 15.0;
     
     SDKHooks_TakeDamage(client, client, client, DamageLevel, DMG_CLUB, GetPlayerWeaponSlot(client, TFWeaponSlot_Melee));
@@ -5975,6 +6016,42 @@ stock bool RemovePlayerBack(int client, int[] indices, int len)
                         TF2_RemoveWearable(client, edict);
                         bReturn = true;
                     }
+                }
+            }
+        }
+    }
+
+    edict = MaxClients + 1;
+    while ((edict = FindEntityByClassname2(edict, "craft_item")) != -1)
+    {
+
+        int idx = GetEntProp(edict, Prop_Send, "m_iItemDefinitionIndex");
+        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") == client && !GetEntProp(edict, Prop_Send, "m_bDisguiseWearable"))
+        {
+            for (int i = 0; i < len; i++)
+            {
+                if (idx == indices[i])
+                {
+                    TF2_RemoveWearable(client, edict);
+                    bReturn = true;
+                }
+            }
+        }
+    }
+
+    edict = MaxClients + 1;
+    while ((edict = FindEntityByClassname2(edict, "tf_wearable_campaign_item")) != -1)
+    {
+
+        int idx = GetEntProp(edict, Prop_Send, "m_iItemDefinitionIndex");
+        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") == client && !GetEntProp(edict, Prop_Send, "m_bDisguiseWearable"))
+        {
+            for (int i = 0; i < len; i++)
+            {
+                if (idx == indices[i])
+                {
+                    TF2_RemoveWearable(client, edict);
+                    bReturn = true;
                 }
             }
         }
@@ -7055,8 +7132,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_soldier_airstrike");
                             case 441:
                                 Format(s, 1024, "%t\n", "ash_help_soldier_cow");
-                            case 237:
-                                Format(s, 1024, "%t\n%t\n", "ash_help_soldier_rocketlaunchers", "ash_help_soldier_rocketjumper");
+                            //case 237:
+                             //   Format(s, 1024, "%t\n%t\n", "ash_help_soldier_rocketlaunchers", "ash_help_soldier_rocketjumper");
                             default:
                             {
                                 CloseHandle(MenuHndl);
@@ -7091,8 +7168,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                     {
                         switch (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary))
                         {
-                            case 308:
-                                Format(s, 1024, "%t\n", "ash_help_demoman_lochnload");
+                            //case 308:
+                            //    Format(s, 1024, "%t\n", "ash_help_demoman_lochnload");
                             case 405:
                                 Format(s, 1024, "%t\n", "ash_help_demoman_alibababooties");
                             case 1151:
@@ -7373,8 +7450,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                         {
                             case 1150:
                                 Format(s, 1024, "%t\n", "ash_help_demoman_quickiebomblauncher");
-                            case 265:
-                                Format(s, 1024, "%t\n", "ash_help_demoman_stickyjumper");
+                            //case 265:
+                            //    Format(s, 1024, "%t\n", "ash_help_demoman_stickyjumper");
                             case 131:
                                 Format(s, 1024, "%t\n", "ash_help_demoman_targe");
                             default:
@@ -7405,8 +7482,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_heavy_shotguns");
                             case 311:
                                 Format(s, 1024, "%t\n", "ash_help_heavy_buffalo");
-                            case 159:
-                                Format(s, 1024, "%t\n", "ash_help_heavy_dalokosh");
+                            //case 159:
+                            //    Format(s, 1024, "%t\n", "ash_help_heavy_dalokosh");
                             default:
                             {
                                 CloseHandle(MenuHndl);
@@ -7685,7 +7762,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                     {
                         switch (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee))
                         {
-                            case 225:
+                            case 225, 574:
                                 Format(s, 1024, "%t\n%t\n", "ash_help_spy_allknives", "ash_help_spy_youreternalreward");
                             case 356:
                                 Format(s, 1024, "%t\n%t\n", "ash_help_spy_allknives", "ash_help_spy_conniverskunai");
@@ -7708,8 +7785,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                 }
                 switch (GetIndexOfWeaponSlot(client, 4))
                 {
-                    case 60:
-                        Format(s, 1024, "%t", "ash_help_spy_cloakanddagger");
+                    //case 60:
+                    //    Format(s, 1024, "%t", "ash_help_spy_cloakanddagger");
                     case 59:
                         Format(s, 1024, "%t", "ash_help_spy_deadringer");
                     default:
@@ -7990,7 +8067,7 @@ stock bool PrepModel(const char[] model) {
 }
 
 public Action OnSay(int client, int args) {
-    if (ASHRoundState != ASHRState_Active)
+    if (ASHRoundState != ASHRState_Active || !GetConVarBool(cvarEnableSecretCheats))
         return Plugin_Continue;
 
     bool isCheat    = false;
@@ -8052,7 +8129,7 @@ public Action OnSay(int client, int args) {
             hotnightMap = false;
         }
         
-    } else if ((NEEDADISPENSERHERE <2 && NEEDADISPENSERHERE >= 0)) {
+    } else if ((NEEDADISPENSERHERE < 2 && NEEDADISPENSERHERE >= 0)) {
         isCheat = true;
         if (!IsPlayerAlive(client) || dispenserEnabled[client] || TF2_GetPlayerClass(client) != TFClass_Scout) {
             dsSound = true;
@@ -8777,7 +8854,6 @@ public Action DeleteEntity(Handle hTimer, any iEntity) {
     return Plugin_Stop;
 }
 
-// Новый код инвиза для Агента
 public void AgentHelper_ChangeTimeBeforeInvis(float time, int client) {
     if (Special != ASHSpecial_Agent)
         return;
@@ -8869,6 +8945,98 @@ public Action CanBeTarget(Handle hTimer, any client)
 
 stock int TF2_GetPlayerMaxHealth(int client) {
 	return GetEntProp(GetPlayerResourceEntity(), Prop_Send, "m_iMaxHealth", _, client);
+}
+
+public Action From255to30(Handle hTimer, any client)
+{
+    g_iAlphaSpys[client] = 255;
+    
+    g_bAlphaSpyDelay[client] = true;
+    
+    g_iTimerList_Alpha[client] = null;
+    g_iTimerList_Switch[client] = null;
+    
+    if (g_iTimerList_Repeat[client][0] != null)
+    {
+        KillTimer(g_iTimerList_Repeat[client][0]);
+        g_iTimerList_Repeat[client][0] = null;
+    }
+    
+    if (g_iTimerList_Repeat[client][1] != null)
+    {
+        KillTimer(g_iTimerList_Repeat[client][1]);
+        g_iTimerList_Repeat[client][1] = null;
+    }
+    
+    if(!g_bAlphaSpysAllow[client][1]) 
+    {
+        g_bAlphaSpysAllow[client][0] = true;
+        int clientid = GetClientUserId(client);
+        g_iTimerList_Repeat[client][0] = CreateTimer(1.0/22.5, SetPlayerRenderAlpha_ActionTo30_0, clientid, TIMER_REPEAT);
+    }
+    
+    if(!g_bAlphaSpysAllow[client][0])
+    {
+        g_bAlphaSpysAllow[client][1] = true;
+        int clientid = GetClientUserId(client);
+        g_iTimerList_Repeat[client][1] = CreateTimer(1.0/22.5, SetPlayerRenderAlpha_ActionTo30_1, clientid, TIMER_REPEAT);
+    }
+}
+
+public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
+{
+    int client = GetClientOfUserId(clientid);
+    
+    if(g_bAlphaSpysAllow[client][0] && client > 0 && g_iAlphaSpys[client] > 30) 
+    {
+        g_iAlphaSpys[client]--;
+        return Plugin_Continue;
+    }
+    else
+    {
+        KillTimer(g_iTimerList_Repeat[client][0]);
+        g_iTimerList_Repeat[client][0] = null;
+        return Plugin_Continue;
+    }
+}
+
+public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
+{
+    int client = GetClientOfUserId(clientid);
+    
+    if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30)
+    {
+        g_iAlphaSpys[client]--;
+        return Plugin_Continue;
+    }
+    else
+    {
+        KillTimer(g_iTimerList_Repeat[client][1]);
+        g_iTimerList_Repeat[client][1] = null;
+        return Plugin_Continue;
+    }
+}
+
+public Action From30to255(Handle hTimer, any client)
+{
+    g_iAlphaSpys[client] = 30;
+
+    for(int i=1; i<=225; i++)
+    {
+        DataPack hPack;
+        CreateDataTimer(float(i)/22.5, SetPlayerRenderAlpha_ActionFrom30, hPack);
+        hPack.WriteCell(client);
+        hPack.WriteCell(i);
+    }
+}
+
+public Action SetPlayerRenderAlpha_ActionFrom30(Handle hTimer, DataPack hPack)
+{
+    hPack.Reset();
+    int client = hPack.ReadCell();
+    int i = hPack.ReadCell();
+    
+    g_iAlphaSpys[client] = i+30;
 }
 
 //public Action EquipDefault(int client, )

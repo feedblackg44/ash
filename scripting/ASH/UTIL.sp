@@ -1,4 +1,5 @@
 bool g_bHooked[MAXPLAYERS + 1];
+static Handle g_ptrGetMaxHealth;
 
 void UTIL_MakeCommands() {
     // CHEATS
@@ -45,6 +46,9 @@ void UTIL_MakeCommands() {
     RegAdminCmd("sm_hale_point_enable", Command_Point_Enable, ADMFLAG_CHEATS, "Enable CP. Only with hale_point_type = 0");
     RegAdminCmd("sm_hale_point_disable", Command_Point_Disable, ADMFLAG_CHEATS, "Disable CP. Only with hale_point_type = 0");
     RegAdminCmd("sm_hale_stop_music", Command_StopMusic, ADMFLAG_CHEATS, "Stop any currently playing Boss music.");
+    
+    //RegAdminCmd("sm_alpha", Experiment, ADMFLAG_CHEATS, "Expriment");
+    //RegAdminCmd("sm_alpha_ex", Experiment_Alpha, ADMFLAG_CHEATS, "Expriment");
 }
 
 void UTIL_MakeHooks() {
@@ -82,25 +86,25 @@ void UTIL_MakeConVars() {
     cvarDisplayHaleHP = CreateConVar("hale_hp_display", "1", "Display Hale Health at all times.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarRageSentry = CreateConVar("hale_ragesentrydamagemode", "1", "If 0, to repair a sentry that has been damaged by rage, the Engineer must pick it up and put it back down.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarFirstRound = CreateConVar("hale_first_round", "0", "Disable(0) or Enable(1) ASH in 1st round.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarEnableEurekaEffect = CreateConVar("hale_enable_eureka", "1", "1- allow Eureka Effect, else disallow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    //cvarEnableEurekaEffect = CreateConVar("hale_enable_eureka", "1", "1- allow Eureka Effect, else disallow", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarForceHaleTeam = CreateConVar("hale_force_team", "0", "0- Use plugin logic, 1- random team, 2- red, 3- blue", FCVAR_NOTIFY, true, 0.0, true, 3.0);
     
-    /*cvarEnableJumper = CreateConVar("hale_enable_jumper", "0", "Enable rocket jumper and sticky jumper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarEnableCloak = CreateConVar("hale_enable_cloak", "0", "Enable Cloak and Dagger", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableJumper = CreateConVar("hale_enable_jumper", "1", "Enable rocket jumper and sticky jumper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    //cvarEnableCloak = CreateConVar("hale_enable_cloak", "0", "Enable Cloak and Dagger", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableSapper = CreateConVar("hale_enable_sapper", "1", "Enable passive attributes of spy's sappers", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     
-    cvarEnableCBS = CreateConVar("hale_boss_cbs", "1", "Enable Christian Brutal Sniper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    /*cvarEnableCBS = CreateConVar("hale_boss_cbs", "1", "Enable Christian Brutal Sniper", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableHHH = CreateConVar("hale_boss_hhh", "1", "Enable Horseless Headless Horsemann", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableBunny = CreateConVar("hale_boss_bunny", "1", "Enable Easter Bunny", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableVagineer = CreateConVar("hale_boss_vagineer", "1", "Enable Vagineer", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarEnableSapper = CreateConVar("hale_boss_agent", "1", "Enable Agent", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarEnableSecret1 = CreateConVar("hale_boss_secret_1", "1", "Enable First Secret Boss", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarEnableAgent = CreateConVar("hale_boss_agent", "1", "Enable Agent", FCVAR_NOTIFY, true, 0.0, true, 1.0);*/
     
+    cvarEnableSecret1 = CreateConVar("hale_boss_secret_1", "1", "Enable First Secret Boss", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarEnableSecretCheats = CreateConVar("hale_enable_secret_cheats", "1", "Enable secret cheats", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     
-    cvarTryhardDirecthit = CreateConVar("hale_tryhard_directhit", "1", "Enable Direct Hit stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarTryhardMachina = CreateConVar("hale_tryhard_lochnload", "1", "Enable Machina stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
-    cvarTryhardLochnload = CreateConVar("hale_tryhard_machina", "1", "Enable Loch-n-Load stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarTryhardDirecthit = CreateConVar("hale_tryhard_directhit", "0", "Enable Direct Hit stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    cvarTryhardMachina = CreateConVar("hale_tryhard_machina", "1", "Enable Machina stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+    /*cvarTryhardLochnload = CreateConVar("hale_tryhard_lochnload", "1", "Enable Loch-n-Load stun", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     
     cvarSpecial = CreateConVar("hale_spec", "1", "Allow weapons' special abilities", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarSpecialRestrict = CreateConVar("hale_spec_restrict", "1", "Replace disallowed weapons with the stock one (1) or leave it without its abilities (0)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
@@ -155,18 +159,19 @@ void UTIL_MakeConVars() {
     HookConVarChange(cvarRageSentry, CvarChange);
     //HookConVarChange(cvarCircuitStun, CvarChange);
     
-    /*HookConVarChange(cvarEnableJumper, CvarChange);
-    HookConVarChange(cvarEnableCloak, CvarChange);
+    HookConVarChange(cvarEnableJumper, CvarChange);
     HookConVarChange(cvarEnableSapper, CvarChange);
+    HookConVarChange(cvarEnableSecret1, CvarChange);
+    HookConVarChange(cvarEnableSecretCheats, CvarChange);
+    HookConVarChange(cvarTryhardDirecthit, CvarChange);
+    HookConVarChange(cvarTryhardMachina, CvarChange);
+    
+    /*HookConVarChange(cvarEnableCloak, CvarChange);
     HookConVarChange(cvarEnableCBS, CvarChange);
     HookConVarChange(cvarEnableHHH, CvarChange);
     HookConVarChange(cvarEnableBunny, CvarChange);
     HookConVarChange(cvarEnableVagineer, CvarChange);
     HookConVarChange(cvarEnableAgent, CvarChange);
-    HookConVarChange(cvarEnableSecret1, CvarChange);
-    HookConVarChange(cvarEnableSecretCheats, CvarChange);
-    HookConVarChange(cvarTryhardDirecthit, CvarChange);
-    HookConVarChange(cvarTryhardMachina, CvarChange);
     HookConVarChange(cvarTryhardLochnload, CvarChange);
     HookConVarChange(cvarSpecial, CvarChange);
     HookConVarChange(cvarSpecialRestrict, CvarChange);
@@ -253,6 +258,26 @@ void UTIL_LoadTranslations() {
 #endif
 
     LoadTranslations("common.phrases");
+}
+
+void UTIL_InitGamedata() {
+    Handle hGameConf = LoadGameConfigFile("ash");
+    if (!hGameConf)
+    {
+        SetFailState("Can't load gamedata file.");
+        return; // supress compiler warnings about "null"-used variable.
+    }
+
+    // CTFPlayer::GetMaxHealth()
+    StartPrepSDKCall(SDKCall_Player);
+    if (!PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "CTFPlayer::GetMaxHealth")
+     || !PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain)
+     || !(g_ptrGetMaxHealth = EndPrepSDKCall())) {
+        CloseHandle(hGameConf);
+        SetFailState("Invalid gamedata file for CTFPlayer::GetMaxHealth()");
+    }
+
+    CloseHandle(hGameConf);
 }
 
 void UTIL_LookupOffsets() {
@@ -1022,9 +1047,12 @@ stock void UTIL_CreateBelatedAttributeChange(float flTime, int iEntity, int iAtt
 
 int UTIL_GetAlivePlayers(int iTeam) {
     int iCounter = 0;
-    for (int iClient = MaxClients; iClient != 0; --iClient)
+    for (int iClient = MaxClients; iClient != 0; --iClient) {
         if (IsClientInGame(iClient) && GetClientTeam(iClient) == iTeam && IsPlayerAlive(iClient))
             iCounter++;
+    }
+    
+    //PrintToChatAll("iCounter: %d", iCounter);
     return iCounter;
 }
 
@@ -1138,3 +1166,29 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
 
     return iResult;
 }*/
+
+stock int UTIL_GetMaxHealth(int iClient) {
+    return SDKCall(g_ptrGetMaxHealth, iClient);
+}
+
+stock void UTIL_SetMaxHealth(int iClient, int iHealth = 0) {
+    // First, reset our entity health.
+    UTIL_SetAdditionalHealth(iClient, 0);
+
+    // Second, recalculate required additional health.
+    int iMaxHealth = UTIL_GetMaxHealth(iClient);
+    int iRequiredAdditionalHealth = iHealth - iMaxHealth;
+
+    // Third, set additional health.
+    UTIL_SetAdditionalHealth(iClient, iRequiredAdditionalHealth);
+}
+
+stock void UTIL_SetAdditionalHealth(int iClient, int iHealth = 0) {
+    if (iHealth == 0)
+    {
+        TF2Attrib_RemoveByDefIndex(iClient, 26);
+        return;
+    }
+
+    TF2Attrib_SetByDefIndex(iClient, 26, float(iHealth));
+}

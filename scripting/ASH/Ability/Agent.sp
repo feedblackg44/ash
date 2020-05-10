@@ -136,11 +136,11 @@ void AbilityAgent_DoSelect() {
         return;
     }
     
-    if (TF2_IsPlayerInCondition(iClient, TFCond_DefenseBuffed)) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
-        return;
-    }
+    //if (TF2_IsPlayerInCondition(iClient, TFCond_DefenseBuffed)) {
+    //    SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
+    //    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
+    //    return;
+    //}
     
     if (g_iFidovskiyFix[iClient] == 0) 
     {
@@ -153,7 +153,9 @@ void AbilityAgent_DoSelect() {
 }
 
 void AbilityAgent_DoSap() {
-    if (TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Ubercharged) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_UberchargedHidden) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Bonked) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_DefenseBuffed)) AbilityAgent_Reset();
+    if (TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Bonked) /*||
+        TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_DefenseBuffed)*/)
+            AbilityAgent_Reset();
     
     if(!hBombTimer && !g_bCanExplode)
     {
@@ -181,6 +183,11 @@ void AbilityAgent_DoSap() {
 
     if (!g_bCanExplode)
     {
+
+        // Ubercharge can remove prepared bomb when it's not active
+        if(TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Ubercharged) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_UberchargedHidden))
+            AbilityAgent_Reset();
+
         SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
         ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_waitexplode", iSeconds);
         return;
@@ -241,7 +248,10 @@ void AgentAbility_Explode() {
     
     for (int iClient = MaxClients; iClient != 0; --iClient) 
     {
-        if (!IsClientInGame(iClient) || !IsPlayerAlive(iClient) || GetClientTeam(iClient) != OtherTeam)
+        if (!IsClientInGame(iClient) || !IsPlayerAlive(iClient) || GetClientTeam(iClient) != OtherTeam ||
+            TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged) ||
+            TF2_IsPlayerInCondition(iClient, TFCond_UberchargedHidden) ||
+            TF2_IsPlayerInCondition(iClient, TFCond_Bonked))
             continue;
 
         GetEntPropVector(iClient, Prop_Send, "m_vecOrigin", vecReceiverPosition);
@@ -250,7 +260,7 @@ void AgentAbility_Explode() {
             continue;
 
         flDamage = ((iMaxHealth * 2.0) / iDistance);
-        SDKHooks_TakeDamage(iClient, 0, 0, flDamage);
+        SDKHooks_TakeDamage(iClient, 0, 0, flDamage, DMG_CLUB);
     }
 }
 

@@ -50,9 +50,9 @@ int Ext_EqualizerSpecialStart(int iClient) {
 //  float flPercentage = (float(HaleHealth) / float(HaleHealthMax));
   
   float flHaleDamageNeed = (float(HaleHealthMax) / 2.5);
-  if (flHaleDamageNeed >= 2500)
+  if (flHaleDamageNeed >= 2000)
   {
-    flHaleDamageNeed = 2500.0;
+    flHaleDamageNeed = 2000.0;
   }
   int iHaleDamageNeed = RoundToCeil(flHaleDamageNeed);
   
@@ -62,7 +62,7 @@ int Ext_EqualizerSpecialStart(int iClient) {
   if (Damage[iClient] >= iHaleDamageNeed) {
     TF2Attrib_SetByDefIndex(iClient, 26, 225.0);
     SetEntProp(iClient, Prop_Send, "m_iHealth", 425);
-    HaleHealth = RoundToCeil(float(HaleHealth) * 0.5);
+    // HaleHealth = RoundToCeil(float(HaleHealth) * 0.5);
     // HaleHealth *= 0.5;
     return 26;
   }
