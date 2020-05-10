@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8733"
+#define ASH_BUILD                     "8734"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 

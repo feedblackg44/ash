@@ -1591,6 +1591,11 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             g_iTimerList_Alpha[attacker] = CreateTimer(KDTime, From255to30, attacker);
         }
         
+        if (client == Hale && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Secondary) == 525 && GetEntProp(attacker, Prop_Send, "m_iRevengeCrits") > 0 && IsWeaponSlotActive(attacker, TFWeaponSlot_Secondary) && damagecustom == DMG_BULLET)
+        {
+            TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
+        }
+        
         if (client != attacker && TF2_GetPlayerClass(client) == TFClass_Scout && GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 448 && SpeedDamage[client] >= 2281336) {
             // Miss!
             damage = GetRandomFloat(20.0, 30.0);
