@@ -1679,7 +1679,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
         char InflictorName[64];
         GetEntityClassname(inflictor, InflictorName, 64);
-        if (!StrEqual(InflictorName, "tf_projectile_pipe")) {
+        if (!StrEqual(InflictorName, "tf_projectile_pipe") && GetClientHealth(other)<=202) {
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
@@ -2459,12 +2459,14 @@ public Action OnStartTouch(int client, int other)
         GetEntPropVector(client, Prop_Send, "m_vecOrigin", vPos);
         
         if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, view_as<TFCond>(64))) {
-            if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
-                EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-                EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-                TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
-                TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
-                return Plugin_Continue;
+            if (GetClientHealth(other)<=202) {
+                if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
+                    EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                    EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                    TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
+                    TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
+                    return Plugin_Continue;
+                }
             } else {
                 FakeKill_Goomba = 1;
                 SDKHooks_TakeDamage(other, client, client, 202.0, DMG_PREVENT_PHYSICS_FORCE | DMG_CRUSH | DMG_ALWAYSGIB);
