@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8734"
+#define ASH_BUILD                     "8735"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 
@@ -618,6 +618,7 @@ int g_iAlphaSpys[MAXPLAYERS+1];
 bool g_bAlphaSpysAllow[MAXPLAYERS+1][2];
 bool g_bSpySwitchAllow[MAXPLAYERS+1];
 bool g_bAlphaSpyDelay[MAXPLAYERS+1];
+bool g_bProtectedShield[MAXPLAYERS+1];
 int g_iTauntedSpys[MAXPLAYERS+1];
 int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
@@ -1592,8 +1593,9 @@ public Action StartHaleTimer(Handle hTimer)
         {
             g_iTauntedSpys[iClient] = 0;
             g_iAlphaSpys[iClient] = 30;
-            //g_bAlphaSpysAllow[iClient][0] = false;
-            //g_bAlphaSpysAllow[iClient][1] = true;
+            g_bAlphaSpysAllow[iClient][0] = false;
+            g_bAlphaSpysAllow[iClient][1] = true;
+            g_bProtectedShield[iClient] = true;
         }
         /*if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
@@ -5947,9 +5949,19 @@ stock bool RemoveDemoShield(int iClient)
                 // And add damage to Hale!
                 Damage[iClient] += 450;
                 HaleHealth -= 450;
+                TF2_RemoveWearable(iClient, iEnt);
+                return true;
             }
-            TF2_RemoveWearable(iClient, iEnt);
-            return true;
+            else if (GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex") == 406 && g_bProtectedShield[iClient])
+            {   
+                g_bProtectedShield[iClient] = false;
+                return false;
+            }
+            else
+            {
+                TF2_RemoveWearable(iClient, iEnt);
+                return true;
+            }
         }
     }
     return false;
