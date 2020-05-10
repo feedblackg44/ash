@@ -1300,7 +1300,14 @@ public Action event_sapped(Handle event, const char[] name, bool dontBroadcast) 
     if (g_bEnabled) {
         int ply = GetClientOfUserId(GetEventInt(event, "userid"));
         if (Special == ASHSpecial_Agent && ply == Hale)
+        {
             AgentHelper_ChangeTimeBeforeInvis(1.6, Hale);
+            int weapon = GetPlayerWeaponSlot(ply, 1);
+            if (weapon != -1)
+            {
+                SetNextAttack(weapon, 3.0);
+            }
+        }
     }
     return Plugin_Continue;
 }
