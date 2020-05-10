@@ -270,6 +270,7 @@ public Action ClientTimer(Handle hTimer)
             // Cloak and dagger
             // Player health
             int spyTemp = 0;
+            int spyTemp_sapper = 0;
             /*if (iPlayerClass == TFClass_Spy) 
             {
                 spyTemp = GetPlayerWeaponSlot(client, 4);
@@ -300,16 +301,25 @@ public Action ClientTimer(Handle hTimer)
             
             // Sapper 1
             if (GetConVarBool(cvarEnableSapper)) {
-                spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
-                if (spyTemp > MaxClients && IsValidEdict(spyTemp))
-                {
-                    spyTemp = GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex");
-                    if (spyTemp == 735 || spyTemp == 736 || spyTemp == 933 || spyTemp == 1080 || spyTemp == 1102)
+                if (iPlayerClass ==TFClass_Spy) {
+                    spyTemp = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
+                    if (spyTemp > MaxClients && IsValidEdict(spyTemp))
                     {
-                        if (TF2_IsPlayerInCondition(client, TFCond_Cloaked)) TF2Attrib_SetByDefIndex(client, 112, 0.0);
-                        else TF2Attrib_SetByDefIndex(client, 112, 0.05);
+                        spyTemp_sapper = GetEntProp(spyTemp, Prop_Send, "m_iItemDefinitionIndex");
+                        if (spyTemp_sapper == 735 || spyTemp_sapper == 736 || spyTemp_sapper == 933 || spyTemp_sapper == 1080 || spyTemp_sapper == 1102)
+                        {
+                            if (TF2_IsPlayerInCondition(client, TFCond_Cloaked)) TF2Attrib_RemoveByDefIndex(client, 112);
+                            else TF2Attrib_SetByDefIndex(client, 112, 0.05);
+                        }
+                        else
+                        {
+                            TF2Attrib_RemoveByDefIndex(client, 112);
+                        }
                     }
-                    else TF2Attrib_SetByDefIndex(client, 112, 0.0);
+                }
+                else
+                {
+                    TF2Attrib_RemoveByDefIndex(client, 112);
                 }
                 // Sapper 2
                 if ((GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 810 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 831))
@@ -447,67 +457,95 @@ public Action ClientTimer(Handle hTimer)
                     // Cloak Drain Penalty
                     //TF2Attrib_SetByDefIndex(client, 34, 0.90);
                     //TF2Attrib_SetByDefIndex(client, 129, -2.0);
-                    
-                    if (TF2_IsPlayerInCondition(client, TFCond_Cloaked))
-                        SetEntPropFloat(client, Prop_Send, "m_flCloakMeter", GetEntPropFloat(client, Prop_Send, "m_flCloakMeter")/1.04);
-                    
-                    SetEntityRenderMode(client, RENDER_TRANSCOLOR);
-                    SetPlayerRenderAlpha(client, 30);
-
-                    int edict = MaxClients + 1;
-                    while ((edict = FindEntityByClassname2(edict, "tf_wearable")) != -1) // Cosmetics
+                    if(IsWeaponSlotActive(client, TFWeaponSlot_Melee))
                     {
-                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
-                            continue;
+                        if(g_bSpySwitchAllow[client] && g_bAlphaSpyDelay[client])
+                        {
+                            if (g_iTimerList_Switch[client] != null)
+                            {
+                                KillTimer(g_iTimerList_Switch[client]);
+                                g_iTimerList_Switch[client] = null;
+                            }
+                            
+                            g_bSpySwitchAllow[client] = false;
+                            
+                            g_iAlphaSpys[client] = 255;
+                            g_iTimerList_Switch[client] = CreateTimer(0.1, From255to30, client);
+                        }
                         
-                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
-                        SetEntityRenderColor(edict, 255, 255, 255, 50);
-                    }
+                        if (TF2_IsPlayerInCondition(client, TFCond_Cloaked))
+                            SetEntPropFloat(client, Prop_Send, "m_flCloakMeter", GetEntPropFloat(client, Prop_Send, "m_flCloakMeter")/1.04);
                     
-                    edict = MaxClients + 1;
-                    while ((edict = FindEntityByClassname2(edict, "tf_wearable_razorback")) != -1) // Cozy Camper and DDS is tf_wearable, so we need only hide the razorback
-                    {
-                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
-                            continue;
+                        SetEntityRenderMode(client, RENDER_TRANSCOLOR);
+                        SetPlayerRenderAlpha(client, g_iAlphaSpys[client]);
+
+                        int edict = MaxClients + 1;
+                        while ((edict = FindEntityByClassname2(edict, "tf_wearable")) != -1) // Cosmetics
+                        {
+                            if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                                continue;
+                        
+                            SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                            SetEntityRenderColor(edict, 255, 255, 255, g_iAlphaSpys[client]);
+                        }
+                    
+                        edict = MaxClients + 1;
+                        while ((edict = FindEntityByClassname2(edict, "tf_wearable_razorback")) != -1) // Cozy Camper and DDS is tf_wearable, so we need only hide the razorback
+                        {
+                            if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                                continue;
                          
-                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
-                        SetEntityRenderColor(edict, 255, 255, 255, 50);
-                    }
+                            SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                            SetEntityRenderColor(edict, 255, 255, 255, g_iAlphaSpys[client]);
+                        }
 
-                    edict = MaxClients + 1;
-                    while ((edict = FindEntityByClassname2(edict, "tf_powerup_bottle")) != -1) // Captain canteen!!!
-                    {
-                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
-                            continue;
+                        edict = MaxClients + 1;
+                        while ((edict = FindEntityByClassname2(edict, "tf_powerup_bottle")) != -1) // Captain canteen!!!
+                        {
+                            if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                                continue;
+                            
+                            SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                            SetEntityRenderColor(edict, 255, 255, 255, 0);
+                        }
+    
+                        edict = MaxClients + 1;
+                        while ((edict = FindEntityByClassname2(edict, "craft_item")) != -1) // Spellbook
+                        {
+                            if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                                continue;
                         
-                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
-                        SetEntityRenderColor(edict, 255, 255, 255, 0);
-                    }
+                            SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                            SetEntityRenderColor(edict, 255, 255, 255, 0);
+                        }
 
-                    edict = MaxClients + 1;
-                    while ((edict = FindEntityByClassname2(edict, "craft_item")) != -1) // Spellbook
-                    {
-                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
-                            continue;
-                        
-                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
-                        SetEntityRenderColor(edict, 255, 255, 255, 0);
+                        edict = MaxClients + 1;
+                        while ((edict = FindEntityByClassname2(edict, "tf_wearable_campaign_item")) != -1) // Contracker
+                        {
+                            if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
+                                continue;
+                            
+                            SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
+                            SetEntityRenderColor(edict, 255, 255, 255, 0);
+                        }
                     }
-
-                    edict = MaxClients + 1;
-                    while ((edict = FindEntityByClassname2(edict, "tf_wearable_campaign_item")) != -1) // Contracker
+                    else
                     {
-                        if (GetEntPropEnt(edict, Prop_Send, "m_hOwnerEntity") != client)
-                            continue;
-                        
-                        SetEntityRenderMode(edict, RENDER_TRANSCOLOR);
-                        SetEntityRenderColor(edict, 255, 255, 255, 0);
+                        SetPlayerRenderAlpha(client, 255);
+                        g_iAlphaSpys[client] = 255;
+                        g_bSpySwitchAllow[client] = true;
                     }
+                    
                 }
                 else
                 {
                     SetPlayerRenderAlpha(client, 255);
+                    g_iAlphaSpys[client] = 255;
                 }
+            }
+            else
+            {
+                SetPlayerRenderAlpha(client, 255);
             }
 
             if (class == TFClass_Pyro && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 595) {

@@ -1568,6 +1568,28 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             damagetype = 0;
             return Plugin_Changed;
         }
+        if (client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
+        {
+            g_bAlphaSpysAllow[attacker][0] = !g_bAlphaSpysAllow[attacker][0];
+            
+            g_bAlphaSpysAllow[attacker][1] = !g_bAlphaSpysAllow[attacker][1];
+            
+            g_iAlphaSpys[attacker] = 255;
+            if (g_iTimerList_Alpha[attacker] != null)
+            {
+                KillTimer(g_iTimerList_Alpha[attacker]);
+                g_iTimerList_Alpha[attacker] = null;
+            }
+            float KDTime = 0.0;
+            if (damagecustom == TF_CUSTOM_BACKSTAB)
+                KDTime = 15.0;
+            else
+                KDTime = 2.0;
+            
+            g_bAlphaSpyDelay[attacker] = false;
+            
+            g_iTimerList_Alpha[attacker] = CreateTimer(KDTime, From255to30, attacker);
+        }
         
         if (client != attacker && TF2_GetPlayerClass(client) == TFClass_Scout && GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 448 && SpeedDamage[client] >= 2281336) {
             // Miss!

@@ -46,6 +46,9 @@ void UTIL_MakeCommands() {
     RegAdminCmd("sm_hale_point_enable", Command_Point_Enable, ADMFLAG_CHEATS, "Enable CP. Only with hale_point_type = 0");
     RegAdminCmd("sm_hale_point_disable", Command_Point_Disable, ADMFLAG_CHEATS, "Disable CP. Only with hale_point_type = 0");
     RegAdminCmd("sm_hale_stop_music", Command_StopMusic, ADMFLAG_CHEATS, "Stop any currently playing Boss music.");
+    
+    //RegAdminCmd("sm_alpha", Experiment, ADMFLAG_CHEATS, "Expriment");
+    //RegAdminCmd("sm_alpha_ex", Experiment_Alpha, ADMFLAG_CHEATS, "Expriment");
 }
 
 void UTIL_MakeHooks() {

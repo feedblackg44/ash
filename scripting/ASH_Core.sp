@@ -21,8 +21,8 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8684"
-#define ASH_PLUGIN_VERSION            "1.21"
+#define ASH_BUILD                     "8731"
+#define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 
 // ASH Settings
@@ -614,9 +614,16 @@ int g_iOffsetModelScale;
 bool BlockDamage[MAXPLAYERS+1];
 int AQUACURE_EntShield[MAXPLAYERS+1];
 int g_iFidovskiyFix[MAXPLAYERS+1];
+int g_iAlphaSpys[MAXPLAYERS+1];
+bool g_bAlphaSpysAllow[MAXPLAYERS+1][2];
+bool g_bSpySwitchAllow[MAXPLAYERS+1];
+bool g_bAlphaSpyDelay[MAXPLAYERS+1];
 int g_iTauntedSpys[MAXPLAYERS+1];
 int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
+Handle g_iTimerList_Alpha[MAXPLAYERS+1];
+Handle g_iTimerList_Switch[MAXPLAYERS+1];
+Handle g_iTimerList_Repeat[MAXPLAYERS+1][2];
 //int g_iJarateRageMinus[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
@@ -1568,12 +1575,25 @@ public Action StartHaleTimer(Handle hTimer)
         {
             TF2_RegeneratePlayer(iClient);
         }
+        if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
+        {
+            g_iAlphaSpys[iClient] = 30;
+            g_bAlphaSpyDelay[iClient] = true;
+        }
+        else
+        {
+            SetPlayerRenderAlpha(iClient, 255);
+        }
+        
         if (BushmanRulesRound && IsPlayerAlive(iClient)) {
             TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Primary);
         }
         if (IsPlayerAlive(iClient))
         {
             g_iTauntedSpys[iClient] = 0;
+            g_iAlphaSpys[iClient] = 30;
+            //g_bAlphaSpysAllow[iClient][0] = false;
+            //g_bAlphaSpysAllow[iClient][1] = true;
         }
         /*if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
@@ -8925,6 +8945,98 @@ public Action CanBeTarget(Handle hTimer, any client)
 
 stock int TF2_GetPlayerMaxHealth(int client) {
 	return GetEntProp(GetPlayerResourceEntity(), Prop_Send, "m_iMaxHealth", _, client);
+}
+
+public Action From255to30(Handle hTimer, any client)
+{
+    g_iAlphaSpys[client] = 255;
+    
+    g_bAlphaSpyDelay[client] = true;
+    
+    g_iTimerList_Alpha[client] = null;
+    g_iTimerList_Switch[client] = null;
+    
+    if (g_iTimerList_Repeat[client][0] != null)
+    {
+        KillTimer(g_iTimerList_Repeat[client][0]);
+        g_iTimerList_Repeat[client][0] = null;
+    }
+    
+    if (g_iTimerList_Repeat[client][1] != null)
+    {
+        KillTimer(g_iTimerList_Repeat[client][1]);
+        g_iTimerList_Repeat[client][1] = null;
+    }
+    
+    if(!g_bAlphaSpysAllow[client][1]) 
+    {
+        g_bAlphaSpysAllow[client][0] = true;
+        int clientid = GetClientUserId(client);
+        g_iTimerList_Repeat[client][0] = CreateTimer(1.0/22.5, SetPlayerRenderAlpha_ActionTo30_0, clientid, TIMER_REPEAT);
+    }
+    
+    if(!g_bAlphaSpysAllow[client][0])
+    {
+        g_bAlphaSpysAllow[client][1] = true;
+        int clientid = GetClientUserId(client);
+        g_iTimerList_Repeat[client][1] = CreateTimer(1.0/22.5, SetPlayerRenderAlpha_ActionTo30_1, clientid, TIMER_REPEAT);
+    }
+}
+
+public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
+{
+    int client = GetClientOfUserId(clientid);
+    
+    if(g_bAlphaSpysAllow[client][0] && client > 0 && g_iAlphaSpys[client] > 30) 
+    {
+        g_iAlphaSpys[client]--;
+        return Plugin_Continue;
+    }
+    else
+    {
+        KillTimer(g_iTimerList_Repeat[client][0]);
+        g_iTimerList_Repeat[client][0] = null;
+        return Plugin_Continue;
+    }
+}
+
+public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
+{
+    int client = GetClientOfUserId(clientid);
+    
+    if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30)
+    {
+        g_iAlphaSpys[client]--;
+        return Plugin_Continue;
+    }
+    else
+    {
+        KillTimer(g_iTimerList_Repeat[client][1]);
+        g_iTimerList_Repeat[client][1] = null;
+        return Plugin_Continue;
+    }
+}
+
+public Action From30to255(Handle hTimer, any client)
+{
+    g_iAlphaSpys[client] = 30;
+
+    for(int i=1; i<=225; i++)
+    {
+        DataPack hPack;
+        CreateDataTimer(float(i)/22.5, SetPlayerRenderAlpha_ActionFrom30, hPack);
+        hPack.WriteCell(client);
+        hPack.WriteCell(i);
+    }
+}
+
+public Action SetPlayerRenderAlpha_ActionFrom30(Handle hTimer, DataPack hPack)
+{
+    hPack.Reset();
+    int client = hPack.ReadCell();
+    int i = hPack.ReadCell();
+    
+    g_iAlphaSpys[client] = i+30;
 }
 
 //public Action EquipDefault(int client, )
