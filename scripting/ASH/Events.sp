@@ -958,7 +958,7 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
             //KSpreeTimer = GetGameTime() + 5.0;
         }
     }
-    if ((TF2_GetPlayerClass(client) == TFClass_Engineer) && !(deathflags & TF_DEATHFLAG_DEADRINGER) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) != 589)
+    if ((TF2_GetPlayerClass(client) == TFClass_Engineer) && !(deathflags & TF_DEATHFLAG_DEADRINGER) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) != 589 && Special != ASHSpecial_Agent)
     {
         int ent = -1;
         while ((ent = FindEntityByClassname2(ent, "obj_sentrygun")) != -1)
