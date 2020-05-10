@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8737"
+#define ASH_BUILD                     "8738"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 
@@ -1570,6 +1570,8 @@ public Action StartResponceTimer(Handle hTimer)
 
 public Action StartHaleTimer(Handle hTimer)
 {
+    CreateTimer(5.0, AddPrimary, _, TIMER_REPEAT);
+    
     LoopPlayers(iClient)
     {
         if(TF2_GetPlayerClass(iClient) == TFClass_Engineer)
@@ -2277,7 +2279,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 40, 1146: // Backburner
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1"); // 170 ; ???
+            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 783 ; 20 ; 421 ; 1"); // 170 ; ???
         }
         case 648: // Wrap assassin
         {
@@ -9029,7 +9031,26 @@ public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
     }
 }
 
-public Action From30to255(Handle hTimer, any client)
+public Action AddPrimary(Handle hTimer)
+{
+    LoopPlayers(client)
+    {
+        if(client > 0 && client != Hale)
+        {
+            if(GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 40 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 1146)
+            {   
+                int iEnt = MaxClients + 1; 
+                iEnt = FindEntityByClassname2(iEnt, "tf_weapon_flamethrower");
+                if(GetEntPropEnt(iEnt, Prop_Send, "m_hOwnerEntity") == client)  
+                {                       
+                    SetEntProp(iEnt, Prop_Send, "m_iClip1", GetEntProp(iEnt, Prop_Send, "m_iClip1")+40); // +40 primary ammo
+                }   
+            }
+        }
+    }
+}
+
+/*public Action From30to255(Handle hTimer, any client)
 {
     g_iAlphaSpys[client] = 30;
 
@@ -9049,7 +9070,7 @@ public Action SetPlayerRenderAlpha_ActionFrom30(Handle hTimer, DataPack hPack)
     int i = hPack.ReadCell();
     
     g_iAlphaSpys[client] = i+30;
-}
+}*/
 
 //public Action EquipDefault(int client, )
 
