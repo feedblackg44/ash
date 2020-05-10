@@ -1679,7 +1679,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
         char InflictorName[64];
         GetEntityClassname(inflictor, InflictorName, 64);
-        if (!StrEqual(InflictorName, "tf_projectile_pipe") && GetClientHealth(other)<=202) {
+        if (!StrEqual(InflictorName, "tf_projectile_pipe") && GetClientHealth(client)<=202) {
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
