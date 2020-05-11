@@ -1528,6 +1528,11 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         }
     }*/
     
+    if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Spy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 525 && GetEntProp(attacker, Prop_Send, "m_iRevengeCrits") > 0 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary))
+    {
+        TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
+    }
+    
     if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagecustom == TF_CUSTOM_PLASMA)
     {
         if (damagetype != DMG_SHOCK && inflictor != attacker) {
@@ -1575,6 +1580,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             damagetype = 0;
             return Plugin_Changed;
         }
+        
         if (client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
         {
             g_bAlphaSpysAllow[attacker][0] = !g_bAlphaSpysAllow[attacker][0];
@@ -1596,11 +1602,6 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             g_bAlphaSpyDelay[attacker] = false;
             
             g_iTimerList_Alpha[attacker] = CreateTimer(KDTime, From255to30, attacker);
-        }
-        
-        if (client == Hale && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Secondary) == 525 && GetEntProp(attacker, Prop_Send, "m_iRevengeCrits") > 0 && IsWeaponSlotActive(attacker, TFWeaponSlot_Secondary) && damagecustom == DMG_BULLET)
-        {
-            TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
         }
         
         if (client != attacker && TF2_GetPlayerClass(client) == TFClass_Scout && GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 448 && SpeedDamage[client] >= 2281336) {

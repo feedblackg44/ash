@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8739"
+#define ASH_BUILD                     "8752"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 
@@ -1570,7 +1570,7 @@ public Action StartResponceTimer(Handle hTimer)
 
 public Action StartHaleTimer(Handle hTimer)
 {
-    CreateTimer(5.0, AddPrimary, _, TIMER_REPEAT);
+    //CreateTimer(5.0, AddPrimary, _, TIMER_REPEAT);
     
     LoopPlayers(iClient)
     {
@@ -1578,7 +1578,7 @@ public Action StartHaleTimer(Handle hTimer)
         {
             TF2_RegeneratePlayer(iClient);
         }
-        if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
+        /*if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
             g_iAlphaSpys[iClient] = 30;
             g_bAlphaSpyDelay[iClient] = true;
@@ -1586,7 +1586,7 @@ public Action StartHaleTimer(Handle hTimer)
         else
         {
             SetPlayerRenderAlpha(iClient, 255);
-        }
+        }*/
         
         if (BushmanRulesRound && IsPlayerAlive(iClient)) {
             TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Primary);
@@ -1598,6 +1598,8 @@ public Action StartHaleTimer(Handle hTimer)
             g_bAlphaSpysAllow[iClient][0] = false;
             g_bAlphaSpysAllow[iClient][1] = true;
             g_bProtectedShield[iClient] = true;
+            g_iAlphaSpys[iClient] = 30;
+            g_bAlphaSpyDelay[iClient] = true;
         }
         /*if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
@@ -5957,7 +5959,7 @@ stock bool RemoveDemoShield(int iClient)
             else if (GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex") == 406 && g_bProtectedShield[iClient])
             {   
                 g_bProtectedShield[iClient] = false;
-                return false;
+                return true;
             }
             else
             {
@@ -9008,8 +9010,11 @@ public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
     }
     else
     {
-        KillTimer(g_iTimerList_Repeat[client][0]);
-        g_iTimerList_Repeat[client][0] = null;
+        if(g_iTimerList_Repeat[client][0] != null)
+        {
+            KillTimer(g_iTimerList_Repeat[client][0]);
+            g_iTimerList_Repeat[client][0] = null;
+        }
         return Plugin_Continue;
     }
 }
@@ -9018,20 +9023,23 @@ public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
 {
     int client = GetClientOfUserId(clientid);
     
-    if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30)
+    if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30 && client > 0)
     {
         g_iAlphaSpys[client]--;
         return Plugin_Continue;
     }
     else
     {
-        KillTimer(g_iTimerList_Repeat[client][1]);
-        g_iTimerList_Repeat[client][1] = null;
+        if(g_iTimerList_Repeat[client][1] != null)
+        {
+            KillTimer(g_iTimerList_Repeat[client][1]);
+            g_iTimerList_Repeat[client][1] = null;
+        }
         return Plugin_Continue;
     }
 }
 
-public Action AddPrimary(Handle hTimer)
+/*public Action AddPrimary(Handle hTimer)
 {
     LoopPlayers(client)
     {
@@ -9041,14 +9049,14 @@ public Action AddPrimary(Handle hTimer)
             {   
                 int iEnt = MaxClients + 1; 
                 iEnt = FindEntityByClassname2(iEnt, "tf_weapon_flamethrower");
-                if(GetEntPropEnt(iEnt, Prop_Send, "m_hOwnerEntity") == client)  
+                if(GetEntPropEnt(iEnt, Prop_Send, "m_hOwnerEntity") == client && GetEntProp(iEnt, Prop_Send, "m_iClip1") < 200)  
                 {                       
                     SetEntProp(iEnt, Prop_Send, "m_iClip1", GetEntProp(iEnt, Prop_Send, "m_iClip1")+40); // +40 primary ammo
-                }   
+                }
             }
         }
     }
-}
+}*/
 
 /*public Action From30to255(Handle hTimer, any client)
 {
