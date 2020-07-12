@@ -958,7 +958,7 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
             //KSpreeTimer = GetGameTime() + 5.0;
         }
     }
-    if ((TF2_GetPlayerClass(client) == TFClass_Engineer) && !(deathflags & TF_DEATHFLAG_DEADRINGER) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) != 589 && Special != ASHSpecial_Agent)
+    if ((TF2_GetPlayerClass(client) == TFClass_Engineer) && !(deathflags & TF_DEATHFLAG_DEADRINGER) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) != 589 /* && Special != ASHSpecial_Agent*/)
     {
         int ent = -1;
         while ((ent = FindEntityByClassname2(ent, "obj_sentrygun")) != -1)
@@ -1302,11 +1302,11 @@ public Action event_sapped(Handle event, const char[] name, bool dontBroadcast) 
         if (Special == ASHSpecial_Agent && ply == Hale)
         {
             AgentHelper_ChangeTimeBeforeInvis(1.6, Hale);
-            int weapon = GetPlayerWeaponSlot(ply, 1);
+            /*int weapon = GetPlayerWeaponSlot(ply, 1);
             if (weapon != -1)
             {
                 SetNextAttack(weapon, 3.0);
-            }
+            }*/
         }
     }
     return Plugin_Continue;
