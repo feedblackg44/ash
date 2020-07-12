@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8753"
+#define ASH_BUILD                     "8754"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 
@@ -945,6 +945,9 @@ Handle cvarSpecialVagineer;
 Handle cvarSpecialBunny;
 Handle cvarSpecialAgent;
 */
+
+Handle cvarHaleMinPlayersResetQ;
+
 //Handle cvarEnableEurekaEffect;
 Handle cvarForceHaleTeam;
 Handle PointCookie;
@@ -5399,11 +5402,18 @@ public Action ResetQueuePointsCmd(int client, int args)
         return Plugin_Handled;
     if (!IsValidClient(client))
         return Plugin_Handled;
-    if (GetCmdReplySource() == SM_REPLY_TO_CHAT)
-        TurnToZeroPanel(client);
+    if (GetClientCount(true) >= GetConVarInt(cvarHaleMinPlayersResetQ)) {
+        if (GetCmdReplySource() == SM_REPLY_TO_CHAT) {
+            TurnToZeroPanel(client);
+        } else {
+            TurnToZeroPanelH(null, MenuAction_Select, client, 1); 
+        }
+        return Plugin_Handled;
+    }
     else
-        TurnToZeroPanelH(null, MenuAction_Select, client, 1);
-    return Plugin_Handled;
+    {
+        return Plugin_Handled;
+    }
 }
 
 public Action TurnToZeroPanel(int client)
