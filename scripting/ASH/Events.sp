@@ -2722,8 +2722,16 @@ public Action HookSound(int clients[64], int &numClients, char sample[PLATFORM_M
 
 public void OnEntityCreated(int entity, const char[] szClassName)
 {
+    //int iPlayer = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+    //int iSecondary = GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    
     if (g_bEnabled && ASHRoundState == ASHRState_Active && strcmp(szClassName, "tf_projectile_pipe", false) == 0)
         SDKHook(entity, SDKHook_SpawnPost, OnEggBombSpawned);
+    
+    /*if (g_bEnabled && ASHRoundState == ASHRState_Active && strcmp(szClassName, "tf_projectile_pipe_remote", false) == 0 && TF2_GetPlayerClass(iPlayer) == TFClass_DemoMan && iSecondary == 1150)
+    {
+        
+    }*/
 }
 public void OnEggBombSpawned(int entity)
 {

@@ -3,6 +3,7 @@ scripting/include/*
 include/*
 *.bat
 AIM.sp
+*.exe
 
 # Разрешаем инклуду режима
 !scripting/include/tf2_stocks.inc
