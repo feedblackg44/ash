@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8754"
+#define ASH_BUILD                     "8788"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "17 January 2020"
 
@@ -2277,7 +2277,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
     TFClassType iClass = TF2_GetPlayerClass(client);
 
     switch (iItemDefinitionIndex)
-    {
+    {      
         case 39, 351, 1081: // Mega Detonator
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "25 ; 0.5 ; 207 ; 1.33 ; 144 ; 1.0 ; 58 ; 3.2 ; 2 ; 1.25 ; 100 ; 0.90 ; 135 ; 0.85 ; 621 ; 0.35 ; 642 ; 1 ; 644 ; 1 ; 328 ; 1 ", true); // 100
@@ -2381,7 +2381,8 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 1150: // Quickiebomb Launcher
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 727 ; 1.25 ; 121 ; 1 ; 669 ; 2 ; 3 ; 0.75 ; 97 ; 0.75 ; 6 ; 0.50 ; 1 ; 0.70", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 121 ; 1 ; 3 ; 0.5 ; 1 ; 0.70 ; ", true);
+          //hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 727 ; 1.25 ; 121 ; 1 ; 669 ; 2 ; 3 ; 0.75 ; 97 ; 0.75 ; 6 ; 0.50 ; 1 ; 0.70", true);
         }
         case 752: // Hitman's Heatmaker
         {
@@ -3555,6 +3556,23 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 
                 if (GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") <= 0.9) ASHStats[UberCharges]++;
             }
+            /*case view_as<TFCond>(65):
+            {
+                if (TF2_GetPlayerClass(client) == TFClass_DemoMan && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 1150)
+                {
+                    int iSticky = -1;
+                    //new iStickyCount = 0;
+                    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+                    {
+                        if (client == GetEntPropEnt(iSticky, Prop_Send, "m_hThrower"))
+                        {
+                            SDKCall(g_CTFGrenadeDetonate, iSticky);
+                            //iStickyCount++;
+                        }   
+                    }
+                    //PrintToChatAll("%i stickies found", iStickyCount);
+                }
+            }*/
         }
         
         if (TF2_GetPlayerClass(client) == TFClass_Heavy && IsWeaponSlotActive(client, TFWeaponSlot_Secondary)) {
@@ -5091,7 +5109,7 @@ public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname
             return Plugin_Changed;
         }
     }
-    else if (IsValidEntity(weapon))
+    else if (IsValidEntity(weapon) && IsValidClient(client))
     {
         SpecialPlayers_LastActiveWeapons[client] = weapon;
 

@@ -1581,7 +1581,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             return Plugin_Changed;
         }
         
-        if (client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
+        if ( IsValidClient(client) && IsValidClient(attacker) && client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
         {
             g_bAlphaSpysAllow[attacker][0] = !g_bAlphaSpysAllow[attacker][0];
             
@@ -1689,18 +1689,23 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     float vPos[3];
     GetEntPropVector(attacker, Prop_Send, "m_vecOrigin", vPos);
     
-    if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
-        char InflictorName[64];
-        GetEntityClassname(inflictor, InflictorName, 64);
-        if (!StrEqual(InflictorName, "tf_projectile_pipe") && GetClientHealth(client)<=202) {
+    if(IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
+    {
+        if (/*!StrEqual(InflictorName, "tf_projectile_pipe") &&*/ GetClientHealth(client) <= damage) 
+		{
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-                EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                if (IsValidClient(attacker)) EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 TF2_AddCondition(client, TFCond_UberchargedHidden, 0.1);
                 TF2_AddCondition(client, TFCond_SpeedBuffAlly, 2.0);
                 return Plugin_Continue;
             }
         }
+    }
+    
+    if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
+        char InflictorName[64];
+        GetEntityClassname(inflictor, InflictorName, 64);
         
         if (Special == ASHSpecial_MiniHale && damage > 120.0) {
             damagetype = DMG_CLUB;
@@ -2472,14 +2477,13 @@ public Action OnStartTouch(int client, int other)
         GetEntPropVector(client, Prop_Send, "m_vecOrigin", vPos);
         
         if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, view_as<TFCond>(64))) {
-            if (GetClientHealth(other)<=202) {
-                if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
-                    EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-                    EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-                    TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
-                    TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
-                    return Plugin_Continue;
-                }
+            if (GetClientHealth(other)<=202 && (RemoveDemoShield(other) || RemoveRazorback(other))) // If the demo had a shield to break
+            {
+                EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
+                TF2_AddCondition(other, TFCond_SpeedBuffAlly, 2.0);
+                return Plugin_Continue;
             } else {
                 FakeKill_Goomba = 1;
                 SDKHooks_TakeDamage(other, client, client, 202.0, DMG_PREVENT_PHYSICS_FORCE | DMG_CRUSH | DMG_ALWAYSGIB);
