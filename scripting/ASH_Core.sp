@@ -12,7 +12,7 @@
     ===Advanced Saxton Hale===
     Authors:
 
-        CrazyHackGUT - Creating this [s]shitty[/s] awesome code.
+        CrazyHackGUT - Previous ASH Programmer.
         NITROYUASH - Something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
         FeedBlack - Continued development of this plugin after CrazyHackGUT has leaved Dev Team.
 
@@ -21,9 +21,9 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8788"
+#define ASH_BUILD                     "8797"
 #define ASH_PLUGIN_VERSION            "1.22"
-#define ASH_PLUGIN_RELDATE            "17 January 2020"
+#define ASH_PLUGIN_RELDATE            "25 August 2020"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -634,16 +634,16 @@ bool g_bReloadASHOnRoundEnd = false;
 
 // UPD: 12.11.2015
 // SPELLS DEFINES
-#define FIREBALL    0 // Done
-#define BATS         1 // Done
-#define PUMPKIN     2 // Done
-#define TELE         3 // Done
-#define LIGHTNING     4 // Done
-#define BOSS         5 // Done
-#define METEOR         6 // Done
-#define ZOMBIEH     7 // Done
-#define ZOMBIE         8
-#define PUMPKIN2     9
+#define FIREBALL    0   // Done
+#define BATS        1   // Done
+#define PUMPKIN     2   // Done
+#define TELE        3   // Done
+#define LIGHTNING   4   // Done
+#define BOSS        5   // Done
+#define METEOR      6   // Done
+#define ZOMBIEH     7   // Done
+#define ZOMBIE      8
+#define PUMPKIN2    9
 
 bool plManmelterBlock[MAXPLAYERS+1] = false; 	// UPD: 28.01.2016
 bool plSteelBlock[MAXPLAYERS+1] = false; 		// Heavy Nerf: 18.11.2016
@@ -651,6 +651,9 @@ bool g_bGod[MAXPLAYERS+1] = false;
 int FakeKill_Goomba;
 int plManmelterUsed[MAXPLAYERS+1] = 0;
 int IronBomberMode[MAXPLAYERS+1] = 0;
+bool PhlogMode[MAXPLAYERS+1] = false;
+int g_iFreezePhlogPar = 0;
+bool g_isVictimFrozen[MAXPLAYERS+1] = false;
 int iShivInv[MAXPLAYERS+1] = 0;
 bool isStunnedBlock[MAXPLAYERS+1] = false;
 bool isHaleStunBanned = false;
@@ -2359,10 +2362,6 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "326 ; 1.25 ; 3 ; 0.4 ; 869 ; 1 ; 2 ; 1.75", true);
         }
-        case 1151: // Iron Bomber
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
-        }
 //        case 308: // Loch-n-Load
 //        {
 //            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.9 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
@@ -2381,8 +2380,12 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 1150: // Quickiebomb Launcher
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 121 ; 1 ; 3 ; 0.5 ; 1 ; 0.70 ; ", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 121 ; 1 ; 3 ; 0.5 ; 1 ; 0.85 ; 120 ; 1 ; 89 ; -4", true);
           //hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 727 ; 1.25 ; 121 ; 1 ; 669 ; 2 ; 3 ; 0.75 ; 97 ; 0.75 ; 6 ; 0.50 ; 1 ; 0.70", true);
+        }
+        case 1151: // Iron Bomber
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
         }
         case 752: // Hitman's Heatmaker
         {
@@ -2400,10 +2403,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.75 ; 86 ; 1 ; 144 ; 1 ; 738 ; 0.80 ; 16 ; 5 ; 112 ; 0.05 ; 236 ; 1 ; 421 ; 1", true);
         }
-        case 594: // Phlogistinator :C
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "368 ; 1 ; 116 ; 5 ; 350 ; 1 ; 356 ; 1 ; 144 ; 1 ; 15 ; 0 ; 551 ; 1 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1 ; 107 ; 1.20", true);
-        }
+        //case 594: // Phlogistinator :C
+        //{
+        //    hItemOverride = PrepareItemHandle(hItem, _, _, "368 ; 1 ; 116 ; 5 ; 350 ; 1 ; 356 ; 1 ; 144 ; 1 ; 15 ; 0 ; 551 ; 1 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1 ; 107 ; 1.20", true);
+        //}
         case 424: // Tomislav
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "87 ; 0.8 ; 238 ; 1 ; 5 ; 1.2 ; 106 ; 0.8 ; 1 ; 0.65 ; 75 ; 2.0", true);
@@ -2498,7 +2501,11 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 331: // Fists of Steel
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "205 ; 0.6 ; 107 ; 1.15", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "205 ; 0.6 ; 107 ; 1.15 ; 206 ; 2.0", true);
+        }
+        case 656: // Holiday Punch (MITTENS OF DEATH >:C)
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.0 ; 15 ; 0", true);
         }
         case 812, 833: // Cleaver
         {
@@ -6888,6 +6895,57 @@ stock int AttachParticle(int iEnt, const char[] szParticleType, float flTimeToDi
     return -1;
 }
 
+// Almost the same as the first AttachParticle(), but with rotation vector
+stock int AttachParticle2(int iEnt, const char[] szParticleType, float flTimeToDie = -1.0, float vOffsets[3] = {0.0,0.0,0.0}, float rOffsets[3] = {0.0,0.0,0.0}, bool bAttach = false, float flTimeToStart = -1.0)
+{
+    int iParti = CreateEntityByName("info_particle_system");
+    if (IsValidEntity(iParti))
+    {
+        float vPos[3],rPos[3];
+        GetEntPropVector(iEnt, Prop_Send, "m_vecOrigin", vPos);
+        AddVectors(vPos, vOffsets, vPos);
+        AddVectors(rPos, rOffsets, rPos);
+        TeleportEntity(iParti, vPos, rPos, NULL_VECTOR);
+
+        DispatchKeyValue(iParti, "effect_name", szParticleType);
+        DispatchSpawn(iParti);
+
+        if (bAttach)
+        {
+            SetParent(iEnt, iParti);
+            SetEntPropEnt(iParti, Prop_Send, "m_hOwnerEntity", iEnt);
+        }
+
+        ActivateEntity(iParti);
+
+        if (flTimeToStart > 0.0)
+        {
+            char szAddOutput[32];
+            Format(szAddOutput, sizeof(szAddOutput), "OnUser1 !self,Start,,%0.2f,1", flTimeToStart);
+            SetVariantString(szAddOutput);
+            AcceptEntityInput(iParti, "AddOutput");
+            AcceptEntityInput(iParti, "FireUser1");
+
+            if (flTimeToDie > 0.0)
+            {
+                flTimeToDie += flTimeToStart;
+            }
+        }
+        else
+        {
+            AcceptEntityInput(iParti, "Start");
+        }
+
+        if (flTimeToDie > 0.0) 
+        {
+            killEntityIn(iParti, flTimeToDie); // Interestingly, OnUser1 can be used multiple times, as the code above won't conflict with this.
+        }
+
+        return iParti;
+    }
+    return -1;
+}
+
 stock void SetParent(int iParent, int iChild)
 {
     SetVariantString("!activator");
@@ -7904,6 +7962,25 @@ stock void IronBomber_ChangeMode(int weapon, int mode) {
     }
 }
 
+// I though i will swap phlog attributes for ignition/freeze modes, but no, i made it without touching it! Yay!
+// By the way, if i'll change my mind, i will uncomment this
+/*stock void Phlog_ChangeMode(int weapon, bool mode) {
+    switch (mode) {
+        case false:    {
+            // IGNITION
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+        }
+        case true:    {
+            // FREEZE
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+        }
+    }
+}*/
+
 stock void AIM_Ambassador_attr_changer(int weapon, int act_aim) {
     switch (act_aim) {
         case 0:    {
@@ -7932,10 +8009,10 @@ stock float GetStunTime(int client) {
     return 5.0;
 }
 
-void ManmelterHUD_Render(int client) {
+void ManmelterHUD_Render(int client, bool hud_corrector) {
     if (!ManmelterBan[client]) {
-        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, 0.78, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
-        else SetHudTextParams(-1.0, 0.78, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
+        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
+        else SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
                     
         char s[128];
         if (plManmelterUsed[client] == 100) Format(s, 128, "%t: %t", "ash_pyro_secondchance_infometer", "ash_pyro_secondchance_ready");
@@ -9065,6 +9142,13 @@ public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
         }
         return Plugin_Continue;
     }
+}
+
+public Action PhlogFreeze_reboot(Handle hTimer, any client)
+{
+    g_iFreezePhlogPar = 0;
+    g_isVictimFrozen[client] = false;
+    SetEntityRenderColor(client, 255, 255, 255);
 }
 
 /*public Action AddPrimary(Handle hTimer)

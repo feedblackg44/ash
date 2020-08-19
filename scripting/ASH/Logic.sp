@@ -549,7 +549,7 @@ public Action ClientTimer(Handle hTimer)
             }
 
             if (class == TFClass_Pyro && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 595) {
-                ManmelterHUD_Render(client);
+                ManmelterHUD_Render(client, bHudAdjust);
             }
             
             if (class == TFClass_Sniper)
@@ -802,12 +802,10 @@ public Action ClientTimer(Handle hTimer)
 	                }
                     int iHaleDamageNeed = RoundToCeil(flHaleDamageNeed);
                     int iClientActiveDamage = Damage[client];
-					
-                    bHudAdjust = true;
                     
                     if (iClientActiveDamage < flHaleDamageNeed)
                     {
-                        SetHudTextParams(-1.0, 0.73, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
+                        SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
                         
                         if (!(GetClientButtons(client) & IN_SCORE))
                         {
@@ -1014,11 +1012,41 @@ public Action ClientTimer(Handle hTimer)
                     SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
                     char IronBomberString[256];
                     switch (IronBomberMode[client]) {
-                        case 0:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_spray"); // SPR
-                        case 1:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_charge"); // CHRG
-                        case 2:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_round"); // RND
+                        case 0:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_spray");     // SPR
+                        case 1:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_charge");    // CHRG
+                        case 2:        strcopy(IronBomberString, 256, "ash_demoman_ironbomber_modeselector_round");     // RND
                     }
                     ShowSyncHudText(client, bushwackaHUD, "%t: %t", "ash_demoman_ironbomber_modeselector_info", IronBomberString);
+                }
+            }
+
+            if (class == TFClass_Pyro)
+            {
+                // Phlog
+                if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 594) {
+                    if (GetClientButtons(client) & IN_ATTACK3 || GetClientButtons(client) & IN_RELOAD) {
+
+                        PhlogMode[client] ^= true;
+                        
+                        Phlog_ChangeMode(GetPlayerWeaponSlot(client, TFWeaponSlot_Primary), PhlogMode[client], client);
+                        EmitSoundToClient(client, "weapons/vaccinator_toggle.wav", _, _, SNDLEVEL_GUNFIRE, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
+                    }
+
+                    bHudAdjust = true;
+                    SetHudTextParams(-1.0, 0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
+                    char PhlogString[256];
+                    int wpn_entity = GetPlayerWeaponSlot(client, TFWeaponSlot_Primary);
+                    switch (PhlogMode[client]) {
+                        case 0: {
+                            strcopy(PhlogString, 256, "ash_pyro_phlog_modeselector_ignition");
+                            SetEntityRenderColor(wpn_entity, 255, 255, 255);
+                        }
+                        case 1: {
+                            strcopy(PhlogString, 256, "ash_pyro_phlog_modeselector_freeze");
+                            SetEntityRenderColor(wpn_entity, 0, 128, 255);
+                        }
+                    }
+                    ShowSyncHudText(client, jumpHUD, "%t: %t", "ash_pyro_phlog_modeselector_info", PhlogString);
                 }
             }
 

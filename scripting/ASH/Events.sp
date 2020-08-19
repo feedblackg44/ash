@@ -2041,11 +2041,81 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     }
                     case 594: // Phlog
                     {
-                        if (!TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
-                        {
-                            damage /= 4.0;
-                            return Plugin_Changed;
+                        //damagetype = 0;
+                        if (PhlogMode[attacker] == true /*&& !(damagetype & DMG_IGNITE) && !(damagetype & DMG_BLAST)*/) {
+                            
+                            float freeze_time;
+                            
+                            RemoveCond(client, TFCond_OnFire);
+                            
+                            damagetype = 0;
+                            
+                            g_isVictimFrozen[client] = true;
+
+                            if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph)) {
+                                TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
+                                damagetype |= DMG_CRIT;
+                                damage /= 2.0;
+                                TF2_StunPlayer(client, 0.1, 4.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                freeze_time = 4.0;
+                            } else {
+                                TF2_StunPlayer(client, 0.1, 2.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                freeze_time = 2.0;
+                            }
+                            
+                            TF2_AddCondition(client, TFCond_AfterburnImmune, freeze_time);
+
+                            if (!g_iFreezePhlogPar) {
+                                
+                                float ppos1[3] = {3.0, 10.0, 10.0};
+                                float ppos2[3] = {3.0, 0.0, 10.0};
+                                float ppos3[3] = {3.0, 10.0, 30.0};
+                                float ppos4[3] = {3.0, 0.0, 30.0};
+                                float ppos5[3] = {3.0, 10.0, 60.0};
+                                float ppos6[3] = {3.0, 0.0, 60.0};
+                                float ppos7[3] = {5.0, 0.0, 30.0};
+                                float ppos8[3] = {5.0, 0.0, 60.0};
+                                float prot1[3] = {0.0, 90.0, 0.0};
+                                
+                                g_iFreezePhlogPar = AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos1, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos1, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos2, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos2, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos3, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos3, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos4, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos4, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos5, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos5, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos6, prot1, true);
+                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos6, prot1, true);
+                                AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos7, true);
+                                AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos8, true);
+                                SetEntityRenderColor(client, 180, 180, 255);
+                                
+                                CreateTimer(freeze_time, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
+                                
+                            }
+
+                        } else {
+                            damagetype = DMG_IGNITE|DMG_BLAST;
+
+                            if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
+                            {
+                                TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
+                                damagetype |= DMG_CRIT;
+                                damage /= 2.0;
+                            }
+
+                            if (g_isVictimFrozen[client] == true) {
+                                TF2_StunPlayer(client, 0.1, 0.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                damagetype |= DMG_CRIT;
+                                g_isVictimFrozen[client] = false;
+                                CreateTimer(0.0, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
+                            }
                         }
+                        return Plugin_Changed;
+                        
                     }
                     case 357:
                     {
@@ -2141,16 +2211,19 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                      Weaker against high HP Hale (but still good).
 
                     */
-                    if (wepindex == 649)
-                    {
-                        float flHaleHealthMax = float(HaleHealthMax);
-                        damage = ( (Pow(flHaleHealthMax*0.0014, 2.0) + 599.0) - (flHaleHealthMax*g_flStabbed/100.0) )/3.0;
-                    }
+                    float backstab_dmg_modifier;
+                    
+                    if (wepindex == 649)        // Spy-Cicle
+                        backstab_dmg_modifier = 749.0;
+
+                    else if (wepindex == 225)   // YER
+                        backstab_dmg_modifier = 691.5;
+
                     else
-                    {
-                        float flHaleHealthMax = float(HaleHealthMax);
-                        damage = ( (Pow(flHaleHealthMax*0.0014, 2.0) + 899.0) - (flHaleHealthMax*g_flStabbed/100.0) )/3.0;
-                    }
+                        backstab_dmg_modifier = 899.0;
+
+                    float flHaleHealthMax = float(HaleHealthMax);
+                    damage = ( (Pow(flHaleHealthMax*0.0014, 2.0) + backstab_dmg_modifier) - (flHaleHealthMax * g_flStabbed/100.0) ) / 3.0;
 
                     damagetype |= DMG_CRIT|DMG_PREVENT_PHYSICS_FORCE;
 
