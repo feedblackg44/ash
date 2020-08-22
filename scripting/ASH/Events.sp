@@ -2065,12 +2065,12 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                                     damagetype |= DMG_CRIT;
                                     damage /= 2.0;
                                     TF2_StunPlayer(client, 0.1, 0.4, TF_STUNFLAG_SLOWDOWN, attacker);
-                                    freeze_time = 4.0;
+                                    freeze_time = 8.0;
                                 } 
                                 else 
                                 {
                                     TF2_StunPlayer(client, 0.1, 0.2, TF_STUNFLAG_SLOWDOWN, attacker);
-                                    freeze_time = 2.0;
+                                    freeze_time = 4.0;
                                 }
                             
                                 TF2_AddCondition(client, TFCond_AfterburnImmune, freeze_time);
