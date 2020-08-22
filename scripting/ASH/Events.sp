@@ -2044,12 +2044,18 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     case 594: // Phlog
                     {
                         if (PhlogMode[attacker] == true) 
-                        {   
+                        {
+                            
                             if(g_isVictimFrozen[client] && inflictor == weapon)
                             {
                                 float freeze_time;
                             
-                                RemoveCond(client, TFCond_OnFire);
+                                if(TF2_IsPlayerInCondition(client, TFCond_OnFire))
+                                {
+                                    TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);    
+                                    damagetype = DMG_CRIT;
+                                    RemoveCond(client, TFCond_OnFire);
+                                }
                             
                                 damagetype = 0;
                                 
@@ -2102,13 +2108,8 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                                 
                                 }
                             }
-                            
-                            if(!g_isVictimFrozen[client] && inflictor == weapon)
-                            {
-                                TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);    
-                                damagetype = DMG_CRIT;
-                                g_isVictimFrozen[client] = true;
-                            }
+                            g_isVictimFrozen[client] = true;
+
                         } 
                         else 
                         {
