@@ -2523,8 +2523,9 @@ public void OnGameFrame()
                 float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
         
                 //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
-            
-                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2) && g_fStickyExplodeTime[iSticky] != 0.0)
+                
+                Handle RayTrace = TR_TraceRayEx(StickyPos, HalePos, MASK_SHOT, RayType_EndPoint);
+                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2) && g_fStickyExplodeTime[iSticky] != 0.0 && !TR_DidHit(RayTrace))
                 {
                     SDKCall(g_CTFGrenadeDetonate, iSticky);
                     g_fStickyExplodeTime[iSticky] = 0.0;
