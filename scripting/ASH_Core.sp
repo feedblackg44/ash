@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8854"
+#define ASH_BUILD                     "8856"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "25 August 2020"
 
@@ -9169,21 +9169,26 @@ public Action PhlogFreeze_reboot(Handle hTimer, any client)
 
 public Action CatchSticky(Handle hTimer, any entity)
 {
-    int iPlayer = GetEntPropEnt(entity, Prop_Send, "m_hThrower");
-    int iSecondary = GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
-    //int weapon = GetPlayerWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    char EntityName[64];
+    GetEntityClassname(entity, EntityName, 64);
     
-    if (g_bEnabled && ASHRoundState == ASHRState_Active && TF2_GetPlayerClass(iPlayer) == TFClass_DemoMan && iSecondary == 1150)
+    if(StrEqual(EntityName, "tf_projectile_pipe_remote", true))
     {
-        float EngineTime = GetEngineTime();
-        float ChargeTime = 1.5; //GetEntPropFloat(weapon, Prop_Send, "m_flChargeBeginTime");
-        float BeginExplodeTime = EngineTime + ChargeTime;
+        int iPlayer = GetEntPropEnt(entity, Prop_Send, "m_hThrower");
+        int iSecondary = GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    
+        if (g_bEnabled && ASHRoundState == ASHRState_Active && TF2_GetPlayerClass(iPlayer) == TFClass_DemoMan && iSecondary == 1150)
+        {
+            float EngineTime = GetEngineTime();
+            float ChargeTime = 1.5; //GetEntPropFloat(weapon, Prop_Send, "m_flChargeBeginTime");
+            float BeginExplodeTime = EngineTime + ChargeTime;
         
-        /*PrintToChatAll("EngineTime: %f", EngineTime);
-        PrintToChatAll("ChargeTime: %f", ChargeTime);
-        PrintToChatAll("BeginExplodeTime: %f", BeginExplodeTime);
-        */
-        g_fStickyExplodeTime[entity] = BeginExplodeTime;
+            /*PrintToChatAll("EngineTime: %f", EngineTime);
+            PrintToChatAll("ChargeTime: %f", ChargeTime);
+            PrintToChatAll("BeginExplodeTime: %f", BeginExplodeTime);
+            */
+            g_fStickyExplodeTime[entity] = BeginExplodeTime;
+        }
     }
 }
 
