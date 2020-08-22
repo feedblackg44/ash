@@ -2112,14 +2112,15 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                             if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
                             {
                                 TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
-                                damagetype |= DMG_CRIT;
+                                damagetype = DMG_CRIT;
                                 damage /= 2.0;
                             }
 
                             if (g_isVictimFrozen[client] == true) 
                             {
                                 TF2_StunPlayer(client, 0.1, 0.0, TF_STUNFLAG_SLOWDOWN, attacker);
-                                damagetype |= DMG_CRIT;
+                                TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);    
+                                damagetype = DMG_CRIT;
                                 g_isVictimFrozen[client] = false;
                                 CreateTimer(0.0, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
                             }
