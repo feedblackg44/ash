@@ -2058,12 +2058,12 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                                     TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
                                     damagetype |= DMG_CRIT;
                                     damage /= 2.0;
-                                    TF2_StunPlayer(client, 0.1, 4.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                    TF2_StunPlayer(client, 0.1, 0.4, TF_STUNFLAG_SLOWDOWN, attacker);
                                     freeze_time = 4.0;
                                 } 
                                 else 
                                 {
-                                    TF2_StunPlayer(client, 0.1, 2.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                    TF2_StunPlayer(client, 0.1, 0.2, TF_STUNFLAG_SLOWDOWN, attacker);
                                     freeze_time = 2.0;
                                 }
                             
@@ -2527,10 +2527,10 @@ public void OnGameFrame()
         
                 //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
             
-                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2) && g_fStickyExplodeTime[iSticky] != 0)
+                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2) && g_fStickyExplodeTime[iSticky] != 0.0)
                 {
                     SDKCall(g_CTFGrenadeDetonate, iSticky);
-                    g_fStickyExplodeTime[iSticky] = 0;
+                    g_fStickyExplodeTime[iSticky] = 0.0;
                 
                     /*PrintToChatAll("ExplodeTime: %f", g_fStickyExplodeTime[iSticky]);
                     PrintToChatAll("EngineTime: %f", GetEngineTime()); */
