@@ -2041,63 +2041,70 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     }
                     case 594: // Phlog
                     {
-                        //damagetype = 0;
-                        if (PhlogMode[attacker] == true /*&& !(damagetype & DMG_IGNITE) && !(damagetype & DMG_BLAST)*/) {
+                        if (PhlogMode[attacker] == true) 
+                        {
+                            if(g_isVictimFrozen[client] /*&& damagecustom != TF_CUSTOM_BURNING*/)
+                            {
+                                float freeze_time;
                             
-                            float freeze_time;
+                                RemoveCond(client, TFCond_OnFire);
                             
-                            RemoveCond(client, TFCond_OnFire);
+                                damagetype = 0;
+                                
+                                if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph)) 
+                                {
+                                    TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
+                                    damagetype |= DMG_CRIT;
+                                    damage /= 2.0;
+                                    TF2_StunPlayer(client, 0.1, 4.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                    freeze_time = 4.0;
+                                } 
+                                else 
+                                {
+                                    TF2_StunPlayer(client, 0.1, 2.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                    freeze_time = 2.0;
+                                }
                             
-                            damagetype = 0;
-                            
+                                TF2_AddCondition(client, TFCond_AfterburnImmune, freeze_time);
+
+                                if (!g_iFreezePhlogPar) 
+                                {
+                                
+                                    float ppos1[3] = {3.0, 10.0, 10.0};
+                                    float ppos2[3] = {3.0, 0.0, 10.0};
+                                    float ppos3[3] = {3.0, 10.0, 30.0};
+                                    float ppos4[3] = {3.0, 0.0, 30.0};
+                                    float ppos5[3] = {3.0, 10.0, 60.0};
+                                    float ppos6[3] = {3.0, 0.0, 60.0};
+                                    float ppos7[3] = {5.0, 0.0, 30.0};
+                                    float ppos8[3] = {5.0, 0.0, 60.0};
+                                    float prot1[3] = {0.0, 90.0, 0.0};
+                                    
+                                    g_iFreezePhlogPar = AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos1, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos1, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos2, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos2, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos3, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos3, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos4, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos4, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos5, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos5, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos6, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos6, prot1, true);
+                                    AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos7, true);
+                                    AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos8, true);
+                                    SetEntityRenderColor(client, 180, 180, 255);
+                                    
+                                    CreateTimer(freeze_time, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
+                                
+                                }
+                            }
                             g_isVictimFrozen[client] = true;
 
-                            if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph)) {
-                                TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
-                                damagetype |= DMG_CRIT;
-                                damage /= 2.0;
-                                TF2_StunPlayer(client, 0.1, 4.0, TF_STUNFLAG_SLOWDOWN, attacker);
-                                freeze_time = 4.0;
-                            } else {
-                                TF2_StunPlayer(client, 0.1, 2.0, TF_STUNFLAG_SLOWDOWN, attacker);
-                                freeze_time = 2.0;
-                            }
-                            
-                            TF2_AddCondition(client, TFCond_AfterburnImmune, freeze_time);
-
-                            if (!g_iFreezePhlogPar) {
-                                
-                                float ppos1[3] = {3.0, 10.0, 10.0};
-                                float ppos2[3] = {3.0, 0.0, 10.0};
-                                float ppos3[3] = {3.0, 10.0, 30.0};
-                                float ppos4[3] = {3.0, 0.0, 30.0};
-                                float ppos5[3] = {3.0, 10.0, 60.0};
-                                float ppos6[3] = {3.0, 0.0, 60.0};
-                                float ppos7[3] = {5.0, 0.0, 30.0};
-                                float ppos8[3] = {5.0, 0.0, 60.0};
-                                float prot1[3] = {0.0, 90.0, 0.0};
-                                
-                                g_iFreezePhlogPar = AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos1, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos1, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos2, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos2, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos3, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos3, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos4, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos4, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos5, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos5, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos6, prot1, true);
-                                AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos6, prot1, true);
-                                AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos7, true);
-                                AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos8, true);
-                                SetEntityRenderColor(client, 180, 180, 255);
-                                
-                                CreateTimer(freeze_time, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
-                                
-                            }
-
-                        } else {
+                        } 
+                        else 
+                        {
                             damagetype = DMG_IGNITE|DMG_BLAST;
 
                             if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
@@ -2107,7 +2114,8 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                                 damage /= 2.0;
                             }
 
-                            if (g_isVictimFrozen[client] == true) {
+                            if (g_isVictimFrozen[client] == true) 
+                            {
                                 TF2_StunPlayer(client, 0.1, 0.0, TF_STUNFLAG_SLOWDOWN, attacker);
                                 damagetype |= DMG_CRIT;
                                 g_isVictimFrozen[client] = false;
@@ -2739,6 +2747,20 @@ public void OnPluginStart() {
     for (int client = 1; client <= MaxClients; client++) {
         UTIL_CheckClient(client);
     }
+    
+    Handle Game_Data = LoadGameConfigFile("CTFGrenadeDetonate");
+    
+    if (Game_Data == INVALID_HANDLE)
+	{
+		char path[PLATFORM_MAX_PATH];
+		BuildPath(Path_SM, path, sizeof(path), "gamedata/CTFGrenadeDetonate.txt");
+		LogError("Unable to load required gamedata in %s", path);
+		SetFailState("Unable to load required gamedata in %s", path);
+	}
+    
+    StartPrepSDKCall(SDKCall_Entity);
+    PrepSDKCall_SetFromConf(Game_Data, SDKConf_Virtual, "GrenadeDetonate");
+    g_CTFGrenadeDetonate = EndPrepSDKCall();
 }
 
 public Action HookSound(int clients[64], int &numClients, char sample[PLATFORM_MAX_PATH], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)

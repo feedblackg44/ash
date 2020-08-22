@@ -1611,4 +1611,19 @@
 	{
 		"ru"		"Секретный режим 'Битва снайперов' активирован!"
 	}
+
+	"ash_pyro_phlog_modeselector_info"
+	{
+		"ru"		"Режим оружия"
+	}
+	
+	"ash_pyro_phlog_modeselector_fire"
+	{
+		"ru"		"Зажигание"
+	}
+	
+	"ash_pyro_phlog_modeselector_freeze"
+	{
+		"ru"		"Заморозка"
+	}
 }

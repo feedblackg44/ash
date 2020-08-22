@@ -1611,4 +1611,19 @@
 	{
 		"en"		"Secret Mode 'Sniper War' enabled!"
 	}
+
+	"ash_pyro_phlog_modeselector_info"
+	{
+		"en"		"Weapon Mode"
+	}
+	
+	"ash_pyro_phlog_modeselector_ignition"
+	{
+		"en"		"Ignition"
+	}
+	
+	"ash_pyro_phlog_modeselector_freeze"
+	{
+		"en"		"Freeze"
+	}
 }

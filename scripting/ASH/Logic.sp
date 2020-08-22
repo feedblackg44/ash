@@ -1028,7 +1028,7 @@ public Action ClientTimer(Handle hTimer)
 
                         PhlogMode[client] ^= true;
                         
-                        Phlog_ChangeMode(GetPlayerWeaponSlot(client, TFWeaponSlot_Primary), PhlogMode[client], client);
+                        //Phlog_ChangeMode(GetPlayerWeaponSlot(client, TFWeaponSlot_Primary), PhlogMode[client], client);
                         EmitSoundToClient(client, "weapons/vaccinator_toggle.wav", _, _, SNDLEVEL_GUNFIRE, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
                     }
 

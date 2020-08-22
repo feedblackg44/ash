@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8797"
+#define ASH_BUILD                     "8807"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "25 August 2020"
 
@@ -629,6 +629,7 @@ Handle g_iTimerList_Repeat[MAXPLAYERS+1][2];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
 // int ClientsHealth[MAXPLAYERS+1];
+Handle g_CTFGrenadeDetonate;
 
 bool g_bReloadASHOnRoundEnd = false;
 
@@ -4686,6 +4687,20 @@ public Action UseRage(Handle hTimer, any dist)
                     if (ASHRoundState != ASHRState_Waiting) {
                         TF2_StunPlayer(i, GetStunTime(i), _, flags, (Special == ASHSpecial_HHH ? 0 : Hale));
                         TF2_AddCondition(i, view_as<TFCond>(65), GetStunTime(i));
+                        if (TF2_GetPlayerClass(i) == TFClass_DemoMan && GetIndexOfWeaponSlot(i, TFWeaponSlot_Secondary) == 1150)
+                        {
+                            int iSticky = -1;
+                            //new iStickyCount = 0;
+                            while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+                            {
+                                if (i == GetEntPropEnt(iSticky, Prop_Send, "m_hThrower"))
+                                {
+                                    SDKCall(g_CTFGrenadeDetonate, iSticky);
+                                    //iStickyCount++;
+                                }   
+                            }       
+                            //PrintToChatAll("%i stickies found", iStickyCount);
+                        }
                     }
                     if (GetIndexOfWeaponSlot(i, TFWeaponSlot_Melee) == 331)			// Heavy Nerf: 18.11.2016
                     {
