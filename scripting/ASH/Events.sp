@@ -2527,9 +2527,10 @@ public void OnGameFrame()
         
                 //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
             
-                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2))
+                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2) && g_fStickyExplodeTime[iSticky] != 0)
                 {
                     SDKCall(g_CTFGrenadeDetonate, iSticky);
+                    g_fStickyExplodeTime[iSticky] = 0;
                 
                     /*PrintToChatAll("ExplodeTime: %f", g_fStickyExplodeTime[iSticky]);
                     PrintToChatAll("EngineTime: %f", GetEngineTime()); */
@@ -2829,6 +2830,7 @@ public void OnEntityCreated(int entity, const char[] szClassName)
 {
     if (strcmp(szClassName, "tf_projectile_pipe_remote", false) == 0) 
     {
+        g_fStickyExplodeTime[entity] = GetEngineTime() + 10.0;
         CreateTimer(0.1, CatchSticky, entity);
     }
     
