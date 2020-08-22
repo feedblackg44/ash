@@ -2103,7 +2103,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                                 }
                             }
                             
-                            if(TF2_IsPlayerInCondition(client, TFCond_OnFire))
+                            if(TF2_IsPlayerInCondition(client, TFCond_OnFire) && inflictor == weapon)
                             {
                                 TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);    
                                 damagetype = DMG_CRIT;
