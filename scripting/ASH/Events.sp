@@ -1040,6 +1040,8 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
     int custom = GetEventInt(event, "custom");
     int weapon = GetEventInt(event, "weaponid");
     
+    
+    
     if (GetPlayersInTeam(OtherTeam) > 12)
         iHaleSpecialPower += damage/18;
     else
@@ -2043,7 +2045,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     {
                         if (PhlogMode[attacker] == true) 
                         {
-                            if(g_isVictimFrozen[client] /*&& damagecustom != TF_CUSTOM_BURNING*/)
+                            if(g_isVictimFrozen[client] && inflictor == weapon)
                             {
                                 float freeze_time;
                             
