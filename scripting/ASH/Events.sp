@@ -2504,23 +2504,32 @@ public void OnGameFrame()
     int iSticky = -1;
     while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
     {
-        GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
-        GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", HalePos);
-        
-        float x = StickyPos[0] - HalePos[0];
-        float y = StickyPos[1] - HalePos[1];
-        float z = StickyPos[2] - HalePos[2];
-        
-        float Distance = SquareRoot(x*x + y*y + z*z);
-        
         int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");
         
-        float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
-        
-        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150 && Distance <= DmgRadius)
+        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150)
         {
-            SDKCall(g_CTFGrenadeDetonate, iSticky);
-        }   
+            GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
+            GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", HalePos);
+        
+            float x = StickyPos[0] - HalePos[0];
+            float y = StickyPos[1] - HalePos[1];
+            float z = StickyPos[2] - HalePos[2];
+        
+            float Distance = SquareRoot(x*x + y*y + z*z);
+        
+        
+            float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
+        
+            //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
+            
+            if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2))
+            {
+                SDKCall(g_CTFGrenadeDetonate, iSticky);
+                
+                /*PrintToChatAll("ExplodeTime: %f", g_fStickyExplodeTime[iSticky]);
+                PrintToChatAll("EngineTime: %f", GetEngineTime()); */
+            }
+        }
     }
 }
 
@@ -2812,16 +2821,13 @@ public Action HookSound(int clients[64], int &numClients, char sample[PLATFORM_M
 
 public void OnEntityCreated(int entity, const char[] szClassName)
 {
-    //int iPlayer = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
-    //int iSecondary = GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    if (strcmp(szClassName, "tf_projectile_pipe_remote", false) == 0) 
+    {
+        CreateTimer(0.1, CatchSticky, entity);
+    }
     
     if (g_bEnabled && ASHRoundState == ASHRState_Active && strcmp(szClassName, "tf_projectile_pipe", false) == 0)
         SDKHook(entity, SDKHook_SpawnPost, OnEggBombSpawned);
-    
-    /*if (g_bEnabled && ASHRoundState == ASHRState_Active && strcmp(szClassName, "tf_projectile_pipe_remote", false) == 0 && TF2_GetPlayerClass(iPlayer) == TFClass_DemoMan && iSecondary == 1150)
-    {
-        
-    }*/
 }
 public void OnEggBombSpawned(int entity)
 {

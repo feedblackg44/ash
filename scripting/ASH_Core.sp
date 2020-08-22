@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8813"
+#define ASH_BUILD                     "8850"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "25 August 2020"
 
@@ -625,6 +625,7 @@ Handle g_iTimerList[MAXPLAYERS+1];
 Handle g_iTimerList_Alpha[MAXPLAYERS+1];
 Handle g_iTimerList_Switch[MAXPLAYERS+1];
 Handle g_iTimerList_Repeat[MAXPLAYERS+1][2];
+float g_fStickyExplodeTime[4096];
 //int g_iJarateRageMinus[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
@@ -9164,6 +9165,26 @@ public Action PhlogFreeze_reboot(Handle hTimer, any client)
     g_iFreezePhlogPar = 0;
     g_isVictimFrozen[client] = false;
     SetEntityRenderColor(client, 255, 255, 255);
+}
+
+public Action CatchSticky(Handle hTimer, any entity)
+{
+    int iPlayer = GetEntPropEnt(entity, Prop_Send, "m_hThrower");
+    int iSecondary = GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    //int weapon = GetPlayerWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    
+    if (g_bEnabled && ASHRoundState == ASHRState_Active && TF2_GetPlayerClass(iPlayer) == TFClass_DemoMan && iSecondary == 1150)
+    {
+        float EngineTime = GetEngineTime();
+        float ChargeTime = 1.5; //GetEntPropFloat(weapon, Prop_Send, "m_flChargeBeginTime");
+        float BeginExplodeTime = EngineTime + ChargeTime;
+        
+        /*PrintToChatAll("EngineTime: %f", EngineTime);
+        PrintToChatAll("ChargeTime: %f", ChargeTime);
+        PrintToChatAll("BeginExplodeTime: %f", BeginExplodeTime);
+        */
+        g_fStickyExplodeTime[entity] = BeginExplodeTime;
+    }
 }
 
 /*public Action AddPrimary(Handle hTimer)
