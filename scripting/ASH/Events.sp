@@ -2497,27 +2497,30 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     return Plugin_Continue;
 }
 
-/*public void OnGameFrame() {
-    for (int i = 1; i <= MAXPLAYERS; i++) {
-        if (AQUACURE_EntShield[i] != 0) {
-            if (AQUACURE_EntShield[i] > 0) {
-                float pos[3];
-//        int iClient = GetEntPropEnt(AQUACURE_EntShield, Prop_Send, "m_hOwnerEntity");
-                int iClient = AQUACURE_EntShield[i];
-                if (IsPlayerAlive(iClient) && GetClientTeam(iClient) > 1) {
-                    GetEntPropVector(iClient, Prop_Send, "m_vecOrigin", pos);
-                    TeleportEntity(AQUACURE_EntShield[i], pos, NULL_VECTOR, NULL_VECTOR);
-                } else {
-                    DataPack hPack = new DataPack();
-                    hPack.WriteCell(iClient);
-                    hPack.WriteCell(AQUACURE_EntShield[i]);
-                    hPack.Reset();
-                    AQUACURE_Disable(null, hPack);
-                }
-            }
-        }
+public void OnGameFrame() 
+{
+    float StickyPos[3], HalePos[3];
+    
+    int iSticky = -1;
+    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+    {
+        GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
+        GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", HalePos);
+        
+        float x = StickyPos[0] - HalePos[0];
+        float y = StickyPos[1] - HalePos[1];
+        float z = StickyPos[2] - HalePos[2];
+        
+        float Distance = SquareRoot(x*x + y*y + z*z);
+        
+        int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");
+        
+        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150 && Distance <= 144.0)
+        {
+            SDKCall(g_CTFGrenadeDetonate, iSticky);
+        }   
     }
-}*/
+}
 
 public Action OnEurekaUse(int iClient, const char[] szCommand, int iArgC) {
     if (g_flEurekaCooldown[iClient] > GetGameTime()) {
