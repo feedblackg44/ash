@@ -280,6 +280,10 @@ void UTIL_InitGamedata() {
         CloseHandle(hGameConf);
         SetFailState("Invalid gamedata file for CTFPlayer::GetMaxHealth()");
     }
+    
+    StartPrepSDKCall(SDKCall_Entity);
+    PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "GrenadeDetonate");
+    g_CTFGrenadeDetonate = EndPrepSDKCall();
 
     CloseHandle(hGameConf);
 }

@@ -2515,7 +2515,9 @@ public void OnGameFrame()
         
         int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");
         
-        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150 && Distance <= 144.0)
+        float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
+        
+        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150 && Distance <= DmgRadius)
         {
             SDKCall(g_CTFGrenadeDetonate, iSticky);
         }   
@@ -2750,20 +2752,6 @@ public void OnPluginStart() {
     for (int client = 1; client <= MaxClients; client++) {
         UTIL_CheckClient(client);
     }
-    
-    Handle Game_Data = LoadGameConfigFile("CTFGrenadeDetonate");
-    
-    if (Game_Data == INVALID_HANDLE)
-	{
-		char path[PLATFORM_MAX_PATH];
-		BuildPath(Path_SM, path, sizeof(path), "gamedata/CTFGrenadeDetonate.txt");
-		LogError("Unable to load required gamedata in %s", path);
-		SetFailState("Unable to load required gamedata in %s", path);
-	}
-    
-    StartPrepSDKCall(SDKCall_Entity);
-    PrepSDKCall_SetFromConf(Game_Data, SDKConf_Virtual, "GrenadeDetonate");
-    g_CTFGrenadeDetonate = EndPrepSDKCall();
 }
 
 public Action HookSound(int clients[64], int &numClients, char sample[PLATFORM_MAX_PATH], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)
