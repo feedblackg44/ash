@@ -2502,35 +2502,38 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
 
 public void OnGameFrame() 
 {
-    float StickyPos[3], HalePos[3];
-    
-    int iSticky = -1;
-    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+    if (g_bEnabled && ASHRoundState == ASHRState_Active)
     {
-        int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");
+        float StickyPos[3], HalePos[3];
         
-        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150)
+        int iSticky = -1;
+        while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
         {
-            GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
-            GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", HalePos);
+            int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");
         
-            float x = StickyPos[0] - HalePos[0];
-            float y = StickyPos[1] - HalePos[1];
-            float z = StickyPos[2] - HalePos[2];
-        
-            float Distance = SquareRoot(x*x + y*y + z*z);
-        
-        
-            float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
-        
-            //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
-            
-            if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2))
+            if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150)
             {
-                SDKCall(g_CTFGrenadeDetonate, iSticky);
+                GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
+                GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", HalePos);
+        
+                float x = StickyPos[0] - HalePos[0];
+                float y = StickyPos[1] - HalePos[1];
+                float z = StickyPos[2] - HalePos[2];
+        
+                float Distance = SquareRoot(x*x + y*y + z*z);
+        
+        
+                float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
+        
+                //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
+            
+                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2))
+                {
+                    SDKCall(g_CTFGrenadeDetonate, iSticky);
                 
-                /*PrintToChatAll("ExplodeTime: %f", g_fStickyExplodeTime[iSticky]);
-                PrintToChatAll("EngineTime: %f", GetEngineTime()); */
+                    /*PrintToChatAll("ExplodeTime: %f", g_fStickyExplodeTime[iSticky]);
+                    PrintToChatAll("EngineTime: %f", GetEngineTime()); */
+                }
             }
         }
     }
