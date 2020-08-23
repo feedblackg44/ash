@@ -2497,46 +2497,61 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     return Plugin_Continue;
 }
 
-public void OnGameFrame() 
+public bool TraceFilterClient(int entity, int contentsMask, any data) 
+{    
+    return entity == data; // If the entity we collided with is the same as our data (last parameter), return true (filter it)
+} 
+
+
+/*public void OnGameFrame() 
 {
-    if (g_bEnabled && ASHRoundState == ASHRState_Active)
+    if (!g_bEnabled || ASHRoundState != ASHRState_Active)
     {
-        float StickyPos[3], HalePos[3];
-        
-        int iSticky = -1;
-        while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+        return;
+    }
+
+    float StickyPos[3], HalePos[3];
+
+    int iSticky = -1;
+    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+    {
+        int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");       
+        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) != 1150)
         {
-            int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");
+            continue;
+        }
+
+        GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
+        GetClientAbsOrigin(Hale, HalePos);
         
-            if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) == 1150)
-            {
-                GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
-                GetEntPropVector(Hale, Prop_Send, "m_vecOrigin", HalePos);
+        float Distance = GetVectorDistance(HalePos, StickyPos);
+        float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
+
+        if (Distance > DmgRadius)
+        {
+            continue;
+        }
+
+        if (g_fStickyExplodeTime[iSticky] == 0.0 || g_fStickyExplodeTime[iSticky] > GetEngineTime())
+        {
+            continue;
+        }
+
+        if(GetClientButtons(iClient) & IN_ATTACK2)
+        {
+            continue;
+        }
         
-                float x = StickyPos[0] - HalePos[0];
-                float y = StickyPos[1] - HalePos[1];
-                float z = StickyPos[2] - HalePos[2];
+        Handle RayTrace = TR_TraceRayFilterEx(StickyPos, HalePos, MASK_SHOT, RayType_EndPoint, TraceFilterClient, Hale);
         
-                float Distance = SquareRoot(x*x + y*y + z*z);
-        
-        
-                float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
-        
-                //int weapon = GetPlayerWeaponSlot(iClient, TFWeaponSlot_Secondary);
-                
-                Handle RayTrace = TR_TraceRayEx(StickyPos, HalePos, MASK_SHOT, RayType_EndPoint);
-                if (Distance <= DmgRadius && g_fStickyExplodeTime[iSticky] <= GetEngineTime() && !(GetClientButtons(iClient) & IN_ATTACK2) && g_fStickyExplodeTime[iSticky] != 0.0 && !TR_DidHit(RayTrace))
-                {
-                    SDKCall(g_CTFGrenadeDetonate, iSticky);
-                    g_fStickyExplodeTime[iSticky] = 0.0;
-                
-                    /*PrintToChatAll("ExplodeTime: %f", g_fStickyExplodeTime[iSticky]);
-                    PrintToChatAll("EngineTime: %f", GetEngineTime()); */
-                }
-            }
+        // Detect obstacle between stickies and hale. Detonate it only when there is no obstacles.
+        // This will prevent to explode auto-stickybombs when hale in explosion radius, but behind the obstacle (wall, floor, etc).
+        if (!TR_DidHit(RayTrace)) {
+            SDKCall(g_CTFGrenadeDetonate, iSticky);
+            g_fStickyExplodeTime[iSticky] = 0.0;
         }
     }
-}
+}*/
 
 public Action OnEurekaUse(int iClient, const char[] szCommand, int iArgC) {
     if (g_flEurekaCooldown[iClient] > GetGameTime()) {

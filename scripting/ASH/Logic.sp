@@ -6,6 +6,48 @@ public Action ClientTimer(Handle hTimer)
 
     Vitasaw_ExecutionTimes++;
     
+    float StickyPos[3], HalePos[3];
+
+    int iSticky = -1;
+    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+    {
+        int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");       
+        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) != 1150)
+        {
+            continue;
+        }
+
+        GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
+        GetClientAbsOrigin(Hale, HalePos);
+        
+        float Distance = GetVectorDistance(HalePos, StickyPos);
+        float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
+
+        if (Distance > DmgRadius)
+        {
+            continue;
+        }
+
+        if (g_fStickyExplodeTime[iSticky] == 0.0 || g_fStickyExplodeTime[iSticky] > GetEngineTime())
+        {
+            continue;
+        }
+
+        if(GetClientButtons(iClient) & IN_ATTACK2)
+        {
+            continue;
+        }
+        
+        Handle RayTrace = TR_TraceRayFilterEx(StickyPos, HalePos, MASK_SHOT, RayType_EndPoint, TraceFilterClient, Hale);
+        
+        // Detect obstacle between stickies and hale. Detonate it only when there is no obstacles.
+        // This will prevent to explode auto-stickybombs when hale in explosion radius, but behind the obstacle (wall, floor, etc).
+        if (!TR_DidHit(RayTrace)) {
+            SDKCall(g_CTFGrenadeDetonate, iSticky);
+            g_fStickyExplodeTime[iSticky] = 0.0;
+        }
+    }
+    
     for (int client = 1; client <= MaxClients; client++)
     {
         if (client != Hale && IsClientInGame(client) && GetEntityTeamNum(client) == OtherTeam)

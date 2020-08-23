@@ -21,9 +21,9 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8864"
+#define ASH_BUILD                     "8950"
 #define ASH_PLUGIN_VERSION            "1.22"
-#define ASH_PLUGIN_RELDATE            "25 August 2020"
+#define ASH_PLUGIN_RELDATE            "23 August 2020"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -2289,7 +2289,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 40, 1146: // Backburner
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 783 ; 20 ; 421 ; 1"); // 170 ; ???
+            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1");
         }
         case 648: // Wrap assassin
         {
@@ -7570,13 +7570,21 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_demoman_quickiebomblauncher");
                             //case 265:
                             //    Format(s, 1024, "%t\n", "ash_help_demoman_stickyjumper");
-                            case 131:
-                                Format(s, 1024, "%t\n", "ash_help_demoman_targe");
                             default:
                             {
                                 bool SpecialEntity = false;
-                                if (FindWearableOnPlayer(client, 406, true) || FindWearableOnPlayer(client, 1099, true) || FindWearableOnPlayer(client, 1144, true)) {
-                                    Format(s, 1024, "%t\n", "ash_help_demoman_shields");
+                                
+                                if (FindWearableOnPlayer(client, 131, true) || FindWearableOnPlayer(client, 1144, true))
+                                {
+                                    Format(s, 1024, "%t\n", "ash_help_demoman_targe");
+                                    SpecialEntity = true;
+                                }
+                                if (FindWearableOnPlayer(client, 406, true)) {
+                                    Format(s, 1024, "%t\n", "ash_help_demoman_splendidscreen");
+                                    SpecialEntity = true;
+                                }
+                                if (FindWearableOnPlayer(client, 1099, true)) {
+                                    Format(s, 1024, "%t\n", "ash_help_demoman_tideturner");
                                     SpecialEntity = true;
                                 }
                                 
