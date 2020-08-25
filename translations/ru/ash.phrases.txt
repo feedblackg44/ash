@@ -1637,4 +1637,9 @@
 	{
 		"ru"		"Заморозка"
 	}
+    
+    "you_cant_perform_this_action_because_players_count_is_too_low"
+	{
+		"ru"		"На сервере не достаточно игроков для выполнения этой команды"
+	}
 }

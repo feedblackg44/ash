@@ -1637,4 +1637,9 @@
 	{
 		"en"		"Freeze"
 	}
+    
+    "you_cant_perform_this_action_because_players_count_is_too_low"
+	{
+		"en"		"You can't perform this action because players count is too low"
+	}
 }

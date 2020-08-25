@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8950"
+#define ASH_BUILD                     "8952"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "23 August 2020"
 
@@ -5430,6 +5430,12 @@ public int TurnToZeroPanelH(Handle menu, MenuAction action, int param1, int para
 {
     if (action == MenuAction_Select && param2 == 1)
     {
+        if (UTIL_GetClientCount() < GetConVarInt(cvarHaleMinPlayersResetQ))
+        {
+            CPrintToChat(param1, "{ash}[ASH] {default}%t", "you_cant_perform_this_action_because_players_count_is_too_low");
+            return;
+        }
+
         SetClientQueuePoints(param1, 0);
         CPrintToChat(param1, "{ash}[ASH] {default}%t", "vsh_to0_done");
         int cl = FindNextHaleEx();
@@ -5443,7 +5449,6 @@ public Action ResetQueuePointsCmd(int client, int args)
         return Plugin_Handled;
     if (!IsValidClient(client))
         return Plugin_Handled;
-    if (GetClientCount(true) >= GetConVarInt(cvarHaleMinPlayersResetQ)) {
         if (GetCmdReplySource() == SM_REPLY_TO_CHAT) {
             TurnToZeroPanel(client);
         } else {

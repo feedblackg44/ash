@@ -1053,6 +1053,16 @@ stock void UTIL_CreateBelatedAttributeChange(float flTime, int iEntity, int iAtt
     hPack.WriteFloat(flValue);
 }
 
+int UTIL_GetClientCount() {
+    int iCounter = 0;
+    for (int iClient = MaxClients; iClient != 0; --iClient) {
+        if (IsClientInGame(iClient) && GetClientTeam(iClient) > 1)
+            iCounter++;
+    }
+
+    return iCounter;
+}
+
 int UTIL_GetAlivePlayers(int iTeam) {
     int iCounter = 0;
     for (int iClient = MaxClients; iClient != 0; --iClient) {
