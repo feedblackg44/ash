@@ -21,7 +21,7 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8952"
+#define ASH_BUILD                     "8954"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "23 August 2020"
 
@@ -5449,17 +5449,11 @@ public Action ResetQueuePointsCmd(int client, int args)
         return Plugin_Handled;
     if (!IsValidClient(client))
         return Plugin_Handled;
-        if (GetCmdReplySource() == SM_REPLY_TO_CHAT) {
-            TurnToZeroPanel(client);
-        } else {
-            TurnToZeroPanelH(null, MenuAction_Select, client, 1); 
-        }
-        return Plugin_Handled;
-    }
+    if (GetCmdReplySource() == SM_REPLY_TO_CHAT)
+        TurnToZeroPanel(client);
     else
-    {
-        return Plugin_Handled;
-    }
+        TurnToZeroPanelH(null, MenuAction_Select, client, 1);
+    return Plugin_Handled;
 }
 
 public Action TurnToZeroPanel(int client)
