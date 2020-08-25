@@ -958,7 +958,7 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
             //KSpreeTimer = GetGameTime() + 5.0;
         }
     }
-    if ((TF2_GetPlayerClass(client) == TFClass_Engineer) && !(deathflags & TF_DEATHFLAG_DEADRINGER) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) != 589)
+    if ((TF2_GetPlayerClass(client) == TFClass_Engineer) && !(deathflags & TF_DEATHFLAG_DEADRINGER) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) != 589 /* && Special != ASHSpecial_Agent*/)
     {
         int ent = -1;
         while ((ent = FindEntityByClassname2(ent, "obj_sentrygun")) != -1)
@@ -1039,6 +1039,8 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
     int damage = GetEventInt(event, "damageamount");
     int custom = GetEventInt(event, "custom");
     int weapon = GetEventInt(event, "weaponid");
+    
+    
     
     if (GetPlayersInTeam(OtherTeam) > 12)
         iHaleSpecialPower += damage/18;
@@ -1300,7 +1302,14 @@ public Action event_sapped(Handle event, const char[] name, bool dontBroadcast) 
     if (g_bEnabled) {
         int ply = GetClientOfUserId(GetEventInt(event, "userid"));
         if (Special == ASHSpecial_Agent && ply == Hale)
+        {
             AgentHelper_ChangeTimeBeforeInvis(1.6, Hale);
+            /*int weapon = GetPlayerWeaponSlot(ply, 1);
+            if (weapon != -1)
+            {
+                SetNextAttack(weapon, 3.0);
+            }*/
+        }
     }
     return Plugin_Continue;
 }
@@ -1521,6 +1530,11 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         }
     }*/
     
+    if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Spy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 525 && GetEntProp(attacker, Prop_Send, "m_iRevengeCrits") > 0 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary))
+    {
+        TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
+    }
+    
     if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagecustom == TF_CUSTOM_PLASMA)
     {
         if (damagetype != DMG_SHOCK && inflictor != attacker) {
@@ -1568,7 +1582,8 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             damagetype = 0;
             return Plugin_Changed;
         }
-        if (client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
+        
+        if ( IsValidClient(client) && IsValidClient(attacker) && client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
         {
             g_bAlphaSpysAllow[attacker][0] = !g_bAlphaSpysAllow[attacker][0];
             
@@ -1676,18 +1691,23 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     float vPos[3];
     GetEntPropVector(attacker, Prop_Send, "m_vecOrigin", vPos);
     
-    if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
-        char InflictorName[64];
-        GetEntityClassname(inflictor, InflictorName, 64);
-        if (!StrEqual(InflictorName, "tf_projectile_pipe")) {
+    if(IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
+    {
+        if (/*!StrEqual(InflictorName, "tf_projectile_pipe") &&*/ GetClientHealth(client) <= damage) 
+		{
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
-                EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
+                if (IsValidClient(attacker)) EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 TF2_AddCondition(client, TFCond_UberchargedHidden, 0.1);
                 TF2_AddCondition(client, TFCond_SpeedBuffAlly, 2.0);
                 return Plugin_Continue;
             }
         }
+    }
+    
+    if ((attacker == Hale || damage == 39000) && IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged)) {
+        char InflictorName[64];
+        GetEntityClassname(inflictor, InflictorName, 64);
         
         if (Special == ASHSpecial_MiniHale && damage > 120.0) {
             damagetype = DMG_CLUB;
@@ -2023,11 +2043,87 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     }
                     case 594: // Phlog
                     {
-                        if (!TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
+                        if (PhlogMode[attacker] == true) 
+                        {   
+                            if(g_isVictimFrozen[client] && inflictor == weapon)
+                            {
+                                float freeze_time;
+                                
+                                RemoveCond(client, TFCond_OnFire);
+                            
+                                damagetype = 0;
+                                
+                                if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph)) 
+                                {
+                                    TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
+                                    damagetype |= DMG_CRIT;
+                                    damage /= 2.0;
+                                    TF2_StunPlayer(client, 0.1, 0.4, TF_STUNFLAG_SLOWDOWN, attacker);
+                                    freeze_time = 8.0;
+                                } 
+                                else 
+                                {
+                                    TF2_StunPlayer(client, 0.1, 0.2, TF_STUNFLAG_SLOWDOWN, attacker);
+                                    freeze_time = 4.0;
+                                }
+                            
+                                TF2_AddCondition(client, TFCond_AfterburnImmune, freeze_time);
+
+                                if (!g_iFreezePhlogPar) 
+                                {
+                                
+                                    float ppos1[3] = {3.0, 10.0, 10.0};
+                                    float ppos2[3] = {3.0, 0.0, 10.0};
+                                    float ppos3[3] = {3.0, 10.0, 30.0};
+                                    float ppos4[3] = {3.0, 0.0, 30.0};
+                                    float ppos5[3] = {3.0, 10.0, 60.0};
+                                    float ppos6[3] = {3.0, 0.0, 60.0};
+                                    float ppos7[3] = {5.0, 0.0, 30.0};
+                                    float ppos8[3] = {5.0, 0.0, 60.0};
+                                    float prot1[3] = {0.0, 90.0, 0.0};
+                                    
+                                    g_iFreezePhlogPar = AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos1, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos1, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos2, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos2, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos3, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos3, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos4, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos4, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos5, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos5, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_icecubes", freeze_time+1, ppos6, prot1, true);
+                                    AttachParticle2(client, "weapon_unusual_cool_powerjack_vm_snowflakes", freeze_time+1, ppos6, prot1, true);
+                                    AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos7, true);
+                                    AttachParticle(client, "burningplayer_rainbow_glow_old", freeze_time, ppos8, true);
+                                    SetEntityRenderColor(client, 180, 180, 255);
+                                    
+                                    CreateTimer(freeze_time, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
+                                
+                                }
+                            }
+                            g_isVictimFrozen[client] = true;
+                        } 
+                        else 
                         {
-                            damage /= 4.0;
-                            return Plugin_Changed;
+                            damagetype = DMG_IGNITE|DMG_BLAST;
+
+                            if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
+                            {
+                                TF2_AddCondition(attacker, TFCond_HalloweenCritCandy, 0.1);
+                                damagetype = DMG_CRIT;
+                                damage /= 2.0;
+                            }
+
+                            if (g_isVictimFrozen[client] == true) 
+                            {
+                                TF2_StunPlayer(client, 0.1, 0.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                g_isVictimFrozen[client] = false;
+                                CreateTimer(0.0, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
+                            }
                         }
+                        return Plugin_Changed;
+                        
                     }
                     case 357:
                     {
@@ -2123,16 +2219,19 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                      Weaker against high HP Hale (but still good).
 
                     */
-                    if (wepindex == 649)
-                    {
-                        float flHaleHealthMax = float(HaleHealthMax);
-                        damage = ( (Pow(flHaleHealthMax*0.0014, 2.0) + 599.0) - (flHaleHealthMax*g_flStabbed/100.0) )/3.0;
-                    }
+                    float backstab_dmg_modifier;
+                    
+                    if (wepindex == 649)        // Spy-Cicle
+                        backstab_dmg_modifier = 749.0;
+
+                    else if (wepindex == 225)   // YER
+                        backstab_dmg_modifier = 691.5;
+
                     else
-                    {
-                        float flHaleHealthMax = float(HaleHealthMax);
-                        damage = ( (Pow(flHaleHealthMax*0.0014, 2.0) + 899.0) - (flHaleHealthMax*g_flStabbed/100.0) )/3.0;
-                    }
+                        backstab_dmg_modifier = 899.0;
+
+                    float flHaleHealthMax = float(HaleHealthMax);
+                    damage = ( (Pow(flHaleHealthMax*0.0014, 2.0) + backstab_dmg_modifier) - (flHaleHealthMax * g_flStabbed/100.0) ) / 3.0;
 
                     damagetype |= DMG_CRIT|DMG_PREVENT_PHYSICS_FORCE;
 
@@ -2398,24 +2497,58 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     return Plugin_Continue;
 }
 
-/*public void OnGameFrame() {
-    for (int i = 1; i <= MAXPLAYERS; i++) {
-        if (AQUACURE_EntShield[i] != 0) {
-            if (AQUACURE_EntShield[i] > 0) {
-                float pos[3];
-//        int iClient = GetEntPropEnt(AQUACURE_EntShield, Prop_Send, "m_hOwnerEntity");
-                int iClient = AQUACURE_EntShield[i];
-                if (IsPlayerAlive(iClient) && GetClientTeam(iClient) > 1) {
-                    GetEntPropVector(iClient, Prop_Send, "m_vecOrigin", pos);
-                    TeleportEntity(AQUACURE_EntShield[i], pos, NULL_VECTOR, NULL_VECTOR);
-                } else {
-                    DataPack hPack = new DataPack();
-                    hPack.WriteCell(iClient);
-                    hPack.WriteCell(AQUACURE_EntShield[i]);
-                    hPack.Reset();
-                    AQUACURE_Disable(null, hPack);
-                }
-            }
+public bool TraceFilterClient(int entity, int contentsMask, any data) 
+{    
+    return entity == data; // If the entity we collided with is the same as our data (last parameter), return true (filter it)
+} 
+
+
+/*public void OnGameFrame() 
+{
+    if (!g_bEnabled || ASHRoundState != ASHRState_Active)
+    {
+        return;
+    }
+
+    float StickyPos[3], HalePos[3];
+
+    int iSticky = -1;
+    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+    {
+        int iClient = GetEntPropEnt(iSticky, Prop_Send, "m_hThrower");       
+        if (GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Secondary) != 1150)
+        {
+            continue;
+        }
+
+        GetEntPropVector(iSticky, Prop_Send, "m_vecOrigin", StickyPos);
+        GetClientAbsOrigin(Hale, HalePos);
+        
+        float Distance = GetVectorDistance(HalePos, StickyPos);
+        float DmgRadius = GetEntPropFloat(iSticky, Prop_Send, "m_DmgRadius");
+
+        if (Distance > DmgRadius)
+        {
+            continue;
+        }
+
+        if (g_fStickyExplodeTime[iSticky] == 0.0 || g_fStickyExplodeTime[iSticky] > GetEngineTime())
+        {
+            continue;
+        }
+
+        if(GetClientButtons(iClient) & IN_ATTACK2)
+        {
+            continue;
+        }
+        
+        Handle RayTrace = TR_TraceRayFilterEx(StickyPos, HalePos, MASK_SHOT, RayType_EndPoint, TraceFilterClient, Hale);
+        
+        // Detect obstacle between stickies and hale. Detonate it only when there is no obstacles.
+        // This will prevent to explode auto-stickybombs when hale in explosion radius, but behind the obstacle (wall, floor, etc).
+        if (!TR_DidHit(RayTrace)) {
+            SDKCall(g_CTFGrenadeDetonate, iSticky);
+            g_fStickyExplodeTime[iSticky] = 0.0;
         }
     }
 }*/
@@ -2459,7 +2592,8 @@ public Action OnStartTouch(int client, int other)
         GetEntPropVector(client, Prop_Send, "m_vecOrigin", vPos);
         
         if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, view_as<TFCond>(64))) {
-            if (RemoveDemoShield(other) || RemoveRazorback(other)) { // If the demo had a shield to break
+            if (GetClientHealth(other)<=202 && (RemoveDemoShield(other) || RemoveRazorback(other))) // If the demo had a shield to break
+            {
                 EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 TF2_AddCondition(other, TFCond_UberchargedHidden, 0.1);
@@ -2707,6 +2841,12 @@ public Action HookSound(int clients[64], int &numClients, char sample[PLATFORM_M
 
 public void OnEntityCreated(int entity, const char[] szClassName)
 {
+    if (strcmp(szClassName, "tf_projectile_pipe_remote", false) == 0) 
+    {
+        g_fStickyExplodeTime[entity] = GetEngineTime() + 10.0;
+        CreateTimer(0.1, CatchSticky, entity);
+    }
+    
     if (g_bEnabled && ASHRoundState == ASHRState_Active && strcmp(szClassName, "tf_projectile_pipe", false) == 0)
         SDKHook(entity, SDKHook_SpawnPost, OnEggBombSpawned);
 }

@@ -330,7 +330,7 @@
 	
 	"ash_help_pyro_phlogistinator"
 	{
-		"en"		"Phlogistinator: Considerable resistance from damage when activated."
+		"en"		"Phlogistinator: Considerable resistance from damage when activated. Added two modes - \"Ignition\" and \"Freeze\". Press \"Reload\" Button to change mode"
 	}
 
 	"ash_help_pyro_degreaser"
@@ -374,9 +374,19 @@
 	}
 	
 	// Demoman
-	"ash_help_demoman_shields"
+	//"ash_help_demoman_shields"
+	//{
+	//	"en"		"All shields: Absorbs one fatal damage, afterwards breaks."
+	//}
+
+    "ash_help_demoman_splendidscreen"
 	{
-		"en"		"All shields: Absorbs one hit enemy, afterwards breaks."
+		"en"		"Splendid Screen: Absorbs fatal damage twice, afterwards breaks."
+	}
+
+    "ash_help_demoman_tideturner"
+	{
+		"en"		"Tide Turner: Absorbs one fatal damage, afterwards breaks."
 	}
 	
 	"ash_help_demoman_lochnload"
@@ -396,7 +406,7 @@
 	
 	"ash_help_demoman_quickiebomblauncher"
 	{
-		"en"		"Quickiebomb Launcher: +25#PERCENTAGE# reload speed and +50#PERCENTAGE# fire rate bonus."
+		"en"		"Quickiebomb Launcher: stickies will self-detonate when boss is in explosion radius and there is no obstacles between them."
 	}
 	
 	"ash_help_demoman_ehhhhnni"
@@ -676,12 +686,12 @@
 	
 	"ash_help_spy_diamondback"
 	{
-		"en"		"Diamondback: Every Backstab adds the number reinforced crits for this weapon."
+		"en"		"Diamondback: Every Backstab adds the number reinforced crits for this weapon. Crits for backstab will stun boss for 4 sec."
 	}
 	
 	"ash_help_spy_youreternalreward"
 	{
-		"en"		"Your Eternal Reward: Silent exit from invisible."
+		"en"		"Your Eternal Reward: Silent exit from invisible. Player will be semi-transparent when item is active."
 	}
 	
 	"ash_help_spy_conniverskunai"
@@ -780,7 +790,7 @@
 	}
 	"ash_help_demoman_targe"
 	{
-		"en"		"Chargin' Targe: Absorbs one hit enemy, afterwards breaks. After break the shield explodes, dealing 455 damage (boss only)."
+		"en"		"Chargin' Targe: Absorbs one fatal damage, afterwards breaks. After break the shield explodes, dealing 455 damage (boss only)."
 	}
 	"ash_help_scout_sandman"
 	{
@@ -1610,5 +1620,26 @@
 	"ash_secretMode2_enabled"
 	{
 		"en"		"Secret Mode 'Sniper War' enabled!"
+	}
+
+
+	"ash_pyro_phlog_modeselector_info"
+	{
+		"en"		"Weapon Mode"
+	}
+	
+	"ash_pyro_phlog_modeselector_ignition"
+	{
+		"en"		"Ignition"
+	}
+	
+	"ash_pyro_phlog_modeselector_freeze"
+	{
+		"en"		"Freeze"
+	}
+    
+    "you_cant_perform_this_action_because_players_count_is_too_low"
+	{
+		"en"		"You can't perform this action because players count is too low"
 	}
 }

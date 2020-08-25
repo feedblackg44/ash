@@ -12,7 +12,7 @@
     ===Advanced Saxton Hale===
     Authors:
 
-        CrazyHackGUT - Creating this [s]shitty[/s] awesome code.
+        CrazyHackGUT - Previous ASH Programmer.
         NITROYUASH - Something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
         FeedBlack - Continued development of this plugin after CrazyHackGUT has leaved Dev Team.
 
@@ -21,9 +21,9 @@
 #define VSH_PLUGIN_VERSION "1.55"
 
 // ASH Version controller
-#define ASH_BUILD                     "8732"
+#define ASH_BUILD                     "8954"
 #define ASH_PLUGIN_VERSION            "1.22"
-#define ASH_PLUGIN_RELDATE            "17 January 2020"
+#define ASH_PLUGIN_RELDATE            "23 August 2020"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -618,31 +618,34 @@ int g_iAlphaSpys[MAXPLAYERS+1];
 bool g_bAlphaSpysAllow[MAXPLAYERS+1][2];
 bool g_bSpySwitchAllow[MAXPLAYERS+1];
 bool g_bAlphaSpyDelay[MAXPLAYERS+1];
+bool g_bProtectedShield[MAXPLAYERS+1];
 int g_iTauntedSpys[MAXPLAYERS+1];
 int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
 Handle g_iTimerList_Alpha[MAXPLAYERS+1];
 Handle g_iTimerList_Switch[MAXPLAYERS+1];
 Handle g_iTimerList_Repeat[MAXPLAYERS+1][2];
+float g_fStickyExplodeTime[4096];
 //int g_iJarateRageMinus[MAXPLAYERS+1];
 // bool AQUACURE_Available = true;
 bool dispenserEnabled[MAXPLAYERS+1];
 // int ClientsHealth[MAXPLAYERS+1];
+Handle g_CTFGrenadeDetonate;
 
 bool g_bReloadASHOnRoundEnd = false;
 
 // UPD: 12.11.2015
 // SPELLS DEFINES
-#define FIREBALL    0 // Done
-#define BATS         1 // Done
-#define PUMPKIN     2 // Done
-#define TELE         3 // Done
-#define LIGHTNING     4 // Done
-#define BOSS         5 // Done
-#define METEOR         6 // Done
-#define ZOMBIEH     7 // Done
-#define ZOMBIE         8
-#define PUMPKIN2     9
+#define FIREBALL    0   // Done
+#define BATS        1   // Done
+#define PUMPKIN     2   // Done
+#define TELE        3   // Done
+#define LIGHTNING   4   // Done
+#define BOSS        5   // Done
+#define METEOR      6   // Done
+#define ZOMBIEH     7   // Done
+#define ZOMBIE      8
+#define PUMPKIN2    9
 
 bool plManmelterBlock[MAXPLAYERS+1] = false; 	// UPD: 28.01.2016
 bool plSteelBlock[MAXPLAYERS+1] = false; 		// Heavy Nerf: 18.11.2016
@@ -650,6 +653,9 @@ bool g_bGod[MAXPLAYERS+1] = false;
 int FakeKill_Goomba;
 int plManmelterUsed[MAXPLAYERS+1] = 0;
 int IronBomberMode[MAXPLAYERS+1] = 0;
+bool PhlogMode[MAXPLAYERS+1] = false;
+int g_iFreezePhlogPar = 0;
+bool g_isVictimFrozen[MAXPLAYERS+1] = false;
 int iShivInv[MAXPLAYERS+1] = 0;
 bool isStunnedBlock[MAXPLAYERS+1] = false;
 bool isHaleStunBanned = false;
@@ -944,6 +950,9 @@ Handle cvarSpecialVagineer;
 Handle cvarSpecialBunny;
 Handle cvarSpecialAgent;
 */
+
+Handle cvarHaleMinPlayersResetQ;
+
 //Handle cvarEnableEurekaEffect;
 Handle cvarForceHaleTeam;
 Handle PointCookie;
@@ -1569,13 +1578,15 @@ public Action StartResponceTimer(Handle hTimer)
 
 public Action StartHaleTimer(Handle hTimer)
 {
+    //CreateTimer(5.0, AddPrimary, _, TIMER_REPEAT);
+    
     LoopPlayers(iClient)
     {
         if(TF2_GetPlayerClass(iClient) == TFClass_Engineer)
         {
             TF2_RegeneratePlayer(iClient);
         }
-        if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
+        /*if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
             g_iAlphaSpys[iClient] = 30;
             g_bAlphaSpyDelay[iClient] = true;
@@ -1583,7 +1594,7 @@ public Action StartHaleTimer(Handle hTimer)
         else
         {
             SetPlayerRenderAlpha(iClient, 255);
-        }
+        }*/
         
         if (BushmanRulesRound && IsPlayerAlive(iClient)) {
             TF2_RemoveWeaponSlot(iClient, TFWeaponSlot_Primary);
@@ -1592,8 +1603,11 @@ public Action StartHaleTimer(Handle hTimer)
         {
             g_iTauntedSpys[iClient] = 0;
             g_iAlphaSpys[iClient] = 30;
-            //g_bAlphaSpysAllow[iClient][0] = false;
-            //g_bAlphaSpysAllow[iClient][1] = true;
+            g_bAlphaSpysAllow[iClient][0] = false;
+            g_bAlphaSpysAllow[iClient][1] = true;
+            g_bProtectedShield[iClient] = true;
+            g_iAlphaSpys[iClient] = 30;
+            g_bAlphaSpyDelay[iClient] = true;
         }
         /*if (TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
@@ -2268,14 +2282,14 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
     TFClassType iClass = TF2_GetPlayerClass(client);
 
     switch (iItemDefinitionIndex)
-    {
+    {      
         case 39, 351, 1081: // Mega Detonator
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "25 ; 0.5 ; 207 ; 1.33 ; 144 ; 1.0 ; 58 ; 3.2 ; 2 ; 1.25 ; 100 ; 0.90 ; 135 ; 0.85 ; 621 ; 0.35 ; 642 ; 1 ; 644 ; 1 ; 328 ; 1 ", true); // 100
         }
         case 40, 1146: // Backburner
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1"); // 170 ; ???
+            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1");
         }
         case 648: // Wrap assassin
         {
@@ -2350,10 +2364,6 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "326 ; 1.25 ; 3 ; 0.4 ; 869 ; 1 ; 2 ; 1.75", true);
         }
-        case 1151: // Iron Bomber
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
-        }
 //        case 308: // Loch-n-Load
 //        {
 //            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.9 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
@@ -2372,7 +2382,12 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 1150: // Quickiebomb Launcher
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 727 ; 1.25 ; 121 ; 1 ; 669 ; 2 ; 3 ; 0.75 ; 97 ; 0.75 ; 6 ; 0.50 ; 1 ; 0.70", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 121 ; 1 ; 3 ; 0.5 ; 1 ; 0.85 ; 120 ; 1 ; 89 ; -4", true);
+          //hItemOverride = PrepareItemHandle(hItem, _, _, "126 ; -0.2 ; 670 ; 0.5 ; 727 ; 1.25 ; 121 ; 1 ; 669 ; 2 ; 3 ; 0.75 ; 97 ; 0.75 ; 6 ; 0.50 ; 1 ; 0.70", true);
+        }
+        case 1151: // Iron Bomber
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0", true);
         }
         case 752: // Hitman's Heatmaker
         {
@@ -2390,10 +2405,10 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.75 ; 86 ; 1 ; 144 ; 1 ; 738 ; 0.80 ; 16 ; 5 ; 112 ; 0.05 ; 236 ; 1 ; 421 ; 1", true);
         }
-        case 594: // Phlogistinator :C
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "368 ; 1 ; 116 ; 5 ; 350 ; 1 ; 356 ; 1 ; 144 ; 1 ; 15 ; 0 ; 551 ; 1 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1 ; 107 ; 1.20", true);
-        }
+        //case 594: // Phlogistinator :C
+        //{
+        //    hItemOverride = PrepareItemHandle(hItem, _, _, "368 ; 1 ; 116 ; 5 ; 350 ; 1 ; 356 ; 1 ; 144 ; 1 ; 15 ; 0 ; 551 ; 1 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1 ; 107 ; 1.20", true);
+        //}
         case 424: // Tomislav
         {
             hItemOverride = PrepareItemHandle(hItem, _, _, "87 ; 0.8 ; 238 ; 1 ; 5 ; 1.2 ; 106 ; 0.8 ; 1 ; 0.65 ; 75 ; 2.0", true);
@@ -2488,7 +2503,11 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         }
         case 331: // Fists of Steel
         {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "205 ; 0.6 ; 107 ; 1.15", true);
+            hItemOverride = PrepareItemHandle(hItem, _, _, "205 ; 0.6 ; 107 ; 1.15 ; 206 ; 2.0", true);
+        }
+        case 656: // Holiday Punch (MITTENS OF DEATH >:C)
+        {
+            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.0 ; 15 ; 0", true);
         }
         case 812, 833: // Cleaver
         {
@@ -3546,6 +3565,23 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 
                 if (GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") <= 0.9) ASHStats[UberCharges]++;
             }
+            /*case view_as<TFCond>(65):
+            {
+                if (TF2_GetPlayerClass(client) == TFClass_DemoMan && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 1150)
+                {
+                    int iSticky = -1;
+                    //new iStickyCount = 0;
+                    while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+                    {
+                        if (client == GetEntPropEnt(iSticky, Prop_Send, "m_hThrower"))
+                        {
+                            SDKCall(g_CTFGrenadeDetonate, iSticky);
+                            //iStickyCount++;
+                        }   
+                    }
+                    //PrintToChatAll("%i stickies found", iStickyCount);
+                }
+            }*/
         }
         
         if (TF2_GetPlayerClass(client) == TFClass_Heavy && IsWeaponSlotActive(client, TFWeaponSlot_Secondary)) {
@@ -4652,6 +4688,20 @@ public Action UseRage(Handle hTimer, any dist)
                     if (ASHRoundState != ASHRState_Waiting) {
                         TF2_StunPlayer(i, GetStunTime(i), _, flags, (Special == ASHSpecial_HHH ? 0 : Hale));
                         TF2_AddCondition(i, view_as<TFCond>(65), GetStunTime(i));
+                        if (TF2_GetPlayerClass(i) == TFClass_DemoMan && GetIndexOfWeaponSlot(i, TFWeaponSlot_Secondary) == 1150)
+                        {
+                            int iSticky = -1;
+                            //new iStickyCount = 0;
+                            while ((iSticky = FindEntityByClassname(iSticky, "tf_projectile_pipe_remote")) != -1)
+                            {
+                                if (i == GetEntPropEnt(iSticky, Prop_Send, "m_hThrower"))
+                                {
+                                    SDKCall(g_CTFGrenadeDetonate, iSticky);
+                                    //iStickyCount++;
+                                }   
+                            }       
+                            //PrintToChatAll("%i stickies found", iStickyCount);
+                        }
                     }
                     if (GetIndexOfWeaponSlot(i, TFWeaponSlot_Melee) == 331)			// Heavy Nerf: 18.11.2016
                     {
@@ -5082,7 +5132,7 @@ public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname
             return Plugin_Changed;
         }
     }
-    else if (IsValidEntity(weapon))
+    else if (IsValidEntity(weapon) && IsValidClient(client))
     {
         SpecialPlayers_LastActiveWeapons[client] = weapon;
 
@@ -5380,6 +5430,12 @@ public int TurnToZeroPanelH(Handle menu, MenuAction action, int param1, int para
 {
     if (action == MenuAction_Select && param2 == 1)
     {
+        if (UTIL_GetClientCount() < GetConVarInt(cvarHaleMinPlayersResetQ))
+        {
+            CPrintToChat(param1, "{ash}[ASH] {default}%t", "you_cant_perform_this_action_because_players_count_is_too_low");
+            return;
+        }
+
         SetClientQueuePoints(param1, 0);
         CPrintToChat(param1, "{ash}[ASH] {default}%t", "vsh_to0_done");
         int cl = FindNextHaleEx();
@@ -5947,9 +6003,19 @@ stock bool RemoveDemoShield(int iClient)
                 // And add damage to Hale!
                 Damage[iClient] += 450;
                 HaleHealth -= 450;
+                TF2_RemoveWearable(iClient, iEnt);
+                return true;
             }
-            TF2_RemoveWearable(iClient, iEnt);
-            return true;
+            else if (GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex") == 406 && g_bProtectedShield[iClient])
+            {   
+                g_bProtectedShield[iClient] = false;
+                return true;
+            }
+            else
+            {
+                TF2_RemoveWearable(iClient, iEnt);
+                return true;
+            }
         }
     }
     return false;
@@ -6844,6 +6910,57 @@ stock int AttachParticle(int iEnt, const char[] szParticleType, float flTimeToDi
     return -1;
 }
 
+// Almost the same as the first AttachParticle(), but with rotation vector
+stock int AttachParticle2(int iEnt, const char[] szParticleType, float flTimeToDie = -1.0, float vOffsets[3] = {0.0,0.0,0.0}, float rOffsets[3] = {0.0,0.0,0.0}, bool bAttach = false, float flTimeToStart = -1.0)
+{
+    int iParti = CreateEntityByName("info_particle_system");
+    if (IsValidEntity(iParti))
+    {
+        float vPos[3],rPos[3];
+        GetEntPropVector(iEnt, Prop_Send, "m_vecOrigin", vPos);
+        AddVectors(vPos, vOffsets, vPos);
+        AddVectors(rPos, rOffsets, rPos);
+        TeleportEntity(iParti, vPos, rPos, NULL_VECTOR);
+
+        DispatchKeyValue(iParti, "effect_name", szParticleType);
+        DispatchSpawn(iParti);
+
+        if (bAttach)
+        {
+            SetParent(iEnt, iParti);
+            SetEntPropEnt(iParti, Prop_Send, "m_hOwnerEntity", iEnt);
+        }
+
+        ActivateEntity(iParti);
+
+        if (flTimeToStart > 0.0)
+        {
+            char szAddOutput[32];
+            Format(szAddOutput, sizeof(szAddOutput), "OnUser1 !self,Start,,%0.2f,1", flTimeToStart);
+            SetVariantString(szAddOutput);
+            AcceptEntityInput(iParti, "AddOutput");
+            AcceptEntityInput(iParti, "FireUser1");
+
+            if (flTimeToDie > 0.0)
+            {
+                flTimeToDie += flTimeToStart;
+            }
+        }
+        else
+        {
+            AcceptEntityInput(iParti, "Start");
+        }
+
+        if (flTimeToDie > 0.0) 
+        {
+            killEntityIn(iParti, flTimeToDie); // Interestingly, OnUser1 can be used multiple times, as the code above won't conflict with this.
+        }
+
+        return iParti;
+    }
+    return -1;
+}
+
 stock void SetParent(int iParent, int iChild)
 {
     SetVariantString("!activator");
@@ -7452,13 +7569,21 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 Format(s, 1024, "%t\n", "ash_help_demoman_quickiebomblauncher");
                             //case 265:
                             //    Format(s, 1024, "%t\n", "ash_help_demoman_stickyjumper");
-                            case 131:
-                                Format(s, 1024, "%t\n", "ash_help_demoman_targe");
                             default:
                             {
                                 bool SpecialEntity = false;
-                                if (FindWearableOnPlayer(client, 406, true) || FindWearableOnPlayer(client, 1099, true) || FindWearableOnPlayer(client, 1144, true)) {
-                                    Format(s, 1024, "%t\n", "ash_help_demoman_shields");
+                                
+                                if (FindWearableOnPlayer(client, 131, true) || FindWearableOnPlayer(client, 1144, true))
+                                {
+                                    Format(s, 1024, "%t\n", "ash_help_demoman_targe");
+                                    SpecialEntity = true;
+                                }
+                                if (FindWearableOnPlayer(client, 406, true)) {
+                                    Format(s, 1024, "%t\n", "ash_help_demoman_splendidscreen");
+                                    SpecialEntity = true;
+                                }
+                                if (FindWearableOnPlayer(client, 1099, true)) {
+                                    Format(s, 1024, "%t\n", "ash_help_demoman_tideturner");
                                     SpecialEntity = true;
                                 }
                                 
@@ -7860,6 +7985,25 @@ stock void IronBomber_ChangeMode(int weapon, int mode) {
     }
 }
 
+// I though i will swap phlog attributes for ignition/freeze modes, but no, i made it without touching it! Yay!
+// By the way, if i'll change my mind, i will uncomment this
+/*stock void Phlog_ChangeMode(int weapon, bool mode) {
+    switch (mode) {
+        case false:    {
+            // IGNITION
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+        }
+        case true:    {
+            // FREEZE
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+            TF2Attrib_SetByDefIndex(weapon, INSERT_ATTR);
+        }
+    }
+}*/
+
 stock void AIM_Ambassador_attr_changer(int weapon, int act_aim) {
     switch (act_aim) {
         case 0:    {
@@ -7888,10 +8032,10 @@ stock float GetStunTime(int client) {
     return 5.0;
 }
 
-void ManmelterHUD_Render(int client) {
+void ManmelterHUD_Render(int client, bool hud_corrector) {
     if (!ManmelterBan[client]) {
-        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, 0.78, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
-        else SetHudTextParams(-1.0, 0.78, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
+        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
+        else SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
                     
         char s[128];
         if (plManmelterUsed[client] == 100) Format(s, 128, "%t: %t", "ash_pyro_secondchance_infometer", "ash_pyro_secondchance_ready");
@@ -8994,8 +9138,11 @@ public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
     }
     else
     {
-        KillTimer(g_iTimerList_Repeat[client][0]);
-        g_iTimerList_Repeat[client][0] = null;
+        if(g_iTimerList_Repeat[client][0] != null)
+        {
+            KillTimer(g_iTimerList_Repeat[client][0]);
+            g_iTimerList_Repeat[client][0] = null;
+        }
         return Plugin_Continue;
     }
 }
@@ -9004,20 +9151,74 @@ public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
 {
     int client = GetClientOfUserId(clientid);
     
-    if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30)
+    if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30 && client > 0)
     {
         g_iAlphaSpys[client]--;
         return Plugin_Continue;
     }
     else
     {
-        KillTimer(g_iTimerList_Repeat[client][1]);
-        g_iTimerList_Repeat[client][1] = null;
+        if(g_iTimerList_Repeat[client][1] != null)
+        {
+            KillTimer(g_iTimerList_Repeat[client][1]);
+            g_iTimerList_Repeat[client][1] = null;
+        }
         return Plugin_Continue;
     }
 }
 
-public Action From30to255(Handle hTimer, any client)
+public Action PhlogFreeze_reboot(Handle hTimer, any client)
+{
+    g_iFreezePhlogPar = 0;
+    g_isVictimFrozen[client] = false;
+    SetEntityRenderColor(client, 255, 255, 255);
+}
+
+public Action CatchSticky(Handle hTimer, any entity)
+{
+    char EntityName[64];
+    GetEntityClassname(entity, EntityName, 64);
+    
+    if(StrEqual(EntityName, "tf_projectile_pipe_remote", true))
+    {
+        int iPlayer = GetEntPropEnt(entity, Prop_Send, "m_hThrower");
+        int iSecondary = GetIndexOfWeaponSlot(iPlayer, TFWeaponSlot_Secondary);
+    
+        if (g_bEnabled && ASHRoundState == ASHRState_Active && TF2_GetPlayerClass(iPlayer) == TFClass_DemoMan && iSecondary == 1150)
+        {
+            float EngineTime = GetEngineTime();
+            float ChargeTime = 1.5; //GetEntPropFloat(weapon, Prop_Send, "m_flChargeBeginTime");
+            float BeginExplodeTime = EngineTime + ChargeTime;
+        
+            /*PrintToChatAll("EngineTime: %f", EngineTime);
+            PrintToChatAll("ChargeTime: %f", ChargeTime);
+            PrintToChatAll("BeginExplodeTime: %f", BeginExplodeTime);
+            */
+            g_fStickyExplodeTime[entity] = BeginExplodeTime;
+        }
+    }
+}
+
+/*public Action AddPrimary(Handle hTimer)
+{
+    LoopPlayers(client)
+    {
+        if(client > 0 && client != Hale)
+        {
+            if(GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 40 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 1146)
+            {   
+                int iEnt = MaxClients + 1; 
+                iEnt = FindEntityByClassname2(iEnt, "tf_weapon_flamethrower");
+                if(GetEntPropEnt(iEnt, Prop_Send, "m_hOwnerEntity") == client && GetEntProp(iEnt, Prop_Send, "m_iClip1") < 200)  
+                {                       
+                    SetEntProp(iEnt, Prop_Send, "m_iClip1", GetEntProp(iEnt, Prop_Send, "m_iClip1")+40); // +40 primary ammo
+                }
+            }
+        }
+    }
+}*/
+
+/*public Action From30to255(Handle hTimer, any client)
 {
     g_iAlphaSpys[client] = 30;
 
@@ -9037,7 +9238,7 @@ public Action SetPlayerRenderAlpha_ActionFrom30(Handle hTimer, DataPack hPack)
     int i = hPack.ReadCell();
     
     g_iAlphaSpys[client] = i+30;
-}
+}*/
 
 //public Action EquipDefault(int client, )
 

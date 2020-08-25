@@ -8,15 +8,21 @@
 
 "Games"
 {
-  "tf"
-  {
-    "Offsets"
+    "tf"
     {
-      "CTFPlayer::GetMaxHealth"
-      {
-        "windows"   "117"
-        "linux"     "118"
-      }
+        "Offsets"
+        {
+            "CTFPlayer::GetMaxHealth"
+            {
+                "windows"   "117"
+                "linux"     "118"
+            }
+            "GrenadeDetonate"
+            {
+                "windows"    "229"
+                "linux"      "230"
+                "mac"        "230"
+            }
+        }
     }
-  }
 }

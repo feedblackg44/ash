@@ -133,6 +133,8 @@ void UTIL_MakeConVars() {
     cvarSpecialBunny = CreateConVar("hale_special_bunny", "1", "Allow Easter Bunny's special ability (Flash Grenade)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvarSpecialAgent = CreateConVar("hale_special_agent", "1", "Allow Agent's special ability (Bomb)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     */
+    cvarHaleMinPlayersResetQ = CreateConVar("hale_min_players_resetq", "6", "Minimum number of players to use a command /resetq", FCVAR_NOTIFY, true, 0.0);
+    
     HookConVarChange(FindConVar("tf_bot_count"), HideCvarNotify);
     HookConVarChange(FindConVar("tf_arena_use_queue"), HideCvarNotify);
     HookConVarChange(FindConVar("tf_arena_first_blood"), HideCvarNotify);
@@ -198,6 +200,8 @@ void UTIL_MakeConVars() {
     HookConVarChange(cvarSpecialVagineer, CvarChange);
     HookConVarChange(cvarSpecialBunny, CvarChange);
     HookConVarChange(cvarSpecialAgent, CvarChange);*/
+    
+    HookConVarChange(cvarHaleMinPlayersResetQ, CvarChange);
 }
 
 void UTIL_LoadConfig() {
@@ -276,6 +280,10 @@ void UTIL_InitGamedata() {
         CloseHandle(hGameConf);
         SetFailState("Invalid gamedata file for CTFPlayer::GetMaxHealth()");
     }
+    
+    StartPrepSDKCall(SDKCall_Entity);
+    PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "GrenadeDetonate");
+    g_CTFGrenadeDetonate = EndPrepSDKCall();
 
     CloseHandle(hGameConf);
 }
@@ -1043,6 +1051,16 @@ stock void UTIL_CreateBelatedAttributeChange(float flTime, int iEntity, int iAtt
     hPack.WriteCell(EntIndexToEntRef(iEntity));
     hPack.WriteCell(iAttribute);
     hPack.WriteFloat(flValue);
+}
+
+int UTIL_GetClientCount() {
+    int iCounter = 0;
+    for (int iClient = MaxClients; iClient != 0; --iClient) {
+        if (IsClientInGame(iClient) && GetClientTeam(iClient) > 1)
+            iCounter++;
+    }
+
+    return iCounter;
 }
 
 int UTIL_GetAlivePlayers(int iTeam) {
