@@ -6,15 +6,8 @@ AIM.sp
 *.exe
 
 # Разрешаем инклуду режима
-!scripting/include/tf2_stocks.inc
 !scripting/include/tf2items.inc
-!scripting/include/regex.inc
-!scripting/include/clientprefs.inc
-!scripting/include/sdkhooks.inc
-!scripting/include/sdktools.inc
 !scripting/include/morecolors.inc
-!scripting/include/sourcemod.inc
-!scripting/include/nextmap.inc
 !scripting/include/advancedsaxtonhale.inc
 !scripting/include/tf2attributes.inc
 !scripting/include/tf2wearables.inc
