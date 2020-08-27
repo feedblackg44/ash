@@ -1,0 +1,8 @@
+"Phrases"
+{
+    "ASH_TRACE_DMG"
+    {
+        "#format"   "{1:N},{2:d}"
+        "en"        "{1}'s Damage: {2}"
+    }
+}
