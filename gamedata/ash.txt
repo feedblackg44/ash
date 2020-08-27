@@ -24,5 +24,122 @@
                 "mac"        "230"
             }
         }
+
+        "Keys"
+        {
+            // Here we place something internal game data
+            // such as new attributes for weapons.
+
+            // Name template for "UTIL_PrepareItemHandle" function:
+            // PIH__%INDEX%_param
+            // 
+            // Possible parameters:
+            // - dummy - dummy parameter, should be presented if entity should be created. If value is entered - used as "parent item".
+            // - name - entity name. Can be leaved as empty.
+            // - index - item index.
+            // - attributes - item attributes.
+            // - dontpreserve.
+
+            // Mega Detonator
+            "TF2Items_OnGNI__PIH__351_dummy"            "39"
+            "TF2Items_OnGNI__PIH__1081_dummy"           "39"
+            "TF2Items_OnGNI__PIH__39_dummy"             ""
+            "TF2Items_OnGNI__PIH__39_attributes"        "25 ; 0.5 ; 207 ; 1.33 ; 144 ; 1.0 ; 58 ; 3.2 ; 2 ; 1.25 ; 100 ; 0.90 ; 135 ; 0.85 ; 621 ; 0.35 ; 642 ; 1 ; 644 ; 1 ; 328 ; 1"
+            "TF2Items_OnGNI__PIH__39_dontpreserve"      "1"
+
+            // Backburner
+            "TF2Items_OnGNI__PIH__1146_dummy"           "40"
+            "TF2Items_OnGNI__PIH__40_dummy"             ""
+            "TF2Items_OnGNI__PIH__40_attributes"        "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1"
+
+            // Wrap assassin
+            "TF2Items_OnGNI__PIH__648_dummy"            ""
+            "TF2Items_OnGNI__PIH__648_attributes"       "279 ; 12.0"
+
+            // Letranger
+            "TF2Items_OnGNI__PIH__224_dummy"            ""
+            "TF2Items_OnGNI__PIH__224_attributes"       "166 ; 15 ; 1 ; 0.8 ; 36 ; 2.50"
+            "TF2Items_OnGNI__PIH__224_dontpreserve"     "1"
+
+            // Enforcer
+            "TF2Items_OnGNI__PIH__460_dummy"            ""
+            "TF2Items_OnGNI__PIH__460_attributes"       "15 ; 1 ; 5 ; 1.2 ; 410 ; 2.0 ; 2 ; 1.2 ; 36 ; 2.50"
+            "TF2Items_OnGNI__PIH__460_dontpreserve"     "1"
+
+            // YER
+            "TF2Items_OnGNI__PIH__574_dummy"            "225"
+            "TF2Items_OnGNI__PIH__225_dummy"            ""
+            "TF2Items_OnGNI__PIH__225_attributes"       "155 ; 1 ; 160 ; 1"
+            "TF2Items_OnGNI__PIH__225_dontpreserve"     "1"
+
+            // Bushwacka
+            "TF2Items_OnGNI__PIH__232_dummy"            ""
+            "TF2Items_OnGNI__PIH__232_attributes"       "236 ; 1 ; 1 ; 0"
+
+            // Kunai
+            "TF2Items_OnGNI__PIH__356_dummy"            ""
+            "TF2Items_OnGNI__PIH__356_attributes"       "125 ; -55 ; 275 ; 1"
+
+            // Demo boots have falling stomp damage
+            "TF2Items_OnGNI__PIH__608_dummy"            "405"
+            "TF2Items_OnGNI__PIH__405_dummy"            ""
+            "TF2Items_OnGNI__PIH__405_attributes"       "259 ; 1 ; 252 ; 0.25 ; 54 ; 0.9 ; 135 ; 0.50"
+
+            // Shortstop - Effects are no longer 'only while active'. Otherwise acts like post-gunmettle shortstop.
+            "TF2Items_OnGNI__PIH__220_dummy"            ""
+            "TF2Items_OnGNI__PIH__220_attributes"       "525 ; 1 ; 526 ; 1.2 ; 533 ; 1.4 ; 534 ; 1.4 ; 328 ; 1 ; 241 ; 1.5"
+            "TF2Items_OnGNI__PIH__220_dontpreserve"     "1"
+
+            // The Battalion's Backup
+            "TF2Items_OnGNI__PIH__226_dummy"            ""
+            "TF2Items_OnGNI__PIH__226_attributes"       "252 ; 0.25" //125 ; -10
+
+            // Medic Xbow
+            "TF2Items_OnGNI__PIH__1079_dummy"           "305"
+            "TF2Items_OnGNI__PIH__305_dummy"            ""
+            "TF2Items_OnGNI__PIH__305_attributes"       "17 ; 0.15 ; 77 ; 0.25 ; 2029 ; 1"
+
+            // Huntsman
+            "TF2Items_OnGNI__PIH__1005_dummy"           "56"
+            "TF2Items_OnGNI__PIH__1092_dummy"           "56"
+            "TF2Items_OnGNI__PIH__56_dummy"             ""
+            "TF2Items_OnGNI__PIH__56_attributes"        "76 ; 2.0 ; 1 ; 0.595"
+
+            // Axtinguisher
+            "TF2Items_OnGNI__PIH__457_dummy"            "38"
+            "TF2Items_OnGNI__PIH__1000_dummy"           "38"
+            "TF2Items_OnGNI__PIH__38_dummy"             ""
+            "TF2Items_OnGNI__PIH__38_attributes"        "267 ; 1 ; 15 ; 0"
+            "TF2Items_OnGNI__PIH__38_dontpreserve"      "1"
+
+            // GRU
+            "TF2Items_OnGNI__PIH__1100_dummy"           "239"
+            "TF2Items_OnGNI__PIH__1084_dummy"           "239"
+            "TF2Items_OnGNI__PIH__239_dummy"            ""
+            "TF2Items_OnGNI__PIH__239_attributes"       "107 ; 1.5 ; 1 ; 0.5 ; 128 ; 1 ; 191 ; -7"
+            "TF2Items_OnGNI__PIH__239_dontpreserve"     "1"
+
+            // Reserve Shooter
+            "TF2Items_OnGNI__PIH__415_dummy"            ""
+            "TF2Items_OnGNI__PIH__415_attributes"       "178 ; 0.6 ; 3 ; 0.6 ; 551 ; 1 ; 97 ; 0.50 ; 6 ; 0.70 ; 15 ; 0 ; 288 ; 0 ; 32 ; 0.30"
+            "TF2Items_OnGNI__PIH__415_dontpreserve"     "1"
+
+            // Winger
+            "TF2Items_OnGNI__PIH__449_dummy"            ""
+            "TF2Items_OnGNI__PIH__449_attributes"       "326 ; 1.25 ; 3 ; 0.4 ; 869 ; 1 ; 2 ; 1.75"
+            "TF2Items_OnGNI__PIH__449_dontpreserve"     "1"
+
+            // Half-Zatoichi
+            "TF2Items_OnGNI__PIH__357_dummy"            ""
+            "TF2Items_OnGNI__PIH__357_attributes"       "551 ; 1 ; 5 ; 1.25 ; 219 ; 1 ; 226 ; 1"
+            "TF2Items_OnGNI__PIH__357_dontpreserve"     "1"
+
+            // Back Scatter
+            "TF2Items_OnGNI__PIH__1103_dummy"           ""
+            "TF2Items_OnGNI__PIH__1103_attributes"      "619 ; 1 ; 3 ; 0.66 ; 36 ; 1.20 ; 15 ; 0 ; 32 ; 0.25 ; 179 ; 1"
+            "TF2Items_OnGNI__PIH__1103_dontpreserve"    "1"
+
+            "TF2Items_OnGNI__PIH__"
+        }
     }
 }

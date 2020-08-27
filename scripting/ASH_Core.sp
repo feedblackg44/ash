@@ -20,8 +20,18 @@
 */
 #define VSH_PLUGIN_VERSION "1.55"
 
+/**
+ * TODO на будущее:
+ * 1. Выкинуть по максимуму #define, где возможно. Оставить только конст чары/инты.
+ * 2. Рефакторнуть апи.
+ * 3. Переделать работу с боссами и их логикой.
+ * 4. См. 3, но для игроков.
+ * 5. Атрибуты и их значения для оружий - в геймдату.
+ * 6. Избавиться от FindConVar() по максимуму в каждом обработчике эвентов (и не только).
+ */
+
 // ASH Version controller
-#define ASH_BUILD                     "8954"
+#define ASH_BUILD                     "8955"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "23 August 2020"
 
@@ -31,10 +41,11 @@
 #define ASH_INFECTIONRADIUS_HALE      235.0
 #define ASH_INFECTIONRADIUS_PLAYERS   210.0
 
+// Declared constant for "declaring" obsolete natives.
+#define __ASH_API_COMPABILITY
+
 // Tech
 #define PLUGINVERSION                 ASH_PLUGIN_VERSION ... " (" ... ASH_BUILD ... ")"
-
-#define MegaEmitSoundToAll(%0)        EmitSoundToAll(%0), EmitSoundToAll(%0)
 
 #pragma semicolon 1
 #include <tf2_stocks>
@@ -86,8 +97,8 @@ bool g_bSteamWorksIsRunning = false;
 #define TEAM_RED                2
 #define TEAM_BLU                3
 
-#define MAX_INT                 2147483647     //PriorityCenterText
-#define MIN_INT                 -2147483648    //PriorityCenterText
+#define MAX_INT                 cellmax // 2147483647     //PriorityCenterText
+#define MIN_INT                 cellmin // -2147483648    //PriorityCenterText
 #define MAX_DIGITS              12           //10 + \0 for IntToString. And negative signs.
 
 // events
@@ -217,10 +228,10 @@ enum e_flNext2
 // Saxton Hale Files
 
 // Model
-#define HaleModel               "models/player/saxton_hale_jungle_inferno/saxton_hale.mdl"
+stock const char HaleModel[] = "models/player/saxton_hale_jungle_inferno/saxton_hale.mdl";
 
 // Dispenser Mode
-#define DispenserModel            "models/buildables/dispenser_lvl3_light.mdl"
+stock const char DispenserModel[] = "models/buildables/dispenser_lvl3_light.mdl";
 
 // Materials
 
@@ -2270,86 +2281,12 @@ public Action MakeHale(Handle hTimer)
 public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDefinitionIndex, Handle &hItem)
 {
     if (RoundCount <= 0 && !GetConVarBool(cvarFirstRound)) return Plugin_Continue;
-    
-    SetConVarInt(FindConVar("tf_dropped_weapon_lifetime"), 0);
-    SetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"), 0.1);
-    SetConVarFloat(FindConVar("tf_feign_death_damage_scale"), 0.1);
-    SetConVarFloat(FindConVar("tf_stealth_damage_reduction"), 0.1);
-    SetConVarFloat(FindConVar("tf_feign_death_duration"), 7.0);
-    SetConVarFloat(FindConVar("tf_feign_death_speed_duration"), 0.0);
 
-    Handle hItemOverride = null;
+    Handle hItemOverride = UTIL_PrepareItemHandle(iItemDefinitionIndex, hItem, "TF2Items__OnGNI");
     TFClassType iClass = TF2_GetPlayerClass(client);
 
     switch (iItemDefinitionIndex)
-    {      
-        case 39, 351, 1081: // Mega Detonator
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "25 ; 0.5 ; 207 ; 1.33 ; 144 ; 1.0 ; 58 ; 3.2 ; 2 ; 1.25 ; 100 ; 0.90 ; 135 ; 0.85 ; 621 ; 0.35 ; 642 ; 1 ; 644 ; 1 ; 328 ; 1 ", true); // 100
-        }
-        case 40, 1146: // Backburner
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "165 ; 1 ; 170 ; 4.0 ; 28 ; 0 ; 255 ; 1.4 ; 257 ; 1.5 ; 112 ; 0.200 ; 783 ; 20 ; 421 ; 1");
-        }
-        case 648: // Wrap assassin
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "279 ; 12.0");
-        }
-        case 224: // Letranger
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "166 ; 15 ; 1 ; 0.8 ; 36 ; 2.50", true);
-        }
-        case 460: // Enforcer
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "15 ; 1 ; 5 ; 1.2 ; 410 ; 2.0 ; 2 ; 1.2 ; 36 ; 2.50", true);
-        }
-        case 225, 574: // YER
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "155 ; 1 ; 160 ; 1", true);
-        }
-        case 232: // Bushwacka
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "236 ; 1 ; 1 ; 0");
-        }
-        case 356: // Kunai
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "125 ; -55 ; 275 ; 1");
-        }
-        case 405, 608: // Demo boots have falling stomp damage
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "259 ; 1 ; 252 ; 0.25 ; 54 ; 0.9 ; 135 ; 0.50");
-        }
-        case 220: // Shortstop - Effects are no longer 'only while active'. Otherwise acts like post-gunmettle shortstop.
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "525 ; 1 ; 526 ; 1.2 ; 533 ; 1.4 ; 534 ; 1.4 ; 328 ; 1 ; 241 ; 1.5", true);
-        }
-        case 226: // The Battalion's Backup
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "252 ; 0.25"); //125 ; -10
-        }
-        case 305, 1079: // Medic Xbow
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "17 ; 0.15 ; 77 ; 0.25 ; 2029 ; 1");
-        }
-        case 56, 1005, 1092: // Huntsman
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "76 ; 2.0 ; 1 ; 0.595");
-        }
-        case 38, 457, 1000: // Axtinguisher
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "267 ; 1 ; 15 ; 0", true);
-        }
-        case 239, 1100, 1084: // GRU
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "107 ; 1.5 ; 1 ; 0.5 ; 128 ; 1 ; 191 ; -7", true);
-        }
-        case 415: // Reserve Shooter
-        {
-            //if (iClass == TFClass_Soldier) // Soldier shotguns get 40% rocket jump
-            //    hItemOverride = PrepareItemHandle(hItem, _, _, "179 ; 0.1 ; 179 ; 1 ; 178 ; 0.6 ; 3 ; 0.67 ; 551 ; 1 ; 5 ; 1.15", true);
-            //else
-             hItemOverride = PrepareItemHandle(hItem, _, _, "178 ; 0.6 ; 3 ; 0.6 ; 551 ; 1 ; 97 ; 0.50 ; 6 ; 0.70 ; 15 ; 0 ; 288 ; 0 ; 32 ; 0.30", true);
-        }
+    {
         case 1153: // Panic Attack
         {
             if (iClass == TFClass_Engineer)
@@ -2359,22 +2296,6 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
         {
             if (iClass == TFClass_Engineer)
                 hItemOverride = PrepareItemHandle(hItem, _, _, "2 ; 1.6", true);
-        }
-        case 449: // Winger
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "326 ; 1.25 ; 3 ; 0.4 ; 869 ; 1 ; 2 ; 1.75", true);
-        }
-//        case 308: // Loch-n-Load
-//        {
-//            hItemOverride = PrepareItemHandle(hItem, _, _, "1 ; 0.9 ; 103 ; 1.25 ; 100 ; 0.75 ; 127 ; 2 ; 681 ; 1", true);
-//        }
-        case 357: //Half-Zatoichi
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "551 ; 1 ; 5 ; 1.25 ; 219 ; 1 ; 226 ; 1", true);
-        }
-        case 1103: // Back Scatter
-        {
-            hItemOverride = PrepareItemHandle(hItem, _, _, "619 ; 1 ; 3 ; 0.66 ; 36 ; 1.20 ; 15 ; 0 ; 32 ; 0.25 ; 179 ; 1", true);
         }
         case 231: // Darwin's Danger Shield
         {
@@ -9242,12 +9163,19 @@ public Action SetPlayerRenderAlpha_ActionFrom30(Handle hTimer, DataPack hPack)
 
 //public Action EquipDefault(int client, )
 
+public void __EmitSoundToAll(const char[] szSound)
+{
+    EmitSoundToAll(szSound);
+    EmitSoundToAll(szSound);
+}
+
 #include "ASH/API.sp"
 #include "ASH/UTIL.sp"
 #include "ASH/Logic.sp"
 #include "ASH/Events.sp"
 #include "ASH/Extension.sp"
 #include "ASH/Ability/Agent.sp"
+
 /**
  * Developing started: 18 July, 2015
  */

@@ -13,57 +13,75 @@ void API_MakeForwards() {
     OnHaleNext      = CreateGlobalForward("ASH_OnHaleNext", ET_Hook, Param_Cell);
 }
 
+void API_MakeGeneralNatives(const char[] szPrefix)
+{
+    char szNativeName[32];
+#define __temp_declare_native(%0)   FormatEx(szNativeName, sizeof(szNativeName), "%s_%s", szPrefix, #%0); CreateNative(szNativeName, Native_%0)
+
+    /** Generic */
+    __temp_declare_native(IsSaxtonHaleModeMap);
+    __temp_declare_native(IsSaxtonHaleModeEnabled);
+    __temp_declare_native(GetSaxtonHaleUserId);
+    __temp_declare_native(GetSaxtonHaleTeam);
+    __temp_declare_native(GetSpecialRoundIndex);
+    __temp_declare_native(GetSaxtonHaleHealth);
+    __temp_declare_native(GetSaxtonHaleHealthMax);
+    __temp_declare_native(GetRoundState);
+    __temp_declare_native(GetRoundNum);
+
+    /** Admin functions */
+    __temp_declare_native(GetClientDamage);
+
+#undef __temp_declare_native
+}
+
 void API_MakeNatives() {
+    API_MakeGeneralNatives("ASH");
+
+#if defined __ASH_API_COMPABILITY
+    API_MakeGeneralNatives("VSH");
+#endif
+
     /* Generic */
-    CreateNative("ASH_IsSaxtonHaleModeMap",     Native_IsASHMap);
-    CreateNative("ASH_IsSaxtonHaleModeEnabled", Native_IsEnabled);
-    CreateNative("ASH_GetSaxtonHaleUserId",     Native_GetHale);
-    CreateNative("ASH_GetSaxtonHaleTeam",       Native_GetTeam);
-    CreateNative("ASH_GetSpecialRoundIndex",    Native_GetSpecial);
-    CreateNative("ASH_GetSaxtonHaleHealth",     Native_GetHealth);
-    CreateNative("ASH_GetSaxtonHaleHealthMax",  Native_GetHealthMax);
-    CreateNative("ASH_GetRoundState",           Native_GetRoundState);
-    CreateNative("ASH_GetRoundNum",             Native_GetRoundNum);
     CreateNative("ASH_PrintToChat",             Native_PrintToChat);
-    
+
     /* Admin functions */
     CreateNative("ASH_SetNextPlayer",           Native_SetNextPlayer);
     CreateNative("ASH_SetNextBoss",             Native_SetNextBoss);
     CreateNative("ASH_SetQueuePoints",          Native_SetQueuePoints);
     CreateNative("ASH_GetQueuePoints",          Native_GetQueuePoints);
     CreateNative("ASH_SetClientDamage",         Native_SetDamage);
-    CreateNative("ASH_GetClientDamage",         Native_GetDamage);
     CreateNative("ASH_SetSaxtonHaleHealth",     Native_SetSaxtonHaleHealth);
     CreateNative("ASH_SetSaxtonHaleHealthMax",  Native_SetSaxtonHaleHealthMax);
 }
 
-public int Native_IsASHMap(Handle plugin, int numParams) {
+public int Native_IsSaxtonHaleModeMap(Handle plugin, int numParams) {
     return IsSaxtonHaleMap();
 }
 
-public int Native_IsEnabled(Handle plugin, int numParams) {
+public int Native_IsSaxtonHaleModeEnabled(Handle plugin, int numParams) {
     return g_bEnabled;
 }
 
-public int Native_GetHale(Handle plugin, int numParams) {
+public int Native_GetSaxtonHaleUserId(Handle plugin, int numParams) {
     if (IsValidClient(Hale))
         return GetClientUserId(Hale);
     return -1;
 }
 
-public int Native_GetTeam(Handle plugin, int numParams) {
+public int Native_GetSaxtonHaleTeam(Handle plugin, int numParams) {
     return HaleTeam;
 }
 
-public int Native_GetSpecial(Handle plugin, int numParams) {
+public int Native_GetSpecialRoundIndex(Handle plugin, int numParams) {
     return Special;
 }
 
-public int Native_GetHealth(Handle plugin, int numParams) {
+public int Native_GetSaxtonHaleHealth(Handle plugin, int numParams) {
     return HaleHealth;
 }
 
-public int Native_GetHealthMax(Handle plugin, int numParams) {
+public int Native_GetSaxtonHaleHealthMax(Handle plugin, int numParams) {
     return HaleHealthMax;
 }
 
@@ -117,7 +135,7 @@ public int Native_SetDamage(Handle plugin, int numParams) {
     Damage[client] = GetNativeCell(2);
 }
 
-public int Native_GetDamage(Handle plugin, int numParams) {
+public int Native_GetClientDamage(Handle plugin, int numParams) {
     int client = GetNativeCell(1);
     if (!IsValidClient(client))
         return 0;
@@ -126,8 +144,10 @@ public int Native_GetDamage(Handle plugin, int numParams) {
 
 public int Native_SetSaxtonHaleHealth(Handle hPlugin, int iNumParams) {
     HaleHealth = GetNativeCell(1);
+    // TODO: rework this for correct working on max health fix.
 }
 
 public int Native_SetSaxtonHaleHealthMax(Handle hPlugin, int iNumParams) {
     HaleHealthMax = GetNativeCell(1);
+    // TODO: rework this for correct working on max health fix.
 }

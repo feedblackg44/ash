@@ -250,7 +250,14 @@ public Action event_round_start(Handle event, const char[] name, bool dontBroadc
     ASHStats[BackStabs] = 0;
     ASHStats[UberCharges] = 0;
     // ASH STATS UPDATE
-    
+
+    SetConVarInt(FindConVar("tf_dropped_weapon_lifetime"), 0);
+    SetConVarFloat(FindConVar("tf_feign_death_activate_damage_scale"), 0.1);
+    SetConVarFloat(FindConVar("tf_feign_death_damage_scale"), 0.1);
+    SetConVarFloat(FindConVar("tf_stealth_damage_reduction"), 0.1);
+    SetConVarFloat(FindConVar("tf_feign_death_duration"), 7.0);
+    SetConVarFloat(FindConVar("tf_feign_death_speed_duration"), 0.0);
+
     return Plugin_Continue;
 }
 

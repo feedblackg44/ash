@@ -265,27 +265,19 @@ void UTIL_LoadTranslations() {
 }
 
 void UTIL_InitGamedata() {
-    Handle hGameConf = LoadGameConfigFile("ash");
-    if (!hGameConf)
-    {
-        SetFailState("Can't load gamedata file.");
-        return; // supress compiler warnings about "null"-used variable.
-    }
+    Handle hGameConf = ASH_ResolveGameData();
 
     // CTFPlayer::GetMaxHealth()
     StartPrepSDKCall(SDKCall_Player);
     if (!PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "CTFPlayer::GetMaxHealth")
      || !PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain)
      || !(g_ptrGetMaxHealth = EndPrepSDKCall())) {
-        CloseHandle(hGameConf);
         SetFailState("Invalid gamedata file for CTFPlayer::GetMaxHealth()");
     }
     
     StartPrepSDKCall(SDKCall_Entity);
     PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "GrenadeDetonate");
     g_CTFGrenadeDetonate = EndPrepSDKCall();
-
-    CloseHandle(hGameConf);
 }
 
 void UTIL_LookupOffsets() {
@@ -928,100 +920,100 @@ public Action OnPlayEndRoundSound(Handle hTimer, any eClass) {
     {
         case TFClass_Scout:     {
             switch (GetRandomInt(0, 4)) {
-                case 0: MegaEmitSoundToAll("vo/scout_domination01.mp3");
-                case 1: MegaEmitSoundToAll("vo/scout_domination07.mp3");
-                case 2: MegaEmitSoundToAll("vo/scout_domination08.mp3");
-                case 3: MegaEmitSoundToAll("vo/scout_domination12.mp3");
-                case 4: MegaEmitSoundToAll("vo/scout_domination19.mp3");
+                case 0: __EmitSoundToAll("vo/scout_domination01.mp3");
+                case 1: __EmitSoundToAll("vo/scout_domination07.mp3");
+                case 2: __EmitSoundToAll("vo/scout_domination08.mp3");
+                case 3: __EmitSoundToAll("vo/scout_domination12.mp3");
+                case 4: __EmitSoundToAll("vo/scout_domination19.mp3");
             }
         }
 
         case TFClass_Soldier:    {
             switch (GetRandomInt(0, 7)) {
-                case 0: MegaEmitSoundToAll("vo/soldier_dominationheavy03.mp3");
-                case 1: MegaEmitSoundToAll("vo/soldier_dominationmedic05.mp3");
-                case 2: MegaEmitSoundToAll("vo/soldier_dominationpyro03.mp3");
-                case 3: MegaEmitSoundToAll("vo/soldier_dominationpyro07.mp3");
-                case 4: MegaEmitSoundToAll("vo/soldier_dominationpyro09.mp3");
-                case 5: MegaEmitSoundToAll("vo/soldier_dominationscout07.mp3");
-                case 6: MegaEmitSoundToAll("vo/soldier_dominationscout09.mp3");
-                case 7: MegaEmitSoundToAll("vo/soldier_hatoverhearttaunt03.mp3");
+                case 0: __EmitSoundToAll("vo/soldier_dominationheavy03.mp3");
+                case 1: __EmitSoundToAll("vo/soldier_dominationmedic05.mp3");
+                case 2: __EmitSoundToAll("vo/soldier_dominationpyro03.mp3");
+                case 3: __EmitSoundToAll("vo/soldier_dominationpyro07.mp3");
+                case 4: __EmitSoundToAll("vo/soldier_dominationpyro09.mp3");
+                case 5: __EmitSoundToAll("vo/soldier_dominationscout07.mp3");
+                case 6: __EmitSoundToAll("vo/soldier_dominationscout09.mp3");
+                case 7: __EmitSoundToAll("vo/soldier_hatoverhearttaunt03.mp3");
             }
         }
 
         case TFClass_Pyro:    {
             switch (GetRandomInt(0, 1)) {
-                case 0: MegaEmitSoundToAll("vo/pyro_specialcompleted01.mp3");
-                case 1: MegaEmitSoundToAll("vo/pyro_laughhappy01.mp3");
+                case 0: __EmitSoundToAll("vo/pyro_specialcompleted01.mp3");
+                case 1: __EmitSoundToAll("vo/pyro_laughhappy01.mp3");
             }
         }
 
         case TFClass_DemoMan:    {
             switch (GetRandomInt(0, 6)) {
-                case 0: MegaEmitSoundToAll("vo/demoman_dominationengineer06.mp3");
-                case 1: MegaEmitSoundToAll("vo/demoman_dominationspy02.mp3");
-                case 2: MegaEmitSoundToAll("vo/demoman_laughlong01.mp3");
-                case 3: MegaEmitSoundToAll("vo/demoman_dominationdemoman01.mp3");
-                case 4: MegaEmitSoundToAll("vo/demoman_dominationheavy02.mp3");
-                case 5: MegaEmitSoundToAll("vo/demoman_dominationpyro03.mp3");
-                case 6: MegaEmitSoundToAll("vo/demoman_eyelandertaunt01.mp3");
+                case 0: __EmitSoundToAll("vo/demoman_dominationengineer06.mp3");
+                case 1: __EmitSoundToAll("vo/demoman_dominationspy02.mp3");
+                case 2: __EmitSoundToAll("vo/demoman_laughlong01.mp3");
+                case 3: __EmitSoundToAll("vo/demoman_dominationdemoman01.mp3");
+                case 4: __EmitSoundToAll("vo/demoman_dominationheavy02.mp3");
+                case 5: __EmitSoundToAll("vo/demoman_dominationpyro03.mp3");
+                case 6: __EmitSoundToAll("vo/demoman_eyelandertaunt01.mp3");
             }
         }
 
         case TFClass_Heavy:    {
             switch (GetRandomInt(0, 4)) {
-                case 0: MegaEmitSoundToAll("vo/heavy_award03.mp3");
-                case 1: MegaEmitSoundToAll("vo/heavy_award16.mp3");
-                case 2: MegaEmitSoundToAll("vo/heavy_domination08.mp3");
-                case 3: MegaEmitSoundToAll("vo/heavy_domination15.mp3");
-                case 4: MegaEmitSoundToAll("vo/heavy_laughlong01.mp3");
+                case 0: __EmitSoundToAll("vo/heavy_award03.mp3");
+                case 1: __EmitSoundToAll("vo/heavy_award16.mp3");
+                case 2: __EmitSoundToAll("vo/heavy_domination08.mp3");
+                case 3: __EmitSoundToAll("vo/heavy_domination15.mp3");
+                case 4: __EmitSoundToAll("vo/heavy_laughlong01.mp3");
             }
         }
 
         case TFClass_Engineer:    {
             switch (GetRandomInt(0, 7)) {
-                case 0: MegaEmitSoundToAll("vo/engineer_dominationscout03.mp3");
-                case 1: MegaEmitSoundToAll("vo/engineer_dominationscout06.mp3");
-                case 2: MegaEmitSoundToAll("vo/engineer_goldenwrenchkill04.mp3");
-                case 3: MegaEmitSoundToAll("vo/engineer_gunslingertriplepunchfinal01.mp3");
-                case 4: MegaEmitSoundToAll("vo/engineer_dominationengineer06.mp3");
-                case 5: MegaEmitSoundToAll("vo/engineer_dominationheavy02.mp3");
-                case 6: MegaEmitSoundToAll("vo/engineer_dominationheavy09.mp3");
-                case 7: MegaEmitSoundToAll("vo/engineer_dominationheavy14.mp3");
+                case 0: __EmitSoundToAll("vo/engineer_dominationscout03.mp3");
+                case 1: __EmitSoundToAll("vo/engineer_dominationscout06.mp3");
+                case 2: __EmitSoundToAll("vo/engineer_goldenwrenchkill04.mp3");
+                case 3: __EmitSoundToAll("vo/engineer_gunslingertriplepunchfinal01.mp3");
+                case 4: __EmitSoundToAll("vo/engineer_dominationengineer06.mp3");
+                case 5: __EmitSoundToAll("vo/engineer_dominationheavy02.mp3");
+                case 6: __EmitSoundToAll("vo/engineer_dominationheavy09.mp3");
+                case 7: __EmitSoundToAll("vo/engineer_dominationheavy14.mp3");
             }
         }
 
         case TFClass_Medic:    {
             switch (GetRandomInt(0, 3)) {
-                case 0: MegaEmitSoundToAll("vo/medic_laughhappy02.mp3");
-                case 1: MegaEmitSoundToAll("vo/medic_laughlong02.mp3");
-                case 2: MegaEmitSoundToAll("vo/medic_sf12_badmagic12.mp3");
-                case 3: MegaEmitSoundToAll("vo/medic_sf13_influx_big03.mp3");
+                case 0: __EmitSoundToAll("vo/medic_laughhappy02.mp3");
+                case 1: __EmitSoundToAll("vo/medic_laughlong02.mp3");
+                case 2: __EmitSoundToAll("vo/medic_sf12_badmagic12.mp3");
+                case 3: __EmitSoundToAll("vo/medic_sf13_influx_big03.mp3");
             }
         }
 
         case TFClass_Sniper:    {
             switch (GetRandomInt(0, 4)) {
-                case 0: MegaEmitSoundToAll("vo/sniper_dominationheavy02.mp3");
-                case 1: MegaEmitSoundToAll("vo/sniper_dominationsoldier05.mp3");
-                case 2: MegaEmitSoundToAll("vo/sniper_laughlong01.mp3");
-                case 3: MegaEmitSoundToAll("vo/sniper_laughlong02.mp3");
-                case 4: MegaEmitSoundToAll("vo/sniper_revenge21.mp3");
+                case 0: __EmitSoundToAll("vo/sniper_dominationheavy02.mp3");
+                case 1: __EmitSoundToAll("vo/sniper_dominationsoldier05.mp3");
+                case 2: __EmitSoundToAll("vo/sniper_laughlong01.mp3");
+                case 3: __EmitSoundToAll("vo/sniper_laughlong02.mp3");
+                case 4: __EmitSoundToAll("vo/sniper_revenge21.mp3");
             }
         }
 
         case TFClass_Spy:    {
             switch (GetRandomInt(0, 9)) {
-                case 0: MegaEmitSoundToAll("vo/spy_dominationmedic01.mp3");
-                case 1: MegaEmitSoundToAll("vo/spy_dominationsniper05.mp3");
-                case 2: MegaEmitSoundToAll("vo/spy_dominationsoldier01.mp3");
-                case 3: MegaEmitSoundToAll("vo/spy_laughevil01.mp3");
-                case 4: MegaEmitSoundToAll("vo/spy_laughlong01.mp3");
-                case 5: MegaEmitSoundToAll("vo/spy_mvm_resurrect07.mp3");
-                case 6: MegaEmitSoundToAll("vo/spy_dominationspy03.mp3");
-                case 7: MegaEmitSoundToAll("vo/spy_dominationscout02.mp3");
-                case 8: MegaEmitSoundToAll("vo/spy_stabtaunt03.mp3");
-                case 9: MegaEmitSoundToAll("vo/spy_tietaunt02.mp3");
+                case 0: __EmitSoundToAll("vo/spy_dominationmedic01.mp3");
+                case 1: __EmitSoundToAll("vo/spy_dominationsniper05.mp3");
+                case 2: __EmitSoundToAll("vo/spy_dominationsoldier01.mp3");
+                case 3: __EmitSoundToAll("vo/spy_laughevil01.mp3");
+                case 4: __EmitSoundToAll("vo/spy_laughlong01.mp3");
+                case 5: __EmitSoundToAll("vo/spy_mvm_resurrect07.mp3");
+                case 6: __EmitSoundToAll("vo/spy_dominationspy03.mp3");
+                case 7: __EmitSoundToAll("vo/spy_dominationscout02.mp3");
+                case 8: __EmitSoundToAll("vo/spy_stabtaunt03.mp3");
+                case 9: __EmitSoundToAll("vo/spy_tietaunt02.mp3");
             }
         }
     }
@@ -1209,4 +1201,63 @@ stock void UTIL_SetAdditionalHealth(int iClient, int iHealth = 0) {
     }
 
     TF2Attrib_SetByDefIndex(iClient, 26, float(iHealth));
+}
+
+stock Handle UTIL_PrepareItemHandle(int baseIndex, Handle hBaseItem = null, const char[] szConfigPrefix = "")
+{
+    char _szConfigPrefix[48];
+    FormatEx(_szConfigPrefix, sizeof(_szConfigPrefix), "%sPIH__%d_", szConfigPrefix, baseIndex);
+
+    char szKeyName[72];
+    char szValue[16];
+
+    Handle hGameConf = ASH_ResolveGameData();
+    FormatEx(szKeyName, sizeof(szKeyName), "%sdummy", _szConfigPrefix);
+    if (!GameConfGetKeyValue(hGameConf, szKeyName, szValue, sizeof(szValue)))
+    {
+        return null;
+    }
+
+    int iBaseIndex = StringToInt(szValue);
+    if (szValue[0] && iBaseIndex != 0)
+    {
+        return UTIL_PrepareItemHandle(iBaseIndex, hBaseItem, szConfigPrefix);
+    }
+
+    char szAttributes[256];
+    char szName[48];
+    int iIndex = -1;
+    bool bDontPreserve = false;
+
+    FormatEx(szKeyName, sizeof(szKeyName), "%sname", _szConfigPrefix);
+    GameConfGetKeyValue(hGameConf, szKeyName, szName, sizeof(szName));
+
+    FormatEx(szKeyName, sizeof(szKeyName), "%sattributes", _szConfigPrefix);
+    GameConfGetKeyValue(hGameConf, szKeyName, szAttributes, sizeof(szAttributes));
+
+    FormatEx(szKeyName, sizeof(szKeyName), "%sindex", _szConfigPrefix);
+    if (GameConfGetKeyValue(hGameConf, szKeyName, szValue, sizeof(szValue)))
+    {
+        iIndex = StringToInt(szValue);
+    }
+
+    FormatEx(szKeyName, sizeof(szKeyName), "%sdontpreserve", _szConfigPrefix);
+    if (GameConfGetKeyValue(hGameConf, szKeyName, szValue, sizeof(szValue)))
+    {
+        bDontPreserve = szValue[0] != '0';
+    }
+
+    return PrepareItemHandle(hBaseItem, szName, iIndex, szAttributes, bDontPreserve);
+}
+
+static Handle g_hGameConf;
+stock Handle ASH_ResolveGameData()
+{
+    g_hGameConf = LoadGameConfigFile("ash");
+    if (!g_hGameConf)
+    {
+        SetFailState("Can't load gamedata file.");
+    }
+
+    return g_hGameConf;
 }
