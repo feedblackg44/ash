@@ -17,7 +17,7 @@
                 "windows"   "117"
                 "linux"     "118"
             }
-            "GrenadeDetonate"
+            "CTFGrenadePipebombProjectile::Detonate"
             {
                 "windows"    "229"
                 "linux"      "230"
@@ -139,7 +139,410 @@
             "TF2Items_OnGNI__PIH__1103_attributes"      "619 ; 1 ; 3 ; 0.66 ; 36 ; 1.20 ; 15 ; 0 ; 32 ; 0.25 ; 179 ; 1"
             "TF2Items_OnGNI__PIH__1103_dontpreserve"    "1"
 
-            "TF2Items_OnGNI__PIH__"
+            // Darwin's Danger Shield
+            "TF2Items_OnGNI__PIH__231_dummy"            ""
+            "TF2Items_OnGNI__PIH__231_attributes"       "112 ; 0.05 ; 26 ; 25 ; 66 ; 0.85 ; 65 ; 1.2 ; 2029 ; 1"
+            "TF2Items_OnGNI__PIH__231_dontpreserve"     "1"
+
+            // Quickiebomb Launcher
+            "TF2Items_OnGNI__PIH__1150_dummy"           ""
+            "TF2Items_OnGNI__PIH__1150_attributes"      "126 ; -0.2 ; 670 ; 0.5 ; 121 ; 1 ; 3 ; 0.5 ; 1 ; 0.85 ; 120 ; 1 ; 89 ; -4"
+            "TF2Items_OnGNI__PIH__1150_dontpreserve"    "1"
+
+            // Iron Bomber
+            "TF2Items_OnGNI__PIH__1151_dummy"           ""
+            "TF2Items_OnGNI__PIH__1151_attributes"      "100 ; 0.85 ; 671 ; 1 ; 411 ; 6 ; 6 ; -9 ; 1 ; 0.75 ; 96 ; 1.1 ; 103 ; 1.25 ; 76 ; 2.0"
+            "TF2Items_OnGNI__PIH__1151_dontpreserve"    "1"
+
+            // Hitman's Heatmaker
+            "TF2Items_OnGNI__PIH__752_dummy"            ""
+            "TF2Items_OnGNI__PIH__752_attributes"       "219 ; 1 ; 387 ; 35 ; 398 ; 15 ; 116 ; 6 ; 393 ; 0 ; 390 ; 1.635 ; 1 ; 0.523"
+            "TF2Items_OnGNI__PIH__752_dontpreserve"     "1"
+
+            // Beggar's Bazooka
+            "TF2Items_OnGNI__PIH__730_dummy"            ""
+            "TF2Items_OnGNI__PIH__730_attributes"       "394 ; 1 ; 413 ; 1 ; 411 ; 3 ; 97 ; 0.75 ; 394 ; 0.30 ; 4 ; 5.0 ; 1 ; 0.85 ; 76 ; 2.5"
+            "TF2Items_OnGNI__PIH__730_dontpreserve"     "1"
+
+            // Huo Long Heatmaker
+            "TF2Items_OnGNI__PIH__811_dummy"            ""
+            "TF2Items_OnGNI__PIH__811_attributes"       "430 ; 1 ; 431 ; 3 ; 1 ; 0.85 ; 76 ; 1.25 ; 15 ; 0 ; 236 ; 1 ; 421 ; 1 ; 208 ; 1"
+            "TF2Items_OnGNI__PIH__811_dontpreserve"     "1"
+
+            // NAT
+            "TF2Items_OnGNI__PIH__41_dummy"             ""
+            "TF2Items_OnGNI__PIH__41_attributes"        "1 ; 0.75 ; 86 ; 1 ; 144 ; 1 ; 738 ; 0.80 ; 16 ; 5 ; 112 ; 0.05 ; 236 ; 1 ; 421 ; 1"
+            "TF2Items_OnGNI__PIH__41_dontpreserve"      "1"
+
+            // Tomislav
+            "TF2Items_OnGNI__PIH__424_dummy"            ""
+            "TF2Items_OnGNI__PIH__424_attributes"       "87 ; 0.8 ; 238 ; 1 ; 5 ; 1.2 ; 106 ; 0.8 ; 1 ; 0.65 ; 75 ; 2.0"
+            "TF2Items_OnGNI__PIH__424_dontpreserve"     "1"
+
+            // Scotsman's Skullcutter
+            "TF2Items_OnGNI__PIH__172_dummy"            ""
+            "TF2Items_OnGNI__PIH__172_attributes"       "2 ; 1.2 ; 54 ; 0.85 ; 26 ; 80"
+            "TF2Items_OnGNI__PIH__172_dontpreserve"     "1"
+
+            // Gunslinger
+            "TF2Items_OnGNI__PIH__142_dummy"            ""
+            "TF2Items_OnGNI__PIH__142_attributes"       "113 ; 5.0 ; 2049 ; 1 ; 124 ; 1 ; 26 ; 25 ; 464 ; 4.5 ; 15 ; 0 ; 292 ; 3 ; 293 ; 0 ; 107 ; 1.2"
+            "TF2Items_OnGNI__PIH__142_dontpreserve"     "1"
+
+            // Shiv
+            "TF2Items_OnGNI__PIH__171_dummy"            ""
+            "TF2Items_OnGNI__PIH__171_attributes"       "236 ; 1 ; 275 ; 1 ; 1 ; 0.50"
+            "TF2Items_OnGNI__PIH__171_dontpreserve"     "1"
+
+            // Dead Ringer
+            "TF2Items_OnGNI__PIH__59_dummy"             ""
+            "TF2Items_OnGNI__PIH__59_attributes"        "33 ; 1 ; 83 ; 0.6 ; 726 ; 0.5 ; 35 ; 1.5 ; 810 ; 1"
+            "TF2Items_OnGNI__PIH__59_dontpreserve"      "1"
+
+            // Amputator
+            "TF2Items_OnGNI__PIH__304_dummy"            ""
+            "TF2Items_OnGNI__PIH__304_attributes"       "1 ; 0.20 ; 551 ; 1"
+            "TF2Items_OnGNI__PIH__304_dontpreserve"     "1"
+
+            // Neon Annihilator
+            "TF2Items_OnGNI__PIH__834_dummy"            "813"
+            "TF2Items_OnGNI__PIH__813_dummy"            ""
+            "TF2Items_OnGNI__PIH__813_attributes"       "138 ; 0.80 ; 436 ; 1 ; 438 ; 1 ; 26 ; 30 ; 109 ; 0.34 ; 69 ; 0.34 ; 275 ; 1"
+            "TF2Items_OnGNI__PIH__813_dontpreserve"     "1"
+
+            // Brass Beast
+            "TF2Items_OnGNI__PIH__312_dummy"            ""
+            "TF2Items_OnGNI__PIH__312_attributes"       "1 ; 0.65 ; 86 ; 1.5 ; 183 ; 0.4 ; 738 ; 0.80 ; 293 ; 0 ; 551 ; 1 ; 26 ; 100 ; 15 ; 0 ; 288 ; 1 ; 37 ; 1.5"
+            "TF2Items_OnGNI__PIH__312_dontpreserve"     "1"
+
+            // Widowmaker
+            "TF2Items_OnGNI__PIH__527_dummy"            ""
+            "TF2Items_OnGNI__PIH__527_attributes"       "298 ; 15 ; 301 ; 1 ; 307 ; 1 ; 303 ; -1 ; 299 ; 100"
+            "TF2Items_OnGNI__PIH__527_dontpreserve"     "1"
+
+            // Sun
+            "TF2Items_OnGNI__PIH__349_dummy"            ""
+            "TF2Items_OnGNI__PIH__349_attributes"       "1 ; 0.75 ; 208 ; 1 ; 26 ; 25"
+            "TF2Items_OnGNI__PIH__349_dontpreserve"     "1"
+
+            // MOH
+            "TF2Items_OnGNI__PIH__327_dummy"            ""
+            "TF2Items_OnGNI__PIH__327_attributes"       "551 ; 1 ; 26 ; 5 ; 202 ; 2.5"
+            "TF2Items_OnGNI__PIH__327_dontpreserve"     "1"
+
+            // Persian Persuader
+            "TF2Items_OnGNI__PIH__404_dummy"            ""
+            "TF2Items_OnGNI__PIH__404_attributes"       "551 ; 1 ; 26 ; 5 ; 107 ; 1.20"
+            "TF2Items_OnGNI__PIH__404_dontpreserve"     "1"
+
+            // Eyelander
+            "TF2Items_OnGNI__PIH__266_dummy"            "132"
+            "TF2Items_OnGNI__PIH__482_dummy"            "132"
+            "TF2Items_OnGNI__PIH__1082_dummy"           "132"
+            "TF2Items_OnGNI__PIH__132_dummy"            ""
+            "TF2Items_OnGNI__PIH__132_attributes"       "1 ; 0.70 ; 781 ; 72 ; 15 ; 0 ; 125 ; -25 ; 219 ; 1 ; 292 ; 6 ; 388 ; 6 ; 551 ; 1"
+            "TF2Items_OnGNI__PIH__132_dontpreserve"     "1"
+
+            // BOX OF COX
+            "TF2Items_OnGNI__PIH__1085_dummy"           "228"
+            "TF2Items_OnGNI__PIH__228_dummy"            ""
+            "TF2Items_OnGNI__PIH__228_attributes"       "3 ; 0.75 ; 328 ; 1 ; 16 ; 30"
+            "TF2Items_OnGNI__PIH__228_dontpreserve"     "1"
+
+            // Baby Face's Blaster
+            "TF2Items_OnGNI__PIH__772_dummy"            ""
+            "TF2Items_OnGNI__PIH__772_attributes"       "3 ; 0.66"
+            "TF2Items_OnGNI__PIH__772_dontpreserve"     "1"
+
+            // Air Strike
+            "TF2Items_OnGNI__PIH__1104_dummy"           ""
+            "TF2Items_OnGNI__PIH__1104_attributes"      "100 ; 0.90 ; 1 ; 0.85 ; 135 ; 0.85 ; 621 ; 0.35 ; 642 ; 1 ; 644 ; 4 ; 328 ; 1 ; 112 ; 0.05 ; 76 ; 1.50"
+            "TF2Items_OnGNI__PIH__1104_dontpreserve"    "1"
+
+            // Frontier Justice
+            "TF2Items_OnGNI__PIH__1004_dummy"           "141"
+            "TF2Items_OnGNI__PIH__141_dummy"            ""
+            "TF2Items_OnGNI__PIH__141_attributes"       "136 ; 1 ; 15 ; 0 ; 3 ; 0.5 ; 551 ; 1 ; 97 ; 0.50"
+            "TF2Items_OnGNI__PIH__141_dontpreserve"     "1"
+
+            // Bazaar
+            "TF2Items_OnGNI__PIH__402_dummy"            ""
+            "TF2Items_OnGNI__PIH__402_attributes"       "1 ; 0.523 ; 90 ; 1.40"
+            "TF2Items_OnGNI__PIH__402_dontpreserve"     "1"
+
+            // Pain Train
+            "TF2Items_OnGNI__PIH__154_dummy"            ""
+            "TF2Items_OnGNI__PIH__154_attributes"       ""
+            "TF2Items_OnGNI__PIH__154_dontpreserve"     "1"
+
+            // Short Circuit
+            "TF2Items_OnGNI__PIH__528_dummy"            ""
+            "TF2Items_OnGNI__PIH__528_attributes"       "298 ; 3 ; 300 ; 1 ; 301 ; 1 ; 303 ; 1 ; 307 ; 1 ; 15 ; 0 ; 312 ; 1"
+            "TF2Items_OnGNI__PIH__528_dontpreserve"     "1"
+
+            // Cleaner's Carbine
+            "TF2Items_OnGNI__PIH__751_dummy"            ""
+            "TF2Items_OnGNI__PIH__751_attributes"       "32 ; 0.35 ; 5 ; 1.30 ; 3 ; 0.80 ; 106 ; 0.0"
+            "TF2Items_OnGNI__PIH__751_dontpreserve"     "1"
+
+            // Fists of Steel
+            "TF2Items_OnGNI__PIH__331_dummy"            ""
+            "TF2Items_OnGNI__PIH__331_attributes"       "205 ; 0.6 ; 107 ; 1.15 ; 206 ; 2.0"
+            "TF2Items_OnGNI__PIH__331_dontpreserve"     "1"
+
+            // Holiday Punch (MITTENS OF DEATH >:C)
+            "TF2Items_OnGNI__PIH__656_dummy"            ""
+            "TF2Items_OnGNI__PIH__656_attributes"       "1 ; 0.0 ; 15 ; 0"
+            "TF2Items_OnGNI__PIH__656_dontpreserve"     "1"
+
+            "TF2Items_OnGNI__PIH__833_dummy"            "812"
+            "TF2Items_OnGNI__PIH__812_dummy"            ""
+            "TF2Items_OnGNI__PIH__812_attributes"       "435 ; 1 ; 15 ; 0 ; 2029 ; 1"
+            "TF2Items_OnGNI__PIH__812_dontpreserve"     "1"
+
+            // Sniper Rifle
+            "TF2Items_OnGNI__PIH__201_dummy"            "14"
+            "TF2Items_OnGNI__PIH__664_dummy"            "14"
+            "TF2Items_OnGNI__PIH__792_dummy"            "14"
+            "TF2Items_OnGNI__PIH__801_dummy"            "14"
+            "TF2Items_OnGNI__PIH__851_dummy"            "14"
+            "TF2Items_OnGNI__PIH__881_dummy"            "14"
+            "TF2Items_OnGNI__PIH__890_dummy"            "14"
+            "TF2Items_OnGNI__PIH__899_dummy"            "14"
+            "TF2Items_OnGNI__PIH__908_dummy"            "14"
+            "TF2Items_OnGNI__PIH__957_dummy"            "14"
+            "TF2Items_OnGNI__PIH__966_dummy"            "14"
+            "TF2Items_OnGNI__PIH__14_dummy"             ""
+            "TF2Items_OnGNI__PIH__14_attributes"        "1 ; 0.61"
+            "TF2Items_OnGNI__PIH__14_dontpreserve"      "1"
+
+            // Sleeper
+            "TF2Items_OnGNI__PIH__230_dummy"            ""
+            "TF2Items_OnGNI__PIH__230_attributes"       "1 ; 0.51 ; 42 ; 1 ; 15 ; 0 ; 41 ; 1.25 ; 175 ; 1"
+            "TF2Items_OnGNI__PIH__230_dontpreserve"     "1"
+
+            // Machina
+            "TF2Items_OnGNI__PIH__30665_dummy"          "526"
+            "TF2Items_OnGNI__PIH__526_dummy"            ""
+            "TF2Items_OnGNI__PIH__526_attributes"       "1 ; 0.647 ; 308 ; 1 ; 297 ; 1 ; 304 ; 1.15 ; 305 ; 1 ; 144 ; 2"
+            "TF2Items_OnGNI__PIH__526_dontpreserve"     "1"
+
+            // Syringegun
+            "TF2Items_OnGNI__PIH__204_dummy"            "17"
+            "TF2Items_OnGNI__PIH__17_dummy"             ""
+            "TF2Items_OnGNI__PIH__17_attributes"        "17 ; 0.05 ; 2 ; 1.80"
+            "TF2Items_OnGNI__PIH__17_dontpreserve"      "1"
+
+            // Blutsauger
+            "TF2Items_OnGNI__PIH__36_dummy"             ""
+            "TF2Items_OnGNI__PIH__36_attributes"        "17 ; 0.01 ; 76 ; 1.6 ; 4 ; 1.5 ; 2 ; 1.65"
+            "TF2Items_OnGNI__PIH__36_dontpreserve"      "1"
+
+            // Chargin' Targe
+            "TF2Items_OnGNI__PIH__1144_dummy"           "131"
+            "TF2Items_OnGNI__PIH__131_dummy"            ""
+            "TF2Items_OnGNI__PIH__131_attributes"       "774 ; -0.35 ; 60 ; 0.5 ; 64 ; 0.7 ; 2029 ; 1"
+            "TF2Items_OnGNI__PIH__131_dontpreserve"     "1"
+
+            // Overdose
+            "TF2Items_OnGNI__PIH__412_dummy"            ""
+            "TF2Items_OnGNI__PIH__412_attributes"       "17 ; 0.06 ; 6 ; 0.9 ; 314 ; -2 ; 2 ; 1.50"
+            "TF2Items_OnGNI__PIH__412_dontpreserve"     "1"
+
+            // NOOBersaw
+            "TF2Items_OnGNI__PIH__1003_dummy"           "37"
+            "TF2Items_OnGNI__PIH__37_dummy"             ""
+            "TF2Items_OnGNI__PIH__37_attributes"        "17 ; 0.25 ; 5 ; 1.2 ; 144 ; 1 ; 551 ; 1 ; 2 ; 1.10 ; 781 ; 72"
+            "TF2Items_OnGNI__PIH__37_dontpreserve"      "1"
+
+            // Ambassador
+            "TF2Items_OnGNI__PIH__1006_dummy"           "61"
+            "TF2Items_OnGNI__PIH__61_dummy"             ""
+            "TF2Items_OnGNI__PIH__61_attributes"        "51 ; 1 ; 1 ; 0.85 ; 5 ; 1.2 ; 15 ; 0"
+            "TF2Items_OnGNI__PIH__61_dontpreserve"      "1"
+
+            // Third Degree
+            "TF2Items_OnGNI__PIH__593_dummy"            ""
+            "TF2Items_OnGNI__PIH__593_attributes"       "360 ; 1 ; 350 ; 1 ; 6 ; 0.70"
+            "TF2Items_OnGNI__PIH__593_dontpreserve"     "1"
+
+            // Equalizer
+            "TF2Items_OnGNI__PIH__128_dummy"            ""
+            "TF2Items_OnGNI__PIH__128_attributes"       "128 ; 1 ; 115 ; 1 ; 740 ; 0.1 ; 551 ; 1 ; 1 ; 0.5"
+            "TF2Items_OnGNI__PIH__128_dontpreserve"     "1"
+
+            // Rocket Jumper
+            "TF2Items_OnGNI__PIH__237_dummy"            ""
+            "TF2Items_OnGNI__PIH__237_attributes"       "1 ; 0 ; 15 ; 0 ; 181 ; 2 ; 76 ; 3.0 ; 400 ; 1 ; 3 ; 0.2"
+            "TF2Items_OnGNI__PIH__237_dontpreserve"     "1"
+
+            // Sticky Jumper
+            "TF2Items_OnGNI__PIH__265_dummy"            ""
+            "TF2Items_OnGNI__PIH__265_attributes"       "1 ; 0 ; 15 ; 0 ; 181 ; 2 ; 76 ; 3.0 ; 400 ; 1 ; 89 ; -7 ; 280 ; 14"
+            "TF2Items_OnGNI__PIH__265_dontpreserve"     "1"
+
+            // Buffalo Steak Sandvich
+            "TF2Items_OnGNI__PIH__311_dummy"
+            "TF2Items_OnGNI__PIH__311_attributes"       "292 ; 50 ; 144 ; 2 ; 551 ; 1 ; 2029 ; 1 ; 278 ; 1.5"
+            "TF2Items_OnGNI__PIH__311_dontpreserve"     "1"
+
+            // Dalokohs bar + reskin
+            "TF2Items_OnGNI__PIH__433_dummy"            "159"
+            "TF2Items_OnGNI__PIH__159_dummy"            ""
+            "TF2Items_OnGNI__PIH__159_attributes"       "292 ; 50 ; 551 ; 1 ; 2029 ; 1"
+            "TF2Items_OnGNI__PIH__159_dontpreserve"     "1"
+
+            // Classic
+            "TF2Items_OnGNI__PIH__1098_dummy"           ""
+            "TF2Items_OnGNI__PIH__1098_attributes"      "107 ; 1.20 ; 6 ; 0.85 ; 1 ; 0.466"
+            "TF2Items_OnGNI__PIH__1098_dontpreserve"    "1"
+
+            // SODA
+            "TF2Items_OnGNI__PIH__448_dummy"            ""
+            "TF2Items_OnGNI__PIH__448_attributes"       "97 ; 0.75 ; 6 ; 0.5 ; 3 ; 0.34 ; 43 ; 1 ; 77 ; 0.56"
+            "TF2Items_OnGNI__PIH__448_dontpreserve"     "1"
+
+            // Bat (Reskin 1)
+            "TF2Items_OnGNI__PIH__572_dummy"            "221"
+            "TF2Items_OnGNI__PIH__999_dummy"            "221"
+            "TF2Items_OnGNI__PIH__221_dummy"            ""
+            "TF2Items_OnGNI__PIH__221_attributes"       "2 ; 1.20 ; 292 ; 7 ; 388 ; 7"
+            "TF2Items_OnGNI__PIH__221_dontpreserve"     "1"
+
+            // Fists (Reskin 1)
+            "TF2Items_OnGNI__PIH__587_dummy"            ""
+            "TF2Items_OnGNI__PIH__587_attributes"       "2 ; 1.20 ; 309 ; 1"
+            "TF2Items_OnGNI__PIH__587_dontpreserve"     "1"
+
+            // Golden Wrench
+            "TF2Items_OnGNI__PIH__169_dummy"            ""
+            "TF2Items_OnGNI__PIH__169_attributes"       "2 ; 1.20 ; 150 ; 1"
+            "TF2Items_OnGNI__PIH__169_dontpreserve"     "1"
+
+            // Jag
+            "TF2Items_OnGNI__PIH__329_dummy"            ""
+            "TF2Items_OnGNI__PIH__329_attributes"       "169 ; 0 ; 643 ; 0 ; 1 ; 0.8 ; 6 ; 0.85 ; 95 ; 0.8 ; 92 ; 1.3 ; 287 ; 0.2 ; 344 ; 3.0 ; 148 ; 0.77 ; 790 ; 1.3"
+            "TF2Items_OnGNI__PIH__329_dontpreserve"     "1"
+
+            // Pomson
+            "TF2Items_OnGNI__PIH__588_dummy"            ""
+            "TF2Items_OnGNI__PIH__588_attributes"       "1 ; 0.3 ; 869 ; 1"
+            "TF2Items_OnGNI__PIH__588_dontpreserve"     "1"
+
+            // Eureka Effect
+            "TF2Items_OnGNI__PIH__589_dummy"            ""
+            "TF2Items_OnGNI__PIH__589_attributes"       "790 ; 0.5 ; 92 ; 0.5 ; 732 ; 0.8 ; 276 ; 1"
+            "TF2Items_OnGNI__PIH__589_dontpreserve"     "1"
+
+            // Loose Cannon
+            "TF2Items_OnGNI__PIH__996_dummy"            ""
+            "TF2Items_OnGNI__PIH__996_attributes"       "4 ; 1.2 ; 103 ; 1.2 ; 466 ; 1 ; 467 ; 1"
+            "TF2Items_OnGNI__PIH__996_dontpreserve"     "1"
+
+            // Flamethrower
+            "TF2Items_OnGNI__PIH__208_dummy"            "21"
+            "TF2Items_OnGNI__PIH__659_dummy"            "21"
+            "TF2Items_OnGNI__PIH__798_dummy"            "21"
+            "TF2Items_OnGNI__PIH__807_dummy"            "21"
+            "TF2Items_OnGNI__PIH__887_dummy"            "21"
+            "TF2Items_OnGNI__PIH__896_dummy"            "21"
+            "TF2Items_OnGNI__PIH__905_dummy"            "21"
+            "TF2Items_OnGNI__PIH__914_dummy"            "21"
+            "TF2Items_OnGNI__PIH__963_dummy"            "21"
+            "TF2Items_OnGNI__PIH__972_dummy"            "21"
+            "TF2Items_OnGNI__PIH__15005_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15017_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15030_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15034_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15049_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15054_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15066_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15067_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15068_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15089_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15090_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15115_dummy"          "21"
+            "TF2Items_OnGNI__PIH__15141_dummy"          "21"
+            "TF2Items_OnGNI__PIH__21_dummy"             ""
+            "TF2Items_OnGNI__PIH__21_attributes"        "783 ; 20 ; 2 ; 1.15 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1"
+            "TF2Items_OnGNI__PIH__21_dontpreserve"      "1"
+
+            // Flamethrower (Reskin 1)
+            // I have too many questions for this. (c) Kruzya
+            "TF2Items_OnGNI__PIH__741_dummy"            ""
+            "TF2Items_OnGNI__PIH__741_attributes"       "783 ; 20 ; 2 ; 1.15 ; 841 ; 0 ; 843 ; 12 ; 865 ; 50 ; 844 ; 2300 ; 839 ; 2.8 ; 862 ; 0.6 ; 863 ; 0.1"
+            "TF2Items_OnGNI__PIH__741_dontpreserve"     "1"
+
+            // DEFAULT MELEE WEAPONS BUFF (MEDIC)
+            "TF2Items_OnGNI__PIH__198_dummy"            "8"
+            "TF2Items_OnGNI__PIH__8_dummy"              ""
+            "TF2Items_OnGNI__PIH__8_attributes"         "2 ; 1.15 ; 6 ; 0.80"
+            "TF2Items_OnGNI__PIH__8_dontpreserve"       "1"
+
+            // Wrench
+            "TF2Items_OnGNI__PIH__197_dummy"            "7"
+            "TF2Items_OnGNI__PIH__662_dummy"            "7"
+            "TF2Items_OnGNI__PIH__795_dummy"            "7"
+            "TF2Items_OnGNI__PIH__804_dummy"            "7"
+            "TF2Items_OnGNI__PIH__884_dummy"            "7"
+            "TF2Items_OnGNI__PIH__893_dummy"            "7"
+            "TF2Items_OnGNI__PIH__902_dummy"            "7"
+            "TF2Items_OnGNI__PIH__911_dummy"            "7"
+            "TF2Items_OnGNI__PIH__960_dummy"            "7"
+            "TF2Items_OnGNI__PIH__969_dummy"            "7"
+            "TF2Items_OnGNI__PIH__7_dummy"              ""
+            "TF2Items_OnGNI__PIH__7_attributes"         "80 ; 2 ; 2 ; 1.20"
+            "TF2Items_OnGNI__PIH__7_dontpreserve"       "1"
+
+            // DEFAULT MELEE WEAPONS BUFF (SPY)
+            "TF2Items_OnGNI__PIH__194_dummy"            "4"
+            "TF2Items_OnGNI__PIH__638_dummy"            "4"
+            "TF2Items_OnGNI__PIH__665_dummy"            "4"
+            "TF2Items_OnGNI__PIH__727_dummy"            "4"
+            "TF2Items_OnGNI__PIH__794_dummy"            "4"
+            "TF2Items_OnGNI__PIH__803_dummy"            "4"
+            "TF2Items_OnGNI__PIH__883_dummy"            "4"
+            "TF2Items_OnGNI__PIH__892_dummy"            "4"
+            "TF2Items_OnGNI__PIH__901_dummy"            "4"
+            "TF2Items_OnGNI__PIH__910_dummy"            "4"
+            "TF2Items_OnGNI__PIH__959_dummy"            "4"
+            "TF2Items_OnGNI__PIH__968_dummy"            "4"
+            "TF2Items_OnGNI__PIH__15080_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15094_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15095_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15096_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15118_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15119_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15143_dummy"          "4"
+            "TF2Items_OnGNI__PIH__15144_dummy"          "4"
+            "TF2Items_OnGNI__PIH__4_dummy"              ""
+            "TF2Items_OnGNI__PIH__4_attributes"         "6 ; 0.80"
+            "TF2Items_OnGNI__PIH__4_dontpreserve"       "1"
+
+            // DEFAULT MELEE WEAPONS BUFF (HEAVY)
+            "TF2Items_OnGNI__PIH__5_dummy"              "1000000" // magic index, don't used
+            "TF2Items_OnGNI__PIH__195_dummy"            "5"
+            "TF2Items_OnGNI__PIH__1013_dummy"           "5"
+            "TF2Items_OnGNI__PIH__1027_dummy"           "5"
+
+            // DEFAULT MELEE WEAPONS BUFF (SOLDIER)
+            "TF2Items_OnGNI__PIH__6_dummy"              "1000000" // magic index, don't used
+            "TF2Items_OnGNI__PIH__196_dummy"            "6"
+
+            // DEFAULT MELEE WEAPONS BUFF (PYRO)
+            "TF2Items_OnGNI__PIH__2_dummy"              "1000000" // magic index, don't used
+            "TF2Items_OnGNI__PIH__192_dummy"            "2"
+
+            // DEFAULT MELEE WEAPONS BUFF (SCOUT)
+            "TF2Items_OnGNI__PIH__0_dummy"              "1000000" // magic index, don't used
+            "TF2Items_OnGNI__PIH__190_dummy"            "0"
+            "TF2Items_OnGNI__PIH__660_dummy"            "0"
+            "TF2Items_OnGNI__PIH__30667_dummy"          "0"
+
+            // DEFAULT MELEE WEAPONS BUFF (magic item)
+            "TF2Items_OnGNI__PIH__1000000_dummy"        ""
+            "TF2Items_OnGNI__PIH__1000000_attributes"   "2 ; 1.20"
+            "TF2Items_OnGNI__PIH__1000000_dontpreserve" "1"
         }
     }
 }

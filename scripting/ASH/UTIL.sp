@@ -46,7 +46,9 @@ void UTIL_MakeCommands() {
     RegAdminCmd("sm_hale_point_enable", Command_Point_Enable, ADMFLAG_CHEATS, "Enable CP. Only with hale_point_type = 0");
     RegAdminCmd("sm_hale_point_disable", Command_Point_Disable, ADMFLAG_CHEATS, "Disable CP. Only with hale_point_type = 0");
     RegAdminCmd("sm_hale_stop_music", Command_StopMusic, ADMFLAG_CHEATS, "Stop any currently playing Boss music.");
-    
+
+    RegServerCmd("sm_ash_refresh_gamedata", Command_RefreshGamedata);
+
     //RegAdminCmd("sm_alpha", Experiment, ADMFLAG_CHEATS, "Expriment");
     //RegAdminCmd("sm_alpha_ex", Experiment_Alpha, ADMFLAG_CHEATS, "Expriment");
 }
@@ -276,7 +278,7 @@ void UTIL_InitGamedata() {
     }
     
     StartPrepSDKCall(SDKCall_Entity);
-    PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "GrenadeDetonate");
+    PrepSDKCall_SetFromConf(hGameConf, SDKConf_Virtual, "CTFGrenadePipebombProjectile::Detonate");
     g_CTFGrenadeDetonate = EndPrepSDKCall();
 }
 
@@ -1219,7 +1221,7 @@ stock Handle UTIL_PrepareItemHandle(int baseIndex, Handle hBaseItem = null, cons
     }
 
     int iBaseIndex = StringToInt(szValue);
-    if (szValue[0] && iBaseIndex != 0)
+    if (szValue[0])
     {
         return UTIL_PrepareItemHandle(iBaseIndex, hBaseItem, szConfigPrefix);
     }
@@ -1251,12 +1253,24 @@ stock Handle UTIL_PrepareItemHandle(int baseIndex, Handle hBaseItem = null, cons
 }
 
 static Handle g_hGameConf;
-stock Handle ASH_ResolveGameData()
+stock Handle ASH_ResolveGameData(bool bForceRefresh = false)
 {
-    g_hGameConf = LoadGameConfigFile("ash");
+    if (bForceRefresh && g_hGameConf)
+    {
+        CloseHandle(g_hGameConf);
+        g_hGameConf = null;
+    }
+
     if (!g_hGameConf)
     {
-        SetFailState("Can't load gamedata file.");
+        // This code should be called only if we don't opened gamedata previously.
+        // Or if him closed in force refresh result.
+        g_hGameConf = LoadGameConfigFile("ash");
+
+        if (!g_hGameConf)
+        {
+            SetFailState("Can't load gamedata file.");
+        }
     }
 
     return g_hGameConf;
