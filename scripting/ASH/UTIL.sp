@@ -1220,9 +1220,9 @@ stock Handle UTIL_PrepareItemHandle(int baseIndex, Handle hBaseItem = null, cons
         return null;
     }
 
-    int iBaseIndex = StringToInt(szValue);
     if (szValue[0])
     {
+        int iBaseIndex = StringToInt(szValue);
         return UTIL_PrepareItemHandle(iBaseIndex, hBaseItem, szConfigPrefix);
     }
 

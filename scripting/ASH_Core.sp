@@ -31,7 +31,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8958"
+#define ASH_BUILD                     "8959"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "23 August 2020"
 
@@ -2282,7 +2282,7 @@ public Action TF2Items_OnGiveNamedItem(int client, char[] classname, int iItemDe
 {
     if (RoundCount <= 0 && !GetConVarBool(cvarFirstRound)) return Plugin_Continue;
 
-    Handle hItemOverride = UTIL_PrepareItemHandle(iItemDefinitionIndex, hItem, "TF2Items__OnGNI");
+    Handle hItemOverride = UTIL_PrepareItemHandle(iItemDefinitionIndex, hItem, "TF2Items_OnGNI__");
     TFClassType iClass = TF2_GetPlayerClass(client);
 
     switch (iItemDefinitionIndex)
