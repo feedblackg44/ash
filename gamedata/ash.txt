@@ -382,7 +382,7 @@
             "TF2Items_OnGNI__PIH__265_dontpreserve"     "1"
 
             // Buffalo Steak Sandvich
-            "TF2Items_OnGNI__PIH__311_dummy"
+            "TF2Items_OnGNI__PIH__311_dummy"            ""
             "TF2Items_OnGNI__PIH__311_attributes"       "292 ; 50 ; 144 ; 2 ; 551 ; 1 ; 2029 ; 1 ; 278 ; 1.5"
             "TF2Items_OnGNI__PIH__311_dontpreserve"     "1"
 
