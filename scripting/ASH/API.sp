@@ -3,6 +3,11 @@ void API_Init() {
     API_MakeNatives();
 
     RegPluginLibrary("advancedsaxtonhale");
+
+#if defined __ASH_API_COMPABILITY
+    RegPluginLibrary("saxtonhale");
+#endif
+
 }
 
 void API_MakeForwards() {
