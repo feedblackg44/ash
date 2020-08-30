@@ -2052,6 +2052,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     {
                         if (PhlogMode[attacker] == true) 
                         {   
+                            g_isVictimFrozen[client] = true;
                             if(g_isVictimFrozen[client] && inflictor == weapon)
                             {
                                 float freeze_time;
@@ -2109,11 +2110,10 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                                 
                                 }
                             }
-                            g_isVictimFrozen[client] = true;
                         } 
                         else 
                         {
-                            damagetype = DMG_IGNITE|DMG_BLAST;
+                            damagetype = DMG_IGNITE;
 
                             if (TF2_IsPlayerInCondition(attacker, TFCond_CritMmmph))
                             {
@@ -2125,6 +2125,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                             if (g_isVictimFrozen[client] == true) 
                             {
                                 TF2_StunPlayer(client, 0.1, 0.0, TF_STUNFLAG_SLOWDOWN, attacker);
+                                TF2_RemoveCondition(client, TFCond_AfterburnImmune);
                                 g_isVictimFrozen[client] = false;
                                 CreateTimer(0.0, PhlogFreeze_reboot, client, TIMER_FLAG_NO_MAPCHANGE);
                             }
