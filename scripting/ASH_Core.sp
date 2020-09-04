@@ -642,6 +642,7 @@ float g_fStickyExplodeTime[4096];
 bool dispenserEnabled[MAXPLAYERS+1];
 // int ClientsHealth[MAXPLAYERS+1];
 Handle g_CTFGrenadeDetonate;
+#define _TFCond(%0) view_as<TFCond>(%0)
 
 bool g_bReloadASHOnRoundEnd = false;
 
@@ -2653,11 +2654,11 @@ public Action Timer_UberCharge_MEDIC(Handle TimerHndl_LOCAL, any userid)
     if (GetEntProp(MediGun, Prop_Send, "m_bChargeRelease") == 0) return Plugin_Stop;
     if (GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon") == GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary))
     {
-        if (TF2_IsPlayerInCondition(client, view_as<TFCond>(5))) return Plugin_Continue;
-        TF2_RemoveCondition(client, view_as<TFCond>(5));
-        TF2_AddCondition(client, view_as<TFCond>(5), 1.0);
+        if (TF2_IsPlayerInCondition(client, _TFCond(5))) return Plugin_Continue;
+        TF2_RemoveCondition(client, _TFCond(5));
+        TF2_AddCondition(client, _TFCond(5), 1.0);
     }
-    else TF2_RemoveCondition(client, view_as<TFCond>(5));
+    else TF2_RemoveCondition(client, _TFCond(5));
     
     return Plugin_Continue;
 }
@@ -3232,7 +3233,7 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 
                 if (GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") <= 0.9) ASHStats[UberCharges]++;
             }
-            /*case view_as<TFCond>(65):
+            /*case _TFCond(65):
             {
                 if (TF2_GetPlayerClass(client) == TFClass_DemoMan && GetIndexOfWeaponSlot(client, TFWeaponSlot_Secondary) == 1150)
                 {
@@ -3259,7 +3260,7 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 }*/
                 
                 case 311:        {
-                    if (cond == view_as<TFCond>(41)) {
+                    if (cond == _TFCond(41)) {
                         float ParticlePos[3] = {0.0, 0.0, 01.0};
                         AttachParticle(client, "medic_resist_bullet", 8.0, ParticlePos, true);
                         char s[PLATFORM_MAX_PATH];
@@ -3296,7 +3297,7 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 SetAmmo(Hale, 0, ammo - 1);
             }
         }*/
-        if (cond == view_as<TFCond>(15))
+        if (cond == _TFCond(15))
         {
             ASHStats[StunsNum]++;
         } 
@@ -3965,7 +3966,7 @@ public Action UseHeavyRageFour(Handle hTimer, int client)
         
             float MedicResistFire[3] = {0.0, 0.0, 10.0};
             BlockDamage[client] = true;
-            TF2_AddCondition(client, view_as<TFCond>(58), 12.0);
+            TF2_AddCondition(client, _TFCond(58), 12.0);
             AttachParticle(client, "medic_resist_fire", 12.0, MedicResistFire, true);            
             SetEntityGravity(client, 0.10);
             int iEntWeapon;
@@ -4064,7 +4065,7 @@ public Action MedicRage_Timer(Handle TimerHndlMEDIC, int MedicID)
                 if (GetClientTeam(i) != HaleTeam && distance < 400)
                 {
                     TF2_AddCondition(i, TFCond_DefenseBuffed, 1.0);
-                    TF2_AddCondition(i, view_as<TFCond>(28), 1.0);
+                    TF2_AddCondition(i, _TFCond(28), 1.0);
                 }
             }
         }
@@ -4206,7 +4207,7 @@ public Action DoTaunt(int client, char[] command, int argc)
         if (act != Plugin_Continue && act != Plugin_Changed)
             return Plugin_Continue;
         if (act == Plugin_Changed) dist = newdist;
-        TF2_AddCondition(Hale, view_as<TFCond>(42), 4.0);
+        TF2_AddCondition(Hale, _TFCond(42), 4.0);
         switch (Special)
         {
             case ASHSpecial_Vagineer:
@@ -4354,7 +4355,7 @@ public Action UseRage(Handle hTimer, any dist)
                     }
                     if (ASHRoundState != ASHRState_Waiting) {
                         TF2_StunPlayer(i, GetStunTime(i), _, flags, (Special == ASHSpecial_HHH ? 0 : Hale));
-                        TF2_AddCondition(i, view_as<TFCond>(65), GetStunTime(i));
+                        TF2_AddCondition(i, _TFCond(65), GetStunTime(i));
                         if (TF2_GetPlayerClass(i) == TFClass_DemoMan && GetIndexOfWeaponSlot(i, TFWeaponSlot_Secondary) == 1150)
                         {
                             int iSticky = -1;
@@ -4610,7 +4611,7 @@ public Action CheckAlivePlayers(Handle hTimer)
 public Action ResurrectPyro(Handle hTimer, any PyroEntity) {
     SetEntityMoveType(PyroEntity, MOVETYPE_WALK);
     SetEntityGravity(PyroEntity, 1.0);
-    TF2_RemoveCondition(PyroEntity, view_as<TFCond>(28));
+    TF2_RemoveCondition(PyroEntity, _TFCond(28));
     TF2_RespawnPlayer(PyroEntity);
     plManmelterUsed[PyroEntity] = 1;
     BuddhaSwitch(PyroEntity, false);
@@ -4824,9 +4825,9 @@ public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname
             }
         }
 
-        if (TF2_GetPlayerClass(client) == TFClass_Sniper && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 171 && TF2_IsPlayerInCondition(client, view_as<TFCond>(66)))
+        if (TF2_GetPlayerClass(client) == TFClass_Sniper && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 171 && TF2_IsPlayerInCondition(client, _TFCond(66)))
         {
-            TF2_RemoveCondition(client, view_as<TFCond>(66));
+            TF2_RemoveCondition(client, _TFCond(66));
             EmitSoundToClient(client, "misc/halloween/spell_stealth.wav");
             iShivInv[client] = 5;
         }
@@ -4844,7 +4845,7 @@ public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname
         
         if ((GetClientButtons(client) & IN_ATTACK2) && GetEntPropFloat(weapon, Prop_Send, "m_flEnergy") == 100.0) {
             TF2_AddCondition(client, TFCond_DefenseBuffed, 3.0);
-            TF2_AddCondition(client, view_as<TFCond>(28), 3.0);
+            TF2_AddCondition(client, _TFCond(28), 3.0);
         }
     }
     return Plugin_Continue;
@@ -6133,7 +6134,7 @@ stock int FindTeleOwner(int client)
 
 stock bool TF2_IsPlayerCritBuffed(int client)
 {
-    return (TF2_IsPlayerInCondition(client, TFCond_Kritzkrieged) || TF2_IsPlayerInCondition(client, TFCond_HalloweenCritCandy) || TF2_IsPlayerInCondition(client, view_as<TFCond>(34)) || TF2_IsPlayerInCondition(client, view_as<TFCond>(35)) || TF2_IsPlayerInCondition(client, TFCond_CritOnFirstBlood) || TF2_IsPlayerInCondition(client, TFCond_CritOnWin) || TF2_IsPlayerInCondition(client, TFCond_CritOnFlagCapture) || TF2_IsPlayerInCondition(client, TFCond_CritOnKill) || TF2_IsPlayerInCondition(client, TFCond_CritMmmph));
+    return (TF2_IsPlayerInCondition(client, TFCond_Kritzkrieged) || TF2_IsPlayerInCondition(client, TFCond_HalloweenCritCandy) || TF2_IsPlayerInCondition(client, _TFCond(34)) || TF2_IsPlayerInCondition(client, _TFCond(35)) || TF2_IsPlayerInCondition(client, TFCond_CritOnFirstBlood) || TF2_IsPlayerInCondition(client, TFCond_CritOnWin) || TF2_IsPlayerInCondition(client, TFCond_CritOnFlagCapture) || TF2_IsPlayerInCondition(client, TFCond_CritOnKill) || TF2_IsPlayerInCondition(client, TFCond_CritMmmph));
 }
 
 stock void SetNextAttack(int weapon, float duration = 0.0)
@@ -7802,7 +7803,7 @@ void ASH_ExecuteRages(int attacker, int damage, int custom, int weapon) {
     }
 
     WeaponID = GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary);
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && headmeter[attacker] < 6 && g_iTauntedSpys[attacker] == 0 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)))
+    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && headmeter[attacker] < 6 && g_iTauntedSpys[attacker] == 0 && !TF2_IsPlayerInCondition(Hale, _TFCond(28)))
     {
         ++headmeter[attacker];
     }
@@ -8110,7 +8111,7 @@ public Action AddInvisible(Handle hTimer, any HaleHP) {
         return Plugin_Stop;
     }
 
-    if (!IsNotNeedRemoveInvisible && (ASHRoundState == ASHRState_Active || ASHRoundState == ASHRState_Waiting)) TF2_AddCondition(Hale, view_as<TFCond>(64), TFCondDuration_Infinite);
+    if (!IsNotNeedRemoveInvisible && (ASHRoundState == ASHRState_Active || ASHRoundState == ASHRState_Waiting)) TF2_AddCondition(Hale, _TFCond(64), TFCondDuration_Infinite);
     IsNotNeedRemoveInvisible = false;
     
     InvisibleAgent = 0.0;
@@ -8123,7 +8124,7 @@ public Action AddInvisible(Handle hTimer, any HaleHP) {
 public Action RemoveInvisible(Handle hTimer) {
     if (ASHRoundState != ASHRState_Active) return Plugin_Stop;
     
-    TF2_RemoveCondition(Hale, view_as<TFCond>(64));
+    TF2_RemoveCondition(Hale, _TFCond(64));
     
     return Plugin_Stop;
 }
@@ -8293,9 +8294,9 @@ public Action HologramsTimer(Handle hTimer) {
             
             // Invisible state
             if (AgentHelper_IsAllowedEnterToInvis(Ply))
-                InsertCond(Ply, view_as<TFCond>(64), TFCondDuration_Infinite);
+                InsertCond(Ply, _TFCond(64), TFCondDuration_Infinite);
             else
-                RemoveCond(Ply, view_as<TFCond>(64));
+                RemoveCond(Ply, _TFCond(64));
             
             if (AgentHelper_IsAllowedEnterToInvis(Ply) && !g_bGod[Ply]) {
                 float HologramPos[3];
@@ -8310,9 +8311,9 @@ public Action HologramsTimer(Handle hTimer) {
                     GetClientEyePosition(Player, PlayerPos);
 
                     if (GetVectorDistance(HologramPos, PlayerPos) < 500.0) {
-                        if (TF2_IsPlayerInCondition(Ply, view_as<TFCond>(64))) TF2_RemoveCondition(Ply, view_as<TFCond>(64));
+                        if (TF2_IsPlayerInCondition(Ply, _TFCond(64))) TF2_RemoveCondition(Ply, _TFCond(64));
                         break;
-                    } else if (!TF2_IsPlayerInCondition(Ply, view_as<TFCond>(64))) TF2_AddCondition(Ply, view_as<TFCond>(64));
+                    } else if (!TF2_IsPlayerInCondition(Ply, _TFCond(64))) TF2_AddCondition(Ply, _TFCond(64));
                 }
             }
         }
@@ -8440,7 +8441,7 @@ public void TF2_OnPyroSecondChance(int client) {
     ManmelterBan[client] = true;
     // RESURRECT! GOD POWER!
     SetEntProp(client, Prop_Send, "m_iHealth", 1);
-    TF2_AddCondition(client, view_as<TFCond>(28), 0.85);
+    TF2_AddCondition(client, _TFCond(28), 0.85);
     SetEntityGravity(client, 0.35);
 
     float fVelocity[3];
@@ -8491,9 +8492,9 @@ public Action MedicAmpShield(Handle hTimer, any DPAmp) {
     if (Time > 0.0) {
         // Shield for medic
         if (TF2_IsPlayerInCondition(Medic, TFCond_DefenseBuffed)) TF2_RemoveCondition(Medic, TFCond_DefenseBuffed);
-        if (TF2_IsPlayerInCondition(Medic, view_as<TFCond>(28))) TF2_RemoveCondition(Medic, view_as<TFCond>(28));
+        if (TF2_IsPlayerInCondition(Medic, _TFCond(28))) TF2_RemoveCondition(Medic, _TFCond(28));
         TF2_AddCondition(Medic, TFCond_DefenseBuffed, 0.5);
-        TF2_AddCondition(Medic, view_as<TFCond>(28), 0.5);
+        TF2_AddCondition(Medic, _TFCond(28), 0.5);
         
         // Shield for others (distance - 400)
         float MedicPos[3], OtherPos[3];
@@ -8505,9 +8506,9 @@ public Action MedicAmpShield(Handle hTimer, any DPAmp) {
             GetEntPropVector(ply, Prop_Send, "m_vecOrigin", OtherPos);
             if (GetVectorDistance(MedicPos, OtherPos) <= 585.0) {
                 if (TF2_IsPlayerInCondition(ply, TFCond_DefenseBuffed)) TF2_RemoveCondition(ply, TFCond_DefenseBuffed);
-                if (TF2_IsPlayerInCondition(ply, view_as<TFCond>(28))) TF2_RemoveCondition(ply, view_as<TFCond>(28));
+                if (TF2_IsPlayerInCondition(ply, _TFCond(28))) TF2_RemoveCondition(ply, _TFCond(28));
                 TF2_AddCondition(ply, TFCond_DefenseBuffed, 0.5);
-                TF2_AddCondition(ply, view_as<TFCond>(28), 0.5);
+                TF2_AddCondition(ply, _TFCond(28), 0.5);
             }
         }
     

@@ -247,9 +247,9 @@ public Action ClientTimer(Handle hTimer)
                     GetClientEyePosition(client, PyroPos);
                     GetClientEyePosition(aimclient, aimPos);
 
-                    if (GetVectorDistance(PyroPos, aimPos) < 800.0 && TF2_IsPlayerInCondition(aimclient, view_as<TFCond>(15)) && aimclient != Hale && TF2_GetPlayerClass(aimclient) != TFClass_Pyro) {
+                    if (GetVectorDistance(PyroPos, aimPos) < 800.0 && TF2_IsPlayerInCondition(aimclient, _TFCond(15)) && aimclient != Hale && TF2_GetPlayerClass(aimclient) != TFClass_Pyro) {
                         // Delete stun
-                        TF2_RemoveCondition(aimclient, view_as<TFCond>(15));
+                        TF2_RemoveCondition(aimclient, _TFCond(15));
                         
                         // Shoot sound
                         float vPos[3];
@@ -301,8 +301,8 @@ public Action ClientTimer(Handle hTimer)
             if (iShivInv[client] != 0) 
             {
                 iShivInv[client]--;
-                if (TF2_IsPlayerInCondition(client, view_as<TFCond>(66)))
-                    TF2_RemoveCondition(client, view_as<TFCond>(66));
+                if (TF2_IsPlayerInCondition(client, _TFCond(66)))
+                    TF2_RemoveCondition(client, _TFCond(66));
             }
 
             
@@ -1339,7 +1339,7 @@ public Action ClientTimer(Handle hTimer)
             
             if (TF2_IsPlayerInCondition(client, TFCond_HalloweenCritCandy) && (iPlayerClass == TFClass_Soldier || iPlayerClass == TFClass_DemoMan) && IsWeaponSlotActive(client, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 152) TF2_RemoveCondition(client, TFCond_HalloweenCritCandy);
             
-            if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 171 && TF2_IsPlayerInCondition(client, view_as<TFCond>(66))) {
+            if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 171 && TF2_IsPlayerInCondition(client, _TFCond(66))) {
                 RemoveCond(client, TFCond_Buffed);
                 RemoveCond(client, cond);
             }
@@ -1365,9 +1365,9 @@ public Action HaleTimer(Handle hTimer)
     
     if (Special == ASHSpecial_Agent) {
         if (AgentHelper_IsAllowedEnterToInvis(Hale))
-            InsertCond(Hale, view_as<TFCond>(64), TFCondDuration_Infinite);
+            InsertCond(Hale, _TFCond(64), TFCondDuration_Infinite);
         else
-            RemoveCond(Hale, view_as<TFCond>(64));
+            RemoveCond(Hale, _TFCond(64));
     }
 
     if (Special == ASHSpecial_Agent && AgentHelper_IsAllowedEnterToInvis(Hale) && !g_bGod[Hale]) {
@@ -1383,15 +1383,15 @@ public Action HaleTimer(Handle hTimer)
             GetClientEyePosition(Player, PlayerPos);
 
             if (GetVectorDistance(AgentPos, PlayerPos) < 1800.0) {
-                if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) TF2_RemoveCondition(Hale, view_as<TFCond>(64));
+                if (TF2_IsPlayerInCondition(Hale, _TFCond(64))) TF2_RemoveCondition(Hale, _TFCond(64));
                 break;
-            } else if (!TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) TF2_AddCondition(Hale, view_as<TFCond>(64));
+            } else if (!TF2_IsPlayerInCondition(Hale, _TFCond(64))) TF2_AddCondition(Hale, _TFCond(64));
         }
     }
     
     if (Special == ASHSpecial_Agent) {
         bool bPlayLaugh = false;
-        if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(64))) {
+        if (TF2_IsPlayerInCondition(Hale, _TFCond(64))) {
             InvisibleAgent += 0.2;
             if (InvisibleAgent > 12.0) LastSound += 0.2;
         } else {
@@ -1447,10 +1447,10 @@ public Action HaleTimer(Handle hTimer)
         TF2_RemoveCondition(Hale, TFCond_Jarated);*/
     if (TF2_IsPlayerInCondition(Hale, TFCond_Disguised) && Special != ASHSpecial_Agent)
         TF2_RemoveCondition(Hale, TFCond_Disguised);
-    if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(15)) && isHaleStunBanned)
-        TF2_RemoveCondition(Hale, view_as<TFCond>(15));
-    if (TF2_IsPlayerInCondition(Hale, view_as<TFCond>(30)) && isHaleNeedManyDamage)
-        TF2_RemoveCondition(Hale, view_as<TFCond>(30));
+    if (TF2_IsPlayerInCondition(Hale, _TFCond(15)) && isHaleStunBanned)
+        TF2_RemoveCondition(Hale, _TFCond(15));
+    if (TF2_IsPlayerInCondition(Hale, _TFCond(30)) && isHaleNeedManyDamage)
+        TF2_RemoveCondition(Hale, _TFCond(30));
     float speed = HaleSpeed + 0.7 * (100 - HaleHealth * 100 / HaleHealthMax);
     SetEntPropFloat(Hale, Prop_Send, "m_flMaxspeed", speed*((Special==ASHSpecial_MiniHale)?1.02:1.0));
     
@@ -1503,7 +1503,7 @@ public Action HaleTimer(Handle hTimer)
             float MedicResistFire[3] = {0.0, 0.0, 10.0};
             AttachParticle(Hale, "mvm_levelup1", 12.0, MVMLevelUP_Pos, true);
             AttachParticle(Hale, "medic_resist_fire", 12.0, MedicResistFire, true);
-            TF2_AddCondition(Hale, view_as<TFCond>(28), 12.0);
+            TF2_AddCondition(Hale, _TFCond(28), 12.0);
             EmitSoundToAll("mvm/mvm_revive.wav", _);
             TF2_AddCondition(Hale, TFCond_DefenseBuffed, 12.0);
             
@@ -1599,7 +1599,7 @@ public Action HaleTimer(Handle hTimer)
             TF2Attrib_SetByDefIndex(Hale, 252, 0.0);
 
             TimeAbility = 7.0;
-            TF2_RemoveCondition(Hale, view_as<TFCond>(64));
+            TF2_RemoveCondition(Hale, _TFCond(64));
             CreateTimer(0.7, SpecialAbility_Agent, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
             CreateTimer(0.5, SpecialAbility_Agent_Sound, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
             

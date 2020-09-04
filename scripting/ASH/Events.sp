@@ -549,8 +549,8 @@ public Action event_uberdeployed(Handle event, const char[] name, bool dontBroad
                 }
                 else uberTarget[client] = -1;
                 CreateTimer(0.4, Timer_Lazor, EntIndexToEntRef(medigun), TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
-                TF2_RemoveCondition(client, view_as<TFCond>(5));
-                TF2_AddCondition(client, view_as<TFCond>(5), 11.2);
+                TF2_RemoveCondition(client, _TFCond(5));
+                TF2_AddCondition(client, _TFCond(5), 11.2);
                 TimerMedic_UberCharge[client] =    CreateTimer(0.5, Timer_UberCharge_MEDIC, GetClientUserId(client), TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
             }
         }
@@ -1101,9 +1101,9 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
 //        if (TF2_GetPlayerClass(attacker) == TFClass_Engineer && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee)) PushClient(Hale);
 //    }
     
-    if (TF2_GetPlayerClass(attacker) == TFClass_Heavy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 331 && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28))) PushClient(Hale);
+    if (TF2_GetPlayerClass(attacker) == TFClass_Heavy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 331 && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && !TF2_IsPlayerInCondition(Hale, _TFCond(28))) PushClient(Hale);
     
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && g_iTauntedSpys[attacker] == 1) {
+    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && g_iTauntedSpys[attacker] == 1) {
         if (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 61 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 1006) {
             TeleportToMultiMapSpawn(Hale);
         }
@@ -1163,7 +1163,7 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
     }
 
     // Bazaar Inv
-    if (attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_Sniper && !TF2_IsPlayerInCondition(attacker, view_as<TFCond>(66)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 402/* && custom == TF_CUSTOM_HEADSHOT*/)
+    if (attacker != Hale && TF2_GetPlayerClass(attacker) == TFClass_Sniper && !TF2_IsPlayerInCondition(attacker, _TFCond(66)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 402/* && custom == TF_CUSTOM_HEADSHOT*/)
     {
         if (GetActiveWeaponIndex(attacker) != 402) return Plugin_Continue;
 
@@ -1173,7 +1173,7 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
             inv_duration *= 2;
         
         if (inv_duration > 0) {
-            TF2_AddCondition(attacker, view_as<TFCond>(66), inv_duration);
+            TF2_AddCondition(attacker, _TFCond(66), inv_duration);
             EmitSoundToClient(attacker, "misc/halloween/spell_stealth.wav");
         }
     }
@@ -1500,7 +1500,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     }
     if (g_bGod[client]) return Plugin_Handled;
     
-//    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
+//    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
     
     char sAttackerObject[128];
     GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
@@ -1531,7 +1531,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     /*if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Sniper && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 230 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary))
     {
         CreateTimer(0.3, HaleRageFix, attacker);
-        if (TF2_IsPlayerInCondition(attacker, view_as<TFCond>(1)))
+        if (TF2_IsPlayerInCondition(attacker, _TFCond(1)))
         {
             g_bScoped[attacker] = true;
         }
@@ -1542,7 +1542,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         TF2_StunPlayer(client, 4.0, _, TF_STUNFLAGS_SMALLBONK, attacker);
     }
     
-    if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && damagecustom == TF_CUSTOM_PLASMA)
+    if (attacker > 0 && attacker <= MaxClients && attacker != client && TF2_GetPlayerClass(attacker) == TFClass_Engineer && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && damagecustom == TF_CUSTOM_PLASMA)
     {
         if (damagetype != DMG_SHOCK && inflictor != attacker) {
             PushClient(Hale);
@@ -1551,21 +1551,21 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         }
     }
     
-    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 329 && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && StrEqual(sAttackerObject, "obj_sentrygun")) {
+    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 329 && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && StrEqual(sAttackerObject, "obj_sentrygun")) {
         TF2_AddCondition(Hale, TFCond_MarkedForDeath, 4.0);
     }
     
     //if (attacker > 0 && attacker <= MaxClients && Special == ASHSpecial_Agent && TF2_IsPlayerInCondition(client, TFCond_Cloaked)) damage = 60.0;
     
     //Sandman stun ball
-    if (attacker > 0 && attacker <= MaxClients && attacker != client) {
+    if (attacker > 0 && client > 0 && attacker <= MaxClients && client <= MaxClients && attacker != client && IsValidClient(client) && IsValidClient(attacker) && client == Hale) {
         float ScoutPos[3];
         float HalePos[3];
 
         GetClientEyePosition(attacker, ScoutPos);
         GetClientEyePosition(client, HalePos);
         
-        if (TF2_GetPlayerClass(attacker) == TFClass_Scout && !TF2_IsPlayerInCondition(Hale, view_as<TFCond>(28)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 44 && inflictor != attacker && damagecustom != TF_CUSTOM_CLEAVER /*&& StrEqual(sAttackerObject, "tf_projectile_stun_ball")*/) {
+        if (TF2_GetPlayerClass(attacker) == TFClass_Scout && !TF2_IsPlayerInCondition(client, _TFCond(28)) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 44 && inflictor != attacker && damagecustom != TF_CUSTOM_CLEAVER /*&& StrEqual(sAttackerObject, "tf_projectile_stun_ball")*/) {
             if (GetVectorDistance(ScoutPos, HalePos) > 1500.0) {
                 TF2_StunPlayer(client, 6.0, 0.0, TF_STUNFLAG_BONKSTUCK, attacker);
             } else if (GetVectorDistance(ScoutPos, HalePos) > 330.0) {
@@ -1639,7 +1639,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             return Plugin_Changed;
         }
         
-        if (client != attacker && TF2_IsPlayerInCondition(client, view_as<TFCond>(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, view_as<TFCond>(13)) && GetEntProp(client, Prop_Send, "m_bFeignDeathReady") != 1)
+        if (client != attacker && TF2_IsPlayerInCondition(client, _TFCond(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, _TFCond(13)) && GetEntProp(client, Prop_Send, "m_bFeignDeathReady") != 1)
         {
             float client_hp = float(TF2_GetPlayerMaxHealth(client));
             if (TF2_GetPlayerClass(client) != TFClass_Heavy) {
@@ -1945,7 +1945,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                         {
                             float chargelevel = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntPropFloat(weapon, Prop_Send, "m_flChargedDamage") : 0.0);
                             float add = 10 + (chargelevel / 10);
-                            if (TF2_IsPlayerInCondition(attacker, view_as<TFCond>(46))) add /= 3;
+                            if (TF2_IsPlayerInCondition(attacker, _TFCond(46))) add /= 3;
                             float rage = GetEntPropFloat(attacker, Prop_Send, "m_flRageMeter");
                             SetEntPropFloat(attacker, Prop_Send, "m_flRageMeter", (rage + add > 100) ? 100.0 : rage + add);
                         }
@@ -2209,9 +2209,9 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                     }
                     case 171: // Shiv Inv
                     {
-                        if (!TF2_IsPlayerInCondition(attacker, view_as<TFCond>(66)))
+                        if (!TF2_IsPlayerInCondition(attacker, _TFCond(66)))
                         {
-                            TF2_AddCondition(attacker, view_as<TFCond>(66), 6.0);
+                            TF2_AddCondition(attacker, _TFCond(66), 6.0);
                             EmitSoundToClient(attacker, "misc/halloween/spell_stealth.wav");
                         }
                     }
@@ -2599,7 +2599,7 @@ public Action OnStartTouch(int client, int other)
         float vPos[3];
         GetEntPropVector(client, Prop_Send, "m_vecOrigin", vPos);
         
-        if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, view_as<TFCond>(64))) {
+        if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, _TFCond(64))) {
             if (GetClientHealth(other)<=202 && (RemoveDemoShield(other) || RemoveRazorback(other))) // If the demo had a shield to break
             {
                 EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
