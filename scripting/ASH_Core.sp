@@ -16,7 +16,6 @@
         NITROYUASH - Something [s]bad[/s] good ideas for weapons and more [s]disbalanced merde for gibus-scouts[/s] special abilities for players/bosses.
         FeedBlack - Continued development of this plugin after CrazyHackGUT has leaved Dev Team.
 
-    Special for G44: http://steamcommunity.com/groups/garage44tf2
 */
 #define VSH_PLUGIN_VERSION "1.55"
 
@@ -1073,7 +1072,7 @@ float m_fAgent_InvisibleNext[MAXPLAYERS+1];
 //bool ACH_Enabled;
 public Plugin myinfo = {
     name           = "Advanced Saxton Hale",
-    author         = "Rainbolt Dash, FlaminSarge, Chdata, nergal, fiagram, NITROYUASH, FeedBlack, CrazyHackGUT, G44 Group",
+    author         = "Rainbolt Dash, FlaminSarge, Chdata, nergal, fiagram, NITROYUASH, FeedBlack, CrazyHackGUT",
     description    = "RUUUUNN!! COWAAAARRDSS!",
     version        = PLUGINVERSION,
     url            = "https://forums.alliedmods.net/showthread.php?p=2167912",
