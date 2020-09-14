@@ -1,0 +1,339 @@
+﻿"Phrases"
+{
+	"vsh_needmoreplayers"
+	{
+		"en"    "Advanced Saxton Hale Mode is disabled. Need more players to start!"
+	}
+	"vsh_open_menu"
+	{
+		"en"	"Type {ash}/hale{default} to open the Advanced Saxton Hale Menu!"
+	}
+	"vsh_nextmap"
+	{
+		"#format" "{1:s}"
+		"en"	"{ash}Advanced Saxton Hale Mode{default} will be played on {ash}{1}{default}"
+	}
+	"vsh_hale_is_alive"
+	{
+		"#format" "{1:N},{2:i},{3:i}"
+		"en"	"Saxton Hale ({1}) had {2} (of {3}) health left."
+	}
+	"vsh_vagineer_is_alive"
+	{
+		"#format" "{1:N},{2:i},{3:i}"
+		"en"	"The Vagineer ({1}) had {2} (of {3}) health left."
+	}
+	"vsh_hhh_is_alive"
+	{
+		"#format" "{1:N},{2:i},{3:i}"
+		"en"	"The Horseless Headless Horsemann Jr. ({1}) had {2} (of {3}) health left."
+	}
+	"vsh_cbs_is_alive"
+	{
+		"#format" "{1:N},{2:i},{3:i}"
+		"en"	"The Christian Brutal Sniper ({1}) had {2} (of {3}) health left."
+	}
+	"vsh_hale_show_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"Saxton Hale showed his current HP: {1} of {2}"
+	}
+	"vsh_vagineer_show_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"The Vagineer showed his current HP: {1} of {2}"
+	}
+	"vsh_hhh_show_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"The Horseless Headless Horsemann Jr. showed his current HP: {1} of {2}"
+	}
+	"vsh_cbs_show_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"The Christian Brutal Sniper showed his current HP: {1} of {2}"
+	}
+	"vsh_hale_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"Saxton Hale's current health is: {1} of {2}"
+	}
+	"vsh_vagineer_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"The Vagineer's current health is: {1} of {2}"
+	}
+	"vsh_hhh_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"The Horseless Headless Horsemann Jr.'s current health is: {1} of {2}"
+	}
+	"vsh_cbs_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"The Christian Brutal Sniper's current health is: {1} of {2}"
+	}
+	"vsh_can_not_see_hp"
+	{
+		"en"	"You can no longer check health in this round (3 checks per round)."
+	}
+	"vsh_wait_hp"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"You cannot see his HP now (wait {1} seconds). Last known health was {2}."
+	}
+	"vsh_hale_select_text"
+	{
+		"en"	"will become Saxton Hale next round!"
+	}
+	"vsh_damage"
+	{
+		"#format" "{1:i}"
+		"en"	"Damage dealt: {1}"
+	}
+	"vsh_damage_own"
+	{
+		"en"	"Damage"
+	}
+	"vsh_damage_others"
+	{
+		"#format" "{1:i},{2:N},{3:i}"
+		"en"	"Your's damage: {1} | {2}'s Damage: {3}"
+	}
+	"vsh_point_enable"
+	{
+		"#format" "{1:i}"
+		"en"	"{1} players are left; control point enabled!"
+	}
+	"vsh_queue"
+	{
+		"#format" "{1:i}"
+		"en"	"Queue will be generated after {1} rounds."
+	}
+	"vsh_skip_hale"
+	{
+		"en"	"You must be the next Hale to view this panel.\nIf you think you ARE the next Hale, type /haleme again and the panel should come up."
+	}
+	"vsh_skip_hale_2"
+	{
+		"en"	"Type /haleme if you've changed your mind about being Saxton Hale!\nYou may have to enter the command twice to get it to show up."
+	}
+	"vsh_skip_hale_q"
+	{
+		"en"	"Are you ready to be Saxton Hale next round?"
+	}
+	"vsh_skip_hale_da"
+	{
+		"en"	"Yes, I'm ready to be Hale!"
+	}
+	"vsh_skip_hale_niet"
+	{
+		"en"	"Nope, I'd rather not be Hale."
+	}
+	"vsh_top_3"
+	{
+		"en"	"Most damage dealt by:"
+	}
+	"vsh_start_hale"
+	{
+		"#format" "{1:N},{2:i}"
+		"en"	"{1} became Saxton Hale with {2} HP!"
+	}
+	"vsh_start_vagineer"
+	{
+		"#format" "{1:N},{2:i}"
+		"en"	"SPECIAL ROUND!\n{1} became the VAGINEER with {2} HP!"
+	}
+	"vsh_start_hhh"
+	{
+		"#format" "{1:N},{2:i}"
+		"en"	"SPECIAL ROUND!\n{1} became the\nHorseless Headless Horsemann Jr. with {2} HP!"
+	}
+	"vsh_start_cbs"
+	{
+		"#format" "{1:N},{2:i}"
+		"en"	"SPECIAL ROUND!\n{1} became the Christian Brutal Sniper with {2} HP!"
+	}
+	"vsh_uber-charge"
+	{
+		"en"	"Ubercharge"
+	}
+	"vsh_health"
+	{
+		"#format" "{1:i},{2:i}"
+		"en"	"Health: {1} of {2}"
+	}
+	"vsh_do_rage"
+	{
+		"en"	"Taunt or call medic (E) to activate RAGE."
+	}
+	"vsh_rage_meter"
+	{
+		"#format" "{1:i}"
+		"en"	"RAGE meter: {1} percent!"
+	}
+	"vsh_super_duper_jump"
+	{
+		"en"	"Super Duper Jump is Ready!"
+	}
+	"vsh_teleport_status"
+	{
+		"#format" "{1:i}"
+		"en"	"Teleport charge: {1} percent. At 100 percent, stand up to teleport."
+	}
+	"vsh_jump_status"
+	{
+		"#format" "{1:i}"
+		"en"	"Jump charge: {1} percent. Look up and stand up to use super-jump."
+	}
+	"vsh_teleport_status_2"
+	{
+		"en"	"Teleporter will be ready again in:"
+	}
+	"vsh_jump_status_2"
+	{
+		"en"	"Super Jump will be ready again in:"
+	}
+	"vsh_respawn_on_medieval"
+	{
+		"en"	"In Medieval Mode team members will respawn after death."
+	}
+	"vsh_thequeue"
+	{
+		"en"	"Saxton Hale's Queue:"
+	}
+	"vsh_curret_hale_is"
+	{
+		"en"	"The Current Hale is:"
+	}
+	"vsh_menu_1"
+	{
+		"en"	"Advanced Saxton Hale -- MENU"
+	}
+	"vsh_menu_2"
+	{
+		"en"	"Show Hale's health (/halehp)"
+	}
+	"vsh_menu_3"
+	{
+		"en"	"Show help about the mode (/halehelp)"
+	}
+	"vsh_menu_4"
+	{
+		"en"	"What's new?(/halenew)"
+	}
+	"vsh_menu_5"
+	{
+		"en"	"Who is the next Hale? (/halenext)"
+	}
+	"vsh_menu_exit"
+	{
+		"en"	"Exit"
+	}
+	"vsh_help_mode"
+	{
+		"en"	"Welcome to Advanced Saxton Hale Mode!\nOne player is selected each round to be Saxton Hale.\nEveryone else must kill them!"
+	}
+	"vsh_menu_7"
+	{
+		"en"	"Show help about your class (/haleclass)"
+	}
+	"vsh_damage_fx"
+	{
+		"en"	"Damage Dealt:"
+	}
+	"vsh_new_update"
+	{
+		"en"	"A new update was released!"
+	}
+	"vsh_scores"
+	{
+		"en"	"Score for this round:"
+	}
+	"vsh_airblast"
+	{
+		"#format" "{1:i}"
+		"en"	"Airblast will be reloaded after {1} seconds"
+	}
+	"vsh_your_points"
+	{
+		"en"    "Your queue points:"
+	}
+	"vsh_add_points"
+	{
+		"#format" "{1:i}"
+		"en"    "You get {1} queue points."
+	}
+	"vsh_to0"
+	{
+		"en"	"select to set to 0"
+	}	
+	"vsh_to0_title"
+	{
+		"en"	"Are you sure you want to set your queue points to 0?"
+	}	
+	"vsh_to0_done"
+	{
+		"en"	"You have reset your queue points to {ash}0{default}"
+	}
+	"vsh_to0_near"
+	{
+		"en"	"You are going to be Hale soon! Type /halenext to check/reset your queue points."
+	}
+	"vsh_queue_disabled"
+	{
+		"en"	"Queue is disabled on this server."
+	}
+	"vsh_first_round"
+	{
+		"en"	"Normal round while waiting for everyone to finish loading."
+	}
+	"vsh_already_see"
+	{
+		"en"	"You can already see his health!"
+	}
+	"vsh_hale_disconnected"
+	{
+		"en"	"Hale just disconnected!"
+	}
+	"vsh_used_weighdown"
+	{
+		"en"	"You just used your weighdown!"
+	}
+	"vsh_music"
+	{
+		"#format" "{1:s}"
+		"en"	"You've turned {1} the Advanced Saxton Hale music."
+	}
+	"vsh_voice"
+	{
+		"#format" "{1:s}"
+		"en"	"You've turned {1} the Advanced Saxton Hale voices. Intro, end, rage, jump, and backstab lines will always play."
+	}
+	"vsh_voice2"
+	{
+		"en"	"Several other sounds will still play, but will be much quieter."
+	}
+	"vsh_menu_8"
+	{
+		"en"	"Music Options (/halemusic)"
+	}
+	"vsh_menu_9"
+	{
+		"en"	"Voice Options (/halevoice)"
+	}
+	"vsh_menu_9a"
+	{
+		"en"	"Show/Hide Class Info (/haleclassinfotoggle)"
+	}
+	"vsh_classinfo"
+	{
+		"#format" "{1:s}"
+		"en"	"You've turned {1} the Advanced Saxton Hale classinfo."
+	}
+	"vsh_last_update"
+	{
+		"#format" "{1:s},{2:s}"
+		"en"	"What's new in v{1} {default}({ash}{2}{default})? Type {ash}/halenew"
+	}
+}
