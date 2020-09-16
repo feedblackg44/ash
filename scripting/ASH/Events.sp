@@ -2934,7 +2934,7 @@ public Action Timer_Announce(Handle hTimer)
         switch (announcecount)
         {
             case 1:        CPrintToChatAll("{ash}[ASH] {default}VS Saxton Hale group: {ash}http://steamcommunity.com/groups/vssaxtonhale");
-            case 3:        CPrintToChatAll(" \n{ash}ASH v%s {default}by {olive}NITROYUASH {default}, {selfmade}CrazyHackGUT , {selfmade}FeedBlack {default}& {lightsteelblue}G44 Group\n{default}Based on {ash}VSH v%s {default}by {olive}Rainbolt Dash{default}, {olive}FlaminSarge {default}& {lightsteelblue}Chdata{default}.\n ", ASH_PLUGIN_VERSION, VSH_PLUGIN_VERSION);
+            case 3:        CPrintToChatAll(" \n{ash}ASH v%s {default}by {olive}NITROYUASH {default}, {selfmade}CrazyHackGUT {default}, {selfmade}FeedBlack\n{default}Based on {ash}VSH v%s {default}by {olive}Rainbolt Dash{default}, {olive}FlaminSarge {default}& {lightsteelblue}Chdata{default}.\n ", ASH_PLUGIN_VERSION, VSH_PLUGIN_VERSION);
             case 5:
             {
                 announcecount = 0;
