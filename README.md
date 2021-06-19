@@ -5,9 +5,9 @@ Advanced Saxton Hale - fork of Versus Saxton Hale Mode. Authors of the original:
 
 Authors of the fork:
 
-- [**NITROYUASH**](http://steamcommunity.com/profiles/76561198045687452). The project starter. In the early stages, wrote all code manually, with Google help. Now he help us with ideas.
-- [**CrazyHackGUT aka Kruzya**](https://kruzya.me). The main maintainer. Wrote more than half of the current code base. But he think about rewriting from scratch...
-- [**FeedBlack**](http://steamcommunity.com/profiles/76561198278138597). Continued development of this plugin after CrazyHackGUT has leaved Dev Team for a while.
+- [**NITROYUASH**](http://steamcommunity.com/profiles/76561198045687452). Almost all ideas, balance, new item abilities and initial startup.
+- [**CrazyHackGUT aka Kruzya**](https://kruzya.me). Main programmer. Wrote more than half of the current code base.
+- [**FeedBlack**](http://steamcommunity.com/profiles/76561198278138597). Programmer. Helps a lot with the last updates.
 
 Great Thanks, **community**! We love you!
 
