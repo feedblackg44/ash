@@ -30,9 +30,9 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8964"
-#define ASH_PLUGIN_VERSION            "1.22"
-#define ASH_PLUGIN_RELDATE            "23 August 2020"
+#define ASH_BUILD                     "8965"
+#define ASH_PLUGIN_VERSION            "1.30"
+#define ASH_PLUGIN_RELDATE            "19 June 2021"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -8177,6 +8177,7 @@ public Action CreateHologram(Handle hTimer) {
     
     // And respawn
     TF2_RespawnPlayer(iPly);
+    SetPlayerRenderAlpha(iPly, 255);
     
     return Plugin_Stop;
 }

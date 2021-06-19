@@ -1047,8 +1047,6 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
     int custom = GetEventInt(event, "custom");
     int weapon = GetEventInt(event, "weaponid");
     
-    
-    
     if (GetPlayersInTeam(OtherTeam) > 12)
         iHaleSpecialPower += damage/18;
     else
@@ -1555,6 +1553,14 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         TF2_AddCondition(Hale, TFCond_MarkedForDeath, 4.0);
     }
     
+    /*if (attacker > 0 && attacker <= MaxClients && attacker != client && attacker == Hale && Special == ASHSpecial_Vagineer && damagetype == 4)
+    {
+        PrintToChatAll("%i", damagetype);
+        damage = 12.0;
+        damagetype = 0;
+        damagecustom = 0;
+    }*/
+    
     //if (attacker > 0 && attacker <= MaxClients && Special == ASHSpecial_Agent && TF2_IsPlayerInCondition(client, TFCond_Cloaked)) damage = 60.0;
     
     //Sandman stun ball
@@ -1589,7 +1595,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             damagetype = 0;
             return Plugin_Changed;
         }
-        
+
         if ( IsValidClient(client) && IsValidClient(attacker) && client == Hale && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(attacker) == TFClass_Spy)
         {
             g_bAlphaSpysAllow[attacker][0] = !g_bAlphaSpysAllow[attacker][0];
@@ -1641,15 +1647,22 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         
         if (client != attacker && TF2_IsPlayerInCondition(client, _TFCond(65)) && Special != ASHSpecial_Agent && Special != ASHSpecial_MiniHale && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !TF2_IsPlayerInCondition(client, _TFCond(13)) && GetEntProp(client, Prop_Send, "m_bFeignDeathReady") != 1)
         {
-            float client_hp = float(TF2_GetPlayerMaxHealth(client));
-            if (TF2_GetPlayerClass(client) != TFClass_Heavy) {
-                float damage_client = client_hp * 0.75 / 3;
-                damage = damage_client;
-            } else {
-                float damage_client = client_hp * 0.45 / 3;
-                damage = damage_client;
+            if (Special == ASHSpecial_Vagineer && (damagetype == 4 || StrEqual(sAttackerObject, "tf_projectile_grapplinghook")))
+            {
+                // Grappling hook fix
             }
-            damagetype = 0;
+            else
+            {
+                float client_hp = float(TF2_GetPlayerMaxHealth(client));
+                if (TF2_GetPlayerClass(client) != TFClass_Heavy) {
+                    float damage_client = client_hp * 0.75 / 3;
+                    damage = damage_client;
+                } else {
+                    float damage_client = client_hp * 0.45 / 3;
+                    damage = damage_client;
+                }
+                damagetype = 0;
+            }
         }
     }
     
@@ -1700,7 +1713,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     
     if(IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
     {
-        if (/*!StrEqual(InflictorName, "tf_projectile_pipe") &&*/ GetClientHealth(client) <= damage) 
+        if ((GetClientHealth(client) <= damage && !TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)) || (GetClientHealth(client) <= damage * 0.3 && TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed))) 
 		{
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
@@ -2600,7 +2613,7 @@ public Action OnStartTouch(int client, int other)
         GetEntPropVector(client, Prop_Send, "m_vecOrigin", vPos);
         
         if (vec[2] <= -550.0 && !TF2_IsPlayerInCondition(client, _TFCond(64))) {
-            if (GetClientHealth(other)<=202 && (RemoveDemoShield(other) || RemoveRazorback(other))) // If the demo had a shield to break
+            if (GetClientHealth(other) <= 202 && (RemoveDemoShield(other) || RemoveRazorback(other))) // If the demo had a shield to break
             {
                 EmitSoundToClient(other, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
