@@ -38,5 +38,7 @@ You can configure cvars in tf/cfg/sourcemod/AdvancedSaxtonHale.cfg
 - hale_enable_jumper (Default: 1) - Enable rocket jumper and sticky jumper
 - hale_enable_sapper (Default: 1) - Enable passive attributes of spy's sappers
 - hale_enable_secret_cheats (Default: 1) - Enable secret cheats
+- hale_min_players_resetq (Default: 6) - Minimum number of players to use a command /resetq
 - hale_tryhard_directhit (Default: 0) - Enable Direct Hit stun
+- hale_tryhard_machina (Default: 1) - Enable Machina stun
 - hale_tryhard_machina (Default: 1) - Enable Machina stun
