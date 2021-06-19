@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8963"
+#define ASH_BUILD                     "8964"
 #define ASH_PLUGIN_VERSION            "1.22"
 #define ASH_PLUGIN_RELDATE            "23 August 2020"
 
@@ -4767,7 +4767,7 @@ public Action Timer_CheckBuffRage(Handle timer, any userid)
 
 public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool &result)
 {
-    if (!IsValidClient(client) || !g_bEnabled) return Plugin_Continue; // IsValidClient(client, false)
+    if (!IsValidClient(client) || !g_bEnabled || ASHRoundState != ASHRState_Active) return Plugin_Continue; // IsValidClient(client, false)
     
     // HHH can climb walls
     if (IsValidEntity(weapon) && Special == ASHSpecial_HHH && client == Hale && HHHClimbCount <= 9 && ASHRoundState > ASHRState_Waiting)

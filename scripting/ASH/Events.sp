@@ -280,7 +280,7 @@ public Action event_round_end(Handle event, const char[] name, bool dontBroadcas
         ServerCommand("sm plugins reload %s", ASH_pluginname);
     }
 
-    if (!g_bEnabled)
+    if (!g_bEnabled || ASHRoundState != ASHRState_Active)
     {
         return Plugin_Continue;
     }
