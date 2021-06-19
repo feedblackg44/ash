@@ -14,7 +14,7 @@ Great Thanks, **community**! We love you!
 ## Requirements
 - [**SourceMod**](https://www.sourcemod.net/downloads.php?branch=stable) 1.9 or higher.
 - [**TF2Items**](https://builds.limetech.io/?project=tf2items). Used for modifying weapons before initial equipping, for creating weapon for bosses.
-- [**TF2Attributes**](https://forums.alliedmods.net/showthread.php?t=210221). Used for modifying weapons "on-the-fly", when players already plays on map and can damage.
+- [**TF2Attributes**](https://github.com/FlaminSarge/tf2attributes/releases). Used for modifying weapons "on-the-fly", when players already plays on map and can damage.
 - [**TF2Attributes Gamedata**](https://raw.githubusercontent.com/FlaminSarge/tf2attributes/master/tf2.attributes.txt). Install this on **tf2/addons/sourcemod/gamedata**
 - [**SteamWorks**](https://forums.alliedmods.net/showthread.php?t=229556). _Optional_. Used for changing game name in server browser. 1.3.2+ or higher.
 
