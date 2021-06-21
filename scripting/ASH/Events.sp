@@ -1713,11 +1713,11 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     
     if(IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
     {
-        int tempHP = GetClientHealth(client);
-        if (Special == ASHSpecial_Agent && attacker == Hale)
-            tempHP /= 3;
-        //PrintToChatAll("%i, %i, %i, %f", damagecustom, GetClientHealth(client), tempHP, damage);
-        if ((tempHP <= damage && !TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)) || (tempHP <= damage * 0.3 && TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed))) 
+        float defDamage = damage;
+        if(attacker == Hale)
+            defDamage *= 0.3;
+        PrintToChatAll("%i, %f, %f", GetClientHealth(client), damage, defDamage);
+        if ((GetClientHealth(client) <= damage && !TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)) || (GetClientHealth(client) <= RoundToNearest(defDamage) && TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)))
         {
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
@@ -1742,7 +1742,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         if (TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed))
         {
             ScaleVector(damageForce, 9.0);
-            damage *= 0.3;
+            damage *= 0.3/0.65;
             return Plugin_Changed;
         }
         if (TF2_IsPlayerInCondition(client, TFCond_DefenseBuffMmmph))
@@ -1808,7 +1808,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         {
             CreateTimer(0.25, Timer_CheckBuffRage, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
         }
-        if (damage <= 160.0 && !(Special == ASHSpecial_CBS && inflictor != attacker) && (Special != ASHSpecial_Bunny || weapon == -1 || weapon == GetPlayerWeaponSlot(Hale, TFWeaponSlot_Melee)))
+        if (damage <= 160.0 && !(Special == ASHSpecial_Agent && attacker == Hale) && !(Special == ASHSpecial_CBS && inflictor != attacker) && (Special != ASHSpecial_Bunny || weapon == -1 || weapon == GetPlayerWeaponSlot(Hale, TFWeaponSlot_Melee)))
         {
             damage *= 3;
             return Plugin_Changed;
