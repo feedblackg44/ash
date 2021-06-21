@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8975"
+#define ASH_BUILD                     "8976"
 #define ASH_PLUGIN_VERSION            "1.30"
 #define ASH_PLUGIN_RELDATE            "21 June 2021"
 
@@ -2151,7 +2151,7 @@ void EquipSaxton(int client)
         
             // Knife
             char attribs[64];
-            FormatEx(attribs, sizeof(attribs), "252 ; 0.75 ; 68 ; 1.0 ; 2 ; 2.4 ; 214 ; %d ; 137 ; 10.0 ; 275 ; 1.0", GetRandomInt(1000000000, 2147483640));
+            FormatEx(attribs, sizeof(attribs), "252 ; 0.75 ; 68 ; 1.0 ; 2 ; 2.4 ; 214 ; %d ; 137 ; 2.1 ; 275 ; 1.0", GetRandomInt(1000000000, 2147483640));
             SaxtonWeapon = SpawnWeapon(client, "tf_weapon_knife", 727, 100, TFQual_Unusual, attribs);
             TF2Attrib_SetByDefIndex(SaxtonWeapon, 26, 275.0);
             

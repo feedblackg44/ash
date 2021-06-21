@@ -1716,7 +1716,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         float defDamage = damage;
         if(attacker == Hale)
             defDamage *= 0.3;
-        PrintToChatAll("%i, %f, %f", GetClientHealth(client), damage, defDamage);
+        //PrintToChatAll("%i, %f, %f", GetClientHealth(client), damage, defDamage);
         if ((GetClientHealth(client) <= damage && !TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)) || (GetClientHealth(client) <= RoundToNearest(defDamage) && TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)))
         {
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
