@@ -1713,8 +1713,12 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     
     if(IsValidClient(client) && (client != Hale) && !TF2_IsPlayerInCondition(client, TFCond_Bonked) && !TF2_IsPlayerInCondition(client, TFCond_Ubercharged))
     {
-        if ((GetClientHealth(client) <= damage && !TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)) || (GetClientHealth(client) <= damage * 0.3 && TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed))) 
-		{
+        int tempHP = GetClientHealth(client);
+        if (Special == ASHSpecial_Agent && attacker == Hale)
+            tempHP /= 3;
+        //PrintToChatAll("%i, %i, %i, %f", damagecustom, GetClientHealth(client), tempHP, damage);
+        if ((tempHP <= damage && !TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed)) || (tempHP <= damage * 0.3 && TF2_IsPlayerInCondition(client, TFCond_DefenseBuffed))) 
+        {
             if (RemoveDemoShield(client) || RemoveRazorback(client)) { // If the demo had a shield to break
                 EmitSoundToClient(client, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
                 if (IsValidClient(attacker)) EmitSoundToClient(attacker, "player/spy_shield_break.wav", _, _, _, _, 0.7, 100, _, vPos, _, false);
