@@ -19,9 +19,8 @@
             }
             "CTFGrenadePipebombProjectile::Detonate"
             {
-                "windows"    "229"
-                "linux"      "230"
-                "mac"        "230"
+                "windows"    "230"
+                "linux"      "231"
             }
         }
 
