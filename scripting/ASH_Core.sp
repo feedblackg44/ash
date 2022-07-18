@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8978"
+#define ASH_BUILD                     "8979"
 #define ASH_PLUGIN_VERSION            "1.30"
 #define ASH_PLUGIN_RELDATE            "21 June 2021"
 
@@ -6406,7 +6406,7 @@ stock void teamplay_round_start_TeleportToMultiMapSpawn() {
     int iSkip[TF_MAX_PLAYERS] = {0,...};
 
     int iEnt = MaxClients + 1;
-    while ((iEnt = FindEntityByClassname2(iEnt, "info_player_teamspawn")) != -1)
+    while ((iEnt = FindEntityByClassname2(iEnt, "info_player_teamspawn")) > 0)
     {
         int iTeam = GetEntityTeamNum(iEnt);
         int iClient = GetClosestPlayerTo(iEnt, iTeam);
