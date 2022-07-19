@@ -421,7 +421,6 @@ void UTIL_AddToDownload()
     /*
         Files to precache that are originally part of TF2 or HL2 / etc and don't need to be downloaded
     */
-    PrepareSound("saxton_hale/demowar.mp3");
     PrecacheSound("vo/scout_stunballhit14.mp3", true);
     PrecacheSound("weapons/mantreads.wav", true);
     

@@ -30,9 +30,9 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8979"
-#define ASH_PLUGIN_VERSION            "1.30"
-#define ASH_PLUGIN_RELDATE            "21 June 2021"
+#define ASH_BUILD                     "8980"
+#define ASH_PLUGIN_VERSION            "1.31"
+#define ASH_PLUGIN_RELDATE            "19 July 2022"
 
 // ASH Settings
 #define ASH_SECRETBOSS_MAXRAND        498
@@ -1708,7 +1708,7 @@ public Action StartHaleTimer(Handle hTimer)
 }
 
 public Action UllapoolWarNotify(Handle hTimer) {
-    PlaySoundForPlayers("saxton_hale/demowar.mp3");
+    PlaySoundForPlayers("saxton_hale/secret_completed.wav");
     
     for (int client = 1; client<=MAXPLAYERS; client++) {
         if (!IsValidClient(client)) continue;
