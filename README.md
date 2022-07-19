@@ -25,8 +25,6 @@ ASH contains 2 default modules with the main plugin. If you don't need them, jus
 
 ## Recommended Plugins:
 - [**sm_observerpoint.smx**](https://forums.alliedmods.net/showthread.php?p=724109) This will fix observer_point error on many community maps when server is empty.
-- [**Anti-Arena Latespawn**](https://forums.alliedmods.net/showthread.php?t=316597) Stops players from spawning during the round in arena mode.
-- [**Arena Spectator Anti-Stuck**](https://github.com/jobggun/Sourcemod-Anti-Unassigned-Stuck) This is useful when people gets stuck in _Spectator_ or _Unassigned_ team.
 - [**Third Person**](https://forums.alliedmods.net/showthread.php?p=1694178) Access to third person mode for everyone.
 - [**Class Restriction**](https://forums.alliedmods.net/showthread.php?p=642353) Limiting maximum amount of single class. A very important to prevent _12 snipers vs hale_ moments.
 - [**VSH Health Bar**](https://forums.alliedmods.net/showpost.php?p=2106597&postcount=4200) Works through _VSH->ASH Backwards Compatibility_ feature.
