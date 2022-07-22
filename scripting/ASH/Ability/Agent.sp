@@ -10,16 +10,19 @@ Handle hBombTimer = null;
 #define AGENT_SELECTING     2
 #define AGENT_SAPPED        3
 
-public Action AbilityAgent_ResetAction(Handle hTimer) {
-    if (g_iCurrentAbilityMode == AGENT_SELECTING) {
+public Action AbilityAgent_ResetAction(Handle hTimer)
+{
+    if (g_iCurrentAbilityMode != AGENT_SELECTING)
+    {
+        return;
+    }
+
     g_iCurrentAbilityMode = AGENT_WAIT;
     g_bWaitUnpress = true;
     g_bCanExplode = false;
     iHaleSpecialPower = 0;
     g_iCurrentPlayer = 0;
-    ASHStats[SpecialAbilities]++;
-    return;
-    }
+    ASHStats.SpecialAbilities++;
 }
 
 void AbilityAgent_Reset() {
@@ -148,7 +151,7 @@ void AbilityAgent_DoSelect() {
         g_bCanExplode = false;
         g_iCurrentPlayer = iClient;
         CreateTimer(1.0, AbilityAgent_PlaySound, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
-        ASHStats[SpecialAbilities]++;
+        ASHStats.SpecialAbilities++;
     }
 }
 

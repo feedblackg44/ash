@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8981"
+#define ASH_BUILD                     "8982"
 #define ASH_PLUGIN_VERSION            "1.31"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 
@@ -208,7 +208,7 @@ enum
 
 // START FILE DEFINTIONS & ENUMS
 
-enum e_flNext
+enum
 {
     e_flNextBossTaunt = 0,
     e_flNextAllowBossSuicide,
@@ -216,7 +216,8 @@ enum e_flNext
     e_flNextBossKillSpreeEnd,
     e_flNextHealthQuery,
     e_flNextMedicCall,
-    e_flNextStun
+    e_flNextStun,
+	e_flNext
 }
 
 enum e_flNext2
@@ -689,16 +690,26 @@ int BuffTime[MAXPLAYERS+1] = 0;
 bool ManmelterBan[MAXPLAYERS+1] = false;
 
 // STATS SCREEN UPDATE
-enum ASHStatsEnum {
-    Rages,
-    SpecialAbilities,
-    StunsNum,
-    HeadShots,
-    BackStabs,
-    UberCharges
+enum struct ASHStatsStruct {
+    int Rages;
+    int SpecialAbilities;
+    int StunsNum;
+    int HeadShots;
+    int BackStabs;
+    int UberCharges;
+
+	void Reset()
+	{
+		this.Rages = 0;
+		this.SpecialAbilities = 0;
+		this.StunsNum = 0;
+		this.HeadShots = 0;
+		this.BackStabs = 0;
+		this.UberCharges = 0;
+	}
 }
 
-int ASHStats[ASHStatsEnum];
+ASHStatsStruct ASHStats;
 int VagineerTime_GH;
 // End UPD: 01.04.2016
 
@@ -860,27 +871,27 @@ int ShieldEnt;
 bool IsNotNeedRemoveInvisible = false;
 int HaleState = 1;
 
-Damage[TF_MAX_PLAYERS];
-AirDamage[TF_MAX_PLAYERS]; // Air Strike
-BasherDamage[TF_MAX_PLAYERS];
-SpeedDamage[TF_MAX_PLAYERS];
-PersDamage[TF_MAX_PLAYERS];
-NatDamage[TF_MAX_PLAYERS];
-HuoDamage[TF_MAX_PLAYERS];
-TomDamage[TF_MAX_PLAYERS]; 
-BetDamage[TF_MAX_PLAYERS];
-AmpDefend[TF_MAX_PLAYERS];
-bushJUMP[MAXPLAYERS+1];
-bushTIME[MAXPLAYERS+1];
-headmeter[TF_MAX_PLAYERS];
-uberTarget[TF_MAX_PLAYERS];
+int Damage[TF_MAX_PLAYERS];
+int AirDamage[TF_MAX_PLAYERS]; // Air Strike
+int BasherDamage[TF_MAX_PLAYERS];
+int SpeedDamage[TF_MAX_PLAYERS];
+int PersDamage[TF_MAX_PLAYERS];
+int NatDamage[TF_MAX_PLAYERS];
+int HuoDamage[TF_MAX_PLAYERS];
+int TomDamage[TF_MAX_PLAYERS]; 
+int BetDamage[TF_MAX_PLAYERS];
+int AmpDefend[TF_MAX_PLAYERS];
+int bushJUMP[MAXPLAYERS+1];
+int bushTIME[MAXPLAYERS+1];
+int headmeter[TF_MAX_PLAYERS];
+int uberTarget[TF_MAX_PLAYERS];
 #define ASHFLAG_HELPED            (1 << 0)
 #define ASHFLAG_UBERREADY         (1 << 1)
 #define ASHFLAG_NEEDSTODUCK (1 << 2)
 #define ASHFLAG_BOTRAGE     (1 << 3)
 #define ASHFLAG_CLASSHELPED (1 << 4)
 #define ASHFLAG_HASONGIVED    (1 << 5)
-ASHFlags[TF_MAX_PLAYERS];
+int ASHFlags[TF_MAX_PLAYERS];
 int Hale = -1;
 int HaleHealthMax;
 int HaleHealth;
@@ -3230,7 +3241,7 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
                 int medigun = GetPlayerWeaponSlot(client, TFWeaponSlot_Secondary);
                 if (medigun <= 0 || !IsValidEntity(medigun)) return;
                 
-                if (GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") <= 0.9) ASHStats[UberCharges]++;
+                if (GetEntPropFloat(medigun, Prop_Send, "m_flChargeLevel") <= 0.9) ASHStats.UberCharges++;
             }
             /*case _TFCond(65):
             {
@@ -3298,7 +3309,7 @@ public void TF2_OnConditionAdded(int client, TFCond cond)
         }*/
         if (cond == _TFCond(15))
         {
-            ASHStats[StunsNum]++;
+            ASHStats.StunsNum++;
         } 
         else if (Special == ASHSpecial_Agent) 
         {
@@ -4182,7 +4193,7 @@ public Action DoTaunt(int client, char[] command, int argc)
     if (HaleRage/RageDMG >= 1)
     {
         // ASH STATS UPDATE
-        ASHStats[Rages]++;
+        ASHStats.Rages++;
         // ASH STATS UPDATE
         
         float pos[3];
@@ -5916,7 +5927,7 @@ stock bool IfDoNextTime2(int iClient, int iIndex, float flThenAdd)
 
 static int s_iLastPriority[TF_MAX_PLAYERS] = {MIN_INT,...};
 
-stock void PriorityCenterText(int iClient, int iPriority = MIN_INT, char[] szFormat, any:...)
+stock void PriorityCenterText(int iClient, int iPriority = MIN_INT, char[] szFormat, any ...)
 {
     if (!IsValidClient(iClient))
     {
@@ -5947,7 +5958,7 @@ stock void PriorityCenterText(int iClient, int iPriority = MIN_INT, char[] szFor
     PrintCenterText(iClient, "%s", szBuffer);
 }
 
-stock void PriorityCenterTextAll(int iPriority = MIN_INT, char[] szFormat, any:...)
+stock void PriorityCenterTextAll(int iPriority = MIN_INT, char[] szFormat, any ...)
 {
     char szBuffer[MAX_CENTER_TEXT];
 
@@ -5962,7 +5973,7 @@ stock void PriorityCenterTextAll(int iPriority = MIN_INT, char[] szFormat, any:.
     }
 }
 
-stock void PriorityCenterTextAllEx(int iPriority = -2147483647, char[] szFormat, any:...)
+stock void PriorityCenterTextAllEx(int iPriority = -2147483647, char[] szFormat, any ...)
 {
     if (iPriority == MIN_INT)
     {
@@ -5975,7 +5986,7 @@ stock void PriorityCenterTextAllEx(int iPriority = -2147483647, char[] szFormat,
         {
             s_iLastPriority[0] = MIN_INT;
 
-            for (new i = 1; i <= MaxClients; i++)
+            for (int i = 1; i <= MaxClients; i++)
             {
                 s_iLastPriority[i] = MIN_INT;
             }
@@ -5988,11 +5999,12 @@ stock void PriorityCenterTextAllEx(int iPriority = -2147483647, char[] szFormat,
 
     if (iPriority > s_iLastPriority[0])
     {
-        IncNextTime2(0, e_flNextEndPriority, 5.0);
+		// idk what is this and why it works
+        // IncNextTime2(0, e_flNextEndPriority, 5.0);
 
         s_iLastPriority[0] = iPriority;
 
-        for (new i = 1; i <= MaxClients; i++)
+        for (int i = 1; i <= MaxClients; i++)
         {
             s_iLastPriority[i] = MAX_INT;
         }
@@ -6000,7 +6012,7 @@ stock void PriorityCenterTextAllEx(int iPriority = -2147483647, char[] szFormat,
 
     char szBuffer[MAX_CENTER_TEXT];
 
-    for (new i = 1; i <= MaxClients; i++)
+    for (int i = 1; i <= MaxClients; i++)
     {
         if (IsClientInGame(i))
         {
@@ -6734,7 +6746,7 @@ public void DoAction()
 {
     if (!g_bEnabled || Special != ASHSpecial_HHH || SpecialHHH_Souls <= 2) return;
     
-    ASHStats[SpecialAbilities]++;
+    ASHStats.SpecialAbilities++;
     
     //TELE
     if (SpecialHHH_Souls == 3)

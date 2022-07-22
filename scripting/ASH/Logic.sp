@@ -1498,7 +1498,7 @@ public Action HaleTimer(Handle hTimer)
         }
     } else if (Special == ASHSpecial_Hale || Special == ASHSpecial_MiniHale) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
-            ASHStats[SpecialAbilities]++;
+            ASHStats.SpecialAbilities++;
             float MVMLevelUP_Pos[3] = {0.0, 0.0, 80.0};
             float MedicResistFire[3] = {0.0, 0.0, 10.0};
             AttachParticle(Hale, "mvm_levelup1", 12.0, MVMLevelUP_Pos, true);
@@ -1520,7 +1520,7 @@ public Action HaleTimer(Handle hTimer)
         }
     } else if (Special == ASHSpecial_CBS) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
-            ASHStats[SpecialAbilities]++;
+            ASHStats.SpecialAbilities++;
             float ParticlePos[3] = {0.0, 0.0, 10.0};
             AttachParticle(Hale, "mvm_soldier_shockwave2d", 10.0, ParticlePos, true);
             AttachParticle(Hale, "medic_resist_blast", 10.0, ParticlePos, true);
@@ -1535,7 +1535,7 @@ public Action HaleTimer(Handle hTimer)
         }
     } else if (Special == ASHSpecial_Bunny) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
-            ASHStats[SpecialAbilities]++;
+            ASHStats.SpecialAbilities++;
             
             // Delete all bombs from other grenadelauncher
             int iGrenade = -1;
@@ -1560,7 +1560,7 @@ public Action HaleTimer(Handle hTimer)
         }
     } else if (Special == ASHSpecial_Vagineer) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
-            ASHStats[SpecialAbilities]++;
+            ASHStats.SpecialAbilities++;
             
             float MVMLevelUP_Pos[3] = {0.0, 0.0, 80.0};
             float MedicResistFire[3] = {0.0, 0.0, 10.0};
@@ -1591,7 +1591,7 @@ public Action HaleTimer(Handle hTimer)
       AbilityAgent_RunLogic();
       /*
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
-            ASHStats[SpecialAbilities]++;
+            ASHStats.SpecialAbilities++;
 
             g_iAgentSpecialMode = 1;
 

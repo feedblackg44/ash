@@ -243,12 +243,7 @@ public Action event_round_start(Handle event, const char[] name, bool dontBroadc
     ASHRoundState = ASHRState_Waiting;
     
     // ASH STATS UPDATE
-    ASHStats[Rages] = 0;
-    ASHStats[SpecialAbilities] = 0;
-    ASHStats[StunsNum] = 0;
-    ASHStats[HeadShots] = 0;
-    ASHStats[BackStabs] = 0;
-    ASHStats[UberCharges] = 0;
+    ASHStats.Reset();
     // ASH STATS UPDATE
 
     SetConVarInt(FindConVar("tf_dropped_weapon_lifetime"), 0);
@@ -467,8 +462,7 @@ public Action event_round_end(Handle event, const char[] name, bool dontBroadcas
                     
                     // Other hale statistics
                     SetHudTextParams(0.65, 0.39, 15.0, 255, 255, 255, 255);
-                    ShowHudText(i, -1, "%t %t\n%t\n%t", "ash_stats_Boss", "ash_stats_Used", ASHStats[Rages], ASHStats[SpecialAbilities], "ash_stats_HeadShots", ASHStats[HeadShots], "ash_stats_BackStabs", ASHStats[BackStabs]);
-                    
+                    ShowHudText(i, -1, "%t %t\n%t\n%t", "ash_stats_Boss", "ash_stats_Used", ASHStats.Rages, ASHStats.SpecialAbilities, "ash_stats_HeadShots", ASHStats.HeadShots, "ash_stats_BackStabs", ASHStats.BackStabs);
                     char sKiller[64];
                     char sKilled[12];
                     if (!HaleKiller || HaleKiller == Hale)
@@ -481,7 +475,7 @@ public Action event_round_end(Handle event, const char[] name, bool dontBroadcas
                     }
                     
                     SetHudTextParams(0.65, 0.54, 15.0, 255, 255, 255, 255);
-                    ShowHudText(i, -1, "%t\n%s", "ash_stats_UberCharges", ASHStats[UberCharges], sKiller);
+                    ShowHudText(i, -1, "%t\n%s", "ash_stats_UberCharges", ASHStats.UberCharges, sKiller);
                     
                     // Client damage
                     if (GetClientTeam(i) == OtherTeam) {
@@ -1819,8 +1813,8 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
         if (attacker <= MaxClients)
         {
             // ASH STATS UPDATE
-            if (damagecustom == TF_CUSTOM_HEADSHOT) ASHStats[HeadShots]++;
-            if (damagecustom == TF_CUSTOM_BACKSTAB) ASHStats[BackStabs]++;
+            if (damagecustom == TF_CUSTOM_HEADSHOT) ASHStats.HeadShots++;
+            if (damagecustom == TF_CUSTOM_BACKSTAB) ASHStats.BackStabs++;
             // ASH STATS UPDATE
 
             if (!g_bHaleProtectPunch && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 656 && 656 == 657) {

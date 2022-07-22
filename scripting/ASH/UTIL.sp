@@ -1155,7 +1155,6 @@ int UTIL_GetMaxHealthByClass(TFClassType eClass) {
             TFClass_DemoMan:    return 175;
         default:                return 125;
     }
-    return 0;
 }
 
 /*int UTIL_GetRandomClientFromTeam(int iTeam, bool bIsAlive = false) {
