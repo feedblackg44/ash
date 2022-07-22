@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8980"
+#define ASH_BUILD                     "8981"
 #define ASH_PLUGIN_VERSION            "1.31"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 
@@ -6406,7 +6406,7 @@ stock void teamplay_round_start_TeleportToMultiMapSpawn() {
     int iSkip[TF_MAX_PLAYERS] = {0,...};
 
     int iEnt = MaxClients + 1;
-    while ((iEnt = FindEntityByClassname2(iEnt, "info_player_teamspawn")) > 0)
+    while ((iEnt = FindEntityByClassname2(iEnt, "info_player_teamspawn")) != -1)
     {
         int iTeam = GetEntityTeamNum(iEnt);
         int iClient = GetClosestPlayerTo(iEnt, iTeam);
@@ -6427,7 +6427,7 @@ stock void teamplay_round_start_TeleportToMultiMapSpawn() {
                 continue;
             }
             iSkip[iInt++] = iClient;
-            int iIndex = PushArrayCell(s_hSpawnArray, EntIndexToEntRef(iEnt));
+            int iIndex = PushArrayCell(s_hSpawnArray, iEnt);
             SetArrayCell(s_hSpawnArray, iIndex, iTeam, 1);
         }
     }
@@ -6439,12 +6439,12 @@ stock int TeleportToMultiMapSpawn(int iClient, int iTeam = 0)
     int iTeleTeam;
     int iIndex;
     if (iTeam <= 1) {
-        iSpawn = EntRefToEntIndex(GetRandBlockCellEx(s_hSpawnArray));
+        iSpawn = GetRandBlockCellEx(s_hSpawnArray);
     } else {
         do { iTeleTeam = GetRandBlockCell(s_hSpawnArray, iIndex, 1); }
         while (iTeleTeam != iTeam);
 
-        iSpawn = EntRefToEntIndex(GetArrayCell(s_hSpawnArray, iIndex, 0));
+        iSpawn = GetArrayCell(s_hSpawnArray, iIndex, 0);
     }
     TeleMeToYou(iClient, iSpawn);
     return iSpawn;
