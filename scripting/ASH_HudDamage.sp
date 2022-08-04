@@ -17,7 +17,7 @@ public void OnPluginStart() {
 
 public Action OnNeedRenderAnotherClientDamage(Handle hTimer) {
     if (ASH_GetRoundState() != ASHRState_Active)
-        return;
+        return Plugin_Continue;
 
     int iHale = GetClientOfUserId(ASH_GetSaxtonHaleUserId());
     int iTracedEntity;
@@ -35,6 +35,8 @@ public Action OnNeedRenderAnotherClientDamage(Handle hTimer) {
         SetHudTextParams(-1.0, 0.35, 0.2, 255, 255, 255, 255);
         ShowSyncHudText(i, g_hHUD, "%t", "ASH_TRACE_DMG", iTracedEntity, ASH_GetClientDamage(iTracedEntity));
     }
+
+    return Plugin_Continue;
 }
 
 /**

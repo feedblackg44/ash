@@ -909,6 +909,8 @@ void UTIL_ValidateMap_KingOfTheHill() {
 
 public Action ResetPunchProtect(Handle hTimer) {
     g_bHaleProtectPunch = false;
+
+    return Plugin_Continue;
 }
 
 void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
@@ -1018,6 +1020,8 @@ public Action OnPlayEndRoundSound(Handle hTimer, any eClass) {
             }
         }
     }
+
+    return Plugin_Continue;
 }
 
 stock int UTIL_FindConnTracker(int iClient) {

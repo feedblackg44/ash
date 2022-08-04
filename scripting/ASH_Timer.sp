@@ -113,6 +113,8 @@ public Action TimerCenter(Handle hTimer, any iLastTime) {
 
 public Action RandomSound_Timer(Handle hTimer) {
     RandomSound_End();
+
+    return Plugin_Continue;
 }
 
 public void RandomSound_End() {

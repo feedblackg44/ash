@@ -14,7 +14,7 @@ public Action AbilityAgent_ResetAction(Handle hTimer)
 {
     if (g_iCurrentAbilityMode != AGENT_SELECTING)
     {
-        return;
+        return Plugin_Continue;
     }
 
     g_iCurrentAbilityMode = AGENT_WAIT;
@@ -23,6 +23,8 @@ public Action AbilityAgent_ResetAction(Handle hTimer)
     iHaleSpecialPower = 0;
     g_iCurrentPlayer = 0;
     ASHStats.SpecialAbilities++;
+
+    return Plugin_Continue;
 }
 
 void AbilityAgent_Reset() {
@@ -38,11 +40,15 @@ public Action AbilityAgent_CanExplode(Handle hTimer)
 {
     g_bCanExplode = true;
     hBombTimer = null;
+
+    return Plugin_Continue;
 }
 
 public Action iSecondsMinus(Handle hTimer)
 {
     iSeconds--;
+
+    return Plugin_Continue;
 }
 
 void AbilityAgent_RunLogic() {
@@ -83,6 +89,8 @@ public Action ChangeAbilityMode(Handle hTimer)
 {
     g_iCurrentAbilityMode = AGENT_SELECTING;
     hBombTimer = null;
+
+    return Plugin_Continue;
 }
 
 void AbilityAgent_DoBombWait() {

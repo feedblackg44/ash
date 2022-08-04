@@ -631,7 +631,7 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
         
         SetEventString(event, "weapon_logclassname", "goomba");
         SetEventString(event, "weapon", "taunt_scout");
-        SetEventInt(event, "damagebits", damageBits |= DMG_ACID);
+        SetEventInt(event, "damagebits", damageBits | DMG_ACID);
         SetEventInt(event, "customkill", 0);
         SetEventInt(event, "playerpenetratecount", 0);
         

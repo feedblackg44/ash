@@ -107,15 +107,21 @@ public int Native_PrintToChat(Handle hPlugin, int iNumParams) {
         CPrintToChat(iClient, "{ash}[ASH] {default}%s", szMsg);
     else
         CPrintToChatAll("{ash}[ASH] {default}%s", szMsg);
+
+    return 0;
 }
 
 /* Admin natives */
 public int Native_SetNextPlayer(Handle hPlugin, int iNumParams) {
     ForceHale(GetNativeCell(1), GetNativeCell(2), GetNativeCell(3), false);
+
+    return 0;
 }
 
 public int Native_SetNextBoss(Handle hPlugin, int iNumParams) {
     Incoming = GetNativeCell(1);
+
+    return 0;
 }
 
 public int Native_SetQueuePoints(Handle hPlugin, int iNumParams) {
@@ -128,6 +134,8 @@ public int Native_SetQueuePoints(Handle hPlugin, int iNumParams) {
     } else {
         SetClientQueuePoints(iClient, iPoints);
     }
+
+    return 0;
 }
 
 public int Native_GetQueuePoints(Handle hPlugin, int iNumParams) {
@@ -136,8 +144,10 @@ public int Native_GetQueuePoints(Handle hPlugin, int iNumParams) {
 
 public int Native_SetDamage(Handle plugin, int numParams) {
     int client = GetNativeCell(1);
-    if (!IsValidClient(client)) return;
+    if (!IsValidClient(client)) return 0;
     Damage[client] = GetNativeCell(2);
+
+    return 0;
 }
 
 public int Native_GetClientDamage(Handle plugin, int numParams) {
@@ -150,9 +160,13 @@ public int Native_GetClientDamage(Handle plugin, int numParams) {
 public int Native_SetSaxtonHaleHealth(Handle hPlugin, int iNumParams) {
     HaleHealth = GetNativeCell(1);
     // TODO: rework this for correct working on max health fix.
+
+    return 0;
 }
 
 public int Native_SetSaxtonHaleHealthMax(Handle hPlugin, int iNumParams) {
     HaleHealthMax = GetNativeCell(1);
     // TODO: rework this for correct working on max health fix.
+
+    return 0;
 }

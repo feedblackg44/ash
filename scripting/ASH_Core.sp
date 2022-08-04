@@ -30,8 +30,8 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "8982"
-#define ASH_PLUGIN_VERSION            "1.31"
+#define ASH_BUILD                     "9001"
+#define ASH_PLUGIN_VERSION            "1.32"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 
 // ASH Settings
@@ -659,35 +659,35 @@ bool g_bReloadASHOnRoundEnd = false;
 #define ZOMBIE      8
 #define PUMPKIN2    9
 
-bool plManmelterBlock[MAXPLAYERS+1] = false; 	// UPD: 28.01.2016
-bool plSteelBlock[MAXPLAYERS+1] = false; 		// Heavy Nerf: 18.11.2016
-bool g_bGod[MAXPLAYERS+1] = false;
+bool plManmelterBlock[MAXPLAYERS+1] = { false, ... }; 	// UPD: 28.01.2016
+bool plSteelBlock[MAXPLAYERS+1] = { false, ... }; 		// Heavy Nerf: 18.11.2016
+bool g_bGod[MAXPLAYERS+1] = { false, ... };
 int FakeKill_Goomba;
-int plManmelterUsed[MAXPLAYERS+1] = 0;
-int IronBomberMode[MAXPLAYERS+1] = 0;
-bool PhlogMode[MAXPLAYERS+1] = false;
+int plManmelterUsed[MAXPLAYERS+1] = { 0, ... };
+int IronBomberMode[MAXPLAYERS+1] = { 0, ... };
+bool PhlogMode[MAXPLAYERS+1] = { false, ... };
 int g_iFreezePhlogPar = 0;
-bool g_isVictimFrozen[MAXPLAYERS+1] = false;
-int iShivInv[MAXPLAYERS+1] = 0;
-bool isStunnedBlock[MAXPLAYERS+1] = false;
+bool g_isVictimFrozen[MAXPLAYERS+1] = { false, ... };
+int iShivInv[MAXPLAYERS+1] = { 0, ... };
+bool isStunnedBlock[MAXPLAYERS+1] = { false, ... };
 bool isHaleStunBanned = false;
 int NeedlyUnstans = 0;
 bool isHaleNeedManyDamage = false;
 #define ManmelterSound        "player/flame_out.wav"
-float DeadRinger_ManualActivation[MAXPLAYERS+1] = 0.0;
+float DeadRinger_ManualActivation[MAXPLAYERS+1] = { 0.0, ... };
 
 // UPD: 01.04.2016
-bool InfectPlayers[MAXPLAYERS+1] = false;
-bool ImmunityClient[MAXPLAYERS+1] = false;
+bool InfectPlayers[MAXPLAYERS+1] = { false, ... };
+bool ImmunityClient[MAXPLAYERS+1] = { false, ... };
 //int spyTimeInvis[MAXPLAYERS+1] = 0;
-int SniperActivity[MAXPLAYERS+1] = 0;
-int SniperNoMimoShoots[MAXPLAYERS+1] = 0;
+int SniperActivity[MAXPLAYERS+1] = { 0, ... };
+int SniperNoMimoShoots[MAXPLAYERS+1] = { 0, ... };
 int SpecialWeapon = -1;
 int Vitasaw_ExecutionTimes = 0;
-int BuffTime[MAXPLAYERS+1] = 0;
+int BuffTime[MAXPLAYERS+1] = { 0, ... };
 
 // KOSTYL TIME
-bool ManmelterBan[MAXPLAYERS+1] = false;
+bool ManmelterBan[MAXPLAYERS+1] = { false, ... };
 
 // STATS SCREEN UPDATE
 enum struct ASHStatsStruct {
@@ -714,17 +714,17 @@ int VagineerTime_GH;
 // End UPD: 01.04.2016
 
 // UPD: 19.07.2016
-bool Soldier_EscapePlan_ModeNoHeal[MAXPLAYERS+1] = false;
+bool Soldier_EscapePlan_ModeNoHeal[MAXPLAYERS+1] = { false, ... };
 Handle Soldier_EscapePlan_ModeNoHeal_PARTICLE[MAXPLAYERS+1];
-float RCPressed[MAXPLAYERS+1] = 0.0;
-float SpecialHintsTime[MAXPLAYERS+1] = 0.0;
+float RCPressed[MAXPLAYERS+1] = { 0.0, ... };
+float SpecialHintsTime[MAXPLAYERS+1] = { 0.0, ... };
 //float SpecialHintEq[MAXPLAYERS+1] = 3.0;
 enum SpecialHintsEnum {
     SpecialHint_None = -1,
     TF2Soldier_EscapePlan_NewState = 1
 }
 
-SpecialHintsEnum SpecialHints[MAXPLAYERS+1] = SpecialHint_None;
+SpecialHintsEnum SpecialHints[MAXPLAYERS+1] = { SpecialHint_None, ... };
 
 // Meet the new boss: Agent
 char Agent_RoundStart[][] = {
@@ -1063,19 +1063,19 @@ Handle OnGetDamage;
 Handle OnGetRoundState;*/
 
 int SpecialHHH_Souls = 0; // UPD: 12.11.2015
-int SpecialHale_RPSWins[MAXPLAYERS+1] = 0; // UPD: 25.12.2015
-int SpecialSoldier_Airshot[MAXPLAYERS+1] = false; // UPD: 25.12.2015
+int SpecialHale_RPSWins[MAXPLAYERS+1] = { 0, ... }; // UPD: 25.12.2015
+int SpecialSoldier_Airshot[MAXPLAYERS+1] = { false, ... }; // UPD: 25.12.2015
 int SpecialCrits_ForHale[MAXPLAYERS+1]; // UPD: 30.12.2015
 
 // Bezzar Bargain. UPD: 25.12.2015
-int BB_Sniper_Shots[MAXPLAYERS+1] = 0;
-int BB_LastShotTime[MAXPLAYERS+1] = 0;
-int BB_Sniper_ShootTime[MAXPLAYERS+1] = 0;
+int BB_Sniper_Shots[MAXPLAYERS+1] = { 0, ... };
+int BB_LastShotTime[MAXPLAYERS+1] = { 0, ... };
+int BB_Sniper_ShootTime[MAXPLAYERS+1] = { 0, ... };
 
-int SpecialDemo_Kostyl[MAXPLAYERS+1] = 0;
+int SpecialDemo_Kostyl[MAXPLAYERS+1] = { 0, ... };
 
 // Array with player last used weapons
-int SpecialPlayers_LastActiveWeapons[MAXPLAYERS+1] = -1;
+int SpecialPlayers_LastActiveWeapons[MAXPLAYERS+1] = { -1, ...};
 
 // Reworked Agent invis
 float m_fAgent_InvisibleNext[MAXPLAYERS+1];
@@ -1216,7 +1216,7 @@ bool MapHasMusic(bool forceRecalc = false)
     return hasMusic;
 }
 
-bool CheckToChangeMapDoors()
+void CheckToChangeMapDoors()
 {
     char s[PLATFORM_MAX_PATH];
     GetCurrentMap(currentmap, sizeof(currentmap));
@@ -1324,6 +1324,8 @@ public Action SecretHaleTimer(Handle hTimer) {
         SetHudTextParams(-1.0, 0.15, 7.5, 255, 64, 64, 255);
         ShowHudText(client, -1, "%t", "ash_secretHale_summoned");
     }
+
+    return Plugin_Continue;
 }
 
 bool FixUnbalancedTeams()
@@ -1472,6 +1474,8 @@ public Action Timer_EnableCap(Handle timer)
                 doorchecktimer = CreateTimer(5.0, Timer_CheckDoors, _, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
         }
     }
+
+    return Plugin_Continue;
 }
 
 public Action Timer_CheckDoors(Handle hTimer)
@@ -1512,11 +1516,15 @@ public Action Timer_NineThousand(Handle timer)
     EmitSoundToAll("saxton_hale/9000.wav", _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, 1.0, ((Special==ASHSpecial_MiniHale)?RoundToNearest((175 / (1 + (6 * 0.5))) + 75):100), _, _, NULL_VECTOR, false, 0.0);
     EmitSoundToAllExcept(SOUNDEXCEPT_VOICE, "saxton_hale/9000.wav", _, SNDCHAN_VOICE, SNDLEVEL_TRAFFIC, SND_NOFLAGS, 1.0, ((Special==ASHSpecial_MiniHale)?RoundToNearest((175 / (1 + (6 * 0.5))) + 75):100), _, _, NULL_VECTOR, false, 0.0);
     EmitSoundToAllExcept(SOUNDEXCEPT_VOICE, "saxton_hale/9000.wav", _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, 1.0, ((Special==ASHSpecial_MiniHale)?RoundToNearest((175 / (1 + (6 * 0.5))) + 75):100), _, _, NULL_VECTOR, false, 0.0);
+
+    return Plugin_Continue;
 }
 
 public Action Timer_CalcScores(Handle timer)
 {
     CalcScores();
+
+    return Plugin_Continue;
 }
 
 void CalcScores()
@@ -1727,6 +1735,8 @@ public Action UllapoolWarNotify(Handle hTimer) {
         SetHudTextParams(-1.0, 0.15, 7.5, 255, 64, 64, 255);
         ShowHudText(client, -1, "%t", "ash_secretMode_enabled");
     }
+
+    return Plugin_Continue;
 }
 
 public Action BushmanRulesNotify(Handle hTimer) {
@@ -1738,6 +1748,8 @@ public Action BushmanRulesNotify(Handle hTimer) {
         SetHudTextParams(-1.0, 0.15, 7.5, 255, 64, 64, 255);
         ShowHudText(client, -1, "%t", "ash_secretMode2_enabled");
     }
+
+    return Plugin_Continue;
 }
 
 public Action BushwackaTimer(Handle TimerHndl)
@@ -1940,6 +1952,8 @@ public Action GottamTimer(Handle hTimer)
     for (int i = 1; i <= MaxClients; i++)
         if (IsClientInGame(i) && IsPlayerAlive(i))
             SetEntityMoveType(i, MOVETYPE_WALK);
+
+    return Plugin_Continue;
 }
 
 public Action StartRound(Handle hTimer)
@@ -1975,6 +1989,8 @@ public Action Timer_ReEquipSaxton(Handle timer)
     {
         EquipSaxton(Hale);
     }
+
+    return Plugin_Continue;
 }
 
 public Action Timer_SkipHalePanel(Handle hTimer)
@@ -2000,6 +2016,8 @@ public Action Timer_SkipHalePanel(Handle hTimer)
         j++;
     }
     while (i < 3 && j < TF_MAX_PLAYERS);
+
+    return Plugin_Continue;
 }
 
 void SkipHalePanelNotify(int client) {
@@ -2034,8 +2052,9 @@ void SkipHalePanelNotify(int client) {
 
 public int SkipHalePanelH(Handle menu, MenuAction action, int param1, int param2)
 {
-    return;
+    return 0;
 }
+
 public Action EnableSG(Handle hTimer, any iid)
 {
     int i = EntRefToEntIndex(iid);
@@ -2193,6 +2212,8 @@ void EquipSaxton(int client)
 public Action SpawnObossador(Handle hTimer, any client) {
     SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", SpawnWeapon(client, "tf_weapon_revolver", 61, 100, TFQual_Strange, "51 ; 1 ; 1 ; 0.85 ; 5 ; 1.2 ; 15 ; 0 ; 275 ; 1"));
     CreateTimer(0.1, ReturnKnife, client);
+
+    return Plugin_Continue;
 }
 
 public Action MakeHale(Handle hTimer)
@@ -2652,6 +2673,8 @@ public Action Timer_NoHonorBound(Handle timer, any userid)
                 SetEntProp(client, Prop_Send, "m_iKillCountSinceLastDeploy", 1);
         }
     }
+
+    return Plugin_Continue;
 }
 
 public Action Timer_UberCharge_MEDIC(Handle TimerHndl_LOCAL, any userid)
@@ -3054,6 +3077,8 @@ public Action Timer_SetDisconQueuePoints(Handle timer, Handle pack)
     char authid[32];
     ReadPackString(pack, authid, sizeof(authid));
     SetAuthIdQueuePoints(authid, 0);
+
+    return Plugin_Continue;
 }
 
 public Action Timer_RegenPlayer(Handle timer, any userid)
@@ -3063,20 +3088,28 @@ public Action Timer_RegenPlayer(Handle timer, any userid)
     {
         TF2_RegeneratePlayer(client);
     }
+
+    return Plugin_Continue;
 }
 
 public Action ManmelterUnban(Handle hTimer, any Pyro) {
     plManmelterBlock[Pyro] = false;
+
+    return Plugin_Continue;
 }
 
 public Action DisableInfection(Handle hTimer, any InfectedClient) {
     InfectPlayers[InfectedClient] = false;
     ImmunityClient[InfectedClient] = true;
     CreateTimer(60.0, DisableImmunity, InfectedClient);
+
+    return Plugin_Continue;
 }
 
 public Action DisableImmunity(Handle hTimer, any immunned) {
     ImmunityClient[immunned] = false;
+
+    return Plugin_Continue;
 }
 
 public Action InfectiionDamage(Handle hTimer, any InfectedClient) {
@@ -3136,6 +3169,8 @@ public Action BeggarBazaarTimer(Handle hTimer) {
 public Action RemoveWeapon(Handle hTimer, any weap) {
     AcceptEntityInput(weap, "Kill");
     SetEntPropEnt(Hale, Prop_Send, "m_hActiveWeapon", GetPlayerWeaponSlot(Hale, TFWeaponSlot_Melee));
+
+    return Plugin_Continue;
 }
 
 public Action RemoveWeapon_WhileLCNotPressed(Handle hTimer, any weap) {
@@ -3151,6 +3186,8 @@ public Action RemoveWeapon_WhileLCNotPressed(Handle hTimer, any weap) {
         AcceptEntityInput(weap, "Kill");
         SetEntPropEnt(Hale, Prop_Send, "m_hActiveWeapon", GetPlayerWeaponSlot(Hale, TFWeaponSlot_Melee));
     } else CreateTimer(0.05, RemoveWeapon_WhileLCNotPressed, weap);
+
+    return Plugin_Continue;
 }
 
 public Action HHHTeleTimer(Handle timer)
@@ -3159,11 +3196,13 @@ public Action HHHTeleTimer(Handle timer)
     {
         SetEntProp(Hale, Prop_Send, "m_CollisionGroup", 5); //Fix HHH's clipping.
     }
+
+    return Plugin_Continue;
 }
 
 public Action Timer_StunHHH(Handle timer, Handle  pack)
 {
-    if (!IsValidClient(Hale)) return; // IsValidClient(Hale, false)
+    if (!IsValidClient(Hale)) return Plugin_Continue; // IsValidClient(Hale, false)
     ResetPack(pack);
     int superduper = ReadPackCell(pack);
     int targetid = ReadPackCell(pack);
@@ -3171,12 +3210,16 @@ public Action Timer_StunHHH(Handle timer, Handle  pack)
     if (!IsValidClient(target)) target = 0; // IsValidClient(target, false)
     ASHFlags[Hale] &= ~ASHFLAG_NEEDSTODUCK;
     TF2_StunPlayer(Hale, (superduper ? 4.0 : 2.0), 0.0, TF_STUNFLAGS_GHOSTSCARE|TF_STUNFLAG_NOSOUNDOREFFECT, target);
+
+    return Plugin_Continue;
 }
 
 public Action Timer_BotRage(Handle timer)
 {
-    if (!IsValidClient(Hale)) return;
+    if (!IsValidClient(Hale)) return Plugin_Continue;
     if (!TF2_IsPlayerInCondition(Hale, TFCond_Taunting)) FakeClientCommandEx(Hale, "taunt");
+
+    return Plugin_Continue;
 }
 
 bool OnlyScoutsLeft()
@@ -3193,6 +3236,8 @@ public Action Timer_GravityCat(Handle timer, any userid)
 {
     int client = GetClientOfUserId(userid);
     if (client && IsClientInGame(client)) SetEntityGravity(client, 1.0);
+
+    return Plugin_Continue;
 }
 /*public Action Destroy(int client, char[] command, int argc)
 {
@@ -3621,6 +3666,8 @@ public Action ScoutRandomSound2(Handle hTimer, any client) {
     }
     
     PlaySoundForPlayers(s);
+
+    return Plugin_Continue;
 }
 
 public Action UseScoutRage2(Handle hTimer, int client)
@@ -3787,6 +3834,8 @@ public Action Timer_CheckStuck(Handle hTimer, any iUserId)
 {
     int client = GetClientOfUserId(iUserId);
     if(client >= 1 && client <= MaxClients && IsClientInGame(client) && IsPlayerAlive(client) && IsEntityStuck(client)) TeleportToMultiMapSpawn(client, (!IsNextTime(e_flNextAllowOtherSpawnTele)) ? OtherTeam : 0);
+
+    return Plugin_Continue;
 }
 
 public Action DoTauntHeavyOne(int client, char[] command, int argc)
@@ -4444,6 +4493,8 @@ public Action UseRage(Handle hTimer, any dist)
 
 public Action SteelUnban(Handle hTimer, any Heavy) {
     plSteelBlock[Heavy] = false;
+
+    return Plugin_Continue;
 }
 
 public Action UseUberRage(Handle hTimer, any param)
@@ -4625,53 +4676,75 @@ public Action ResurrectPyro(Handle hTimer, any PyroEntity) {
     TF2_RespawnPlayer(PyroEntity);
     plManmelterUsed[PyroEntity] = 1;
     BuddhaSwitch(PyroEntity, false);
+
+    return Plugin_Continue;
 }
 
 public Action ParticlePyro_ray(Handle hTimer, any PyroEntity) {
     float pPos[3] = {0.0, 0.0, 10.0};
     AttachParticle(PyroEntity, "god_rays", 3.0, pPos, true);
+
+    return Plugin_Continue;
 }
 
 public Action ParticlePyro_smoke(Handle hTimer, any PyroEntity) {
     float pPos[3] = {0.0, 0.0, 10.0};
     AttachParticle(PyroEntity, "god_rays_fog", 1.0, pPos, true);
+
+    return Plugin_Continue;
 }
 
 public Action ParticlePyro_tele(Handle hTimer, any PyroEntity) {
     float pPos[3] = {0.0, 0.0, 10.0};
     AttachParticle(PyroEntity, "spell_batball_impact2_blue", 1.0, pPos, true);
+
+    return Plugin_Continue;
 }
 
 public Action ParticlePyro_tele2(Handle hTimer, any PyroEntity) {
     float pPos[3] = {0.0, 0.0, 10.0};
     AttachParticle(PyroEntity, "teleported_blue", 1.0, pPos, true);
+
+    return Plugin_Continue;
 }
 
 public Action FreezePyro(Handle hTimer, any PyroEntity) {
     SetEntityMoveType(PyroEntity, MOVETYPE_NONE);
+
+    return Plugin_Continue;
 }
 
 public Action StunPyro(Handle hTimer, any PyroEntity) {
     TF2_StunPlayer(PyroEntity, 2.9, 0.0, TF_STUNFLAGS_BIGBONK, PyroEntity); // Stun
+
+    return Plugin_Continue;
 }
 
 public Action IsStunnedBlockDisable(Handle hTimer, any Soldier) {
     isStunnedBlock[Soldier] = false;
+
+    return Plugin_Continue;
 }
 
 public Action EnableHuntsTaunt(Handle hTimer, any Weapon) {
     isHaleStunBanned = false;
+
+    return Plugin_Continue;
 }
 
 public Action DisableHuntsTaunt(Handle hTimer, any Weapon) {
     isHaleStunBanned = true;
+
+    return Plugin_Continue;
 }
 
 public Action DisableDamageInflictor(Handle hTimer) {
     isHaleNeedManyDamage = false;
     isHaleStunBanned = false;
-    
+
     TF2Attrib_RemoveByDefIndex(Hale, 252);
+
+    return Plugin_Continue;
 }
 
 public Action StunPlayer_Timer(Handle hTimer, any iClient) {
@@ -4753,8 +4826,10 @@ void SpawnSmallHealthPackAt(int client, int ownerteam = 0)
 public Action Timer_StopTickle(Handle timer, any userid)
 {
     int client = GetClientOfUserId(userid);
-    if (!client || !IsClientInGame(client) || !IsPlayerAlive(client)) return;
+    if (!client || !IsClientInGame(client) || !IsPlayerAlive(client)) return Plugin_Continue;
     if (!GetEntProp(client, Prop_Send, "m_bIsReadyToHighFive") && !IsValidEntity(GetEntPropEnt(client, Prop_Send, "m_hHighFivePartner"))) TF2_RemoveCondition(client, TFCond_Taunting);
+
+    return Plugin_Continue;
 }
 
 public Action Timer_DeathMark(Handle timer, any userid)
@@ -4774,6 +4849,8 @@ public Action Timer_CheckBuffRage(Handle timer, any userid)
     {
         SetEntPropFloat(client, Prop_Send, "m_flRageMeter", 100.0);
     }
+
+    return Plugin_Continue;
 }
 
 public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool &result)
@@ -4991,9 +5068,9 @@ void ForceTeamWin(int team)
 
 public int HintPanelH(Handle menu, MenuAction action, int param1, int param2)
 {
-    if (!IsValidClient(param1)) return;
+    if (!IsValidClient(param1)) return 0;
     if (action == MenuAction_Select || (action == MenuAction_Cancel && param2 == MenuCancel_Exit)) ASHFlags[param1] |= ASHFLAG_CLASSHELPED;
-    return;
+    return 0;
 }
 
 public Action HintPanel(int client)
@@ -5031,7 +5108,7 @@ public int QueuePanelH(Handle menu, MenuAction action, int param1, int param2)
 {
     if (action == MenuAction_Select && param2 == 10)
         TurnToZeroPanel(param1);
-    return false;
+    return 0;
 }
 
 public Action QueuePanelCmd(int client, int Args)
@@ -5111,7 +5188,7 @@ public int TurnToZeroPanelH(Handle menu, MenuAction action, int param1, int para
         if (UTIL_GetClientCount() < GetConVarInt(cvarHaleMinPlayersResetQ))
         {
             CPrintToChat(param1, "{ash}[ASH] {default}%t", "you_cant_perform_this_action_because_players_count_is_too_low");
-            return;
+            return 0;
         }
 
         SetClientQueuePoints(param1, 0);
@@ -5119,6 +5196,8 @@ public int TurnToZeroPanelH(Handle menu, MenuAction action, int param1, int para
         int cl = FindNextHaleEx();
         if (IsValidClient(cl)) SkipHalePanelNotify(cl);
     }
+
+    return 0;
 }
 
 public Action ResetQueuePointsCmd(int client, int args)
@@ -5215,9 +5294,10 @@ public int HalePanelH(Handle menu, MenuAction action, int param1, int param2)
                 VoiceTogglePanel(param1);
             case 8:
                 ClasshelpinfoSetting(param1);
-            default: return;
         }
     }
+
+    return 0;
 }
 
 public Action HalePanel(int client, int args)
@@ -5287,10 +5367,7 @@ public Action NewPanel(int client)
 
 public int HelpPanelH(Handle menu, MenuAction action, int param1, int param2)
 {
-    if (action == MenuAction_Select)
-    {
-        return;
-    }
+    return 0;
 }
 
 public Action HelpPanelCmd(int client, int args)
@@ -5501,6 +5578,8 @@ public int ClasshelpinfoTogglePanelH(Handle menu, MenuAction action, int param1,
             CPrintToChat(param1, "{ash}[ASH]{default} %t", "vsh_classinfo", param2 == 2 ? "off" : "on");
         }
     }
+
+    return 0;
 }
 
 public Action MusicTogglePanelCmd(int client, int args)
@@ -5537,6 +5616,8 @@ public int MusicTogglePanelH(Handle menu, MenuAction action, int param1, int par
             CPrintToChat(param1, "{ash}[ASH] {default}%t", "vsh_music", param2 == 2 ? "off" : "on");
         }
     }
+
+    return 0;
 }
 
 public Action VoiceTogglePanelCmd(int client, int args)
@@ -5573,6 +5654,8 @@ public int VoiceTogglePanelH(Handle menu, MenuAction action, int param1, int par
             CPrintToChat(param1, "{ash}[ASH] {default}%t", "vsh_voice", param2 == 2 ? "off" : "on");
         }
     }
+
+    return 0;
 }
 
 public void Timer_SetEggBomb(any ref)
@@ -5870,7 +5953,7 @@ stock void SetNextTime(int iIndex, float flSeconds, bool bAbsolute = false)
     g_flNext[iIndex] = bAbsolute ? flSeconds : GetEngineTime() + flSeconds;
 }
 
-stock int GetNextTime(int iIndex)
+stock float GetNextTime(int iIndex)
 {
     return g_flNext[iIndex];
 }
@@ -6214,7 +6297,7 @@ stock int TF2_GetMetal(int client)
     return GetEntProp(client, Prop_Send, "m_iAmmo", _, 3);
 }
 
-stock int TF2_SetMetal(int client, int metal)
+stock void TF2_SetMetal(int client, int metal)
 {
     if (!IsValidClient(client) || !IsPlayerAlive(client)) return;
     SetEntProp(client, Prop_Send, "m_iAmmo", metal, _, 3);
@@ -6907,7 +6990,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                 
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -6938,7 +7021,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                 
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -6986,7 +7069,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                     HelpPanel2(client);
                                 
                                     CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                    return;
+                                    return 0;
                                 }
                             }
                         }
@@ -7012,7 +7095,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                 
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7037,7 +7120,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                 
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7062,7 +7145,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                 
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7093,7 +7176,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                 
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7117,7 +7200,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7169,7 +7252,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                     
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7208,7 +7291,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                     
                                     CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
                                     
-                                    return;
+                                    return 0;
                                 }
                             }
                         }
@@ -7235,7 +7318,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                     
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7272,7 +7355,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                     HelpPanel2(client);
                                 
                                     CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                    return;
+                                    return 0;
                                 }
                             }
                         }
@@ -7295,7 +7378,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                     
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7315,7 +7398,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                     
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7355,7 +7438,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                     HelpPanel2(client);
                                         
                                     CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                    return;
+                                    return 0;
                                 }
                             }
                         }
@@ -7376,7 +7459,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                     
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7480,7 +7563,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7525,7 +7608,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                                 HelpPanel2(client);
                                 
                                 CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                                return;
+                                return 0;
                             }
                         }
                     }
@@ -7585,7 +7668,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                 if (TF2_GetPlayerClass(client) != TFClass_Spy)
                 {
                     HelpPanel2(client);
-                    return;
+                    return 0;
                 }
                 switch (GetIndexOfWeaponSlot(client, 4))
                 {
@@ -7600,7 +7683,7 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
                         HelpPanel2(client);
                                 
                         CPrintToChat(client, "{ash}[ASH] {default}%t", "ash_help_no_specials");
-                        return;
+                        return 0;
                     }
                 }
             }
@@ -7615,6 +7698,8 @@ public int HelpHandler_HelpMenu_ASH(Menu menu, MenuAction action, int client, in
             MenuHndl.Display(client, MENU_TIME_FOREVER);
         }
     }
+
+    return 0;
 }
 
 bool FindWearableOnPlayer(int client, int wearIndex, bool IsShield = false, int entIndex = -1)
@@ -7647,6 +7732,8 @@ bool FindWearableOnPlayer(int client, int wearIndex, bool IsShield = false, int 
 public int MenuUpds_Handler(Menu menu, MenuAction action, int client, int item)
 {
     if (action == MenuAction_Select && item == 0) ShowMOTDPanel(client, "ASH - Change List", "http://g-44.ru/ash/changelist.html", MOTDPANEL_TYPE_URL);
+
+    return 0;
 }
 
 stock void IronBomber_ChangeMode(int weapon, int mode) {
@@ -8156,6 +8243,8 @@ public void PlaySound(char[] Sound, int ply) {
 
 public Action TF2_OnHaleCondRemove(Handle hTimer, TFCond cond) {
     if (TF2_IsPlayerInCondition(Hale, cond)) TF2_RemoveCondition(Hale, cond);
+
+    return Plugin_Continue;
 }
 
 // Agent rage
@@ -8209,6 +8298,8 @@ public Action Hologram_AmmoRegen(Handle hTimer, any iPly) {
 
 public Action RemoveGod(Handle hTimer, int iPly) {
     g_bGod[iPly] = false;
+
+    return Plugin_Continue;
 }
 
 public Action MakeHologram(Handle hTimer, any iPly) {
@@ -8429,6 +8520,8 @@ public Action EnablePootis(Handle hTimer, int iEnt) {
         GetEdictClassname(i, s, 64);
         if (StrEqual(s, "obj_dispenser")) SetEntProp(i, Prop_Send, "m_bDisabled", 0);
     }
+
+    return Plugin_Continue;
 }
 
 public Action SpecialAbility_Agent_Sound(Handle hTimer) {
@@ -8445,9 +8538,18 @@ public Action SpecialAbility_Agent_Sound(Handle hTimer) {
 
 public Action DisableCollision(Handle hTimer, int client) {
     if (IsValidClient(client)) SetEntProp(client, Prop_Send, "m_CollisionGroup", 5);
+
+    return Plugin_Continue;
 }
 
-public Action RemoveBurn(Handle hTimer, int ply) { if (TF2_IsPlayerInCondition(ply, TFCond_OnFire)) { TF2_RemoveCondition(ply, TFCond_OnFire); } }
+public Action RemoveBurn(Handle hTimer, int ply) {
+    if (TF2_IsPlayerInCondition(ply, TFCond_OnFire))
+    {
+        TF2_RemoveCondition(ply, TFCond_OnFire);
+    }
+
+    return Plugin_Continue;
+}
 
 public void TF2_OnPyroSecondChance(int client) {
     ManmelterBan[client] = true;
@@ -8476,9 +8578,15 @@ public void TF2_OnPyroSecondChance(int client) {
 
 public Action PlaySoundToAll(Handle hTimer) {
     PlaySoundForPlayers(VagineerSAStart);
+
+    return Plugin_Continue;
 }
 
-public Action RemoveAttackAttrib(Handle hTimer, any weapon) { TF2Attrib_RemoveByDefIndex(weapon, 1); }
+public Action RemoveAttackAttrib(Handle hTimer, any weapon) {
+    TF2Attrib_RemoveByDefIndex(weapon, 1);
+
+    return Plugin_Continue;
+}
 
 /*
  * Refactored Medic Shield with Amputator
@@ -8545,6 +8653,8 @@ public Action SpawnAgentSapper(Handle hTimer, int ply) {
             SetEntPropEnt(ply, Prop_Send, "m_hActiveWeapon", sapper);
         }
     }
+
+    return Plugin_Continue;
 }
 
 public Action ReturnKnife(Handle hTimer, int ply) {
@@ -8552,6 +8662,8 @@ public Action ReturnKnife(Handle hTimer, int ply) {
         int melee = GetPlayerWeaponSlot(ply, TFWeaponSlot_Melee);
         if (melee != -1) SetEntPropEnt(ply, Prop_Send, "m_hActiveWeapon", melee);
     }
+
+    return Plugin_Continue;
 }
 
 // Visual helpers
@@ -8603,6 +8715,8 @@ public void DeleteParticle(int iParticle) {
 
 public Action DeleteParticle_Tim(Handle hTimer, any iParticle) {
     AcceptEntityInput(iParticle, "Kill");
+
+    return Plugin_Continue;
 }
 
 public Action Particle_cycle(Handle hTimer, any dptrie) {
@@ -8623,6 +8737,8 @@ public Action Particle_cycle(Handle hTimer, any dptrie) {
 
 public Action StunDisable(Handle hTimer) {
     Stun = 0;
+
+    return Plugin_Continue;
 }
 
 public int GetActiveWeaponIndex(int client) {
@@ -8708,6 +8824,8 @@ public Action OnTimerRemoveCondition(Handle hTimer, Handle hDP) {
     delete hDP;
     
     TF2Attrib_SetByDefIndex(item, attribID, attribValue);
+
+    return Plugin_Continue;
 }
 
 public Action OnTimerRemoveCloakFeature(Handle hTimer, Handle hDP) {
@@ -8731,6 +8849,8 @@ public Action cheatEnable(Handle hTimer, any cheatType) {
         case 2: ullapoolWarEnabled = false;
 		case 3: BushmanRulesEnabled = false;
     }
+
+    return Plugin_Continue;
 }
 
 public Action HeavyShokolad_OnUberNeed(Handle hTimer, any client) {
@@ -8738,6 +8858,8 @@ public Action HeavyShokolad_OnUberNeed(Handle hTimer, any client) {
         TF2_AddCondition(client, TFCond_Ubercharged, 7.0);
         TF2_AddCondition(client, TFCond_Kritzkrieged, 7.0);
     }
+
+    return Plugin_Continue;
 }
 
 public Action OnBelatedDeleteAttribute(Handle hTimer, DataPack hPack) {
@@ -8748,6 +8870,8 @@ public Action OnBelatedDeleteAttribute(Handle hTimer, DataPack hPack) {
     if (iEntity > 0) {
         TF2Attrib_RemoveByDefIndex(iEntity, iAttribute);
     }
+
+    return Plugin_Continue;
 }
 
 public Action OnBelatedChangeAttribute(Handle hTimer, DataPack hPack) {
@@ -8759,12 +8883,16 @@ public Action OnBelatedChangeAttribute(Handle hTimer, DataPack hPack) {
     if (iEntity > 0) {
         TF2Attrib_SetByDefIndex(iEntity, iAttribute, flValue);
     }
+
+    return Plugin_Continue;
 }
 
 public Action CanBeTarget(Handle hTimer, any client)
 {
     g_iFidovskiyFix[client] = 0;
     g_iTimerList[client] = null;
+
+    return Plugin_Continue;
 }
 
 stock int TF2_GetPlayerMaxHealth(int client) {
@@ -8805,6 +8933,8 @@ public Action From255to30(Handle hTimer, any client)
         int clientid = GetClientUserId(client);
         g_iTimerList_Repeat[client][1] = CreateTimer(1.0/22.5, SetPlayerRenderAlpha_ActionTo30_1, clientid, TIMER_REPEAT);
     }
+
+    return Plugin_Continue;
 }
 
 public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
@@ -8814,7 +8944,6 @@ public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
     if(g_bAlphaSpysAllow[client][0] && client > 0 && g_iAlphaSpys[client] > 30) 
     {
         g_iAlphaSpys[client]--;
-        return Plugin_Continue;
     }
     else
     {
@@ -8823,8 +8952,9 @@ public Action SetPlayerRenderAlpha_ActionTo30_0(Handle hTimer, any clientid)
             KillTimer(g_iTimerList_Repeat[client][0]);
             g_iTimerList_Repeat[client][0] = null;
         }
-        return Plugin_Continue;
     }
+
+    return Plugin_Continue;
 }
 
 public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
@@ -8834,7 +8964,6 @@ public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
     if(g_bAlphaSpysAllow[client][1] && g_iAlphaSpys[client] > 30 && client > 0)
     {
         g_iAlphaSpys[client]--;
-        return Plugin_Continue;
     }
     else
     {
@@ -8843,8 +8972,9 @@ public Action SetPlayerRenderAlpha_ActionTo30_1(Handle hTimer, any clientid)
             KillTimer(g_iTimerList_Repeat[client][1]);
             g_iTimerList_Repeat[client][1] = null;
         }
-        return Plugin_Continue;
     }
+
+    return Plugin_Continue;
 }
 
 public Action PhlogFreeze_reboot(Handle hTimer, any client)
@@ -8852,6 +8982,8 @@ public Action PhlogFreeze_reboot(Handle hTimer, any client)
     g_iFreezePhlogPar = 0;
     g_isVictimFrozen[client] = false;
     SetEntityRenderColor(client, 255, 255, 255);
+
+    return Plugin_Continue;
 }
 
 public Action CatchSticky(Handle hTimer, any entity)
@@ -8877,6 +9009,8 @@ public Action CatchSticky(Handle hTimer, any entity)
             g_fStickyExplodeTime[entity] = BeginExplodeTime;
         }
     }
+
+    return Plugin_Continue;
 }
 
 /*public Action AddPrimary(Handle hTimer)

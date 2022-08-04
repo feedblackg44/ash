@@ -1079,11 +1079,11 @@ public Action ClientTimer(Handle hTimer)
                     char PhlogString[256];
                     int wpn_entity = GetPlayerWeaponSlot(client, TFWeaponSlot_Primary);
                     switch (PhlogMode[client]) {
-                        case 0: {
+                        case false: {
                             strcopy(PhlogString, 256, "ash_pyro_phlog_modeselector_ignition");
                             SetEntityRenderColor(wpn_entity, 255, 255, 255);
                         }
-                        case 1: {
+                        case true: {
                             strcopy(PhlogString, 256, "ash_pyro_phlog_modeselector_freeze");
                             SetEntityRenderColor(wpn_entity, 0, 128, 255);
                         }
