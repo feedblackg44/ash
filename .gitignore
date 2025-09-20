@@ -4,6 +4,9 @@ include/*
 *.bat
 AIM.sp
 *.exe
+*.smx
+.vscode/
+.idea/
 
 # Разрешаем инклуду режима
 !scripting/include/tf2items.inc
