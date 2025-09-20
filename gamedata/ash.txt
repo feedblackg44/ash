@@ -14,14 +14,14 @@
         {
             "CTFPlayer::GetMaxHealth"
             {
-                "windows"   "122"
-                "linux"     "123"
+                "windows"   "123"
+                "linux"     "124"
             }
 
             "CTFGrenadePipebombProjectile::Detonate"
             {
-                "windows"    "236"
-                "linux"      "237"
+                "windows"    "237"
+                "linux"      "238"
             }
         }
 
