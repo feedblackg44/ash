@@ -3061,6 +3061,8 @@ void SetControlPoint(bool enable)
 
 stock void ForceHale(int admin, int client, bool hidden, bool forever = false)
 {
+    LogAction(admin, client, "Forced playing as a boss (hidden %d)", client, hidden);
+
     if (forever)
         Hale = client;
     else
