@@ -1,3 +1,47 @@
+// TODO: move from this place.
+int g_iHudColor[4] = { 0, ... };
+int g_iHudEffect = 0;
+float g_flFxTime = 6.0;
+float g_flFadeIn = 0.1;
+float g_flFadeOut = 0.2;
+float g_flHoldTime = 0.3;
+
+void _Internal_DrawHUD(int iClient, ASHPosition ePosition, const char[] szFormat, any ...)
+{
+    if (ePosition != ASHPosition_Bottom)
+    {
+        LogError("_Internal_DrawHUD(): unsupported position");
+        return;
+    }
+
+    if ((GetClientButtons(iClient) & IN_SCORE))
+    {
+        return;
+    }
+
+    char szMessage[256];
+    VFormat(szMessage, sizeof(szMessage), szFormat, 4);
+
+    Handle hSynchronizer = UTIL_DetermineEmptySynchronizedHUD(iClient);
+    g_iHudOffset[iClient]++;
+
+    float flVerticalPosition = 0.83 - (0.05 * g_iHudOffset[iClient]);
+    SetHudTextParams(-1.0, flVerticalPosition, g_flHoldTime, g_iHudColor[0],
+        g_iHudColor[1], g_iHudColor[2], g_iHudColor[3], g_iHudEffect,
+        g_flFxTime, g_flFadeIn, g_flFadeOut);
+    ShowSyncHudText(iClient, hSynchronizer, "%s", szMessage);
+}
+
+void _Internal_SetHUDParams(int iColor[4], int iEffect, float flFxTime, float flFadeIn, float flFadeOut, float flHoldTime)
+{
+    g_iHudColor = iColor;
+    g_iHudEffect = iEffect;
+    g_flFxTime = flFxTime;
+    g_flFadeIn = flFadeIn;
+    g_flFadeOut = flFadeOut;
+    g_flHoldTime = flHoldTime;
+}
+
 public Action ClientTimer(Handle hTimer)
 {
     if (ASHRoundState != ASHRState_Active) return Plugin_Stop;
@@ -54,7 +98,15 @@ public Action ClientTimer(Handle hTimer)
         {
             SetGlobalTransTarget(client);
             TFClassType iPlayerClass = ((IsPlayerAlive(client)) ? TF2_GetPlayerClass(client) : TFClass_Unknown);
-           
+
+            g_iHudOffset[client] = 0;
+            Call_StartForward(g_hForwards[ASHEvent_OnPlayerThink]);
+            Call_PushCell(client);
+            Call_Finish();
+
+            // TODO: refactor this. Leaved for compatibility without requirement "rewrite everything".
+            bool bHudAdjust = g_iHudOffset[client] > 0;
+            bool bHudAdjust2 = g_iHudOffset[client] > 1;
             
             // ULLAPOOL WAR, BITCHES!
             if (ullapoolWarRound && IsPlayerAlive(client)) {
@@ -412,9 +464,6 @@ public Action ClientTimer(Handle hTimer)
                     if (GetEntProp(GetPlayerWeaponSlot(client, TFWeaponSlot_Melee), Prop_Send, "m_iDetonated") == 1) ForcePlayerSuicide(client);
                 }
             }
-            
-            bool bHudAdjust = false;
-            bool bHudAdjust2 = false;
 
             // Engineer Eureka Effect
             if (iPlayerClass == TFClass_Engineer && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589 && g_flEurekaCooldown[client] > GetGameTime()) {
@@ -423,6 +472,7 @@ public Action ClientTimer(Handle hTimer)
                     SetHudTextParams(-1.0, 0.83, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
                     bHudAdjust = true;
                     ShowSyncHudText(client, jumpHUD, "%t", "ash_engineer_eurekacooldown", iTime);
+                    g_iHudOffset[client]++;
                 }
             }
             
@@ -488,7 +538,7 @@ public Action ClientTimer(Handle hTimer)
                     
                     if (!(GetClientButtons(client) & IN_SCORE))
                     {
-                        ShowSyncHudText(client, jumpHUD, "%s", s);
+                        ShowSyncHudText(client, UTIL_DetermineEmptySynchronizedHUD(client), "%s", s);
                     }
 
                     bHudAdjust = true;
@@ -739,7 +789,7 @@ public Action ClientTimer(Handle hTimer)
 
                     if (!(GetClientButtons(client) & IN_SCORE))
                     {
-                        ShowSyncHudText(client, jumpHUD, "%T: %i", "vsh_uber-charge", client, charge);
+                        ShowSyncHudText(client, UTIL_DetermineEmptySynchronizedHUD(client), "%T: %i", "vsh_uber-charge", client, charge);
                     }
 
                     if (charge == 100 && !(ASHFlags[client] & ASHFLAG_UBERREADY))
@@ -910,39 +960,6 @@ public Action ClientTimer(Handle hTimer)
                     if (TF2_IsPlayerInCondition(client, TFCond_TeleportedGlow))
                         BasherDamage[client] = 0;
                     bHudAdjust = true;
-                }
-                SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
-                if (GlowTimer <= 0.0)
-                {
-                    SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
-                    GlowTimer = 0.0;
-                }
-                else
-                    GlowTimer -= 0.2;
-            }
-            if (class == TFClass_Spy)
-            {
-                int autoaim = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
-                if (headmeter[client] >= 4)
-                {
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1); 
-                        ShowSyncHudText(client, infoHUD, "%t", "ash_spy_autoaim_ready");
-                        bHudAdjust = true;
-                    }
-                }
-                else if (autoaim == 61 || autoaim == 1006)
-                {
-                    if (headmeter[client] >= 0)
-                    {
-                        if (!(GetClientButtons(client) & IN_SCORE))
-                        {
-                            SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
-                            ShowSyncHudText(client, infoHUD, "%t", "ash_spy_autoaim_meter", headmeter[client]);
-                            bHudAdjust = true;
-                        }
-                    }
                 }
                 SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
                 if (GlowTimer <= 0.0)

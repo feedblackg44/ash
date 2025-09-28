@@ -16,6 +16,10 @@ void API_MakeForwards() {
     OnHaleWeighdown = CreateGlobalForward("ASH_OnDoWeighdown", ET_Hook);
     OnMusic         = CreateGlobalForward("ASH_OnMusic", ET_Hook, Param_String, Param_FloatByRef);
     OnHaleNext      = CreateGlobalForward("ASH_OnHaleNext", ET_Hook, Param_Cell);
+
+    // int iClient
+    g_hForwards[ASHEvent_OnPlayerThink] = CreateForward(ET_Ignore, Param_Cell);
+    g_hForwards[ASHEvent_OnPlayerTaunt] = CreateForward(ET_Hook, Param_Cell);
 }
 
 void API_MakeGeneralNatives(const char[] szPrefix)
@@ -49,6 +53,10 @@ void API_MakeNatives() {
 
     /* Generic */
     CreateNative("ASH_PrintToChat",             Native_PrintToChat);
+    CreateNative("ASH_TeleportToMultiMapSpawn", Native_TeleportToMultiMapSpawn);
+    CreateNative("ASH_SetHUDParams",            Native_SetHUDParams);
+    CreateNative("ASH_DrawHUD",                 Native_DrawHUD);
+    CreateNative("ASH_AttachParticle",          Native_AttachParticle);
 
     /* Admin functions */
     CreateNative("ASH_SetNextPlayer",           Native_SetNextPlayer);
@@ -58,6 +66,9 @@ void API_MakeNatives() {
     CreateNative("ASH_SetClientDamage",         Native_SetDamage);
     CreateNative("ASH_SetSaxtonHaleHealth",     Native_SetSaxtonHaleHealth);
     CreateNative("ASH_SetSaxtonHaleHealthMax",  Native_SetSaxtonHaleHealthMax);
+
+    /* Hooks */
+    CreateNative("ASH_Hook", Native_Hook);
 }
 
 public int Native_IsSaxtonHaleModeMap(Handle plugin, int numParams) {
@@ -109,6 +120,81 @@ public int Native_PrintToChat(Handle hPlugin, int iNumParams) {
         CPrintToChatAll("{ash}[ASH] {default}%s", szMsg);
 
     return 0;
+}
+
+public int Native_TeleportToMultiMapSpawn(Handle hPlugin, int iNumParams) {
+    int iClient = GetNativeCell(1);
+    if (!IsValidClient(iClient))
+    {
+        return ThrowNativeError(SP_ERROR_INDEX, "Invalid client index");
+    }
+
+    int iTeam = GetNativeCell(2);
+    TeleportToMultiMapSpawn(iClient, iTeam);
+    return 0;
+}
+
+public int Native_SetHUDParams(Handle hPlugin, int iNumParams)
+{
+    int iColor[4];
+    GetNativeArray(1, iColor, sizeof(iColor));
+
+    int iEffect = GetNativeCell(2);
+    float flFxTime = GetNativeCell(3);
+    float flFadeIn = GetNativeCell(4);
+    float flFadeOut = GetNativeCell(5);
+    float flHoldTime = GetNativeCell(6);
+
+    _Internal_SetHUDParams(iColor, iEffect, flFxTime, flFadeIn, flFadeOut, flHoldTime);
+    return 0;
+}
+
+public int Native_DrawHUD(Handle hPlugin, int iNumParams)
+{
+    int iClient = GetNativeCell(1);
+    if (!IsValidClient(iClient))
+    {
+        return ThrowNativeError(SP_ERROR_INDEX, "Invalid client index");
+    }
+
+    SetGlobalTransTarget(iClient);
+
+    ASHPosition ePosition = GetNativeCell(2);
+    if (ePosition >= _ASHPosition_End)
+    {
+        return ThrowNativeError(SP_ERROR_INDEX, "Invalid position");
+    }
+
+    char szMessage[256];
+    int iBytesWritten = 0;
+    int iFormatErrorCode = FormatNativeString(0, 3, 4, sizeof(szMessage), iBytesWritten, szMessage);
+    if (iFormatErrorCode != SP_ERROR_NONE)
+    {
+        return iFormatErrorCode;
+    }
+
+    _Internal_DrawHUD(iClient, ePosition, "%s", szMessage);
+    return 0;
+}
+
+public int Native_AttachParticle(Handle hPlugin, int iNumParams)
+{
+    int iEntity = GetNativeCell(1);
+    if (!IsValidEntity(iEntity))
+    {
+        return ThrowNativeError(SP_ERROR_INDEX, "Invalid entity index");
+    }
+
+    char szParticleName[64];
+    GetNativeString(2, szParticleName, sizeof(szParticleName));
+    float flTimeToDie = GetNativeCell(3);
+    bool bAttach = GetNativeCell(5);
+    float flTimeToStart = GetNativeCell(6);
+
+    float vecOffsets[3];
+    GetNativeArray(4, vecOffsets, sizeof(vecOffsets));
+
+    return AttachParticle(iEntity, szParticleName, flTimeToDie, vecOffsets, bAttach, flTimeToStart);
 }
 
 /* Admin natives */
@@ -168,5 +254,14 @@ public int Native_SetSaxtonHaleHealthMax(Handle hPlugin, int iNumParams) {
     HaleHealthMax = GetNativeCell(1);
     // TODO: rework this for correct working on max health fix.
 
+    return 0;
+}
+
+public int Native_Hook(Handle hPlugin, int iNumParams)
+{
+    ASHEvent eEvent = GetNativeCell(1);
+    if (eEvent >= _ASHEvent_End) return ThrowNativeError(SP_ERROR_NOT_FOUND, "Required hook not found or not supported in this plugin version");
+
+    g_hForwards[eEvent].AddFunction(hPlugin, GetNativeFunction(2));
     return 0;
 }

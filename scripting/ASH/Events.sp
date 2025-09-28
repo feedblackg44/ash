@@ -103,7 +103,6 @@ public Action event_round_start(Handle event, const char[] name, bool dontBroadc
         TomDamage[ionplay] = 0;
         BetDamage[ionplay] = 0;
         AmpDefend[ionplay] = 0;
-        headmeter[ionplay] = 0;
         SpecialDemo_Kostyl[ionplay] = 0;
         uberTarget[ionplay] = -1;
         SniperActivity[ionplay] = 0;
@@ -621,11 +620,6 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
     int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
     
-    if(g_iTauntedSpys[client] == 1)
-    {
-        g_iTauntedSpys[client] = 0;
-    }
-    
     if (FakeKill_Goomba) {
         int damageBits = GetEventInt(event, "damagebits");
         
@@ -1094,12 +1088,6 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
 //    }
     
     if (TF2_GetPlayerClass(attacker) == TFClass_Heavy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 331 && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && !TF2_IsPlayerInCondition(Hale, _TFCond(28))) PushClient(Hale);
-    
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && g_iTauntedSpys[attacker] == 1) {
-        if (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 61 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 1006) {
-            TeleportToMultiMapSpawn(Hale);
-        }
-    }   
 
     if (TF2_GetPlayerClass(attacker) == TFClass_Pyro && (damage == 146 || damage == 1316) && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 153 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 466) && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee))
     {
