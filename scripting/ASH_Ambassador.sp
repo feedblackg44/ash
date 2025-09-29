@@ -221,12 +221,13 @@ public void OnRoundStart(Event hEvent, const char[] szEventName, bool bDontBroad
 }
 
 public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom) {
+    Action result = Plugin_Continue;
+
     if (!IsReady())
     {
         return result;
     }
 
-    Action result = Plugin_Continue;
     int iHaleTeam = ASH_GetSaxtonHaleTeam(); // потому что есть "миньоны".
     int wepindex = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
     
