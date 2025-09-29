@@ -17,7 +17,7 @@ public Plugin myinfo =
 {
     name = "[ASH] Ambassador",
     author = "ASH Dev Team",
-    description = "Description",
+    description = "Ambassador functionality for ASH",
     version = "1.0.0",
     url = "https://github.com/feedblackg44/ash"
 };
