@@ -2,6 +2,7 @@
 #include <events>
 #include <tf2>
 #include <tf2_stocks>
+#include <sdkhooks>
 #include <advancedsaxtonhale>
 
 #define MAX_HEADSHOTS_FOR_ACTIVATION        4
@@ -12,6 +13,7 @@ static const char g_szGamemodeLibrary[] = "advancedsaxtonhale";
 bool    g_bGamemodeLoaded = false;
 bool    g_bIsActivated[MAXPLAYERS+1] = { false, ... };
 int     g_iHeadshots[MAXPLAYERS+1] = { 0, ... };
+bool    g_bHooked[MAXPLAYERS+1] = { false, ... };
 
 public Plugin myinfo =
 {
@@ -50,14 +52,20 @@ stock int GetIndexOfWeaponSlot(int client, int slot)
 
 // copied from ASH_Core.sp
 
-
 public void OnPluginStart()
 {
-    HookEvent("player_hurt", OnPlayerHurt, EventHookMode_Pre);
     HookEvent("player_death", OnPlayerDeath, EventHookMode_Post);
     HookEvent("teamplay_round_start", OnRoundStart, EventHookMode_PostNoCopy);
 
     LoadTranslations("ash.phrases");
+
+    for (int iClient = 1; iClient <= MaxClients; ++iClient)
+    {
+        if (IsValidClient(iClient))
+        {
+            UTIL_HookClient(iClient);
+        }
+    }
 }
 
 public void OnAllPluginsLoaded()
@@ -88,6 +96,36 @@ public void OnLibraryRemoved(const char[] szLibraryName)
     }
 
     g_bGamemodeLoaded = false;
+}
+
+void UTIL_HookClient(int iClient)
+{
+    if (g_bHooked[iClient]) return;
+
+    SDKHook(iClient, SDKHook_OnTakeDamage, OnTakeDamage);
+
+    g_bHooked[iClient] = true;
+}
+
+void UTIL_UnhookClient(int iClient)
+{
+    if (!g_bHooked[iClient]) return;
+
+    SDKUnhook(iClient, SDKHook_OnTakeDamage, OnTakeDamage);
+
+    g_bHooked[iClient] = false;
+}
+
+public void OnClientPostAdminCheck(int iClient)
+{
+    g_iHeadshots[iClient] = 0;
+    g_bIsActivated[iClient] = false;
+    UTIL_HookClient(iClient);
+}
+
+public void OnClientDisconnect(int iClient)
+{
+    UTIL_UnhookClient(iClient);
 }
 
 void ASH_Configure()
@@ -182,38 +220,40 @@ public void OnRoundStart(Event hEvent, const char[] szEventName, bool bDontBroad
     }
 }
 
-public void OnPlayerHurt(Event hEvent, const char[] szEventName, bool bDontBroadcast)
-{
+public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom) {
     if (!IsReady())
     {
-        return;
+        return result;
     }
 
+    Action result = Plugin_Continue;
     int iHaleTeam = ASH_GetSaxtonHaleTeam(); // потому что есть "миньоны".
-    int iAttacker = GetClientOfUserId(hEvent.GetInt("attacker"));
-
-    if (GetClientTeam(iAttacker) == iHaleTeam || TF2_GetPlayerClass(iAttacker) != TFClass_Spy ||
-        !IsWeaponSlotActive(iAttacker, TFWeaponSlot_Primary) || !IsWearingAmbassador(iAttacker))
+    int wepindex = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
+    
+    if (!IsValidClient(attacker) || GetClientTeam(attacker) == iHaleTeam || GetClientTeam(client) != iHaleTeam || 
+        TF2_GetPlayerClass(attacker) != TFClass_Spy || !IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) || !IsWearingAmbassador(attacker) ||
+        !ItemInArray(wepindex, g_iAmbassadorItemDefinitionIndexes, sizeof(g_iAmbassadorItemDefinitionIndexes)) ||
+        inflictor != attacker || TF2_IsPlayerInCondition(client, TFCond_MegaHeal)) // _TFCond(28)
     {
-        return;
+        return result;
     }
 
-    int iTarget = GetClientOfUserId(hEvent.GetInt("userid"));
-    if (GetClientTeam(iTarget) != iHaleTeam || TF2_IsPlayerInCondition(iTarget, TFCond_MegaHeal)) // _TFCond(28)
+    if (damagecustom == TF_CUSTOM_HEADSHOT)
     {
-        return;
+        if (!g_bIsActivated[attacker] && g_iHeadshots[attacker] < MAX_HEADSHOTS_FOR_ACTIVATION)
+            g_iHeadshots[attacker]++;
+        
+        damage = 51.5;
+        result = Plugin_Changed;
     }
 
-    if (g_bIsActivated[iAttacker])
+    if (g_bIsActivated[attacker])
     {
-        ASH_TeleportToMultiMapSpawn(iTarget);
-        return;
+        ASH_TeleportToMultiMapSpawn(client);
+        result = Plugin_Changed;
     }
 
-    if (hEvent.GetInt("custom") == TF_CUSTOM_HEADSHOT)
-    {
-        g_iHeadshots[iAttacker]++;
-    }
+    return result;
 }
 
 stock bool IsReady()
@@ -223,19 +263,17 @@ stock bool IsReady()
 
     return ASH_GetRoundState() == ASHRState_Active;
 }
+    
+stock bool ItemInArray(int item, const int[] array, int iArrayLength)
+{
+    for (int i = 0; i < iArrayLength; i++) if (item == array[i]) return true;
+    return false;
+}
 
 stock bool IsWearingAmbassador(int iTarget)
 {
     int iWeaponIndex = GetIndexOfWeaponSlot(iTarget, TFWeaponSlot_Primary);
-    for (int iIndex = 0; iIndex < sizeof(g_iAmbassadorItemDefinitionIndexes); ++iIndex)
-    {
-        if (iWeaponIndex == g_iAmbassadorItemDefinitionIndexes[iIndex])
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return ItemInArray(iWeaponIndex, g_iAmbassadorItemDefinitionIndexes, sizeof(g_iAmbassadorItemDefinitionIndexes));
 }
 
 /**

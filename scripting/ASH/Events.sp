@@ -1480,7 +1480,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     }
     if (g_bGod[client]) return Plugin_Handled;
     
-//    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
+    // if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
     
     char sAttackerObject[128];
     GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
@@ -2155,14 +2155,14 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                             AddPlayerHealth(attacker, RoundToCeil(bl_regen), hp_boost_max_bl);
                         }
                     }
-                    case 61, 1006:    //Ambassador does 2.5x damage on headshot
-                    {
-                        if (damagecustom == TF_CUSTOM_HEADSHOT)
-                        {
-                            damage = 51.5;
-                            return Plugin_Changed;
-                        }
-                    }
+                    // case 61, 1006:    //Ambassador does 2.5x damage on headshot
+                    // {
+                    //     if (damagecustom == TF_CUSTOM_HEADSHOT)
+                    //     {
+                    //         damage = 51.5;
+                    //         return Plugin_Changed;
+                    //     }
+                    // }
                     case 525, 595:
                     {
                         int iCrits = GetEntProp(attacker, Prop_Send, "m_iRevengeCrits");
