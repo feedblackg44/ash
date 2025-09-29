@@ -147,6 +147,7 @@ public Action OnPlayerTaunt(int iClient)
     FormatEx(szSoundPath, sizeof(szSoundPath), "saxton_hale/spy_special_auto_used.wav");
 
     g_iHeadshots[iClient] = 0;
+    g_bIsActivated[iClient] = true;
 
     int iUserId = GetClientUserId(iClient);
     CreateTimer(0.1, OnRageActivated, iUserId);
@@ -197,13 +198,13 @@ public void OnPlayerHurt(Event hEvent, const char[] szEventName, bool bDontBroad
         return;
     }
 
-    int iTarget = hEvent.GetInt("userid");
+    int iTarget = GetClientOfUserId(hEvent.GetInt("userid"));
     if (GetClientTeam(iTarget) != iHaleTeam || TF2_IsPlayerInCondition(iTarget, TFCond_MegaHeal)) // _TFCond(28)
     {
         return;
     }
 
-    if (g_bIsActivated[iTarget])
+    if (g_bIsActivated[iAttacker])
     {
         ASH_TeleportToMultiMapSpawn(iTarget);
         return;
