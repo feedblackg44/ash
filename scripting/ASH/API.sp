@@ -69,6 +69,7 @@ void API_MakeNatives() {
 
     /* Hooks */
     CreateNative("ASH_Hook", Native_Hook);
+    CreateNative("ASH_Unhook", Native_Unhook);
 }
 
 public int Native_IsSaxtonHaleModeMap(Handle plugin, int numParams) {
@@ -263,5 +264,14 @@ public int Native_Hook(Handle hPlugin, int iNumParams)
     if (eEvent >= _ASHEvent_End) return ThrowNativeError(SP_ERROR_NOT_FOUND, "Required hook not found or not supported in this plugin version");
 
     g_hForwards[eEvent].AddFunction(hPlugin, GetNativeFunction(2));
+    return 0;
+}
+
+public int Native_Unhook(Handle hPlugin, int iNumParams)
+{
+    ASHEvent eEvent = GetNativeCell(1);
+    if (eEvent >= _ASHEvent_End) return ThrowNativeError(SP_ERROR_NOT_FOUND, "Required hook not found or not supported in this plugin version");
+
+    g_hForwards[eEvent].RemoveFunction(hPlugin, GetNativeFunction(2));
     return 0;
 }

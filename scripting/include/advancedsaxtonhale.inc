@@ -154,6 +154,14 @@ native ASH_GetRoundNum();
 native void ASH_Hook(ASHEvent eEventType, ASHCallback ptrCallback);
 
 /**
+ * Unhooks the event. See ASHEvent enum for details.
+ * 
+ * @param   eEventType      Event identifier.
+ * @param   ptrCallback     Event handler.
+ */
+native void ASH_Unhook(ASHEvent eEventType, ASHCallback ptrCallback);
+
+/**
  * Teleports the player to random map spawn.
  * 
  * @param   iClient         Client unique index.
