@@ -8289,6 +8289,8 @@ public Action HologramsTimer(Handle hTimer) {
             int Ply = Holograms[ply];
             if (!IsPlayerAlive(Ply)) continue;
             
+            g_iHudOffset[Ply] = 0;
+
             /* Interface */
             SetGlobalTransTarget(Ply);
             {

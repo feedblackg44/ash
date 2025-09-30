@@ -24,6 +24,8 @@ void _Internal_DrawHUD(int iClient, ASHPosition ePosition, const char[] szFormat
 
     Handle hSynchronizer = UTIL_DetermineEmptySynchronizedHUD(iClient);
 
+    PrintToChat(iClient, "[ASH] HUD level %d: %s", g_iHudOffset[iClient], szMessage);
+
     int amountOfLines = 1;
     for (int i = 0; szMessage[i] != '\0'; i++) if (szMessage[i] == '\n') amountOfLines++;
     
@@ -1375,6 +1377,8 @@ public Action HaleTimer(Handle hTimer)  {
     SetGlobalTransTarget(Hale);
     if ((GetClientButtons(Hale) & IN_RELOAD)) DoAction();
     
+    g_iHudOffset[Hale] = 0;
+
     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
     _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
 
