@@ -8102,12 +8102,9 @@ public Action RemoveHook(Handle hTimer, any TrieData) {
             CreateTimer(0.01, RemoveWeapon_WhileLCNotPressed, Weapon);
             CloseHandle(TrieData);
         } else {
-            if (!(GetClientButtons(Hale) & IN_SCORE))
-            {
-                SetGlobalTransTarget(Hale);
-                _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
-                _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Vagineer_hook_action", Time);
-            }
+            SetGlobalTransTarget(Hale);
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Vagineer_hook_action", Time);
             
             SetTrieValue(TrieData, "time", Time, true);
             CreateTimer(1.0, RemoveHook, TrieData);

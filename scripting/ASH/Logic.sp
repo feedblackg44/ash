@@ -1405,33 +1405,33 @@ public Action HaleTimer(Handle hTimer)  {
             CreateTimer(1.0, Timer_BotRage, _, TIMER_FLAG_NO_MAPCHANGE);
             ASHFlags[Hale] |= ASHFLAG_BOTRAGE;
         }
-        else if (!(GetClientButtons(Hale) & IN_SCORE))
+        else
         {
-            SetHudTextParams(-1.0, 0.83, 0.35, 255, 64, 64, 255);
-            ShowSyncHudText(Hale, rageHUD, "%t", (Special!=ASHSpecial_Agent)?"vsh_do_rage":"ash_Agent_Rage");
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", (Special != ASHSpecial_Agent) ? "vsh_do_rage" : "ash_Agent_Rage");
         }
     }
-    else if (!(GetClientButtons(Hale) & IN_SCORE))
+    else
     {
-        SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, rageHUD, "%t", "vsh_rage_meter", HaleRage*100/RageDMG);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_rage_meter", HaleRage*100/RageDMG);
     }
     
     if (Special != ASHSpecial_HHH && iHaleSpecialPower != 1000) {
-        SetHudTextParams(-1.0, 0.73, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_special_loading", iHaleSpecialPower/10);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_special_loading", iHaleSpecialPower/10);
     }
     
     if (Special == ASHSpecial_HHH)
     {
-        SetHudTextParams(-1.0, 0.73, 0.35, 255, 255, 255, 255);
-        if (SpecialHHH_Souls < 3) ShowSyncHudText(Hale, soulsHUD, "%t", "ash_hhh_souls_meter", SpecialHHH_Souls);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        if (SpecialHHH_Souls < 3) _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_hhh_souls_meter", SpecialHHH_Souls);
         else
         {
-            SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-            if (SpecialHHH_Souls == 3) ShowSyncHudText(Hale, soulsHUD, "%t\n%t", "ash_hhh_souls_teleportready", "ash_hhh_souls_meter", SpecialHHH_Souls);
-            else if (SpecialHHH_Souls == 4) ShowSyncHudText(Hale, soulsHUD, "%t\n%t", "ash_hhh_souls_meteorready", "ash_hhh_souls_meter", SpecialHHH_Souls);
-            else if (SpecialHHH_Souls == 5) ShowSyncHudText(Hale, soulsHUD, "%t\n%t", "ash_hhh_souls_lightningorbready", "ash_hhh_souls_meter", SpecialHHH_Souls);
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            if (SpecialHHH_Souls == 3) _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t\n%t", "ash_hhh_souls_teleportready", "ash_hhh_souls_meter", SpecialHHH_Souls);
+            else if (SpecialHHH_Souls == 4) _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t\n%t", "ash_hhh_souls_meteorready", "ash_hhh_souls_meter", SpecialHHH_Souls);
+            else if (SpecialHHH_Souls == 5) _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t\n%t", "ash_hhh_souls_lightningorbready", "ash_hhh_souls_meter", SpecialHHH_Souls);
         }
     } else if (Special == ASHSpecial_Hale || Special == ASHSpecial_MiniHale) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
@@ -1451,9 +1451,9 @@ public Action HaleTimer(Handle hTimer)  {
             CreateTimer(12.0, DisableDamageInflictor);
             
             iHaleSpecialPower = 0;
-        } else if (iHaleSpecialPower == 1000 && !(GetClientButtons(Hale) & IN_SCORE)) {
-            SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-            ShowSyncHudText(Hale, soulsHUD, "%t", "ash_hale_shieldHint");
+        } else if (iHaleSpecialPower == 1000) {
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_hale_shieldHint");
         }
     } else if (Special == ASHSpecial_CBS) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
@@ -1466,9 +1466,9 @@ public Action HaleTimer(Handle hTimer)  {
             CreateTimer(10.0, DisableInfection, Hale);
             
             iHaleSpecialPower = 0;
-        } else if (iHaleSpecialPower == 1000 && !(GetClientButtons(Hale) & IN_SCORE)) {
-            SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-            ShowSyncHudText(Hale, soulsHUD, "%t", "ash_cbs_specialPowerHint");
+        } else if (iHaleSpecialPower == 1000) {
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_cbs_specialPowerHint");
         }
     } else if (Special == ASHSpecial_Bunny) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
@@ -1492,8 +1492,8 @@ public Action HaleTimer(Handle hTimer)  {
             
             iHaleSpecialPower = 0;
         } else if (iHaleSpecialPower == 1000 && !(GetClientButtons(Hale) & IN_RELOAD)) {
-            SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-            ShowSyncHudText(Hale, soulsHUD, "%t", "ash_EasterBunny_specialHint");
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_EasterBunny_specialHint");
         }
     } else if (Special == ASHSpecial_Vagineer) {
         if (iHaleSpecialPower == 1000 && (GetClientButtons(Hale) & IN_RELOAD)) {
@@ -1521,8 +1521,8 @@ public Action HaleTimer(Handle hTimer)  {
             
             iHaleSpecialPower = 0;
         } else if (iHaleSpecialPower == 1000 && !(GetClientButtons(Hale) & IN_RELOAD)) {
-            SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-            ShowSyncHudText(Hale, soulsHUD, "%t", "ash_Vagineer_specialHint");
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Vagineer_specialHint");
         }
     } else if (Special == ASHSpecial_Agent) {
       AbilityAgent_RunLogic();
@@ -1542,19 +1542,19 @@ public Action HaleTimer(Handle hTimer)  {
             
             iHaleSpecialPower = 0;
         } else if (iHaleSpecialPower == 1000 && !(GetClientButtons(Hale) & IN_RELOAD)) {
-            SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-            ShowSyncHudText(Hale, soulsHUD, "%t", "ash_Agent_SpecialAbility");
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Agent_SpecialAbility");
         }
       */
         
     }
     
     // Grappling Hook Interface
-    if (!(GetClientButtons(Hale) & IN_SCORE) && VagineerTime_GH)
+    if (VagineerTime_GH)
     {
         SetGlobalTransTarget(Hale);
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, BazaarBargainHUD, "%t", "ash_Vagineer_hook_action", VagineerTime_GH);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Vagineer_hook_action", VagineerTime_GH);
     }
     
     if (InfectPlayers[Hale]) {
@@ -1579,7 +1579,7 @@ public Action HaleTimer(Handle hTimer)  {
         }
     }
     
-    SetHudTextParams(-1.0, 0.88, 0.35, 255, 255, 255, 255);
+    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
     if (GlowTimer <= 0.0)
     {
         SetEntProp(Hale, Prop_Send, "m_bGlowEnabled", 0);
@@ -1589,12 +1589,12 @@ public Action HaleTimer(Handle hTimer)  {
         GlowTimer -= 0.2;
     if (bEnableSuperDuperJump)
     {
-        /*if (HaleCharge <= 0)
-        {
-            HaleCharge = 0;
-            if (!(GetClientButtons(Hale) & IN_SCORE)) ShowSyncHudText(Hale, jumpHUD, "%t", "vsh_super_duper_jump");
-        }*/
-        SetHudTextParams(-1.0, 0.88, 0.35, 255, 64, 64, 255);
+        // if (HaleCharge <= 0)
+        // {
+        //     HaleCharge = 0;
+        //     _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_super_duper_jump");
+        // }
+        _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
     }
 
     int buttons = GetClientButtons(Hale);
@@ -1606,16 +1606,13 @@ public Action HaleTimer(Handle hTimer)  {
                 HaleCharge += 10;
             else
                 HaleCharge = HALEHHH_TELEPORTCHARGE;
-            if (!(GetClientButtons(Hale) & IN_SCORE))
+            if (bEnableSuperDuperJump)
             {
-                if (bEnableSuperDuperJump)
-                {
-                    ShowSyncHudText(Hale, jumpHUD, "%t", "vsh_super_duper_jump");
-                }
-                else
-                {
-                    ShowSyncHudText(Hale, jumpHUD, "%t", "vsh_teleport_status", HaleCharge * 2);
-                }
+                _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_super_duper_jump");
+            }
+            else
+            {
+                _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_teleport_status", HaleCharge * 2);
             }
         }
         else
@@ -1624,16 +1621,13 @@ public Action HaleTimer(Handle hTimer)  {
                 HaleCharge += 5;
             else
                 HaleCharge = HALE_JUMPCHARGE;
-            if (!(GetClientButtons(Hale) & IN_SCORE))
+            if (bEnableSuperDuperJump)
             {
-                if (bEnableSuperDuperJump)
-                {
-                    ShowSyncHudText(Hale, jumpHUD, "%t", "vsh_super_duper_jump");
-                }
-                else
-                {
-                    ShowSyncHudText(Hale, jumpHUD, "%t", "vsh_jump_status", HaleCharge * 4);
-                }
+                _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_super_duper_jump");
+            }
+            else
+            {
+                _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_jump_status", HaleCharge * 4);
             }
         }
     }
@@ -1642,9 +1636,9 @@ public Action HaleTimer(Handle hTimer)  {
         HaleCharge += 5;
         if (Special == ASHSpecial_HHH)
         {
-            if (!(GetClientButtons(Hale) & IN_SCORE)) ShowSyncHudText(Hale, jumpHUD, "%t %i", "vsh_teleport_status_2", -HaleCharge/20);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t %i", "vsh_teleport_status_2", -HaleCharge/20);
         }
-        else if (!(GetClientButtons(Hale) & IN_SCORE)) ShowSyncHudText(Hale, jumpHUD, "%t %i", "vsh_jump_status_2", -HaleCharge/20);
+        else _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t %i", "vsh_jump_status_2", -HaleCharge/20);
     }
     else
     {
