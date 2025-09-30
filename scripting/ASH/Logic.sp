@@ -848,8 +848,7 @@ public Action ClientTimer(Handle hTimer) {
                     GlowTimer -= 0.2;
             }
 
-            if (class == TFClass_Soldier)
-            {
+            if (class == TFClass_Soldier) {
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 1104)
                 {
                     bHudAdjust = true;
@@ -903,30 +902,35 @@ public Action ClientTimer(Handle hTimer) {
                 }
             }
 
-            if (class == TFClass_Scout)
-            {
+            if (class == TFClass_Scout) {
                 int bash = GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee);
                 if (BasherDamage[client]/BasherDMG >= 1)
                 {
                     if (!(GetClientButtons(client) & IN_SCORE))
                     {
-                        SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1); 
-                        ShowSyncHudText(client, infoHUD, "%t", "ash_scout_bostonbasher_rageready");
+                        // SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1); 
+                        // ShowSyncHudText(client, infoHUD, "%t", "ash_scout_bostonbasher_rageready");
+                        _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                        _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_scout_bostonbasher_rageready");
                         bHudAdjust = true;
                     }
                 }
                 else if (bash == 325 || bash == 452)
                 {
-                    SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1); 
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                        ShowSyncHudText(client, infoHUD, "%t: %i", "ash_scout_bostonbasher_ragemeter", BasherDamage[client]*100/BasherDMG);
+                    // SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1); 
+                    // if (!(GetClientButtons(client) & IN_SCORE))
+                    //     ShowSyncHudText(client, infoHUD, "%t: %i", "ash_scout_bostonbasher_ragemeter", BasherDamage[client]*100/BasherDMG);
+                    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_scout_bostonbasher_ragemeter", BasherDamage[client]*100/BasherDMG);
+
                     if (BasherDamage[client] > BasherDMG)
                         BasherDamage[client] = BasherDMG;
                     if (TF2_IsPlayerInCondition(client, TFCond_TeleportedGlow))
                         BasherDamage[client] = 0;
                     bHudAdjust = true;
                 }
-                SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
+                // SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
+                _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                 if (GlowTimer <= 0.0)
                 {
                     SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
@@ -934,24 +938,25 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 else
                     GlowTimer -= 0.2;
-            }
 
-            if (class == TFClass_Scout)
-            {
                 int speedboost = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
                 if (speedboost == 772) {
                     if (SpeedDamage[client]/SpeedDMG >= 1)
                     {
-                        if (!(GetClientButtons(client) & IN_SCORE))
-                        {
-                            SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1);
-                            ShowSyncHudText(client, jumpHUD, "%t", "ash_mc_speedboost_ready");
-                        }
+                        // if (!(GetClientButtons(client) & IN_SCORE))
+                        // {
+                        //     SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1);
+                        //     ShowSyncHudText(client, jumpHUD, "%t", "ash_mc_speedboost_ready");
+                        // }
+                        _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                        _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_mc_speedboost_ready");
                     }
                     else {
-                        SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                        if (!(GetClientButtons(client) & IN_SCORE))
-                            ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_sh_speedboost", SpeedDamage[client]*100/SpeedDMG);
+                        // SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
+                        // if (!(GetClientButtons(client) & IN_SCORE))
+                        //     ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_sh_speedboost", SpeedDamage[client]*100/SpeedDMG);
+                        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                        _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_sh_speedboost", SpeedDamage[client]*100/SpeedDMG);
                         if (SpeedDamage[client] > SpeedDMG)
                             SpeedDamage[client] = SpeedDMG;
                     }
@@ -960,21 +965,26 @@ public Action ClientTimer(Handle hTimer) {
                 } else if (speedboost == 448 && SpeedDamage[client] < 2281337) {
                     if (SpeedDamage[client]/SodaDMG >= 1)
                     {
-                        if (!(GetClientButtons(client) & IN_SCORE))
-                        {
-                            SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1);
-                            ShowSyncHudText(client, jumpHUD, "%t", "ash_scout_soda_ready");
-                        }
+                        // if (!(GetClientButtons(client) & IN_SCORE))
+                        // {
+                        //     SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1);
+                        //     ShowSyncHudText(client, jumpHUD, "%t", "ash_scout_soda_ready");
+                        // }
+                        _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                        _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_scout_soda_ready");
                     }
                     else {
-                        SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                        if (!(GetClientButtons(client) & IN_SCORE))
-                            ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_scout_soda_meter", SpeedDamage[client]*100/SodaDMG);
+                        // SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
+                        // if (!(GetClientButtons(client) & IN_SCORE))
+                        //     ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_scout_soda_meter", SpeedDamage[client]*100/SodaDMG);
+                        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                        _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_scout_soda_meter", SpeedDamage[client]*100/SodaDMG);
                         if (SpeedDamage[client] > SodaDMG)
                             SpeedDamage[client] = SodaDMG;
                     }
                 }
-                SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
+                // SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
+                _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                 if (GlowTimer <= 0.0)
                 {
                     SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
