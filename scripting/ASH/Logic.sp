@@ -117,7 +117,7 @@ public Action ClientTimer(Handle hTimer) {
 
             // TODO: refactor this. Leaved for compatibility without requirement "rewrite everything".
             bool bHudAdjust = g_iHudOffset[client] > 0;
-            bool bHudAdjust2 = g_iHudOffset[client] > 1;
+            // bool bHudAdjust2 = g_iHudOffset[client] > 1;
             
             // ULLAPOOL WAR, BITCHES!
             if (ullapoolWarRound && IsPlayerAlive(client)) {
@@ -477,15 +477,18 @@ public Action ClientTimer(Handle hTimer) {
             }
 
             // Engineer Eureka Effect
-            if (iPlayerClass == TFClass_Engineer && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589 && g_flEurekaCooldown[client] > GetGameTime()) {
-                int iTime = RoundToCeil(g_flEurekaCooldown[client] - GetGameTime());
-                if (iTime > 0) {
-                    SetHudTextParams(-1.0, 0.83, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
-                    bHudAdjust = true;
-                    ShowSyncHudText(client, jumpHUD, "%t", "ash_engineer_eurekacooldown", iTime);
-                    g_iHudOffset[client]++;
-                }
-            }
+            // if (iPlayerClass == TFClass_Engineer && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589 && g_flEurekaCooldown[client] > GetGameTime()) {
+            //     int iTime = RoundToCeil(g_flEurekaCooldown[client] - GetGameTime());
+            //     if (iTime > 0) {
+            //         bHudAdjust = true;
+            //         // SetHudTextParams(-1.0, 0.83, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
+            //         // ShowSyncHudText(client, jumpHUD, "%t", "ash_engineer_eurekacooldown", iTime);
+            //         // g_iHudOffset[client]++;
+
+            //         _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            //         _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_engineer_eurekacooldown", iTime);
+            //     }
+            // }
             
             /*if (GetClientCloakIndex(client) == 60) {
                 int r = 255;
@@ -639,41 +642,61 @@ public Action ClientTimer(Handle hTimer) {
                 ManmelterHUD_Render(client, bHudAdjust);
             }
             
-            if (class == TFClass_Sniper)
-            {
-                if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 232)
-                {
+            if (class == TFClass_Sniper) {
+                // All shoots
+                if (SniperNoMimoShoots[client] == 3) {
+                    SniperNoMimoShoots[client] = 0;
+                    SniperActivity[client] += 50;
+                    if (SniperActivity[client] > 100) SniperActivity[client] = 100;
+                }
+                
+                if (SniperActivity[client] > 100) SniperActivity[client] = 100;
+                if (SniperActivity[client] < 0) SniperActivity[client] = 0;
+                
+                char sOut[256];
+                if (SniperActivity[client] != 100) FormatEx(sOut, sizeof(sOut), "%t: %i%%", "ash_sniper_ActivityMeter", SniperActivity[client]);
+                else Format(sOut, sizeof(sOut), "%t", "ash_sniper_ActivityMeter_DONE");
+                int WeaponID = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
+                if (!(WeaponID == 56 || WeaponID == 1005 || WeaponID == 1092) && SniperActivity[client] < 100) Format(sOut, sizeof(sOut), "%s (%i/3)", sOut, SniperNoMimoShoots[client]);
+
+                if (SniperActivity[client] == 100) _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                else _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", sOut);
+
+                if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 232) {
                     char s[256];
                     bHudAdjust = true;
                     if (bushJUMP[client] < 5)
                     {
-                        SetHudTextParams(-1.0, 0.78, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
+                        _Internal_SetHUDParams({90, 255, 90, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                         Format(s, sizeof(s), "%t", "ash_sniper_bushwacka_meter", bushJUMP[client]);
                     }
                     else
                     {
-                        SetHudTextParams(-1.0, 0.78, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
+                        _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                         Format(s, sizeof(s), "%t", "ash_sniper_bushwacka_holdon", bushTIME[client]);
                     }
                     
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        ShowSyncHudText(client, bushwackaHUD, "%s", s);
-                    }
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", s);
                 }
                 
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 402) {
                     char s[128];
-                    SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                    if (bHudAdjust) bHudAdjust2 = true;
-                    else bHudAdjust = true;
+                    // SetHudTextParams(-1.0, bHudAdjust?0.73:0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
+                    // if (bHudAdjust) bHudAdjust2 = true;
+                    // else bHudAdjust = true;
+                    if (!bHudAdjust) bHudAdjust = true;
+
                     int BeggarBazaarInt = BB_Sniper_Shots[client];
                     Format (s, sizeof(s), "%t", "ash_sniper_bazaar_meter", BeggarBazaarInt);
                     
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        ShowSyncHudText(client, BazaarBargainHUD, "%s", s);
-                    }
+                    // if (!(GetClientButtons(client) & IN_SCORE))
+                    // {
+                    //     ShowSyncHudText(client, BazaarBargainHUD, "%s", s);
+                    // }
+
+                    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", s);
                     
                     SetEntityRenderMode(client, RENDER_TRANSCOLOR);
                     int alpha_val = 255;
@@ -744,29 +767,6 @@ public Action ClientTimer(Handle hTimer) {
 
                 } else {
                     SetPlayerRenderAlpha(client, 255);
-                }
-                
-                // All shoots
-                if (SniperNoMimoShoots[client] == 3) {
-                    SniperNoMimoShoots[client] = 0;
-                    SniperActivity[client] += 50;
-                    if (SniperActivity[client] > 100) SniperActivity[client] = 100;
-                }
-                
-                if (SniperActivity[client] > 100) SniperActivity[client] = 100;
-                if (SniperActivity[client] < 0) SniperActivity[client] = 0;
-
-                SetHudTextParams(-1.0, (bHudAdjust?(bHudAdjust2?0.68:0.73):0.78), 0.35, 255, (SniperActivity[client]==100?64:255), (SniperActivity[client]==100?64:255), 255, 0, 0.2, 0.0, 0.1);
-                
-                char s[256];
-                if (SniperActivity[client] != 100) FormatEx(s, sizeof(s), "%t: %i%%", "ash_sniper_ActivityMeter", SniperActivity[client]);
-                else Format(s, sizeof(s), "%t", "ash_sniper_ActivityMeter_DONE");
-                int WeaponID = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
-                if (!(WeaponID == 56 || WeaponID == 1005 || WeaponID == 1092) && SniperActivity[client] < 100) Format(s, sizeof(s), "%s (%i/3)", s, SniperNoMimoShoots[client]);
-
-                if (!(GetClientButtons(client) & IN_SCORE))
-                {
-                    ShowSyncHudText(client, soulsHUD, "%s", s);
                 }
             }
 
@@ -986,7 +986,7 @@ public Action ClientTimer(Handle hTimer) {
                             SpeedDamage[client] = SpeedDMG;
                     }
                     if (!bHudAdjust) bHudAdjust = true;
-                    else bHudAdjust2 = true;
+                    // else bHudAdjust2 = true;
                 } else if (speedboost == 448 && SpeedDamage[client] < 2281337) {
                     if (SpeedDamage[client]/SodaDMG >= 1)
                     {
