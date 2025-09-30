@@ -2100,13 +2100,13 @@ public Action MessageTimer(Handle hTimer, any allclients)
         case ASHSpecial_Agent: strcopy(translation, sizeof(translation), "ash_start_agent");
         default: strcopy(translation, sizeof(translation), "vsh_start_hale");
     }
-    SetHudTextParams(-1.0, 0.2, 10.0, 255, 255, 255, 255);
+    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 10.0);
     if (!allclients) {
-        ShowSyncHudText(Hale, infoHUD, "%T", translation, Hale, Hale, HaleHealthMax);
+        _Internal_DrawHUD(Hale, ASHPosition_Center, "%T", translation, Hale, Hale, HaleHealthMax);
     } else {
         for (int i = 1; i <= MaxClients; i++) {
             if (IsClientInGame(i))
-                ShowSyncHudText(i, infoHUD, "%T", translation, i, Hale, HaleHealthMax);
+                _Internal_DrawHUD(i, ASHPosition_Center, "%T", translation, i, Hale, HaleHealthMax);
         }
     }
     return Plugin_Continue;
@@ -7721,16 +7721,16 @@ stock float GetStunTime(int client) {
     return 5.0;
 }
 
-void ManmelterHUD_Render(int client, bool hud_corrector) {
+void ManmelterHUD_Render(int client) {
     if (!ManmelterBan[client]) {
-        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
-        else SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
-                    
+        if (plManmelterUsed[client] == 100) _Internal_SetHUDParams({90, 255, 90, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        else _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+
         char s[128];
         if (plManmelterUsed[client] == 100) Format(s, 128, "%t: %t", "ash_pyro_secondchance_infometer", "ash_pyro_secondchance_ready");
         else Format(s, 128, "%t: %i%%", "ash_pyro_secondchance_infometer", plManmelterUsed[client]);
                     
-        ShowSyncHudText(client, bushwackaHUD, "%s", s);
+        _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", s);
         
         if (plManmelterUsed[client] == 100 && GetEntProp(client, Prop_Send, "m_iHealth") == 1)
             TF2_OnPyroSecondChance(client);
@@ -8043,8 +8043,8 @@ public Action OnSay(int client, int args) {
     if (isCheat) {
         if (!dsSound) PlaySound("saxton_hale/secret_enabled.wav", client);
         if (!dsNotify) {
-            SetHudTextParams(-1.0, -0.7, 1.75, 200, 0, 0, 255, 0, 0.2, 0.0, 0.1);
-            ShowSyncHudText(client, cheatsHUD, "CHEAT ENABLED");
+            _Internal_SetHUDParams({200, 0, 0, 255}, 0, 0.2, 0.0, 0.1, 1.75);
+            _Internal_DrawHUD(client, ASHPosition_Top, "CHEAT ENABLED");
         }
         return Plugin_Handled;
     } else return Plugin_Continue;
@@ -8105,7 +8105,8 @@ public Action RemoveHook(Handle hTimer, any TrieData) {
             if (!(GetClientButtons(Hale) & IN_SCORE))
             {
                 SetGlobalTransTarget(Hale);
-                ShowSyncHudText(Hale, BazaarBargainHUD, "%t", "ash_Vagineer_hook_action", Time);
+                _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Vagineer_hook_action", Time);
             }
             
             SetTrieValue(TrieData, "time", Time, true);
@@ -8296,10 +8297,6 @@ public Action HologramsTimer(Handle hTimer) {
             SetGlobalTransTarget(Ply);
             {
                 /* Hale Health */
-                //
-                // SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
-                // if (!(GetClientButtons(Ply) & IN_SCORE)) ShowSyncHudText(Ply, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
-                
                 _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                 _Internal_DrawHUD(Ply, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
             }
