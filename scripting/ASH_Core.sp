@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "9005"
+#define ASH_BUILD                     "9006"
 #define ASH_PLUGIN_VERSION            "1.32"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 

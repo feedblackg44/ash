@@ -24,16 +24,14 @@ void _Internal_DrawHUD(int iClient, ASHPosition ePosition, const char[] szFormat
 
     Handle hSynchronizer = UTIL_DetermineEmptySynchronizedHUD(iClient);
 
-    // PrintToChat(iClient, "[ASH] HUD level %d: %s", g_iHudOffset[iClient], szMessage);
-
     int amountOfLines = 1;
     for (int i = 0; szMessage[i] != '\0'; i++) if (szMessage[i] == '\n') amountOfLines++;
     
     float flVerticalPosition = 0.87 - (0.05 * g_iHudOffset[iClient]) - (0.025 * (amountOfLines - 1));
     if (ePosition == ASHPosition_Top)
-        flVerticalPosition = -0.7 + (0.05 * g_iHudOffset[iClient]) + (0.025 * (amountOfLines - 1));
-    else if (ePosition == ASHPosition_Center)
-        flVerticalPosition = 0.2 - (0.05 * g_iHudOffset[iClient]) - (0.025 * (amountOfLines - 1));
+        flVerticalPosition = -0.7 + (0.025 * (amountOfLines - 1));
+    if (ePosition == ASHPosition_Center)
+        flVerticalPosition = 0.3 - (0.025 * (amountOfLines - 1));
 
     SetHudTextParams(-1.0, flVerticalPosition, g_flHoldTime, g_iHudColor[0],
         g_iHudColor[1], g_iHudColor[2], g_iHudColor[3], g_iHudEffect,
