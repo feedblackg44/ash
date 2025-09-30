@@ -122,10 +122,6 @@ public Action ClientTimer(Handle hTimer) {
             Call_StartForward(g_hForwards[ASHEvent_OnPlayerThink]);
             Call_PushCell(client);
             Call_Finish();
-
-            // TODO: refactor this. Leaved for compatibility without requirement "rewrite everything".
-            bool bHudAdjust = g_iHudOffset[client] > 0;
-            // bool bHudAdjust2 = g_iHudOffset[client] > 1;
             
             // ULLAPOOL WAR, BITCHES!
             if (ullapoolWarRound && IsPlayerAlive(client)) {
@@ -488,7 +484,6 @@ public Action ClientTimer(Handle hTimer) {
             // if (iPlayerClass == TFClass_Engineer && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589 && g_flEurekaCooldown[client] > GetGameTime()) {
             //     int iTime = RoundToCeil(g_flEurekaCooldown[client] - GetGameTime());
             //     if (iTime > 0) {
-            //         bHudAdjust = true;
             //         _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
             //         _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_engineer_eurekacooldown", iTime);
             //     }
@@ -498,7 +493,6 @@ public Action ClientTimer(Handle hTimer) {
             //     int r = 255;
             //     int g = spyTimeInvis[client] == 0 ? 255 : 64;
             //     int b = spyTimeInvis[client] == 0 ? 255 : 64;
-            //     bHudAdjust = true;
             //     _Internal_SetHUDParams({r, g, b, 255}, 0, 0.0, 0.0, 0.0, 0.35);
             //     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_CAD_damage", 8-spyTimeInvis[client]);
             // }
@@ -542,8 +536,6 @@ public Action ClientTimer(Handle hTimer) {
                     if (DeadRinger_ManualActivation[client] > 1.0) FormatEx(s, sizeof(s), "%t: %i%%", "ash_spy_deadringer_forcedeath", RoundToFloor(DeadRinger_ManualActivation[client]-1.0)*20);
                     
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", s);
-
-                    bHudAdjust = true;
                 }
                 
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 574)
@@ -665,7 +657,6 @@ public Action ClientTimer(Handle hTimer) {
 
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 232) {
                     char s[256];
-                    bHudAdjust = true;
                     if (bushJUMP[client] < 5)
                     {
                         _Internal_SetHUDParams({90, 255, 90, 255}, 0, 0.0, 0.0, 0.0, 0.35);
@@ -682,7 +673,6 @@ public Action ClientTimer(Handle hTimer) {
                 
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 402) {
                     char s[128];
-                    if (!bHudAdjust) bHudAdjust = true;
 
                     int BeggarBazaarInt = BB_Sniper_Shots[client];
                     Format (s, sizeof(s), "%t", "ash_sniper_bazaar_meter", BeggarBazaarInt);
@@ -848,7 +838,6 @@ public Action ClientTimer(Handle hTimer) {
             if (class == TFClass_Soldier) {
                 if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 1104)
                 {
-                    bHudAdjust = true;
                     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_soldier_airstrike_meter", AirDamage[client]);
                 }
@@ -901,7 +890,6 @@ public Action ClientTimer(Handle hTimer) {
                 {
                     _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_scout_bostonbasher_rageready");
-                    bHudAdjust = true;
                 }
                 else if (bash == 325 || bash == 452)
                 {
@@ -912,7 +900,6 @@ public Action ClientTimer(Handle hTimer) {
                         BasherDamage[client] = BasherDMG;
                     if (TF2_IsPlayerInCondition(client, TFCond_TeleportedGlow))
                         BasherDamage[client] = 0;
-                    bHudAdjust = true;
                 }
                 _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                 if (GlowTimer <= 0.0)
@@ -936,7 +923,6 @@ public Action ClientTimer(Handle hTimer) {
                         if (SpeedDamage[client] > SpeedDMG)
                             SpeedDamage[client] = SpeedDMG;
                     }
-                    if (!bHudAdjust) bHudAdjust = true;
                 } else if (speedboost == 448 && SpeedDamage[client] < 2281337) {
                     if (SpeedDamage[client]/SodaDMG >= 1)
                     {
@@ -975,7 +961,6 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 else if (demoWeaponMelee == 404)
                 {
-                    bHudAdjust = true;
                     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_demoman_smallsize_meter", PersDamage[client]*100/PersDMG);
 
@@ -1032,7 +1017,6 @@ public Action ClientTimer(Handle hTimer) {
                         EmitSoundToClient(client, "weapons/vaccinator_toggle.wav", _, _, SNDLEVEL_GUNFIRE, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
                     }
 
-                    bHudAdjust = true;
                     char PhlogString[256];
                     int wpn_entity = GetPlayerWeaponSlot(client, TFWeaponSlot_Primary);
                     switch (PhlogMode[client]) {
@@ -1059,7 +1043,6 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 else if (curt == 41) // || curt == 298)
                 {
-                    bHudAdjust = true;
                     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_heavy_evacuate_meter", NatDamage[client]*100/NatDMG);
 
@@ -1073,7 +1056,6 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 811)
                 {
-                    bHudAdjust = true;
                     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_heavy_crits_meter", HuoDamage[client]*100/HuoDMG);
                     if (HuoDamage[client] > HuoDMG)
@@ -1093,7 +1075,6 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 424)
                 {
-                    bHudAdjust = true;
                     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_sh_speedboost", TomDamage[client]*100/TomDMG);
                     if (TomDamage[client] > TomDMG)
@@ -1106,7 +1087,6 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 312)
                 {
-                    bHudAdjust = true;
                     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_heavy_vitality_meter", BetDamage[client]*100/BetDMG);
                     if (BetDamage[client] > BetDMG)

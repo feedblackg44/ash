@@ -245,12 +245,16 @@ void UTIL_MakeHUDs() {
     {
         g_hSyncHUD[iIndex] = CreateHudSynchronizer();
     }
-
-    cheatsHUD           = CreateHudSynchronizer();
 }
 
 Handle UTIL_DetermineEmptySynchronizedHUD(int iClient)
 {
+    if (g_iHudOffset[iClient] < 0 || g_iHudOffset[iClient] >= 6)
+    {
+        g_iHudOffset[iClient] = 0;
+        PrintToServer("[ASH] Warning: Invalid HUD offset for client %d, resetting to 0\n", iClient);
+    }
+
     return g_hSyncHUD[g_iHudOffset[iClient]];
 }
 
@@ -910,15 +914,15 @@ void UTIL_ValidateMap_KingOfTheHill() {
 }
 
 public Action ResetPunchProtect(Handle hTimer) {
-    g_bHaleProtectPunch = false;
+    // g_bHaleProtectPunch = false;
 
     return Plugin_Continue;
 }
 
-void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
-    SetVariantString(szAnimation);
-    AcceptEntityInput(iEntity, "SetAnimation");
-}
+// void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
+//     SetVariantString(szAnimation);
+//     AcceptEntityInput(iEntity, "SetAnimation");
+// }
 
 public Action OnPlayEndRoundSound(Handle hTimer, any eClass) {
     switch (eClass) 

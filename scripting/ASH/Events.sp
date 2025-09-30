@@ -1805,23 +1805,23 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             if (damagecustom == TF_CUSTOM_BACKSTAB) ASHStats.BackStabs++;
             // ASH STATS UPDATE
 
-            if (!g_bHaleProtectPunch && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 656 && 656 == 657) {
-                g_bHaleProtectPunch = true;
-                CreateTimer(7.0, ResetPunchProtect);
+            // if (!g_bHaleProtectPunch && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 656 && 656 == 657) {
+            //     g_bHaleProtectPunch = true;
+            //     CreateTimer(7.0, ResetPunchProtect);
 
-                float fAnimLength;
-                switch (Special) {
-                    case ASHSpecial_Vagineer:   fAnimLength = 0.0;
-                    case ASHSpecial_Agent:      fAnimLength = 0.0;
-                    case ASHSpecial_Bunny:      fAnimLength = 0.0;
-                    case ASHSpecial_CBS:        fAnimLength = 0.0;
-                    case ASHSpecial_HHH:        fAnimLength = 0.0;
-                    default:                    fAnimLength = 0.0;
-                }
+            //     float fAnimLength;
+            //     switch (Special) {
+            //         case ASHSpecial_Vagineer:   fAnimLength = 0.0;
+            //         case ASHSpecial_Agent:      fAnimLength = 0.0;
+            //         case ASHSpecial_Bunny:      fAnimLength = 0.0;
+            //         case ASHSpecial_CBS:        fAnimLength = 0.0;
+            //         case ASHSpecial_HHH:        fAnimLength = 0.0;
+            //         default:                    fAnimLength = 0.0;
+            //     }
 
-                TF2_StunPlayer(Hale, fAnimLength, 0.0, TF_STUNFLAG_LIMITMOVEMENT | TF_STUNFLAG_THIRDPERSON, 0);
-                UTIL_SetupEntityAnimation(Hale, "taunt_laugh");
-            }
+            //     TF2_StunPlayer(Hale, fAnimLength, 0.0, TF_STUNFLAG_LIMITMOVEMENT | TF_STUNFLAG_THIRDPERSON, 0);
+            //     UTIL_SetupEntityAnimation(Hale, "taunt_laugh");
+            // }
 
             if (Special == ASHSpecial_Agent && attacker == Hale && damagecustom == TF_CUSTOM_BACKSTAB)
                 AgentHelper_ChangeTimeBeforeInvis(4.0, Hale);

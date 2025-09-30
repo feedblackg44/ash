@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "9003"
+#define ASH_BUILD                     "9004"
 #define ASH_PLUGIN_VERSION            "1.32"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 
@@ -122,7 +122,7 @@ bool BushmanRulesMap;
 
 // eureka effect
 float g_flEurekaCooldown[MAXPLAYERS+1];
-bool g_bHaleProtectPunch;
+// bool g_bHaleProtectPunch;
 
 // TF2 Weapon Loadout Slots
 enum
@@ -995,7 +995,6 @@ Handle g_hSyncHUD[6]; // https://sm.alliedmods.net/new-api/halflife/CreateHudSyn
 #define soulsHUD            g_hSyncHUD[4]
 #define bushwackaHUD        g_hSyncHUD[5]
 #define BazaarBargainHUD    g_hSyncHUD[5]
-Handle cheatsHUD;
 
 bool g_bEnabled = false;
 bool g_bAreEnoughPlayersPlaying = false;
