@@ -23,13 +23,13 @@ void _Internal_DrawHUD(int iClient, ASHPosition ePosition, const char[] szFormat
     VFormat(szMessage, sizeof(szMessage), szFormat, 4);
 
     Handle hSynchronizer = UTIL_DetermineEmptySynchronizedHUD(iClient);
-    g_iHudOffset[iClient]++;
 
-    float flVerticalPosition = 0.83 - (0.05 * g_iHudOffset[iClient]);
+    float flVerticalPosition = 0.87 - (0.05 * g_iHudOffset[iClient]);
     SetHudTextParams(-1.0, flVerticalPosition, g_flHoldTime, g_iHudColor[0],
         g_iHudColor[1], g_iHudColor[2], g_iHudColor[3], g_iHudEffect,
         g_flFxTime, g_flFadeIn, g_flFadeOut);
     ShowSyncHudText(iClient, hSynchronizer, "%s", szMessage);
+    g_iHudOffset[iClient]++;
 }
 
 void _Internal_SetHUDParams(int iColor[4], int iEffect, float flFxTime, float flFadeIn, float flFadeOut, float flHoldTime)
@@ -42,8 +42,7 @@ void _Internal_SetHUDParams(int iColor[4], int iEffect, float flFxTime, float fl
     g_flHoldTime = flHoldTime;
 }
 
-public Action ClientTimer(Handle hTimer)
-{
+public Action ClientTimer(Handle hTimer) {
     if (ASHRoundState != ASHRState_Active) return Plugin_Stop;
     char wepclassname[32];
     int i = -1;
@@ -92,14 +91,26 @@ public Action ClientTimer(Handle hTimer)
         }
     }
     
-    for (int client = 1; client <= MaxClients; client++)
-    {
-        if (client != Hale && IsClientInGame(client) && GetEntityTeamNum(client) == OtherTeam)
-        {
+    for (int client = 1; client <= MaxClients; client++) {
+        if (client != Hale && IsClientInGame(client) && GetEntityTeamNum(client) == OtherTeam) {
             SetGlobalTransTarget(client);
             TFClassType iPlayerClass = ((IsPlayerAlive(client)) ? TF2_GetPlayerClass(client) : TFClass_Unknown);
 
             g_iHudOffset[client] = 0;
+
+            if (bAlwaysShowHealth) {
+                _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+            }
+
+            _Internal_SetHUDParams({90, 255, 90, 255}, 0, 0.35, 0.0, 0.1, 0.35);
+            int obstarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
+            if (obstarget != client && obstarget != Hale && IsValidClient(obstarget) && !IsPlayerAlive(client)) {
+                _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "vsh_damage_others", Damage[client], obstarget, Damage[obstarget]);
+            } else {
+                _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %d", "vsh_damage_own", Damage[client]);
+            }
+
             Call_StartForward(g_hForwards[ASHEvent_OnPlayerThink]);
             Call_PushCell(client);
             Call_Finish();
@@ -485,31 +496,18 @@ public Action ClientTimer(Handle hTimer)
                 ShowSyncHudText(client, jumpHUD, "%t", "ash_CAD_damage", 8-spyTimeInvis[client]);
             }*/
             
-            SetHudTextParams(-1.0, 0.83, 0.35, 90, 255, 90, 255, 0, 0.35, 0.0, 0.1);
-            if (!IsPlayerAlive(client))
-            {
-                int obstarget = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
-                if (obstarget != client && obstarget != Hale && IsValidClient(obstarget))
-                {
-                    if (!(GetClientButtons(client) & IN_SCORE)) ShowSyncHudText(client, rageHUD, "%t", "vsh_damage_others", Damage[client], obstarget, Damage[obstarget]);
-                }
-                else
-                {
-                    if (!(GetClientButtons(client) & IN_SCORE)) ShowSyncHudText(client, rageHUD, "%t: %d", "vsh_damage_own", Damage[client]);
-                }
+            if (!IsPlayerAlive(client)) {
                 continue;
             }
-            if (!(GetClientButtons(client) & IN_SCORE)) ShowSyncHudText(client, rageHUD, "%t: %d", "vsh_damage_own", Damage[client]);
+            
             TFClassType class = iPlayerClass;
             int weapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
             if (weapon <= MaxClients || !IsValidEntity(weapon) || !GetEntityClassname(weapon, wepclassname, sizeof(wepclassname))) strcopy(wepclassname, sizeof(wepclassname), "");
             bool validwep = (strncmp(wepclassname, "tf_wea", 6, false) == 0);
             int index = (validwep ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
             
-            if (iPlayerClass == TFClass_Spy)
-            {
-                if (GetClientCloakIndex(client) == 59)
-                {
+            if (iPlayerClass == TFClass_Spy) {
+                if (GetClientCloakIndex(client) == 59) {
                     int drstatus = TF2_IsPlayerInCondition(client, TFCond_Cloaked) ? 2 : GetEntProp(client, Prop_Send, "m_bFeignDeathReady") ? 1 : 0;
 
                     char s[128];
@@ -518,17 +516,17 @@ public Action ClientTimer(Handle hTimer)
                     {
                         case 1:
                         {
-                            SetHudTextParams(-1.0, 0.78, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
+                            _Internal_SetHUDParams({90, 255, 90, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                             FormatEx(s, sizeof(s), "%t", "ash_spy_deadringer_ready");
                         }
                         case 2:
                         {
-                            SetHudTextParams(-1.0, 0.78, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
+                            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                             FormatEx(s, sizeof(s), "%t", "ash_spy_deadringer_dead");
                         }
                         default:
                         {
-                            SetHudTextParams(-1.0, 0.78, 0.35, 255, 255, 255, 255, 0, 0.0, 0.0, 0.0);
+                            _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                             FormatEx(s, sizeof(s), "%t", "ash_spy_deadringer_inactive");
                         }
                     }
@@ -536,10 +534,7 @@ public Action ClientTimer(Handle hTimer)
                     if (!(GetClientButtons(client) & IN_ATTACK2) && DeadRinger_ManualActivation[client] >= 1.0) DeadRinger_ManualActivation[client] = 0.0;
                     if (DeadRinger_ManualActivation[client] > 1.0) FormatEx(s, sizeof(s), "%t: %i%%", "ash_spy_deadringer_forcedeath", RoundToFloor(DeadRinger_ManualActivation[client]-1.0)*20);
                     
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        ShowSyncHudText(client, UTIL_DetermineEmptySynchronizedHUD(client), "%s", s);
-                    }
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", s);
 
                     bHudAdjust = true;
                 }
@@ -1109,8 +1104,7 @@ public Action ClientTimer(Handle hTimer)
                 }
             }
 
-            if (class == TFClass_Heavy)
-            {
+            if (class == TFClass_Heavy) {
                 int curt = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
                 if (NatDamage[client]/NatDMG >= 1)
                 {
@@ -1195,12 +1189,6 @@ public Action ClientTimer(Handle hTimer)
                 }
                 else
                     GlowTimer -= 0.2;
-            }
-
-            if (bAlwaysShowHealth)
-            {
-                SetHudTextParams(-1.0, 0.88, 0.35, 255, 255, 255, 255);
-                if (!(GetClientButtons(client) & IN_SCORE)) ShowSyncHudText(client, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
             }
             
             if (RedAlivePlayers == 1 && !TF2_IsPlayerInCondition(client, TFCond_Cloaked) && !dispenserEnabled[client])
@@ -1368,8 +1356,7 @@ public Action ClientTimer(Handle hTimer)
     return Plugin_Continue;
 }
 
-public Action HaleTimer(Handle hTimer)  
-{
+public Action HaleTimer(Handle hTimer)  {
     if (ASHRoundState == ASHRState_End)
     {
         if (IsValidClient(Hale) && IsPlayerAlive(Hale)) TF2_AddCondition(Hale, TFCond_SpeedBuffAlly, 14.0); // IsValidClient(Hale, false)
@@ -1474,10 +1461,14 @@ public Action HaleTimer(Handle hTimer)
     if (HaleHealth <= 0 && IsPlayerAlive(Hale)) HaleHealth = 1;
     SetEntityHealth(Hale, HaleHealth);
     
-    SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
+    // SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
     SetGlobalTransTarget(Hale);
     if ((GetClientButtons(Hale) & IN_RELOAD)) DoAction();
-    if (!(GetClientButtons(Hale) & IN_SCORE)) ShowSyncHudText(Hale, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+    
+    // if (!(GetClientButtons(Hale) & IN_SCORE)) ShowSyncHudText(Hale, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+    _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+
     if (HaleRage/RageDMG >= 1)
     {
         if (IsFakeClient(Hale) && !(ASHFlags[Hale] & ASHFLAG_BOTRAGE))

@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "9002"
+#define ASH_BUILD                     "9003"
 #define ASH_PLUGIN_VERSION            "1.32"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 
@@ -8296,8 +8296,12 @@ public Action HologramsTimer(Handle hTimer) {
             SetGlobalTransTarget(Ply);
             {
                 /* Hale Health */
-                SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
-                if (!(GetClientButtons(Ply) & IN_SCORE)) ShowSyncHudText(Ply, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+                //
+                // SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
+                // if (!(GetClientButtons(Ply) & IN_SCORE)) ShowSyncHudText(Ply, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+                
+                _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                _Internal_DrawHUD(Ply, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
             }
             
             // Bug with MaxClassLimit
