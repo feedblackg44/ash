@@ -66,12 +66,14 @@ public void OnPluginStart()
             UTIL_HookClient(iClient);
         }
     }
+
+    ASH_Configure();
 }
 
 public void OnAllPluginsLoaded()
 {
-    g_bGamemodeLoaded = LibraryExists(g_szGamemodeLibrary);
-    if (g_bGamemodeLoaded)
+    bool loaded = LibraryExists(g_szGamemodeLibrary);
+    if (loaded)
     {
         ASH_Configure();
     }
@@ -85,7 +87,6 @@ public void OnLibraryAdded(const char[] szLibraryName)
     }
 
     ASH_Configure();
-    g_bGamemodeLoaded = true;
 }
 
 public void OnLibraryRemoved(const char[] szLibraryName)
@@ -95,7 +96,12 @@ public void OnLibraryRemoved(const char[] szLibraryName)
         return;
     }
 
-    g_bGamemodeLoaded = false;
+    ASH_Deconfigure();
+}
+
+public void OnPluginEnd()
+{
+    ASH_Deconfigure();
 }
 
 void UTIL_HookClient(int iClient)
@@ -130,8 +136,22 @@ public void OnClientDisconnect(int iClient)
 
 void ASH_Configure()
 {
+    if (g_bGamemodeLoaded) return;
+
     ASH_Hook(ASHEvent_OnPlayerThink, OnPlayerThink);
     ASH_Hook(ASHEvent_OnPlayerTaunt, OnPlayerTaunt);
+
+    g_bGamemodeLoaded = true;
+}
+
+void ASH_Deconfigure()
+{   
+    if (!g_bGamemodeLoaded) return;
+
+    ASH_Unhook(ASHEvent_OnPlayerThink, OnPlayerThink);
+    ASH_Unhook(ASHEvent_OnPlayerTaunt, OnPlayerTaunt);
+
+    g_bGamemodeLoaded = false;
 }
 
 public void OnPlayerThink(int iClient)
