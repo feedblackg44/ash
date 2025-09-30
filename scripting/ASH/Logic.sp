@@ -484,28 +484,24 @@ public Action ClientTimer(Handle hTimer) {
                 }
             }
 
-            // Engineer Eureka Effect
+            // // Engineer Eureka Effect
             // if (iPlayerClass == TFClass_Engineer && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589 && g_flEurekaCooldown[client] > GetGameTime()) {
             //     int iTime = RoundToCeil(g_flEurekaCooldown[client] - GetGameTime());
             //     if (iTime > 0) {
             //         bHudAdjust = true;
-            //         // SetHudTextParams(-1.0, 0.83, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
-            //         // ShowSyncHudText(client, jumpHUD, "%t", "ash_engineer_eurekacooldown", iTime);
-            //         // g_iHudOffset[client]++;
-
             //         _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
             //         _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_engineer_eurekacooldown", iTime);
             //     }
             // }
             
-            /*if (GetClientCloakIndex(client) == 60) {
-                int r = 255;
-                int g = spyTimeInvis[client] == 0 ? 255 : 64;
-                int b = spyTimeInvis[client] == 0 ? 255 : 64;
-                bHudAdjust = true;
-                SetHudTextParams(-1.0, 0.78, 0.35, r, g, b, 255, 0, 0.0, 0.0, 0.0);
-                ShowSyncHudText(client, jumpHUD, "%t", "ash_CAD_damage", 8-spyTimeInvis[client]);
-            }*/
+            // if (GetClientCloakIndex(client) == 60) {
+            //     int r = 255;
+            //     int g = spyTimeInvis[client] == 0 ? 255 : 64;
+            //     int b = spyTimeInvis[client] == 0 ? 255 : 64;
+            //     bHudAdjust = true;
+            //     _Internal_SetHUDParams({r, g, b, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            //     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_CAD_damage", 8-spyTimeInvis[client]);
+            // }
             
             if (!IsPlayerAlive(client)) {
                 continue;
@@ -871,20 +867,16 @@ public Action ClientTimer(Handle hTimer) {
                     {
                         _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
                         _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i/%i", "ash_soldier_equalizer_meter", iClientActiveDamage, iHaleDamageNeed);
-                    } /*else if (SpecialHintEq[client] > 0.0) {
-                        
-                        SetHudTextParams(-1.0, -1.0, 0.35, 255, 64, 64, 255, 0, 0.2, 0.0, 0.1);
-                        
-                        if (!(GetClientButtons(client) & IN_SCORE))
-                        {
-                            ShowSyncHudText(client, soulsHUD, "%t", "ash_soldier_equalizer_meter_full");
-                        }
+                    } 
+                    // else if (SpecialHintEq[client] > 0.0) {
+                    //     _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                    //     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_soldier_equalizer_meter_full");
 
-                        SpecialHintEq[client] -= 0.2;
-                        if (SpecialHintEq[client] <= 0.0) {
-                            SpecialHintEq[client] = 0.0;
-                        }
-                    }*/
+                    //     SpecialHintEq[client] -= 0.2;
+                    //     if (SpecialHintEq[client] <= 0.0) {
+                    //         SpecialHintEq[client] = 0.0;
+                    //     }
+                    // }
                 }
 				
                 // Soldier and Escape Plan
@@ -1062,35 +1054,28 @@ public Action ClientTimer(Handle hTimer) {
                 int curt = GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary);
                 if (NatDamage[client]/NatDMG >= 1)
                 {
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-                        ShowSyncHudText(client, jumpHUD, "%t", "ash_heavy_evacuate_ready");
-                    }
+                    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_heavy_evacuate_ready");
                 }
                 else if (curt == 41) // || curt == 298)
                 {
                     bHudAdjust = true;
-                    SetHudTextParams(-1.0, 0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                        ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_heavy_evacuate_meter", NatDamage[client]*100/NatDMG);
+                    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_heavy_evacuate_meter", NatDamage[client]*100/NatDMG);
+
                     if (NatDamage[client] > NatDMG)
                         NatDamage[client] = NatDMG;
                 }
                 if (HuoDamage[client]/HuoDMG >= 1)
                 {
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-                        ShowSyncHudText(client, jumpHUD, "%t", "ash_heavy_crits_ready");
-                    }
+                    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_heavy_crits_ready");
                 }
                 else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 811)
                 {
                     bHudAdjust = true;
-                    SetHudTextParams(-1.0, 0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                        ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_heavy_crits_meter", HuoDamage[client]*100/HuoDMG);
+                    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_heavy_crits_meter", HuoDamage[client]*100/HuoDMG);
                     if (HuoDamage[client] > HuoDMG)
                         HuoDamage[client] = HuoDMG;
                     if (TF2_IsPlayerInCondition(client, TFCond_Dazed))
@@ -1103,39 +1088,31 @@ public Action ClientTimer(Handle hTimer) {
                 }
                 if (TomDamage[client]/TomDMG >= 1)
                 {
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-                        ShowSyncHudText(client, jumpHUD, "%t", "ash_mc_speedboost_ready");
-                    }
+                    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_mc_speedboost_ready");
                 }
                 else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 424)
                 {
                     bHudAdjust = true;
-                    SetHudTextParams(-1.0, 0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                        ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_sh_speedboost", TomDamage[client]*100/TomDMG);
+                    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_sh_speedboost", TomDamage[client]*100/TomDMG);
                     if (TomDamage[client] > TomDMG)
                         TomDamage[client] = TomDMG;
                 }
                 if (BetDamage[client]/BetDMG >= 1)
                 {
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                    {
-                        SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-                        ShowSyncHudText(client, jumpHUD, "%t", "ash_heavy_vitality_ready");
-                    }
+                    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_heavy_vitality_ready");
                 }
                 else if (GetIndexOfWeaponSlot(client, TFWeaponSlot_Primary) == 312)
                 {
                     bHudAdjust = true;
-                    SetHudTextParams(-1.0, 0.78, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-                    if (!(GetClientButtons(client) & IN_SCORE))
-                        ShowSyncHudText(client, jumpHUD, "%t: %i", "ash_heavy_vitality_meter", BetDamage[client]*100/BetDMG);
+                    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.2, 0.0, 0.1, 0.35);
+                    _Internal_DrawHUD(client, ASHPosition_Bottom, "%t: %i", "ash_heavy_vitality_meter", BetDamage[client]*100/BetDMG);
                     if (BetDamage[client] > BetDMG)
                         BetDamage[client] = BetDMG;
                 }
-                SetHudTextParams(-1.0, 0.83, 0.35, 255, 255, 255, 255);
+                _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
                 if (GlowTimer <= 0.0)
                 {
                     SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
@@ -1415,11 +1392,9 @@ public Action HaleTimer(Handle hTimer)  {
     if (HaleHealth <= 0 && IsPlayerAlive(Hale)) HaleHealth = 1;
     SetEntityHealth(Hale, HaleHealth);
     
-    // SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
     SetGlobalTransTarget(Hale);
     if ((GetClientButtons(Hale) & IN_RELOAD)) DoAction();
     
-    // if (!(GetClientButtons(Hale) & IN_SCORE)) ShowSyncHudText(Hale, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
     _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
     _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
 
