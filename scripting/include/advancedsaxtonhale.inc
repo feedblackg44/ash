@@ -48,6 +48,8 @@ typeset ASHCallback {
 // ASH HUD positions
 enum ASHPosition {
     ASHPosition_Bottom,
+    ASHPosition_Top,
+    ASHPosition_Center,
     _ASHPosition_End
 }
 
