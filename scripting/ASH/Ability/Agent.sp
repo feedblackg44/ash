@@ -81,8 +81,8 @@ void AbilityAgent_DoWait() {
         return;
     }
 
-    SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
-    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombready");
+    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+    _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_bombready");
 }
 
 public Action ChangeAbilityMode(Handle hTimer)
@@ -101,8 +101,9 @@ void AbilityAgent_DoBombWait() {
         CreateTimer(1.0, iSecondsMinus);
         CreateTimer(2.0, iSecondsMinus);
     }
-    SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombwait", iSeconds);
+
+    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+    _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_bombwait", iSeconds);
 }
 
 void AbilityAgent_DoSelect() {
@@ -111,47 +112,29 @@ void AbilityAgent_DoSelect() {
 
     CreateTimer(12.0, AbilityAgent_ResetAction);
     if (!iClient) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombplayers", flDistance);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_bombplayers", flDistance);
         return;
     }
 
     flDistance /= 50;
     if (flDistance > 3250.0) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bomblocate", flDistance);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_bomblocate", flDistance);
         return;
     }
     
     if (g_iFidovskiyFix[iClient] == 1) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombimmune");
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_bombimmune");
         return;
     }
-    
-    if (TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged)) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
+
+    if (TF2_IsPlayerInCondition(iClient, TFCond_Ubercharged) || TF2_IsPlayerInCondition(iClient, TFCond_UberchargedHidden) || TF2_IsPlayerInCondition(iClient, TFCond_Bonked)) {
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_bombubercharge");
         return;
     }
-    
-    if (TF2_IsPlayerInCondition(iClient, TFCond_UberchargedHidden)) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
-        return;
-    }
-    
-    if (TF2_IsPlayerInCondition(iClient, TFCond_Bonked)) {
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
-        return;
-    }
-    
-    //if (TF2_IsPlayerInCondition(iClient, TFCond_DefenseBuffed)) {
-    //    SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-    //    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_bombubercharge");
-    //    return;
-    //}
     
     if (g_iFidovskiyFix[iClient] == 0) 
     {
@@ -199,8 +182,8 @@ void AbilityAgent_DoSap() {
         if(TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_Ubercharged) || TF2_IsPlayerInCondition(g_iCurrentPlayer, TFCond_UberchargedHidden))
             AbilityAgent_Reset();
 
-        SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255);
-        ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_waitexplode", iSeconds);
+        _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_waitexplode", iSeconds);
         return;
     }
     
@@ -216,16 +199,13 @@ void AbilityAgent_DoSap() {
         return;
     }
 
-    SetHudTextParams(-1.0, 0.68, 0.35, 255, 64, 64, 255);
+    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
     SetGlobalTransTarget(Hale);
-    ShowSyncHudText(Hale, soulsHUD, "%t", "ash_agent_deploybomb");
+    _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_agent_deploybomb");
 
-    // SetHudTextParams(-1.0, 0.40, 0.35, 255, 64, 64, 255);
-    // ShowSyncHudText(g_iCurrentPlayer, soulsHUD, "%02d:%02d", GetRandomInt(0, 60), GetRandomInt(0, 60));
-
-    SetHudTextParams(-1.0, 0.35, 0.35, 255, 64, 64, 255);
+    _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
     SetGlobalTransTarget(g_iCurrentPlayer);
-    ShowSyncHudText(g_iCurrentPlayer, soulsHUD, "%t\n%02d:%02d", "ash_agent_yousapped", GetRandomInt(0, 60), GetRandomInt(0, 60));
+    _Internal_DrawHUD(g_iCurrentPlayer, ASHPosition_Bottom, "%t\n%02d:%02d", "ash_agent_yousapped", GetRandomInt(0, 60), GetRandomInt(0, 60));
 }
 
 void AgentAbility_Explode() {

@@ -241,14 +241,21 @@ void UTIL_RegCookies() {
 }
 
 void UTIL_MakeHUDs() {
-    jumpHUD             = CreateHudSynchronizer();
-    rageHUD             = CreateHudSynchronizer();
-    healthHUD           = CreateHudSynchronizer();
-    infoHUD             = CreateHudSynchronizer();
-    soulsHUD            = CreateHudSynchronizer();
-    bushwackaHUD        = CreateHudSynchronizer();
-    BazaarBargainHUD    = CreateHudSynchronizer();
-    cheatsHUD           = CreateHudSynchronizer();
+    for (int iIndex = 0; iIndex < sizeof(g_hSyncHUD); ++iIndex)
+    {
+        g_hSyncHUD[iIndex] = CreateHudSynchronizer();
+    }
+}
+
+Handle UTIL_DetermineEmptySynchronizedHUD(int iClient)
+{
+    if (g_iHudOffset[iClient] < 0 || g_iHudOffset[iClient] >= 6)
+    {
+        g_iHudOffset[iClient] = 0;
+        PrintToServer("[ASH] Warning: Invalid HUD offset for client %d, resetting to 0\n", iClient);
+    }
+
+    return g_hSyncHUD[g_iHudOffset[iClient]];
 }
 
 void UTIL_MakeSpawn() {
@@ -300,7 +307,6 @@ void UTIL_Cleanup(int iClient) {
     AmpDefend[iClient]          = 0;
     ASHFlags[iClient]           = 0;
     Damage[iClient]             = 0;
-    headmeter[iClient]          = 0;
     g_flEurekaCooldown[iClient] = 0.0;
 
     SpecialPlayers_LastActiveWeapons[iClient] = -1;
@@ -908,12 +914,12 @@ void UTIL_ValidateMap_KingOfTheHill() {
 }
 
 public Action ResetPunchProtect(Handle hTimer) {
-    g_bHaleProtectPunch = false;
+    // g_bHaleProtectPunch = false;
 
     return Plugin_Continue;
 }
 
-void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
+stock void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
     SetVariantString(szAnimation);
     AcceptEntityInput(iEntity, "SetAnimation");
 }

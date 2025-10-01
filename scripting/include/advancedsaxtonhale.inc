@@ -31,6 +31,27 @@ enum {
     ASHEvent_RoundStart,
     ASHEvent_RoundEnd
 }
+enum ASHEvent {
+    ASHEvent_OnPlayerThink,
+    ASHEvent_OnPlayerTaunt,
+    _ASHEvent_End
+}
+
+typeset ASHCallback {
+    // ASHEvent_OnPlayerThink
+    function void (int iClient);
+
+    // ASHEvent_OnPlayerTaunt
+    function Action (int iClient);
+}
+
+// ASH HUD positions
+enum ASHPosition {
+    ASHPosition_Bottom,
+    ASHPosition_Top,
+    ASHPosition_Center,
+    _ASHPosition_End
+}
 
 /**
  * Will ASH be played on the current map?
@@ -125,6 +146,52 @@ native ASH_GetRoundState();
  * @return			Current round.
  */
 native ASH_GetRoundNum();
+
+/**
+ * Hooks the event. See ASHEvent enum for details.
+ * 
+ * @param   eEventType      Event identifier.
+ * @param   ptrCallback     Event handler.
+ */
+native void ASH_Hook(ASHEvent eEventType, ASHCallback ptrCallback);
+
+/**
+ * Unhooks the event. See ASHEvent enum for details.
+ * 
+ * @param   eEventType      Event identifier.
+ * @param   ptrCallback     Event handler.
+ */
+native void ASH_Unhook(ASHEvent eEventType, ASHCallback ptrCallback);
+
+/**
+ * Teleports the player to random map spawn.
+ * 
+ * @param   iClient         Client unique index.
+ * @param   iTeam           Team identifier for respawn. 0 means "random".
+ *
+ * @error   Invalid client index
+ */
+native void ASH_TeleportToMultiMapSpawn(int iClient, int iTeam = 0);
+
+/**
+ * Configures the HUD parameters. For details, check SetHudTextParams() documentation.
+ */
+native void ASH_SetHUDParams(int iColor[4], int iEffect = 0, float flFxTime = 6.0, float flFadeIn = 0.1, float flFadeOut = 0.2, float flHoldTime = 0.3);
+
+/**
+ * Displays a message in HUD.
+ * Strictly required call this native in ASHEvent OnPlayerThink!
+ *
+ * @param   iClient         Client unique index.
+ * @param   ePosition       HUD message position.
+ * @param   szFormat        Format message.
+ */
+native void ASH_DrawHUD(int iClient, ASHPosition ePosition, const char[] szFormat, any ...);
+
+/**
+ * Attachs the particle to entity.
+ */
+native void ASH_AttachParticle(int iEntity, const char[] szParticleName, float flTimeToDie = -1.0, float vecOffsets[3] = { 0.0, ... }, bool bAttach = false, float flTimeToStart = -1.0);
 
 /**
  * When Hale attempts to superjump/teleport.

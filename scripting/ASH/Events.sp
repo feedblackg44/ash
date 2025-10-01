@@ -103,7 +103,6 @@ public Action event_round_start(Handle event, const char[] name, bool dontBroadc
         TomDamage[ionplay] = 0;
         BetDamage[ionplay] = 0;
         AmpDefend[ionplay] = 0;
-        headmeter[ionplay] = 0;
         SpecialDemo_Kostyl[ionplay] = 0;
         uberTarget[ionplay] = -1;
         SniperActivity[ionplay] = 0;
@@ -621,11 +620,6 @@ public Action event_player_death(Handle event, const char[] name, bool dontBroad
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
     int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
     
-    if(g_iTauntedSpys[client] == 1)
-    {
-        g_iTauntedSpys[client] = 0;
-    }
-    
     if (FakeKill_Goomba) {
         int damageBits = GetEventInt(event, "damagebits");
         
@@ -1094,12 +1088,6 @@ public Action event_hurt(Handle event, const char[] name, bool dontBroadcast)
 //    }
     
     if (TF2_GetPlayerClass(attacker) == TFClass_Heavy && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 331 && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && !TF2_IsPlayerInCondition(Hale, _TFCond(28))) PushClient(Hale);
-    
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && g_iTauntedSpys[attacker] == 1) {
-        if (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 61 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 1006) {
-            TeleportToMultiMapSpawn(Hale);
-        }
-    }   
 
     if (TF2_GetPlayerClass(attacker) == TFClass_Pyro && (damage == 146 || damage == 1316) && (GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 153 || GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 466) && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee))
     {
@@ -1492,7 +1480,7 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
     }
     if (g_bGod[client]) return Plugin_Handled;
     
-//    if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
+    // if (attacker > 0 && attacker <= MaxClients && TF2_GetPlayerClass(attacker) == TFClass_Engineer && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary) == 588 && IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) && !TF2_IsPlayerInCondition(Hale, _TFCond(28)) && !StrEqual(sAttackerObject, "obj_sentrygun") && attacker != client) PushClient(Hale);
     
     char sAttackerObject[128];
     GetEdictClassname(inflictor, sAttackerObject, sizeof(sAttackerObject));
@@ -1816,24 +1804,6 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
             if (damagecustom == TF_CUSTOM_HEADSHOT) ASHStats.HeadShots++;
             if (damagecustom == TF_CUSTOM_BACKSTAB) ASHStats.BackStabs++;
             // ASH STATS UPDATE
-
-            if (!g_bHaleProtectPunch && IsWeaponSlotActive(attacker, TFWeaponSlot_Melee) && GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Melee) == 656 && 656 == 657) {
-                g_bHaleProtectPunch = true;
-                CreateTimer(7.0, ResetPunchProtect);
-
-                float fAnimLength;
-                switch (Special) {
-                    case ASHSpecial_Vagineer:   fAnimLength = 0.0;
-                    case ASHSpecial_Agent:      fAnimLength = 0.0;
-                    case ASHSpecial_Bunny:      fAnimLength = 0.0;
-                    case ASHSpecial_CBS:        fAnimLength = 0.0;
-                    case ASHSpecial_HHH:        fAnimLength = 0.0;
-                    default:                    fAnimLength = 0.0;
-                }
-
-                TF2_StunPlayer(Hale, fAnimLength, 0.0, TF_STUNFLAG_LIMITMOVEMENT | TF_STUNFLAG_THIRDPERSON, 0);
-                UTIL_SetupEntityAnimation(Hale, "taunt_laugh");
-            }
 
             if (Special == ASHSpecial_Agent && attacker == Hale && damagecustom == TF_CUSTOM_BACKSTAB)
                 AgentHelper_ChangeTimeBeforeInvis(4.0, Hale);
@@ -2165,14 +2135,6 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
                         if (max_hale_dmg_bl > 0) {
                             bl_regen = ((damage + max_hale_dmg_bl) / damage) + 1;
                             AddPlayerHealth(attacker, RoundToCeil(bl_regen), hp_boost_max_bl);
-                        }
-                    }
-                    case 61, 1006:    //Ambassador does 2.5x damage on headshot
-                    {
-                        if (damagecustom == TF_CUSTOM_HEADSHOT)
-                        {
-                            damage = 51.5;
-                            return Plugin_Changed;
                         }
                     }
                     case 525, 595:

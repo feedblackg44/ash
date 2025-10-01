@@ -30,7 +30,7 @@
  */
 
 // ASH Version controller
-#define ASH_BUILD                     "9002"
+#define ASH_BUILD                     "9006"
 #define ASH_PLUGIN_VERSION            "1.32"
 #define ASH_PLUGIN_RELDATE            "19 July 2022"
 
@@ -60,6 +60,8 @@
 #include <tf2attributes>
 //#include <tf2wearables>
 //#include <collisionhook>
+
+PrivateForward g_hForwards[_ASHEvent_End];
 
 #undef REQUIRE_EXTENSIONS
 #tryinclude <SteamWorks>
@@ -104,6 +106,8 @@ bool g_bSteamWorksIsRunning = false;
 ArrayList     g_hRSHooks;
 ArrayList     g_hREHooks;
 
+int g_iHudOffset[MAXPLAYERS+1] = { 0, ... };
+
 // cheats
 bool mooEnabled;
 bool seeEnabled;
@@ -118,7 +122,7 @@ bool BushmanRulesMap;
 
 // eureka effect
 float g_flEurekaCooldown[MAXPLAYERS+1];
-bool g_bHaleProtectPunch;
+// bool g_bHaleProtectPunch;
 
 // TF2 Weapon Loadout Slots
 enum
@@ -630,7 +634,6 @@ bool g_bAlphaSpysAllow[MAXPLAYERS+1][2];
 bool g_bSpySwitchAllow[MAXPLAYERS+1];
 bool g_bAlphaSpyDelay[MAXPLAYERS+1];
 bool g_bProtectedShield[MAXPLAYERS+1];
-int g_iTauntedSpys[MAXPLAYERS+1];
 int g_iPlayerDesiredFOV[MAXPLAYERS+2];
 Handle g_iTimerList[MAXPLAYERS+1];
 Handle g_iTimerList_Alpha[MAXPLAYERS+1];
@@ -883,7 +886,6 @@ int BetDamage[TF_MAX_PLAYERS];
 int AmpDefend[TF_MAX_PLAYERS];
 int bushJUMP[MAXPLAYERS+1];
 int bushTIME[MAXPLAYERS+1];
-int headmeter[TF_MAX_PLAYERS];
 int uberTarget[TF_MAX_PLAYERS];
 #define ASHFLAG_HELPED            (1 << 0)
 #define ASHFLAG_UBERREADY         (1 << 1)
@@ -983,14 +985,7 @@ Handle VoiceCookie;
 Handle ClasshelpinfoCookie;
 Handle doorchecktimer;
 
-Handle jumpHUD;
-Handle rageHUD;
-Handle healthHUD;
-Handle infoHUD;
-Handle soulsHUD;
-Handle bushwackaHUD;
-Handle BazaarBargainHUD;
-Handle cheatsHUD;
+Handle g_hSyncHUD[6]; // https://sm.alliedmods.net/new-api/halflife/CreateHudSynchronizer
 
 bool g_bEnabled = false;
 bool g_bAreEnoughPlayersPlaying = false;
@@ -1627,7 +1622,6 @@ public Action StartHaleTimer(Handle hTimer)
         }
         if (IsPlayerAlive(iClient))
         {
-            g_iTauntedSpys[iClient] = 0;
             g_iAlphaSpys[iClient] = 30;
             g_bAlphaSpysAllow[iClient][0] = false;
             g_bAlphaSpysAllow[iClient][1] = true;
@@ -2092,13 +2086,13 @@ public Action MessageTimer(Handle hTimer, any allclients)
         case ASHSpecial_Agent: strcopy(translation, sizeof(translation), "ash_start_agent");
         default: strcopy(translation, sizeof(translation), "vsh_start_hale");
     }
-    SetHudTextParams(-1.0, 0.2, 10.0, 255, 255, 255, 255);
+    _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 10.0);
     if (!allclients) {
-        ShowSyncHudText(Hale, infoHUD, "%T", translation, Hale, Hale, HaleHealthMax);
+        _Internal_DrawHUD(Hale, ASHPosition_Center, "%T", translation, Hale, Hale, HaleHealthMax);
     } else {
         for (int i = 1; i <= MaxClients; i++) {
             if (IsClientInGame(i))
-                ShowSyncHudText(i, infoHUD, "%T", translation, i, Hale, HaleHealthMax);
+                _Internal_DrawHUD(i, ASHPosition_Center, "%T", translation, i, Hale, HaleHealthMax);
         }
     }
     return Plugin_Continue;
@@ -3541,82 +3535,6 @@ public Action DoTauntScout2(int client, char[] command, int argc)
     return Plugin_Continue;
 }
 
-public Action UseSpyRage(Handle hTimer, int client)
-{
-    if (!IsValidClient(client))
-        return Plugin_Continue;
-    if (!GetEntProp(client, Prop_Send, "m_bIsReadyToHighFive") && !IsValidEntity(GetEntPropEnt(client, Prop_Send, "m_hHighFivePartner")))
-    {
-        TF2_RemoveCondition(client, TFCond_Taunting);
-        MakeModelTimer(null);
-        float pPos[3] = {0.0, 0.0, 10.0};
-        AttachParticle(client, "skull_island_embers", 1.0, pPos, true);
-        AttachParticle(client, "skull_island_flash", 1.0, pPos, true);
-        EmitSoundToAll("saxton_hale/spy_special_ele_ambient.wav", client);
-        EmitSoundToAll("saxton_hale/spy_special_ele_ambient.wav", client);
-        EmitSoundToAll("saxton_hale/spy_special_ele_ambient.wav", client);
-        EmitSoundToAll("saxton_hale/spy_special_ele_ambient.wav", client);
-        return Plugin_Continue;
-    }
-    return Plugin_Continue;
-}
-
-public Action SpyCineFX(Handle hTimer, int client)
-{
-    if (!IsValidClient(client))
-        return Plugin_Continue;
-    float pPos[3] = {0.0, 0.0, 50.0};
-    AttachParticle(client, "outerspace_belt_blue", 6.7, pPos, true);
-    return Plugin_Continue;
-}
-
-public Action SpySoundRage(Handle hTimer, int client)
-{
-    if (!IsValidClient(client))
-        return Plugin_Continue;
-    char s[PLATFORM_MAX_PATH];
-    strcopy(s, PLATFORM_MAX_PATH, SpyRandomScream[GetRandomInt(0, sizeof(SpyRandomScream)-1)]);
-    EmitSoundToAll(s, _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
-    return Plugin_Continue;
-}
-
-public Action SpySoundRageEndTaunt(Handle hTimer, int client)
-{
-    if (!IsValidClient(client))
-        return Plugin_Continue;
-    char s[PLATFORM_MAX_PATH];
-    strcopy(s, PLATFORM_MAX_PATH, SpyRandomScream2[GetRandomInt(0, sizeof(SpyRandomScream2)-1)]);
-    EmitSoundToAll(s, _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, NULL_VECTOR, NULL_VECTOR, false, 0.0);
-    return Plugin_Continue;
-}
-
-public Action DoTauntSpy(int client, char[] command, int argc)
-{
-    if (!g_bEnabled)
-        return Plugin_Continue;
-    char s[PLATFORM_MAX_PATH];
-    if (headmeter[client] >= 4 && IsPlayerAlive(client))
-    {
-        float pos[3];
-        pos[2] += 20.0;
-        {
-            {
-                g_iTauntedSpys[client] = 1;
-                Format(s, PLATFORM_MAX_PATH, "saxton_hale/spy_special_auto_used.wav");
-                CreateTimer(0.1, UseSpyRage, client);
-                CreateTimer(0.3, SpyCineFX, client);
-                CreateTimer(1.5, SpySoundRage, client);
-                CreateTimer(7.0, SpySoundRageEnd, client);
-                CreateTimer(9.2, SpySoundRageEndTaunt, client);
-                headmeter[client] = 0;
-            }
-        }
-        EmitSoundToAll(s, _, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, _, pos, NULL_VECTOR, false, 0.0);
-        return Plugin_Handled;
-    }
-    return Plugin_Continue;
-}
-
 public Action DoTauntScout3(int client, char[] command, int argc)
 {
     if (!g_bEnabled)
@@ -3718,17 +3636,6 @@ public Action ScoutRageEnd3(Handle hTimer, int client) {
         TeleportToMultiMapSpawn(client, (!IsNextTime(e_flNextAllowOtherSpawnTele)) ? OtherTeam : 0);
     }
     
-    return Plugin_Continue;
-}
-
-public Action SpySoundRageEnd(Handle hTimer, int client)
-{
-    if (!IsValidClient(client))
-        return Plugin_Continue;
-    char s[PLATFORM_MAX_PATH];
-    Format(s, PLATFORM_MAX_PATH, "weapons/weapon_crit_charged_off.wav");
-    EmitSoundToAll(s, client, _, SNDLEVEL_TRAFFIC, SND_NOFLAGS, SNDVOL_NORMAL, 100, client, NULL_VECTOR, NULL_VECTOR, false, 0.0);
-    g_iTauntedSpys[client] = 0;
     return Plugin_Continue;
 }
 
@@ -4171,7 +4078,16 @@ public Action DoTauntSniper(int client, char[] command, int argc)
 public Action DoTaunt(int client, char[] command, int argc)
 {
     if (!g_bEnabled) return Plugin_Continue;
-    
+
+    Action eAction = Plugin_Continue;
+    Call_StartForward(g_hForwards[ASHEvent_OnPlayerTaunt]);
+    Call_PushCell(client);
+    Call_Finish(eAction);
+    if (eAction >= Plugin_Changed)
+    {
+        return eAction;
+    }
+
     if (Hale != client) {
         switch(TF2_GetPlayerClass(client))
         {
@@ -4220,11 +4136,6 @@ public Action DoTaunt(int client, char[] command, int argc)
             case TFClass_Sniper:
             {
                 return DoTauntSniper(client, command, argc);
-            }
-
-            case TFClass_Spy:
-            {
-                return DoTauntSpy(client, command, argc);
             }
         }
     }
@@ -7796,16 +7707,16 @@ stock float GetStunTime(int client) {
     return 5.0;
 }
 
-void ManmelterHUD_Render(int client, bool hud_corrector) {
+void ManmelterHUD_Render(int client) {
     if (!ManmelterBan[client]) {
-        if (plManmelterUsed[client] == 100) SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 90, 255, 90, 255, 0, 0.0, 0.0, 0.0);
-        else SetHudTextParams(-1.0, hud_corrector?0.78:0.73, 0.35, 255, 64, 64, 255, 0, 0.0, 0.0, 0.0);
-                    
+        if (plManmelterUsed[client] == 100) _Internal_SetHUDParams({90, 255, 90, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+        else _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+
         char s[128];
         if (plManmelterUsed[client] == 100) Format(s, 128, "%t: %t", "ash_pyro_secondchance_infometer", "ash_pyro_secondchance_ready");
         else Format(s, 128, "%t: %i%%", "ash_pyro_secondchance_infometer", plManmelterUsed[client]);
                     
-        ShowSyncHudText(client, bushwackaHUD, "%s", s);
+        _Internal_DrawHUD(client, ASHPosition_Bottom, "%s", s);
         
         if (plManmelterUsed[client] == 100 && GetEntProp(client, Prop_Send, "m_iHealth") == 1)
             TF2_OnPyroSecondChance(client);
@@ -7896,12 +7807,6 @@ void ASH_ExecuteRages(int attacker, int damage, int custom, int weapon) {
     {
         if (weapon == TF_WEAPON_MINIGUN)
             BetDamage[attacker] += damage;
-    }
-
-    WeaponID = GetIndexOfWeaponSlot(attacker, TFWeaponSlot_Primary);
-    if (TF2_GetPlayerClass(attacker) == TFClass_Spy && (WeaponID == 61 || WeaponID == 1006) && custom == TF_CUSTOM_HEADSHOT && headmeter[attacker] < 6 && g_iTauntedSpys[attacker] == 0 && !TF2_IsPlayerInCondition(Hale, _TFCond(28)))
-    {
-        ++headmeter[attacker];
     }
 }
 
@@ -8124,8 +8029,8 @@ public Action OnSay(int client, int args) {
     if (isCheat) {
         if (!dsSound) PlaySound("saxton_hale/secret_enabled.wav", client);
         if (!dsNotify) {
-            SetHudTextParams(-1.0, -0.7, 1.75, 200, 0, 0, 255, 0, 0.2, 0.0, 0.1);
-            ShowSyncHudText(client, cheatsHUD, "CHEAT ENABLED");
+            _Internal_SetHUDParams({200, 0, 0, 255}, 0, 0.2, 0.0, 0.1, 1.75);
+            _Internal_DrawHUD(client, ASHPosition_Top, "CHEAT ENABLED");
         }
         return Plugin_Handled;
     } else return Plugin_Continue;
@@ -8183,11 +8088,9 @@ public Action RemoveHook(Handle hTimer, any TrieData) {
             CreateTimer(0.01, RemoveWeapon_WhileLCNotPressed, Weapon);
             CloseHandle(TrieData);
         } else {
-            if (!(GetClientButtons(Hale) & IN_SCORE))
-            {
-                SetGlobalTransTarget(Hale);
-                ShowSyncHudText(Hale, BazaarBargainHUD, "%t", "ash_Vagineer_hook_action", Time);
-            }
+            SetGlobalTransTarget(Hale);
+            _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+            _Internal_DrawHUD(Hale, ASHPosition_Bottom, "%t", "ash_Vagineer_hook_action", Time);
             
             SetTrieValue(TrieData, "time", Time, true);
             CreateTimer(1.0, RemoveHook, TrieData);
@@ -8373,12 +8276,14 @@ public Action HologramsTimer(Handle hTimer) {
             int Ply = Holograms[ply];
             if (!IsPlayerAlive(Ply)) continue;
             
+            g_iHudOffset[Ply] = 0;
+
             /* Interface */
             SetGlobalTransTarget(Ply);
             {
                 /* Hale Health */
-                SetHudTextParams(-1.0, 0.77, 0.35, 255, 255, 255, 255);
-                if (!(GetClientButtons(Ply) & IN_SCORE)) ShowSyncHudText(Ply, healthHUD, "%t", "vsh_health", HaleHealth, HaleHealthMax);
+                _Internal_SetHUDParams({255, 255, 255, 255}, 0, 0.0, 0.0, 0.0, 0.35);
+                _Internal_DrawHUD(Ply, ASHPosition_Bottom, "%t", "vsh_health", HaleHealth, HaleHealthMax);
             }
             
             // Bug with MaxClassLimit
