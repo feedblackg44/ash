@@ -56,9 +56,6 @@ int Ext_EqualizerSpecialStart(int iClient) {
   }
   int iHaleDamageNeed = RoundToCeil(flHaleDamageNeed);
   
- // SetHudTextParams(-1.0, 0.68, 0.35, 255, 255, 255, 255, 0, 0.2, 0.0, 0.1);
-//  ShowSyncHudText(iClient, soulsHUD, "%t: %i/%i", "ash_soldier_equalizer_meter", Damage[iClient], flHaleDamageNeed);
-
   if (Damage[iClient] >= iHaleDamageNeed) {
     TF2Attrib_SetByDefIndex(iClient, 26, 225.0);
     SetEntProp(iClient, Prop_Send, "m_iHealth", 425);

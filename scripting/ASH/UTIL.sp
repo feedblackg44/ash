@@ -919,10 +919,10 @@ public Action ResetPunchProtect(Handle hTimer) {
     return Plugin_Continue;
 }
 
-// void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
-//     SetVariantString(szAnimation);
-//     AcceptEntityInput(iEntity, "SetAnimation");
-// }
+stock void UTIL_SetupEntityAnimation(int iEntity, const char[] szAnimation) {
+    SetVariantString(szAnimation);
+    AcceptEntityInput(iEntity, "SetAnimation");
+}
 
 public Action OnPlayEndRoundSound(Handle hTimer, any eClass) {
     switch (eClass) 

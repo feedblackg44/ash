@@ -250,14 +250,18 @@ public Action OnTakeDamage(int client, int &attacker, int &inflictor, float &dam
 
     int iHaleTeam = ASH_GetSaxtonHaleTeam(); // потому что есть "миньоны".
     int wepindex = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
-    
-    if (!IsValidClient(attacker) || GetClientTeam(attacker) == iHaleTeam || GetClientTeam(client) != iHaleTeam || 
-        TF2_GetPlayerClass(attacker) != TFClass_Spy || !IsWeaponSlotActive(attacker, TFWeaponSlot_Primary) || !IsWearingAmbassador(attacker) ||
-        !ItemInArray(wepindex, g_iAmbassadorItemDefinitionIndexes, sizeof(g_iAmbassadorItemDefinitionIndexes)) ||
-        inflictor != attacker || TF2_IsPlayerInCondition(client, TFCond_MegaHeal)) // _TFCond(28)
-    {
+
+    if (!isValidClient(attacker) || !isValidClient(client) || inflictor != attacker)
         return result;
-    }
+    
+    if (GetClientTeam(client) != iHaleTeam || TF2_IsPlayerInCondition(client, TFCond_MegaHeal))  // _TFCond(28)
+        return result;
+
+    if (GetClientTeam(attacker) == iHaleTeam || TF2_GetPlayerClass(attacker) != TFClass_Spy || !IsWeaponSlotActive(attacker, TFWeaponSlot_Primary))
+        return result;
+
+    if (!IsWearingAmbassador(attacker) || !ItemInArray(wepindex, g_iAmbassadorItemDefinitionIndexes, sizeof(g_iAmbassadorItemDefinitionIndexes)))
+        return result;
 
     if (damagecustom == TF_CUSTOM_HEADSHOT)
     {

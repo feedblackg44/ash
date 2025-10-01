@@ -479,23 +479,6 @@ public Action ClientTimer(Handle hTimer) {
                     if (GetEntProp(GetPlayerWeaponSlot(client, TFWeaponSlot_Melee), Prop_Send, "m_iDetonated") == 1) ForcePlayerSuicide(client);
                 }
             }
-
-            // // Engineer Eureka Effect
-            // if (iPlayerClass == TFClass_Engineer && GetIndexOfWeaponSlot(client, TFWeaponSlot_Melee) == 589 && g_flEurekaCooldown[client] > GetGameTime()) {
-            //     int iTime = RoundToCeil(g_flEurekaCooldown[client] - GetGameTime());
-            //     if (iTime > 0) {
-            //         _Internal_SetHUDParams({255, 64, 64, 255}, 0, 0.0, 0.0, 0.0, 0.35);
-            //         _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_engineer_eurekacooldown", iTime);
-            //     }
-            // }
-            
-            // if (GetClientCloakIndex(client) == 60) {
-            //     int r = 255;
-            //     int g = spyTimeInvis[client] == 0 ? 255 : 64;
-            //     int b = spyTimeInvis[client] == 0 ? 255 : 64;
-            //     _Internal_SetHUDParams({r, g, b, 255}, 0, 0.0, 0.0, 0.0, 0.35);
-            //     _Internal_DrawHUD(client, ASHPosition_Bottom, "%t", "ash_CAD_damage", 8-spyTimeInvis[client]);
-            // }
             
             if (!IsPlayerAlive(client)) {
                 continue;

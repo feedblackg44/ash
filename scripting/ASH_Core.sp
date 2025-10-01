@@ -987,15 +987,6 @@ Handle doorchecktimer;
 
 Handle g_hSyncHUD[6]; // https://sm.alliedmods.net/new-api/halflife/CreateHudSynchronizer
 
-// TODO: leaved for compatibility. Remove it.
-#define jumpHUD             g_hSyncHUD[0]
-#define rageHUD             g_hSyncHUD[1]
-#define healthHUD           g_hSyncHUD[2]
-#define infoHUD             g_hSyncHUD[3]
-#define soulsHUD            g_hSyncHUD[4]
-#define bushwackaHUD        g_hSyncHUD[5]
-#define BazaarBargainHUD    g_hSyncHUD[5]
-
 bool g_bEnabled = false;
 bool g_bAreEnoughPlayersPlaying = false;
 float HaleSpeed = 340.0;
