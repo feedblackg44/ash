@@ -1612,10 +1612,6 @@ public Action StartHaleTimer(Handle hTimer)
     
     LoopPlayers(iClient)
     {
-        if(TF2_GetPlayerClass(iClient) == TFClass_Engineer)
-        {
-            TF2_RegeneratePlayer(iClient);
-        }
         /*if((GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 225 || GetIndexOfWeaponSlot(iClient, TFWeaponSlot_Melee) == 574) && TF2_GetPlayerClass(iClient) == TFClass_Spy)
         {
             g_iAlphaSpys[iClient] = 30;
@@ -2160,7 +2156,7 @@ void EquipSaxton(int client)
         }
         case ASHSpecial_Vagineer:
         {
-            SaxtonWeapon = SpawnWeapon(client, "tf_weapon_wrench", 7, 100, TFQual_Unusual, "68 ; 2.0 ; 2 ; 3.1 ; 259 ; 1.0 ; 436 ; 1.0");
+            SaxtonWeapon = SpawnWeapon(client, "tf_weapon_wrench", 7, 100, TFQual_Unusual, "68 ; 2.0 ; 2 ; 3.1 ; 259 ; 1.0 ; 436 ; 1.0 ; 80 ; -200");
         }
         case ASHSpecial_HHH:
         {
